@@ -11,6 +11,9 @@ slots:
       - type: from_llm
 
 responses:
+  utter_bot_name:
+    - text: "Mi nombre es Luna. ¡Mucho gusto!"
+
   utter_ask_recipient:
     - text: "Who would you like to send money to?"
 

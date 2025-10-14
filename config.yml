@@ -1,6 +1,6 @@
 recipe: default.v1
 language: en
-assistant_id: amiable-energy
+assistant_id: stable-bar
 pipeline:
 - name: CompactLLMCommandGenerator
   llm:
