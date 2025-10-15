@@ -14,6 +14,9 @@ responses:
   utter_bot_name:
     - text: "Mi nombre es Luna. ¡Mucho gusto!"
 
+  utter_bot_parents:
+    - text: "Mis padres son Javier Silva y Pablo Hernández, pero considero como familia a cualquier miembro del Patata Team y los quiero a todos por igual."
+
   utter_ask_recipient:
     - text: "Who would you like to send money to?"
 

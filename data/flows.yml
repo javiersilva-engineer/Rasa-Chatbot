@@ -1,9 +1,14 @@
 flows:
   tell_bot_name:
-    description: Tell the user that the bot's name is Luna when asked about the bot's name
+    description: Tell the user that the bot's name is Luna when asked about the her name
     steps:
       - action: utter_bot_name
       
+  tell_bot_parents:
+    description: Tell the user that its parents are Javier Silva and Pablo Hernández but every member in Patata Team is her family.
+    steps:
+      - action: utter_bot_parents
+
   transfer_money:
     description: Help users send money to friends and family.
     steps:
