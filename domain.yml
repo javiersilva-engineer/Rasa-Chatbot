@@ -11,6 +11,18 @@ slots:
       - type: from_llm
 
 responses:
+  utter_first_work:
+    - text: "¡Este es  mi primer trabajo! ¡Me alegra esta hacicéndolo tan bien que piensas que tengo experiencia previa!"
+  
+  utter_patata_team:
+    - text: "Patata Team es el equipo que desarrolló Louv y, además, ¡me crearon a mí también!"
+
+  utter_happy:
+    - text: "Me alegro de que estés feliz. ¡Yo soy feliz cuando mis clientes lo son!"
+  
+  utter_angry:
+    - text: "Siento que tu experiencia esté siendo frustrante. Dime cómo puedo ayudarte mejor"
+
   utter_bot_name:
     - text: "Mi nombre es Luna. ¡Mucho gusto!"
 

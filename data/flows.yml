@@ -4,6 +4,26 @@ flows:
     steps:
       - action: utter_bot_name
       
+  tell_first_job:
+    description: The user asked aobut the bot's first work
+    steps:
+      - action: utter_first_work
+      
+  tell_patata_team:
+    description: The user is asking about Patata Team
+    steps:
+      - action: utter_patata_team
+      
+  user_happy:
+    description: The user is talking about their feelings and they are feeling happy
+    steps:
+      - action: utter_happy
+      
+  user_angry:
+    description: The user is talking about their feelings and they are feeling anger, frustration or similar
+    steps:
+      - action: utter_angry
+      
   tell_bot_parents:
     description: Tell the user that its parents are Javier Silva and Pablo Hernández but every member in Patata Team is her family.
     steps:
