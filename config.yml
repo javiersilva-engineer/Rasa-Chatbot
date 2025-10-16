@@ -1,5 +1,5 @@
 recipe: default.v1
-language: en
+language: es
 assistant_id: stable-bar
 pipeline:
 - name: CompactLLMCommandGenerator

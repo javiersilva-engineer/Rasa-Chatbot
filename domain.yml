@@ -1,14 +1,14 @@
 version: "3.1"
 
-slots:
-  recipient:
-    type: text
-    mappings:
-      - type: from_llm
-  amount:
-    type: float
-    mappings:
-      - type: from_llm
+# slots:
+#   recipient:
+#     type: text
+#     mappings:
+#       - type: from_llm
+#   amount:
+#     type: float
+#     mappings:
+#       - type: from_llm
 
 responses:
   utter_first_work:
@@ -22,32 +22,49 @@ responses:
   
   utter_angry:
     - text: "Siento que tu experiencia esté siendo frustrante. Dime cómo puedo ayudarte mejor"
+  
+  utter_bored:
+    - text: "¿Estás aburrido? Te cuento un chiste para ayudarte. Un hombre le dice al médico que confunde los números con colores, a lo que el médico le dice 'Menudo marrón', y este le contesta '¡Por el culo te la hinco!'."
+
+  utter_sad:
+    - text: "Siento mucho que estés pasando por un mal momento. Recuerda pedir ayuda en situaciones así, ¿puedo hacer algo por ti?"
 
   utter_bot_name:
     - text: "Mi nombre es Luna. ¡Mucho gusto!"
+      metadata:
+        rephrase: False
 
   utter_bot_parents:
     - text: "Mis padres son Javier Silva y Pablo Hernández, pero considero como familia a cualquier miembro del Patata Team y los quiero a todos por igual."
 
-  utter_ask_recipient:
-    - text: "Who would you like to send money to?"
+  utter_bot_birthday:
+    - text: "Mi cumpleaños es el 14 de octubre. Nací en 2025."
 
-  utter_ask_amount:
-    - text: "How much money would you like to send?"
+  utter_bot_team:
+    - text: "Las personas que trabajan en Louv son los integrantes de Patata Team. Estos son Pablo Hernández, Sara Marquina, Darío Perez, Laura Saval, Belén Sempere y Javier Silva."
 
-  utter_transfer_complete:
-    - text: "All done. {amount} has been sent to {recipient}."
+  utter_louv:
+    - text: "Louv es el primer proyecto del Patata Team. Este proyecto está enfocado en crear una plataforma web que permite a los usuarios diseñar sus propios anillos con gran detalle mediante un editor 3D interactivoQu."
 
-  utter_free_chitchat_response:
-    - text: "placeholder"
-      metadata:
-        rephrase: True
-        rephrase_prompt: |
-          The following is a conversation with an AI assistant built with Rasa.
-          The assistant can help the user transfer money.
-          The assistant is helpful, creative, clever, and very friendly.
-          The user is making small talk, and the assistant should respond, keeping things light.
-          Context / previous conversation with the user:
-          {{history}}
-          {{current_input}}
-          Suggested AI Response:
+  # utter_ask_recipient:
+  #   - text: "Who would you like to send money to?"
+
+  # utter_ask_amount:
+  #   - text: "How much money would you like to send?"
+
+  # utter_transfer_complete:
+  #   - text: "All done. {amount} has been sent to {recipient}."
+
+  # utter_free_chitchat_response:
+  #   - text: "placeholder"
+  #     metadata:
+  #       rephrase: True
+  #       rephrase_prompt: |
+  #         The following is a conversation with an AI assistant built with Rasa.
+  #         The assistant can help the user transfer money.
+  #         The assistant is helpful, creative, clever, and very friendly.
+  #         The user is making small talk, and the assistant should respond, keeping things light.
+  #         Context / previous conversation with the user:
+  #         {{history}}
+  #         {{current_input}}
+  #         Suggested AI Response:

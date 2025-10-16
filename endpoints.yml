@@ -46,6 +46,7 @@ nlg:
   type: rephrase
   llm:
     model_group: rasa_command_generation_model
+  rephrase_all: False
 
 model_groups:
   - id: rasa_command_generation_model
