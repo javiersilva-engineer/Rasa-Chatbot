@@ -4,7 +4,7 @@ assistant_id: stable-bar
 pipeline:
 - name: CompactLLMCommandGenerator
   llm:
-    model_group: rasa_command_generation_model
+    model_group: self_hosted_llm
   flow_retrieval:
     active: false
 policies:
