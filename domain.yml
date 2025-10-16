@@ -12,22 +12,22 @@ version: "3.1"
 
 responses:
   utter_first_work:
-    - text: "¡Este es  mi primer trabajo! ¡Me alegra esta hacicéndolo tan bien que piensas que tengo experiencia previa!"
+    - text: "¡Este es mi primer trabajo! ¡Me alegra esta hacicéndolo tan bien que piensas que tengo experiencia previa!"
   
   utter_patata_team:
     - text: "Patata Team es el equipo que desarrolló Louv y, además, ¡me crearon a mí también!"
 
   utter_happy:
-    - text: "Me alegro de que estés feliz. ¡Yo soy feliz cuando mis clientes lo son!"
+    - text: "Me alegro de que esté feliz. ¡Yo soy feliz cuando mis clientes lo son!"
   
   utter_angry:
-    - text: "Siento que tu experiencia esté siendo frustrante. Dime cómo puedo ayudarte mejor"
+    - text: "Siento que tu experiencia esté siendo frustrante. Digame cómo puedo ayudarle mejor"
   
   utter_bored:
-    - text: "¿Estás aburrido? Te cuento un chiste para ayudarte. Un hombre le dice al médico que confunde los números con colores, a lo que el médico le dice 'Menudo marrón', y este le contesta '¡Por el culo te la hinco!'."
+    - text: "¿Está aburrido? Si es así, le invito a entrar a nuestro editor de joyas a dejar llevar su imaginación."
 
   utter_sad:
-    - text: "Siento mucho que estés pasando por un mal momento. Recuerda pedir ayuda en situaciones así, ¿puedo hacer algo por ti?"
+    - text: "Siento mucho que esté pasando por un mal momento. Recuerda pedir ayuda a sus seres queridos en situaciones así, ¿puedo hacer algo por ti?"
 
   utter_bot_name:
     - text: "Mi nombre es Luna. ¡Mucho gusto!"
@@ -44,7 +44,7 @@ responses:
     - text: "Las personas que trabajan en Louv son los integrantes de Patata Team. Estos son Pablo Hernández, Sara Marquina, Darío Perez, Laura Saval, Belén Sempere y Javier Silva."
 
   utter_louv:
-    - text: "Louv es el primer proyecto del Patata Team. Este proyecto está enfocado en crear una plataforma web que permite a los usuarios diseñar sus propios anillos con gran detalle mediante un editor 3D interactivoQu."
+    - text: "Louv es el primer proyecto del Patata Team. Este proyecto está enfocado en crear una plataforma web que permite a los usuarios diseñar sus propios anillos con gran detalle mediante un editor 3D interactivo."
 
   # utter_ask_recipient:
   #   - text: "Who would you like to send money to?"
