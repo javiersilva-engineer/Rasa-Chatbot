@@ -45,12 +45,11 @@ action_endpoint:
 nlg:
   type: rephrase
   llm:
-    model_group: self_hosted_llm
-  rephrase_all: False
+    model_group: rasa_command_generation_model
 
 model_groups:
-- id: self_hosted_llm
-  models:
-  - provider: ollama
-    model: vicuna:latest  # o el modelo que tengas
-    api_base: "http://127.0.0.1:11434"  # URL de tu servidor local
+  - id: rasa_command_generation_model
+    models:
+      - provider: rasa
+        model: rasa/command-generator-llama-3.1-8b-instruct
+        api_base: "https://tutorial-llm.rasa.ai"

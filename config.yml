@@ -1,10 +1,10 @@
 recipe: default.v1
 language: es
-assistant_id: stable-bar
+assistant_id: electrical-chart
 pipeline:
 - name: CompactLLMCommandGenerator
   llm:
-    model_group: self_hosted_llm
+    model_group: rasa_command_generation_model
   flow_retrieval:
     active: false
 policies:

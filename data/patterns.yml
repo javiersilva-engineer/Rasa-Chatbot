@@ -9,3 +9,9 @@
 #     name: pattern search
 #     steps:
 #       - action: utter_free_chitchat_response
+
+  # pattern_nombre:
+  #   description: Flow to tell users that the assistant's name is Luna.
+  #   name: pattern nombre
+  #   steps:
+  #     - action: utter_my_name

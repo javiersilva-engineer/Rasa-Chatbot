@@ -1,59 +1,4 @@
 flows:
-  tell_bot_name:
-    description: Tell the user that the bot's name is Luna when asked about the her name
-    steps:
-      - action: utter_bot_name
-      
-  tell_first_job:
-    description: The user asked aobut the bot's first work
-    steps:
-      - action: utter_first_work
-      
-  tell_patata_team:
-    description: The user is asking about Patata Team
-    steps:
-      - action: utter_patata_team
-      
-  user_happy:
-    description: The user is talking about their feelings and they are feeling happy
-    steps:
-      - action: utter_happy
-      
-  user_angry:
-    description: The user is talking about their feelings and they are feeling anger, frustration or similar
-    steps:
-      - action: utter_angry
-      
-  tell_bot_parents:
-    description: Tell the user that its parents are Javier Silva and Pablo Hernández but every member in Patata Team is her family.
-    steps:
-      - action: utter_bot_parents
-
-  tell_bot_birthday:
-    description: Tell the user that its birthday is the October 14. It was born in 2025.
-    steps:
-      - action: utter_bot_birthday
-
-  user_bored:
-    description: The user is talking about their feelings and they are feeling bored, but the user is not sad
-    steps:
-      - action: utter_bored
-
-  user_sad:
-    description: The user is talking about their feelings and they are feeling sad
-    steps:
-      - action: utter_sad
-
-  tell_bot_team:
-    description: Tell the user that its creators are the people that created Louv, Patata Team. Whose members are Pablo Hernández, Sara Marquina, Darío Perez, Laura Saval, Belén Sempere and Javier Silva.
-    steps:
-      - action: utter_bot_team
-
-  talk_about_louv:
-    description: Louv is the first project of Patata Team. This project is focused on creating a web platform where users can design their own rings with great detail using an interactive 3D editor.
-    steps:  
-      - action: utter_louv
-
   # transfer_money:
   #   description: Help users send money to friends and family.
   #   steps:
@@ -61,3 +6,14 @@ flows:
   #     - collect: amount
   #       description: the number of US dollars to send
   #     - action: utter_transfer_complete
+
+  # introduce_myself:
+  #   description: Tell users my name when they ask who I am or what my name is
+  #   steps:
+  #     - action: utter_my_name
+
+  pattern_chitchat:
+    description: Conversation repair flow for off-topic interactions that won't disrupt the main conversation. should not respond to greetings or anything else for which there is a flow defined
+    name: pattern chitchat
+    steps:
+      - action: utter_luna_chitchat_response
