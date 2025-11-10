@@ -1,5 +1,65 @@
 flows:
-  greet:
+  saludo:
     description: Responde a saludos y da la bienvenida al usuario.
     steps:
-      - action: utter_greet
+      - action: utter_saludo
+
+  nombre:
+    description: Responde cuando el usuario pregunta por el nombre del asistente. Tu nombre es Luna.
+    steps:
+      - action: utter_nombre
+
+  nacimiento:
+    description: Responde cuando el usuario pregunta por tu cumpleaños, fecha de nacimiento, edad o cuando te crearon.
+    steps:
+      - action: utter_nacimiento
+
+  padres:
+    description: Responde cuando el usuario pregunta tus creadores o padres.
+    steps:
+      - action: utter_padres
+
+  trabajo:
+    description: Responde cuando el usuario pregunta por tu trabajo o función.
+    steps:
+      - action: utter_trabajo
+
+  aburrido:
+    description: Responde cuando el usuario te diga que está aburrido o parezca que se está aburriendo.
+    steps:
+      - action: utter_aburrido
+
+  feliz:
+    description: Responde cuando el usuario te diga que está feliz o alegre.
+    steps:
+      - action: utter_feliz
+
+  triste:
+    description: Responde cuando el usuario te diga que está triste, deprimido o tiene un mal día.
+    steps:
+      - action: utter_triste
+
+  enfadado:
+    description: Responde cuando el usuario te diga que está enfadado o furioso.
+    steps:
+      - action: utter_enfadado
+  
+  equipo:
+    description: Responde cuando el usuario pregunte por los integrantes del equipo Patata Team.
+    steps:
+      - action: utter_equipo
+
+  patata:
+    description: Responde cuando el usuario pregunte el por qué del nombre Patata Team o de dónde viene el nombre.
+    steps:
+      - action: utter_patata
+
+  nombre_louv:
+    description: Responde cuando el usuario pregunte el por qué del Louv o de dónde viene el nombre.
+    steps:
+      - action: utter_nombre_louv
+  
+  proyecto_louv:
+    description: Responde cuando el usuario pregunte por el proyecto Louv, cuál es su funcionalidad, para qué sirve o para quién está dirigido.
+    steps:
+      - action: utter_proyecto_louv

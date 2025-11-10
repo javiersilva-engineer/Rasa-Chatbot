@@ -1,6 +1,6 @@
-flows:
-  pattern_chitchat:
-    description: Conversación trivial o fuera de los flows definidos. El asistente SIEMPRE responde en español, de manera amigable.
-    name: pattern chitchat
-    steps:
-      - action: utter_free_chitchat_response
+# flows:
+#   pattern_chitchat:
+#     description: Conversación trivial o fuera de los flows definidos. El asistente SIEMPRE responde en español, de manera amigable.
+#     name: pattern chitchat
+#     steps:
+#       - action: utter_free_chitchat_response

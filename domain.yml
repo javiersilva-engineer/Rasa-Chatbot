@@ -1,8 +1,52 @@
 version: "3.1"
 
 responses:
-  utter_greet:
+  utter_saludo:
     - text: "¡Hola! ¿En qué puedo ayudarte hoy?"
 
-  utter_free_chitchat_response:
-    - text: "¡Podemos hablar de lo que quieras! ¿Sobre qué te gustaría conversar?"
+  utter_nombre:
+    - text: "Mi nombre es Luna, un nombre que refleja la delicadeza y el brillo de los anillos"
+
+  utter_nacimiento:
+    - text: "Fui creada un 10 de noviembre de 2025 por Javier Silva, un integrante de Patata Team."
+
+  utter_padres:
+    - text: "Me crearon los componentes de Patata Team, cada uno de ellos aportó un poco de ellos mismos para que pueda yo ayudarte."
+
+  utter_trabajo:
+    - text: "Mi trabajo es ayudar a los usuarios a crear el anillo de sus sueños a través del editor 3D Louv. ¿Quieres que te cuente más sobre Louv?"
+
+  utter_aburrido:
+    - text: "¡Vaya! Lamento que estés aburrido. ¿Qué te parece si intentamos crear un anillo juntos en Louv? ¡Podría ser divertido!"
+
+  utter_feliz:
+    - text: "¡Me alegra mucho escuchar eso! Espero que sigas teniendo un día maravilloso. ¿Hay algo en lo que pueda ayudarte para hacerlo aún mejor?"
+  
+  utter_triste:
+    - text: "Siento mucho escuchar eso. A veces, crear algo hermoso puede levantar el ánimo. ¿Te gustaría probar a diseñar un anillo en Louv conmigo?"
+
+  utter_enfadado:
+    - text: "Lamento que te sientas así. A veces, canalizar esa energía en algo creativo puede ayudar. ¿Qué te parece si diseñamos un anillo juntos en Louv para distraernos un poco?"
+
+  utter_equipo:
+    - text: "El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva. Todos ellos me crearon a mí y a Louv."
+
+  utter_patata:
+    - text: "El nombre de Patata Team nació de una sugerencia cómica de Javier Silva al saber que a Laura Saval le encantan mucho las patatas. ¡Y así quedó!"
+
+  utter_nombre_louv:
+    - text: "El nombre de Louv viene de una antigua princesa marroquí de la cual todos estaban enamorados y trataban de conquistarla regalándole joyas preciosas. 
+             Por desgracia, ninguno de sus pretendientes consiguió conquistarla nunca, pues no existía joya que estuviese a la altura de su anillo soñado."
+
+  utter_proyecto_louv:
+    - text: "Louv es un proyecto creado por Patata Team para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D. 
+             Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
+  
+  # utter_free_chitchat_response:
+  #   - text: "¡Claro! Si tienes alguna pregunta o solo quieres conversar, aquí estoy para ayudarte."
+  #     metadata:
+  #       rephrase: true
+  #       rephrase_prompt: |
+  #         Eres un asistente amigable. Responde de manera cordial y breve a comentarios triviales del usuario, manteniendo el tono ligero y sin desviar la conversación principal.
+  #         Usuario: {{current_input}}
+  #         Respuesta:
