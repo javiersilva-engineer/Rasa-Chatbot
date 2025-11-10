@@ -1,0 +1,5 @@
+flows:
+  greet:
+    description: Responde a saludos y da la bienvenida al usuario.
+    steps:
+      - action: utter_greet

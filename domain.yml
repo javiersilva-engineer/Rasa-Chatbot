@@ -1,0 +1,8 @@
+version: "3.1"
+
+responses:
+  utter_greet:
+    - text: "¡Hola! ¿En qué puedo ayudarte hoy?"
+
+  utter_free_chitchat_response:
+    - text: "¡Podemos hablar de lo que quieras! ¿Sobre qué te gustaría conversar?"

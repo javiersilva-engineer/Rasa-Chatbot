@@ -1,0 +1,11 @@
+recipe: default.v1
+language: es
+assistant_id: similar-flow
+pipeline:
+  - name: CompactLLMCommandGenerator
+    llm:
+      model_group: groq_llama
+    flow_retrieval:
+      active: false
+policies:
+- name: FlowPolicy
