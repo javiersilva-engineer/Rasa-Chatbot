@@ -1,25 +1,33 @@
 version: "3.1"
 
-# actions:
-#   - action_llm_fallback
+slots:
+  tema:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  fecha_nacimiento:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  signo_zodiacal:
+    type: text
+    mappings:
+      - type: controlled
+
+
 
 responses:
-
-  # utter_chitchat_default:
-  #   - text: "Estoy aquí para ayudarte con Louv y la creación de anillos. ¿Hay algo específico en lo que pueda asistirte?"
-  #     metadata:
-  #       rephrase: false
-
-  # utter_no_puedo_responder:
-  #   - text: "Lo siento, no tengo información sobre eso. ¿Puedo ayudarte con algo relacionado con Louv o la creación de anillos?"
-  #     metadata:
-  #       rephrase: false
-  
+# UTTER SIN RESPUESTA
   utter_llm_fallback:
     - text: "No entendí tu mensaje, ¿puedes reformularlo?"
       metadata:
         rephrase: false
-        
+
+
+
+# UTTER CHATBOT LUNA
   utter_saludo:
     - text: "¡Hola! ¿En qué puedo ayudarle hoy?"
       metadata:
@@ -45,6 +53,9 @@ responses:
       metadata:
         rephrase: false
 
+
+# UTTER ESTADOS DE ANIMO
+
   utter_aburrido:
     - text: "¡Vaya! Lamento que esté aburrido. ¿Qué le parece si intentamos crear un anillo juntos en Louv? ¡Podría ser divertido!"
       metadata:
@@ -64,6 +75,9 @@ responses:
     - text: "Lamento que se sienta así. A veces, canalizar esa energía en algo creativo puede ayudar. ¿Qué le parece si diseñamos un anillo juntos en Louv para distraernos un poco?"
       metadata:
         rephrase: false
+
+
+# UTTER PATATA TEAM Y LOUV
 
   utter_equipo:
     - text: "El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva. Todos ellos me crearon a mí y a Louv."
@@ -86,6 +100,9 @@ responses:
              Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
       metadata:
         rephrase: false
+
+
+# UTTER GEMAS SIGNOS ZODIACO
   
   utter_capricornio_diamante:
     - text: "La gema que corresponde al signo de Capricornio es el diamante. Pues es duro y brillante como la ambición; refleja fuerza interior y determinación inquebrantable."
@@ -148,26 +165,91 @@ responses:
         rephrase: false
 
 
+# UTTER AYUDA USUARIO GEMA ZODIACO
 
+  utter_gema_usuario_zodiaco:
+    - text: "¿Qué signo eres? Puede introducirlo manualmente si no lo ve entre las siguientes opciones."
+      buttons:
+        - title: "Capricornio"
+          payload: "¿Qué gema corresponde a capricornio?"
+        - title: "Tauro"
+          payload: "¿Qué gema corresponde a tauro?"
+        - title: "Piscis"
+          payload: "¿Qué gema corresponde a piscis?"
+        - title: "Leo"
+          payload: "¿Qué gema corresponde a leo?"
+        - title: "No lo sé"
+          payload: "No sé cuál es mi signo zodiacal."
 
+      metadata:
+        rephrase: false
 
+  utter_signo_nacimiento:
+    - text: "No se preocupe, puedo ayudarle a descubrir su signo zodiacal. Por favor, dígame su fecha de cumpleaños."
+      metadata:
+        rephrase: false 
 
+  utter_usuario_aries:
+    - text: "¡Perfecto! Usted es Aries, un signo lleno de energía y pasión. La gema que corresponde a Aries es el granate, refleja su carácter decidido y valiente."
+      metadata:
+        rephrase: false
 
+  utter_usuario_tauro:
+    - text: "¡Genial! Usted es Tauro, un signo conocido por su lealtad y determinación. La gema que corresponde a Tauro es la esmeralda, que simboliza la calma y la conexión con la naturaleza."
+      metadata:
+        rephrase: false
 
+  utter_usuario_geminis:
+    - text: "¡Estupendo! Usted es Géminis, un signo lleno de curiosidad y versatilidad. La gema que corresponde a Géminis es el topacio, que representa la luz y el optimismo."
+      metadata:
+        rephrase: false
 
-  # utter_llm_fallback:
-  #   - text: "No entendí tu mensaje, ¿puedes reformularlo?"
-  #     metadata:
-  #       rephrase: true
-  #       rephrase_prompt: |
-  #         El usuario ha enviado un mensaje que no tiene un intent reconocido.
-  #         Genera una respuesta útil y amable basada en este contenido:
-  #         {{current_input}}
-  # utter_free_chitchat_response:
-  #   - text: "¡Claro! Si tienes alguna pregunta o solo quieres conversar, aquí estoy para ayudarte."
-  #     metadata:
-  #       rephrase: true
-  #       rephrase_prompt: |
-  #         Eres un asistente amigable. Responde de manera cordial y breve a comentarios triviales del usuario, manteniendo el tono ligero y sin desviar la conversación principal.
-  #         Usuario: {{current_input}}
-  #         Respuesta:
+  utter_usuario_cancer:
+    - text: "¡Maravilloso! Usted es Cáncer, un signo conocido por su sensibilidad y empatía. La gema que corresponde a Cáncer es la tanzanita, que simboliza la profundidad y la transformación."
+      metadata:
+        rephrase: false
+
+  utter_usuario_leo:
+    - text: "¡Fantástico! Usted es Leo, un signo lleno de confianza y liderazgo. La gema que corresponde a Leo es la turmalina, que refleja su mente adaptable y creativa."
+      metadata:
+        rephrase: false
+
+  utter_usuario_virgo:
+    - text: "¡Excelente! Usted es Virgo, un signo conocido por su practicidad y atención al detalle. La gema que corresponde a Virgo es el ópalo, que simboliza la sensibilidad y la imaginación."
+      metadata:
+        rephrase: false
+
+  utter_usuario_libra:
+    - text: "¡Muy bien! Usted es Libra, un signo lleno de encanto y diplomacia. La gema que corresponde a Libra es la amatista, que refleja su intuición y búsqueda de armonía."
+      metadata:
+        rephrase: false
+
+  utter_usuario_escorpio:
+    - text: "¡Perfecto! Usted es Escorpio, un signo conocido por su intensidad y pasión. La gema que corresponde a Escorpio es el peridoto, que simboliza el orden y la luz."
+      metadata:
+        rephrase: false
+
+  utter_usuario_sagitario:
+    - text: "¡Genial! Usted es Sagitario, un signo lleno de optimismo y aventura. La gema que corresponde a Sagitario es el rubí, que refleja su espíritu libre y valiente."
+      metadata:
+        rephrase: false
+
+  utter_usuario_capricornio:
+    - text: "¡Estupendo! Usted es Capricornio, un signo conocido por su ambición y disciplina. La gema que corresponde a Capricornio es el diamante, que simboliza la fuerza interior y la determinación."
+      metadata:
+        rephrase: false
+
+  utter_usuario_acuario:
+    - text: "¡Maravilloso! Usted es Acuario, un signo lleno de originalidad y visión. La gema que corresponde a Acuario es la aguamarina, que refleja su creatividad y amor por lo diferente."
+      metadata:
+        rephrase: false
+
+  utter_usuario_piscis:
+    - text: "¡Fantástico! Usted es Piscis, un signo conocido por su sensibilidad y empatía. La gema que corresponde a Piscis es el zafiro, que simboliza el equilibrio y la elegancia."
+      metadata:
+        rephrase: false
+
+  utter_fecha_invalida:
+    - text: "Lo siento, no pude determinar tu signo zodiacal con esa fecha. ¿Podrías proporcionarme tu fecha de nacimiento en formato día/mes? Por ejemplo: 15/03"
+      metadata:
+        rephrase: false
