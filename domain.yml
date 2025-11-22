@@ -1,47 +1,168 @@
 version: "3.1"
 
+# actions:
+#   - action_llm_fallback
+
 responses:
+
+  # utter_chitchat_default:
+  #   - text: "Estoy aquí para ayudarte con Louv y la creación de anillos. ¿Hay algo específico en lo que pueda asistirte?"
+  #     metadata:
+  #       rephrase: false
+
+  # utter_no_puedo_responder:
+  #   - text: "Lo siento, no tengo información sobre eso. ¿Puedo ayudarte con algo relacionado con Louv o la creación de anillos?"
+  #     metadata:
+  #       rephrase: false
+  
+  utter_llm_fallback:
+    - text: "No entendí tu mensaje, ¿puedes reformularlo?"
+      metadata:
+        rephrase: false
+        
   utter_saludo:
-    - text: "¡Hola! ¿En qué puedo ayudarte hoy?"
+    - text: "¡Hola! ¿En qué puedo ayudarle hoy?"
+      metadata:
+        rephrase: false
 
   utter_nombre:
     - text: "Mi nombre es Luna, un nombre que refleja la delicadeza y el brillo de los anillos"
+      metadata:
+        rephrase: false
 
   utter_nacimiento:
     - text: "Fui creada un 10 de noviembre de 2025 por Javier Silva, un integrante de Patata Team."
+      metadata:
+        rephrase: false
 
   utter_padres:
-    - text: "Me crearon los componentes de Patata Team, cada uno de ellos aportó un poco de ellos mismos para que pueda yo ayudarte."
+    - text: "Me crearon los componentes de Patata Team, cada uno de ellos aportó un poco de ellos mismos para que pueda yo ayudarle."
+      metadata:
+        rephrase: false
 
   utter_trabajo:
-    - text: "Mi trabajo es ayudar a los usuarios a crear el anillo de sus sueños a través del editor 3D Louv. ¿Quieres que te cuente más sobre Louv?"
+    - text: "Mi trabajo es ayudar a los usuarios a crear el anillo de sus sueños a través del editor 3D Louv. ¿Quiere saber más sobre Louv?"
+      metadata:
+        rephrase: false
 
   utter_aburrido:
-    - text: "¡Vaya! Lamento que estés aburrido. ¿Qué te parece si intentamos crear un anillo juntos en Louv? ¡Podría ser divertido!"
+    - text: "¡Vaya! Lamento que esté aburrido. ¿Qué le parece si intentamos crear un anillo juntos en Louv? ¡Podría ser divertido!"
+      metadata:
+        rephrase: false
 
   utter_feliz:
-    - text: "¡Me alegra mucho escuchar eso! Espero que sigas teniendo un día maravilloso. ¿Hay algo en lo que pueda ayudarte para hacerlo aún mejor?"
+    - text: "¡Me alegra mucho escuchar eso! Espero que siga teniendo un maravilloso día. ¿Hay algo en lo que pueda ayudarle para hacerlo aún mejor?"
+      metadata:
+        rephrase: false
   
   utter_triste:
-    - text: "Siento mucho escuchar eso. A veces, crear algo hermoso puede levantar el ánimo. ¿Te gustaría probar a diseñar un anillo en Louv conmigo?"
+    - text: "Siento mucho escuchar eso. A veces, crear algo hermoso puede levantar el ánimo. ¿Le gustaría probar a diseñar un anillo en Louv conmigo?"
+      metadata:
+        rephrase: false
 
   utter_enfadado:
-    - text: "Lamento que te sientas así. A veces, canalizar esa energía en algo creativo puede ayudar. ¿Qué te parece si diseñamos un anillo juntos en Louv para distraernos un poco?"
+    - text: "Lamento que se sienta así. A veces, canalizar esa energía en algo creativo puede ayudar. ¿Qué le parece si diseñamos un anillo juntos en Louv para distraernos un poco?"
+      metadata:
+        rephrase: false
 
   utter_equipo:
     - text: "El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva. Todos ellos me crearon a mí y a Louv."
+      metadata:
+        rephrase: false
 
   utter_patata:
-    - text: "El nombre de Patata Team nació de una sugerencia cómica de Javier Silva al saber que a Laura Saval le encantan mucho las patatas. ¡Y así quedó!"
+    - text: "El nombre de Patata Team nació de una sugerencia cómica de Javier Silva al saber que a Laura Saval le encantan las patatas. ¡Y así quedó!"
+      metadata:
+        rephrase: false
 
   utter_nombre_louv:
     - text: "El nombre de Louv viene de una antigua princesa marroquí de la cual todos estaban enamorados y trataban de conquistarla regalándole joyas preciosas. 
              Por desgracia, ninguno de sus pretendientes consiguió conquistarla nunca, pues no existía joya que estuviese a la altura de su anillo soñado."
+      metadata:
+        rephrase: false
 
   utter_proyecto_louv:
     - text: "Louv es un proyecto creado por Patata Team para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D. 
              Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
+      metadata:
+        rephrase: false
   
+  utter_capricornio_diamante:
+    - text: "La gema que corresponde al signo de Capricornio es el diamante. Pues es duro y brillante como la ambición; refleja fuerza interior y determinación inquebrantable."
+      metadata:
+        rephrase: false
+
+  utter_tauro_esmeralda:
+    - text: "La gema que corresponde al signo de Tauro es la esmeralda. Representa la calma y la conexión con la naturaleza; persona leal y de corazón firme."
+      metadata:
+        rephrase: false
+
+  utter_piscis_zafiro:
+    - text: "La gema que corresponde al signo de Piscis es el zafiro. Simboliza equilibrio y elegancia; estas personas buscan armonía y belleza en todo."
+      metadata:
+        rephrase: false
+
+  utter_leo_turmalina:
+    - text: "La gema que corresponde al signo de Leo es la turmalina. Multicolor como su mente; adaptable, curiosa y llena de ideas brillantes."
+      metadata:
+        rephrase: false
+
+  utter_sagitario_rubi:
+    - text: "La gema que corresponde al signo de Sagitario es el rubí. Fuego puro y pasión; espíritu líder, valiente y con amor por la vida."
+      metadata:
+        rephrase: false
+
+  utter_libra_amatista:
+    - text: "La gema que corresponde al signo de Libra es la amatista. Piedra de la intuición y la paz interior; alma soñadora y empática."
+      metadata:
+        rephrase: false
+
+  utter_acuario_aguamarina:
+    - text: "La gema que corresponde al signo de Acuario es la aguamarina. Piedra transparente y fresca; personalidad creativa, fluida y amante de lo diferente."
+      metadata:
+        rephrase: false
+  
+  utter_aries_granate:
+    - text: "La gema que corresponde al signo de Aries es el granate. Energía y coraje; refleja un carácter decidido y apasionado."
+      metadata:
+        rephrase: false
+
+  utter_geminis_topacio:
+    - text: "La gema que corresponde al signo de Géminis es el topacio. Luz y optimismo; revela una mente aventurera y libre."
+      metadata:
+        rephrase: false
+
+  utter_virgo_opalo:
+    - text: "La gema que corresponde al signo de Virgo es el ópalo. Emocional y cambiante; corazón sensible con una imaginación brillante."
+      metadata:
+        rephrase: false
+
+  utter_escorpio_peridoto:
+    - text: "La gema que corresponde al signo de Escorpio es el peridoto. Orden y luz; alma práctica con un toque de optimismo natural."
+      metadata:
+        rephrase: false
+
+  utter_cancer_tanzanita:
+    - text: "La gema que corresponde al signo de Cáncer es la tanzanita. Misteriosa y magnética; persona intensa, profunda y transformadora."
+      metadata:
+        rephrase: false
+
+
+
+
+
+
+
+
+
+  # utter_llm_fallback:
+  #   - text: "No entendí tu mensaje, ¿puedes reformularlo?"
+  #     metadata:
+  #       rephrase: true
+  #       rephrase_prompt: |
+  #         El usuario ha enviado un mensaje que no tiene un intent reconocido.
+  #         Genera una respuesta útil y amable basada en este contenido:
+  #         {{current_input}}
   # utter_free_chitchat_response:
   #   - text: "¡Claro! Si tienes alguna pregunta o solo quieres conversar, aquí estoy para ayudarte."
   #     metadata:

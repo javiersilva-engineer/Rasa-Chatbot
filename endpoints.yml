@@ -42,6 +42,8 @@ action_endpoint:
 #  queue: queue
 
 # Allow rephrasing of responses using a Rasa-hosted model
+# DESHABILITADO: Esto causaba que todas las respuestas se enviaran al LLM
+# incluso cuando tenían rephrase: false en metadata
 # nlg:
 #   type: rephrase
 #   llm:

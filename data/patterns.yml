@@ -1,6 +1,18 @@
 # flows:
+# # Sobrescribe el patrón de chitchat para evitar respuestas LLM
 #   pattern_chitchat:
-#     description: Conversación trivial o fuera de los flows definidos. El asistente SIEMPRE responde en español, de manera amigable.
+#     description: |
+#       Maneja interacciones que no están orientadas a tareas específicas.
+#       Solo responde con mensajes predefinidos, sin generar respuestas del LLM.
 #     name: pattern chitchat
 #     steps:
-#       - action: utter_free_chitchat_response
+#       - action: utter_chitchat_default
+
+#   # Sobrescribe el patrón de búsqueda para evitar RAG
+#   pattern_search:
+#     description: |
+#       Maneja preguntas de conocimiento general.
+#       Solo responde con mensajes predefinidos, sin usar el LLM para búsquedas.
+#     name: pattern search
+#     steps:
+#       - action: utter_no_puedo_responder

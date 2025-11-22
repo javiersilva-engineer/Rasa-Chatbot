@@ -2,10 +2,13 @@ recipe: default.v1
 language: es
 assistant_id: similar-flow
 pipeline:
-  - name: CompactLLMCommandGenerator
+  - name: SearchReadyLLMCommandGenerator
     llm:
       model_group: groq_llama
+    # prompt_template: prompts/command-generator.jinja2
     flow_retrieval:
       active: false
+    model_config:
+      temperature: 0
 policies:
 - name: FlowPolicy

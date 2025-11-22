@@ -1,65 +1,192 @@
 flows:
-  saludo:
-    description: Responde a saludos y da la bienvenida al usuario.
+  # Sobrescribe pattern_search para que no genere respuesta
+  pattern_search:
+    description: |
+      Patrón de búsqueda desactivado
+    name: pattern search
     steps:
-      - action: utter_saludo
+      - id: "0"
+        action: action_listen
+        next: END
 
-  nombre:
-    description: Responde cuando el usuario pregunta por el nombre del asistente. Tu nombre es Luna.
+  # Sobrescribe pattern_completed para que no genere respuesta
+  pattern_completed:
+    description: |
+      Patrón que se ejecuta después de completar un flujo
+    name: pattern completed
+    steps:
+      - id: "0"
+        action: action_listen
+        next: END
+
+  preguntar_nombre:
+    description: |
+      El usuario pregunta por el nombre del asistente, como "¿Cómo te llamas?", 
+      "¿Cuál es tu nombre?", "¿Quién eres?"
     steps:
       - action: utter_nombre
 
-  nacimiento:
-    description: Responde cuando el usuario pregunta por tu cumpleaños, fecha de nacimiento, edad o cuando te crearon.
+  saludar:
+    description: |
+      El usuario saluda al asistente con expresiones como "hola", "buenos días", 
+      "buenas tardes", "qué tal"
+    steps:
+      - action: utter_saludo
+
+  preguntar_nacimiento:
+    description: |
+      El usuario pregunta cuándo fue creado el asistente, como "¿Cuándo naciste?", 
+      "¿Cuándo te crearon?", "¿Cuál es tu fecha de nacimiento?"
     steps:
       - action: utter_nacimiento
 
-  padres:
-    description: Responde cuando el usuario pregunta tus creadores o padres.
+  preguntar_padres:
+    description: |
+      El usuario pregunta quién creó al asistente, como "¿Quién te creó?", 
+      "¿Quiénes son tus padres?", "¿Quién te hizo?"
     steps:
       - action: utter_padres
 
-  trabajo:
-    description: Responde cuando el usuario pregunta por tu trabajo o función.
+  preguntar_trabajo:
+    description: |
+      El usuario pregunta sobre el trabajo o función del asistente, como 
+      "¿Qué haces?", "¿Cuál es tu trabajo?", "¿Para qué sirves?"
     steps:
       - action: utter_trabajo
 
-  aburrido:
-    description: Responde cuando el usuario te diga que está aburrido o parezca que se está aburriendo.
+  usuario_aburrido:
+    description: |
+      El usuario expresa que está aburrido con frases como "estoy aburrido", 
+      "me aburro", "qué aburrimiento"
     steps:
       - action: utter_aburrido
 
-  feliz:
-    description: Responde cuando el usuario te diga que está feliz o alegre.
+  usuario_feliz:
+    description: |
+      El usuario expresa felicidad con frases como "estoy feliz", "estoy contento", 
+      "qué alegría"
     steps:
       - action: utter_feliz
 
-  triste:
-    description: Responde cuando el usuario te diga que está triste, deprimido o tiene un mal día.
+  usuario_triste:
+    description: |
+      El usuario expresa tristeza con frases como "estoy triste", "me siento mal", 
+      "estoy deprimido"
     steps:
       - action: utter_triste
 
-  enfadado:
-    description: Responde cuando el usuario te diga que está enfadado o furioso.
+  usuario_enfadado:
+    description: |
+      El usuario expresa enfado con frases como "estoy enfadado", "estoy molesto", 
+      "me enoja"
     steps:
       - action: utter_enfadado
-  
-  equipo:
-    description: Responde cuando el usuario pregunte por los integrantes del equipo Patata Team.
+
+  preguntar_equipo:
+    description: |
+      El usuario pregunta sobre el equipo Patata Team, como "¿Quién es Patata Team?", 
+      "¿Quiénes forman el equipo?"
     steps:
       - action: utter_equipo
 
-  patata:
-    description: Responde cuando el usuario pregunte el por qué del nombre Patata Team o de dónde viene el nombre.
+  preguntar_nombre_patata:
+    description: |
+      El usuario pregunta por qué se llama Patata Team, como "¿Por qué Patata Team?", 
+      "¿De dónde viene el nombre?"
     steps:
       - action: utter_patata
 
-  nombre_louv:
-    description: Responde cuando el usuario pregunte el por qué del Louv o de dónde viene el nombre.
+  preguntar_nombre_louv:
+    description: |
+      El usuario pregunta sobre el nombre Louv, como "¿Por qué se llama Louv?", 
+      "¿Qué significa Louv?"
     steps:
       - action: utter_nombre_louv
-  
-  proyecto_louv:
-    description: Responde cuando el usuario pregunte por el proyecto Louv, cuál es su funcionalidad, para qué sirve o para quién está dirigido.
+
+  preguntar_proyecto_louv:
+    description: |
+      El usuario pregunta sobre el proyecto Louv, como "¿Qué es Louv?", 
+      "¿Para qué sirve Louv?", "Háblame de Louv"
     steps:
       - action: utter_proyecto_louv
+
+  # Flows para signos zodiacales
+  preguntar_capricornio:
+    description: |
+      El usuario pregunta sobre la gema de Capricornio
+    steps:
+      - action: utter_capricornio_diamante
+
+  preguntar_tauro:
+    description: |
+      El usuario pregunta sobre la gema de Tauro
+    steps:
+      - action: utter_tauro_esmeralda
+
+  preguntar_piscis:
+    description: |
+      El usuario pregunta sobre la gema de Piscis
+    steps:
+      - action: utter_piscis_zafiro
+
+  preguntar_leo:
+    description: |
+      El usuario pregunta sobre la gema de Leo
+    steps:
+      - action: utter_leo_turmalina
+
+  preguntar_sagitario:
+    description: |
+      El usuario pregunta sobre la gema de Sagitario
+    steps:
+      - action: utter_sagitario_rubi
+
+  preguntar_libra:
+    description: |
+      El usuario pregunta sobre la gema de Libra
+    steps:
+      - action: utter_libra_amatista
+
+  preguntar_acuario:
+    description: |
+      El usuario pregunta sobre la gema de Acuario
+    steps:
+      - action: utter_acuario_aguamarina
+
+  preguntar_aries:
+    description: |
+      El usuario pregunta sobre la gema de Aries
+    steps:
+      - action: utter_aries_granate
+
+  preguntar_geminis:
+    description: |
+      El usuario pregunta sobre la gema de Géminis
+    steps:
+      - action: utter_geminis_topacio
+
+  preguntar_virgo:
+    description: |
+      El usuario pregunta sobre la gema de Virgo
+    steps:
+      - action: utter_virgo_opalo
+
+  preguntar_escorpio:
+    description: |
+      El usuario pregunta sobre la gema de Escorpio
+    steps:
+      - action: utter_escorpio_peridoto
+
+  preguntar_cancer:
+    description: |
+      El usuario pregunta sobre la gema de Cáncer
+    steps:
+      - action: utter_cancer_tanzanita
+
+  # Flow de fallback para preguntas sin respuesta definida
+  # respuesta_general:
+  #   description: |
+  #     El usuario hace una pregunta para la cual no existe un flow específico definido.
+  #     Este flow maneja todas las consultas generales que no tienen una respuesta predefinida.
+  #   steps:
+  #     - action: action_llm_fallback
