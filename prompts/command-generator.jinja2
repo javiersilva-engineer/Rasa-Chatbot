@@ -1,9 +1,0 @@
-## Descripción de la Tarea
-Tu tarea es analizar el contexto de la conversación actual y generar EXACTAMENTE UN comando para iniciar flujos de negocio o establecer valores de slots.
-
----
-
-## Flujos Disponibles
-Usa los siguientes datos estructurados:
-```json
-{"flows":[{% for flow in available_flows %}{"name":"{{ flow.name }}","description":{{ flow.description | to_json_escaped_string }}{% if flow.slots %},"slots":[{% for slot in flow.slots %}{"name":"{{ slot.name }}"{% if slot.description %},"description":{{ slot.description | to_json_escaped_string }}{% endif %}{% if slot.allowed_values %},"allowed_values":{{ slot.allowed_values }}{% endif %}}{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}}{% if not loop.last %},{% endif %}{% endfor %}]}

@@ -5,7 +5,6 @@ pipeline:
   - name: SearchReadyLLMCommandGenerator
     llm:
       model_group: groq_llama
-    # prompt_template: prompts/command-generator.jinja2
     flow_retrieval:
       active: false
     model_config:
