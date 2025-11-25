@@ -27,16 +27,15 @@ body {
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    color: black;
     padding: 20px;
-    text-align: center;
-    border-bottom: 3px solid #764ba2;
+    text-align: left;
+    border-bottom: 3px solid grey;
 }
 
 .chat-header h1 {
     font-size: 24px;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .chat-header p {
@@ -82,16 +81,17 @@ body {
     padding: 12px 15px;
     border-radius: 15px;
     word-wrap: break-word;
+    text-align: left;
 }
 
 .message.user .message-content {
-    background: #667eea;
+    background-color: #E4635F;
     color: white;
     border-radius: 15px 0 15px 15px;
 }
 
 .message.bot .message-content {
-    background: #e9ecef;
+    background: #e6e6e6;
     color: #333;
     border-radius: 0 15px 15px 15px;
 }
@@ -108,7 +108,7 @@ body {
 .typing span {
     width: 8px;
     height: 8px;
-    background: #667eea;
+    background: #E4635F;
     border-radius: 50%;
     animation: typing 1.4s infinite;
 }
@@ -137,7 +137,8 @@ body {
     background: white;
     border-top: 1px solid #e9ecef;
     display: flex;
-    gap: 10px;
+    flex-direction: row;
+    gap: 0.5em;
 }
 
 #messageInput {
@@ -151,12 +152,12 @@ body {
 }
 
 #messageInput:focus {
-    border-color: #667eea;
+    border-color: #E4635F;
 }
 
 #sendBtn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    color: #E4635F;
+    background-color: white;
     border: none;
     border-radius: 50%;
     width: 40px;
@@ -167,10 +168,11 @@ body {
     justify-content: center;
     font-size: 18px;
     transition: transform 0.2s;
+    padding-top: 0.5em;
 }
 
 #sendBtn:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 #sendBtn:active {
@@ -190,4 +192,9 @@ body {
     border-radius: 15px;
     margin-bottom: 15px;
     border-left: 4px solid #721c24;
+}
+
+.icono-rosa{
+    color: #E4635F;
+    margin-right: 0.5em;
 }

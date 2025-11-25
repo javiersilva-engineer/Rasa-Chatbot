@@ -129,73 +129,73 @@ flows:
   # FLOWS SOBRE GEMAS DEL ZODIACO
   preguntar_capricornio:
     description: |
-      El usuario pregunta sobre la gema de Capricornio o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Capricornio" como su signo zodiacal.
     steps:
       - action: utter_capricornio_diamante
 
   preguntar_tauro:
     description: |
-      El usuario pregunta sobre la gema de Tauro o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Tauro" como su signo zodiacal.
     steps:
       - action: utter_tauro_esmeralda
 
   preguntar_piscis:
     description: |
-      El usuario pregunta sobre la gema de Piscis o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Piscis" como su signo zodiacal.
     steps:
       - action: utter_piscis_zafiro
 
   preguntar_leo:
     description: |
-      El usuario pregunta sobre la gema de Leo o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Leo" como su signo zodiacal.
     steps:
       - action: utter_leo_turmalina
 
   preguntar_sagitario:
     description: |
-      El usuario pregunta sobre la gema de Sagitario o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Sagitario" como su signo zodiacal.
     steps:
       - action: utter_sagitario_rubi
 
   preguntar_libra:
     description: |
-      El usuario pregunta sobre la gema de Libra o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Libra" como su signo zodiacal.
     steps:
       - action: utter_libra_amatista
 
   preguntar_acuario:
     description: |
-      El usuario pregunta sobre la gema de Acuario o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Acuario" como su signo zodiacal.
     steps:
       - action: utter_acuario_aguamarina
 
   preguntar_aries:
     description: |
-      El usuario pregunta sobre la gema de Aries o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Aries" como su signo zodiacal.
     steps:
       - action: utter_aries_granate
 
   preguntar_geminis:
     description: |
-      El usuario pregunta sobre la gema de Géminis o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Géminis" como su signo zodiacal.
     steps:
       - action: utter_geminis_topacio
 
   preguntar_virgo:
     description: |
-      El usuario pregunta sobre la gema de Virgo o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Virgo" como su signo zodiacal.
     steps:
       - action: utter_virgo_opalo
 
   preguntar_escorpio:
     description: |
-      El usuario pregunta sobre la gema de Escorpio o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Escorpio" como su signo zodiacal.
     steps:
       - action: utter_escorpio_peridoto
 
   preguntar_cancer:
     description: |
-      El usuario pregunta sobre la gema de Cáncer o dice que es su signo zodiacal.
+      El usuario menciona explícitamente "Cancer" como su signo zodiacal.
     steps:
       - action: utter_cancer_tanzanita
 
@@ -204,13 +204,17 @@ flows:
 
   # FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO
 
-ayudar_usuario_gema_zodiaco:
-  description: |
-    El usuario pregunta genéricamente sobre gemas y signos zodiacales, 
-    pero NO proporciona una fecha de nacimiento específica.
-    Por ejemplo: "¿qué gema me corresponde?", "quiero saber mi gema".
-  steps:
-    - action: utter_gema_usuario_zodiaco
+  preguntar_gema_zodiaco:
+    description: |
+      El usuario pregunta qué gema corresponde a su signo zodiacal sin especificar cuál es.
+      Por ejemplo: "¿Qué gema es la mía?", "¿Cuál es mi gema?", "¿Qué gema me corresponde?",
+      "Quiero saber qué gema corresponde a mi signo", "¿Cuál es la gema de mi signo?",
+      "Gema por signo zodiacal", "¿Gema para mi signo zodiacal?"
+      Este flow se activa cuando el usuario quiere información sobre su gema pero NO especifica el signo.
+      NO SE MENCIONA NINGÚN SIGNO ZODIACAL EN LA ENTRADA DEL USUARIO, ni tampoco se hace una pregunta directa sobre un signo.
+    always_include_in_prompt: true
+    steps:
+      - action: utter_gema_usuario_zodiaco
 
   usuario_desconoce_signo_zodiaco:
     description: |
