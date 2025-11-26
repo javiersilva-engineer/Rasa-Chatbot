@@ -84,7 +84,7 @@ responses:
         rephrase: false
 
   utter_hobbies:
-    - text: "Me encanta ayudar a los usuarios a diseñar sus anillos soñados y aprender sobre gemas y joyería.
+    - text: "Me encanta ayudar a los usuarios a diseñar sus anillos soñados y aprender sobre gemas y joyería."
       metadata:
         rephrase: false
 
