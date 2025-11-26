@@ -1,6 +1,24 @@
 version: "3.1"
 
 slots:
+  signo_zodiacal:
+    type: categorical
+    values:
+      - aries
+      - tauro
+      - geminis
+      - cancer
+      - leo
+      - virgo
+      - libra
+      - escorpio
+      - sagitario
+      - capricornio
+      - acuario
+      - piscis
+    mappings:
+      - type: from_llm
+      
   tema:
     type: text
     mappings:
@@ -10,16 +28,11 @@ slots:
     type: text
     mappings:
       - type: from_llm
-  
-  signo_zodiacal:
-    type: text
-    mappings:
-      - type: controlled
 
 
 
 responses:
-# UTTER SIN RESPUESTA
+  # UTTER SIN RESPUESTA
   utter_llm_fallback:
     - text: "No entendí tu mensaje, ¿puedes reformularlo?"
       metadata:
@@ -27,7 +40,7 @@ responses:
 
 
 
-# UTTER CHATBOT LUNA
+  # UTTER CHATBOT LUNA
   utter_saludo:
     - text: "¡Hola! ¿En qué puedo ayudarle hoy?"
       metadata:
@@ -54,7 +67,7 @@ responses:
         rephrase: false
 
 
-# UTTER ESTADOS DE ANIMO
+  # UTTER ESTADOS DE ANIMO
 
   utter_aburrido:
     - text: "¡Vaya! Lamento que esté aburrido. ¿Qué le parece si intentamos crear un anillo juntos en Louv? ¡Podría ser divertido!"
@@ -77,7 +90,7 @@ responses:
         rephrase: false
 
 
-# UTTER PATATA TEAM Y LOUV
+  # UTTER PATATA TEAM Y LOUV
 
   utter_equipo:
     - text: "El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva. Todos ellos me crearon a mí y a Louv."
@@ -90,19 +103,17 @@ responses:
         rephrase: false
 
   utter_nombre_louv:
-    - text: "El nombre de Louv viene de una antigua princesa marroquí de la cual todos estaban enamorados y trataban de conquistarla regalándole joyas preciosas. 
-             Por desgracia, ninguno de sus pretendientes consiguió conquistarla nunca, pues no existía joya que estuviese a la altura de su anillo soñado."
+    - text: "El nombre de Louv viene de una antigua princesa marroquí de la cual todos estaban enamorados y trataban de conquistarla regalándole joyas preciosas. Por desgracia, ninguno de sus pretendientes consiguió conquistarla nunca, pues no existía joya que estuviese a la altura de su anillo soñado."
       metadata:
         rephrase: false
 
   utter_proyecto_louv:
-    - text: "Louv es un proyecto creado por Patata Team para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D. 
-             Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
+    - text: "Louv es un proyecto creado por Patata Team para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D. Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
       metadata:
         rephrase: false
 
 
-# UTTER GEMAS SIGNOS ZODIACO
+  # UTTER GEMAS SIGNOS ZODIACO
   
   utter_capricornio_diamante:
     - text: "La gema que corresponde al signo de Capricornio es el diamante. Pues es duro y brillante como la ambición; refleja fuerza interior y determinación inquebrantable."
@@ -165,91 +176,69 @@ responses:
         rephrase: false
 
 
-# UTTER AYUDA USUARIO GEMA ZODIACO
+  # UTTER AYUDA USUARIO GEMA ZODIACO
 
-  utter_gema_usuario_zodiaco:
-    - text: "¿Qué signo eres? Puede introducirlo manualmente si no lo ve entre las siguientes opciones."
+  utter_ask_signo_zodiacal:
+    - text: "¿Cuál es tu signo zodiacal? Puedes seleccionar uno de los botones o escribirlo directamente."
       buttons:
-        - title: "Capricornio"
-          payload: "¿Qué gema corresponde a capricornio?"
+        - title: "Aries"
+          payload: "Aries"
         - title: "Tauro"
-          payload: "¿Qué gema corresponde a tauro?"
-        - title: "Piscis"
-          payload: "¿Qué gema corresponde a piscis?"
-        - title: "Leo"
-          payload: "¿Qué gema corresponde a leo?"
-        - title: "No lo sé"
-          payload: "No sé cuál es mi signo zodiacal."
-
+          payload: "Tauro"
+        - title: "Géminis"
+          payload: "Géminis"
+        - title: "Cáncer"
+          payload: "Cáncer"
+        # - title: "Leo"
+        #   payload: "Leo"
+        # - title: "Virgo"
+        #   payload: "Virgo"
+        # - title: "Libra"
+        #   payload: "Libra"
+        # - title: "Escorpio"
+        #   payload: "Escorpio"
+        # - title: "Sagitario"
+        #   payload: "Sagitario"
+        # - title: "Capricornio"
+        #   payload: "Capricornio"
+        # - title: "Acuario"
+        #   payload: "Acuario"
+        # - title: "Piscis"
+        #   payload: "Piscis"
       metadata:
         rephrase: false
 
-  utter_signo_nacimiento:
-    - text: "No se preocupe, puedo ayudarle a descubrir su signo zodiacal. Por favor, dígame su fecha de cumpleaños."
-      metadata:
-        rephrase: false 
+  # utter_signo_no_reconocido:
+  #   - text: "Lo siento, no reconozco ese signo zodiacal. Por favor, elige uno de los 12 signos del zodiaco."
+  #     buttons:
+  #       - title: "Aries"
+  #         payload: "/SetSlots(signo_zodiacal=aries)"
+  #       - title: "Tauro"
+  #         payload: "/SetSlots(signo_zodiacal=tauro)"
+  #       - title: "Géminis"
+  #         payload: "/SetSlots(signo_zodiacal=geminis)"
+  #       - title: "Cáncer"
+  #         payload: "/SetSlots(signo_zodiacal=cancer)"
+  #       - title: "Leo"
+  #         payload: "/SetSlots(signo_zodiacal=leo)"
+  #       - title: "Virgo"
+  #         payload: "/SetSlots(signo_zodiacal=virgo)"
+  #       - title: "Libra"
+  #         payload: "/SetSlots(signo_zodiacal=libra)"
+  #       - title: "Escorpio"
+  #         payload: "/SetSlots(signo_zodiacal=escorpio)"
+  #       - title: "Sagitario"
+  #         payload: "/SetSlots(signo_zodiacal=sagitario)"
+  #       - title: "Capricornio"
+  #         payload: "/SetSlots(signo_zodiacal=capricornio)"
+  #       - title: "Acuario"
+  #         payload: "/SetSlots(signo_zodiacal=acuario)"
+  #       - title: "Piscis"
+  #         payload: "/SetSlots(signo_zodiacal=piscis)"
+  #     metadata:
+  #       rephrase: false
 
-  utter_usuario_aries:
-    - text: "¡Perfecto! Usted es Aries, un signo lleno de energía y pasión. La gema que corresponde a Aries es el granate, refleja su carácter decidido y valiente."
-      metadata:
-        rephrase: false
-
-  utter_usuario_tauro:
-    - text: "¡Genial! Usted es Tauro, un signo conocido por su lealtad y determinación. La gema que corresponde a Tauro es la esmeralda, que simboliza la calma y la conexión con la naturaleza."
-      metadata:
-        rephrase: false
-
-  utter_usuario_geminis:
-    - text: "¡Estupendo! Usted es Géminis, un signo lleno de curiosidad y versatilidad. La gema que corresponde a Géminis es el topacio, que representa la luz y el optimismo."
-      metadata:
-        rephrase: false
-
-  utter_usuario_cancer:
-    - text: "¡Maravilloso! Usted es Cáncer, un signo conocido por su sensibilidad y empatía. La gema que corresponde a Cáncer es la tanzanita, que simboliza la profundidad y la transformación."
-      metadata:
-        rephrase: false
-
-  utter_usuario_leo:
-    - text: "¡Fantástico! Usted es Leo, un signo lleno de confianza y liderazgo. La gema que corresponde a Leo es la turmalina, que refleja su mente adaptable y creativa."
-      metadata:
-        rephrase: false
-
-  utter_usuario_virgo:
-    - text: "¡Excelente! Usted es Virgo, un signo conocido por su practicidad y atención al detalle. La gema que corresponde a Virgo es el ópalo, que simboliza la sensibilidad y la imaginación."
-      metadata:
-        rephrase: false
-
-  utter_usuario_libra:
-    - text: "¡Muy bien! Usted es Libra, un signo lleno de encanto y diplomacia. La gema que corresponde a Libra es la amatista, que refleja su intuición y búsqueda de armonía."
-      metadata:
-        rephrase: false
-
-  utter_usuario_escorpio:
-    - text: "¡Perfecto! Usted es Escorpio, un signo conocido por su intensidad y pasión. La gema que corresponde a Escorpio es el peridoto, que simboliza el orden y la luz."
-      metadata:
-        rephrase: false
-
-  utter_usuario_sagitario:
-    - text: "¡Genial! Usted es Sagitario, un signo lleno de optimismo y aventura. La gema que corresponde a Sagitario es el rubí, que refleja su espíritu libre y valiente."
-      metadata:
-        rephrase: false
-
-  utter_usuario_capricornio:
-    - text: "¡Estupendo! Usted es Capricornio, un signo conocido por su ambición y disciplina. La gema que corresponde a Capricornio es el diamante, que simboliza la fuerza interior y la determinación."
-      metadata:
-        rephrase: false
-
-  utter_usuario_acuario:
-    - text: "¡Maravilloso! Usted es Acuario, un signo lleno de originalidad y visión. La gema que corresponde a Acuario es la aguamarina, que refleja su creatividad y amor por lo diferente."
-      metadata:
-        rephrase: false
-
-  utter_usuario_piscis:
-    - text: "¡Fantástico! Usted es Piscis, un signo conocido por su sensibilidad y empatía. La gema que corresponde a Piscis es el zafiro, que simboliza el equilibrio y la elegancia."
-      metadata:
-        rephrase: false
-
-  utter_fecha_invalida:
-    - text: "Lo siento, no pude determinar tu signo zodiacal con esa fecha. ¿Podrías proporcionarme tu fecha de nacimiento en formato día/mes? Por ejemplo: 15/03"
-      metadata:
-        rephrase: false
+  # utter_fecha_invalida:
+  #   - text: "Lo siento, no pude determinar tu signo zodiacal con esa fecha. ¿Podrías proporcionarme tu fecha de nacimiento en formato día/mes? Por ejemplo: 15/03"
+  #     metadata:
+  #       rephrase: false

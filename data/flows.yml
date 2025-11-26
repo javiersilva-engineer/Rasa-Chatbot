@@ -127,77 +127,69 @@ flows:
 
 
   # FLOWS SOBRE GEMAS DEL ZODIACO
-  preguntar_capricornio:
+  consultar_gema_zodiacal:
     description: |
-      El usuario menciona explícitamente "Capricornio" como su signo zodiacal.
+      El usuario pregunta por la gema asociada a un signo zodiacal específico.
+      El usuario puede mencionar directamente el signo (por ejemplo: "¿Cuál es la gema de Aries?",
+      "Gema de Capricornio", "Soy Leo, ¿qué gema me corresponde?") o puede preguntar
+      por su propia gema sin especificar el signo.
     steps:
-      - action: utter_capricornio_diamante
-
-  preguntar_tauro:
-    description: |
-      El usuario menciona explícitamente "Tauro" como su signo zodiacal.
-    steps:
-      - action: utter_tauro_esmeralda
-
-  preguntar_piscis:
-    description: |
-      El usuario menciona explícitamente "Piscis" como su signo zodiacal.
-    steps:
-      - action: utter_piscis_zafiro
-
-  preguntar_leo:
-    description: |
-      El usuario menciona explícitamente "Leo" como su signo zodiacal.
-    steps:
-      - action: utter_leo_turmalina
-
-  preguntar_sagitario:
-    description: |
-      El usuario menciona explícitamente "Sagitario" como su signo zodiacal.
-    steps:
-      - action: utter_sagitario_rubi
-
-  preguntar_libra:
-    description: |
-      El usuario menciona explícitamente "Libra" como su signo zodiacal.
-    steps:
-      - action: utter_libra_amatista
-
-  preguntar_acuario:
-    description: |
-      El usuario menciona explícitamente "Acuario" como su signo zodiacal.
-    steps:
-      - action: utter_acuario_aguamarina
-
-  preguntar_aries:
-    description: |
-      El usuario menciona explícitamente "Aries" como su signo zodiacal.
-    steps:
-      - action: utter_aries_granate
-
-  preguntar_geminis:
-    description: |
-      El usuario menciona explícitamente "Géminis" como su signo zodiacal.
-    steps:
-      - action: utter_geminis_topacio
-
-  preguntar_virgo:
-    description: |
-      El usuario menciona explícitamente "Virgo" como su signo zodiacal.
-    steps:
-      - action: utter_virgo_opalo
-
-  preguntar_escorpio:
-    description: |
-      El usuario menciona explícitamente "Escorpio" como su signo zodiacal.
-    steps:
-      - action: utter_escorpio_peridoto
-
-  preguntar_cancer:
-    description: |
-      El usuario menciona explícitamente "Cancer" como su signo zodiacal.
-    steps:
-      - action: utter_cancer_tanzanita
+      - collect: signo_zodiacal
+        description: |
+          El signo zodiacal del usuario. Valores permitidos: aries, tauro, geminis, 
+          cancer, leo, virgo, libra, escorpio, sagitario, capricornio, acuario, piscis.
+        next:
+          - if: slots.signo_zodiacal == "aries"
+            then:
+              - action: utter_aries_granate
+                next: END
+          - if: slots.signo_zodiacal == "tauro"
+            then:
+              - action: utter_tauro_esmeralda
+                next: END
+          - if: slots.signo_zodiacal == "geminis"
+            then:
+              - action: utter_geminis_topacio
+                next: END
+          - if: slots.signo_zodiacal == "cancer"
+            then:
+              - action: utter_cancer_tanzanita
+                next: END
+          - if: slots.signo_zodiacal == "leo"
+            then:
+              - action: utter_leo_turmalina
+                next: END
+          - if: slots.signo_zodiacal == "virgo"
+            then:
+              - action: utter_virgo_opalo
+                next: END
+          - if: slots.signo_zodiacal == "libra"
+            then:
+              - action: utter_libra_amatista
+                next: END
+          - if: slots.signo_zodiacal == "escorpio"
+            then:
+              - action: utter_escorpio_peridoto
+                next: END
+          - if: slots.signo_zodiacal == "sagitario"
+            then:
+              - action: utter_sagitario_rubi
+                next: END
+          - if: slots.signo_zodiacal == "capricornio"
+            then:
+              - action: utter_capricornio_diamante
+                next: END
+          - if: slots.signo_zodiacal == "acuario"
+            then:
+              - action: utter_acuario_aguamarina
+                next: END
+          - else: #slots.signo_zodiacal == "piscis"
+            #then:
+              - action: utter_piscis_zafiro
+                next: END
+          # - else:
+          #     - action: utter_signo_no_reconocido
+          #       next: END
 
 
 
@@ -214,82 +206,82 @@ flows:
       NO SE MENCIONA NINGÚN SIGNO ZODIACAL EN LA ENTRADA DEL USUARIO, ni tampoco se hace una pregunta directa sobre un signo.
     always_include_in_prompt: true
     steps:
-      - action: utter_gema_usuario_zodiaco
+      - action: utter_ask_signo_zodiacal
 
-  usuario_desconoce_signo_zodiaco:
-    description: |
-      El usuario no sabe cuál es su signo zodiacal.
-    steps:
-      - action: utter_signo_nacimiento
+  # usuario_desconoce_signo_zodiaco:
+  #   description: |
+  #     El usuario no sabe cuál es su signo zodiacal.
+  #   steps:
+  #     - action: utter_signo_nacimiento
 
 
 
   #FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL
 
-determinar_signo_por_fecha:
-  description: |
-    El usuario proporciona su FECHA DE NACIMIENTO COMPLETA (día y mes) para que 
-    se determine automáticamente su signo zodiacal. Por ejemplo: "nací el 20 de septiembre",
-    "mi cumpleaños es 15/03", "20 de marzo". 
-    Este flow NO debe activarse si el usuario solo menciona el nombre de un signo.
-  steps:
-    - collect: fecha_nacimiento
-      description: |
-        La fecha de nacimiento del usuario en formato día/mes (por ejemplo: 15/03, 25/07)
-        o en texto natural como "20 de septiembre".
-        Solo necesitamos el día y el mes, no el año.
+# determinar_signo_por_fecha:
+#   description: |
+#     El usuario proporciona su FECHA DE NACIMIENTO COMPLETA (día y mes) para que 
+#     se determine automáticamente su signo zodiacal. Por ejemplo: "nací el 20 de septiembre",
+#     "mi cumpleaños es 15/03", "20 de marzo". 
+#     Este flow NO debe activarse si el usuario solo menciona el nombre de un signo.
+#   steps:
+#     - collect: fecha_nacimiento
+#       description: |
+#         La fecha de nacimiento del usuario en formato día/mes (por ejemplo: 15/03, 25/07)
+#         o en texto natural como "20 de septiembre".
+#         Solo necesitamos el día y el mes, no el año.
     
-    - id: determinar_signo
-      action: action_determinar_signo_zodiacal
-      next:
-        - if: slots.signo_zodiacal == "aries"
-          then:
-            - action: utter_usuario_aries
-              next: END
-        - if: slots.signo_zodiacal == "tauro"
-          then:
-            - action: utter_usuario_tauro
-              next: END
-        - if: slots.signo_zodiacal == "geminis"
-          then:
-            - action: utter_usuario_geminis
-              next: END
-        - if: slots.signo_zodiacal == "cancer"
-          then:
-            - action: utter_usuario_cancer
-              next: END
-        - if: slots.signo_zodiacal == "leo"
-          then:
-            - action: utter_usuario_leo
-              next: END
-        - if: slots.signo_zodiacal == "virgo"
-          then:
-            - action: utter_usuario_virgo
-              next: END
-        - if: slots.signo_zodiacal == "libra"
-          then:
-            - action: utter_usuario_libra
-              next: END
-        - if: slots.signo_zodiacal == "escorpio"
-          then:
-            - action: utter_usuario_escorpio
-              next: END
-        - if: slots.signo_zodiacal == "sagitario"
-          then:
-            - action: utter_usuario_sagitario
-              next: END
-        - if: slots.signo_zodiacal == "capricornio"
-          then:
-            - action: utter_usuario_capricornio
-              next: END
-        - if: slots.signo_zodiacal == "acuario"
-          then:
-            - action: utter_usuario_acuario
-              next: END
-        - if: slots.signo_zodiacal == "piscis"
-          then:
-            - action: utter_usuario_piscis
-              next: END
-        - else:
-            - action: utter_fecha_invalida
-              next: END
+#     - id: determinar_signo
+#       action: action_determinar_signo_zodiacal
+#       next:
+#         - if: slots.signo_zodiacal == "aries"
+#           then:
+#             - action: utter_usuario_aries
+#               next: END
+#         - if: slots.signo_zodiacal == "tauro"
+#           then:
+#             - action: utter_usuario_tauro
+#               next: END
+#         - if: slots.signo_zodiacal == "geminis"
+#           then:
+#             - action: utter_usuario_geminis
+#               next: END
+#         - if: slots.signo_zodiacal == "cancer"
+#           then:
+#             - action: utter_usuario_cancer
+#               next: END
+#         - if: slots.signo_zodiacal == "leo"
+#           then:
+#             - action: utter_usuario_leo
+#               next: END
+#         - if: slots.signo_zodiacal == "virgo"
+#           then:
+#             - action: utter_usuario_virgo
+#               next: END
+#         - if: slots.signo_zodiacal == "libra"
+#           then:
+#             - action: utter_usuario_libra
+#               next: END
+#         - if: slots.signo_zodiacal == "escorpio"
+#           then:
+#             - action: utter_usuario_escorpio
+#               next: END
+#         - if: slots.signo_zodiacal == "sagitario"
+#           then:
+#             - action: utter_usuario_sagitario
+#               next: END
+#         - if: slots.signo_zodiacal == "capricornio"
+#           then:
+#             - action: utter_usuario_capricornio
+#               next: END
+#         - if: slots.signo_zodiacal == "acuario"
+#           then:
+#             - action: utter_usuario_acuario
+#               next: END
+#         - if: slots.signo_zodiacal == "piscis"
+#           then:
+#             - action: utter_usuario_piscis
+#               next: END
+#         - else:
+#             - action: utter_fecha_invalida
+#               next: END
