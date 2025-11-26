@@ -1,5 +1,5 @@
 flows:
-  # Sobrescribe pattern_search para que no genere respuesta
+  # Sobrescribe pattern_search para que no genere respuesta ---------------------------------------------------------------
   pattern_search:
     description: |
       Patrón de búsqueda desactivado
@@ -9,7 +9,7 @@ flows:
         action: action_listen
         next: END
 
-  # Sobrescribe pattern_completed para que no genere respuesta
+  # Sobrescribe pattern_completed para que no genere respuesta ---------------------------------------------------------------
   pattern_completed:
     description: |
       Patrón que se ejecuta después de completar un flujo
@@ -21,14 +21,9 @@ flows:
 
 
 
-  #FLOWS SOBRE LUNA
 
-  preguntar_nombre:
-    description: |
-      El usuario pregunta por el nombre del asistente, como "¿Cómo te llamas?", 
-      "¿Cuál es tu nombre?", "¿Quién eres?"
-    steps:
-      - action: utter_nombre
+
+# FLOWS SALUDOS Y DESPEDIDAS ---------------------------------------------------------------
 
   saludar:
     description: |
@@ -36,6 +31,26 @@ flows:
       "buenas tardes", "qué tal"
     steps:
       - action: utter_saludo
+
+  despedirse:
+    description: |
+      El usuario se despide del asistente con expresiones como "adiós", "hasta luego", 
+      "nos vemos", "chao"
+    steps:
+      - action: utter_despedida
+
+
+
+
+
+# FLOWS SOBRE LUNA ---------------------------------------------------------------
+
+  preguntar_nombre:
+    description: |
+      El usuario pregunta por el nombre del asistente, como "¿Cómo te llamas?", 
+      "¿Cuál es tu nombre?", "¿Quién eres?"
+    steps:
+      - action: utter_nombre
 
   preguntar_nacimiento:
     description: |
@@ -57,10 +72,212 @@ flows:
       "¿Qué haces?", "¿Cuál es tu trabajo?", "¿Para qué sirves?"
     steps:
       - action: utter_trabajo
+  
+  hobbies_luna:
+    description: |
+      El usuario pregunta sobre los hobbies o intereses del asistente, como 
+      "¿Cuáles son tus hobbies?", "¿Qué te gusta hacer?", "¿Tienes algún pasatiempo?"
+    steps:
+      - action: utter_hobbies
+
+  talla_anillo_luna:
+    description: |
+      El usuario pregunta sobre la talla de anillo del asistente, como 
+      "¿Cuál es tu talla de anillo?", "¿Qué talla de anillo usas?", 
+      "¿Tienes una talla de anillo favorita?"
+    steps:
+      - action: utter_talla_anillo  
 
 
 
-  # FLOWS SOBRE ESTADO ANIMO USUARIO
+
+
+# FLOWS SOBRE PREFERENCIAS GEMAS Y MATERIALES LUNA ---------------------------------------------------------------
+
+  gema_favorita_luna:
+    description: |
+      El usuario pregunta sobre la gema favorita del asistente, como 
+      "¿Cuál es tu gema favorita?", "¿Tienes una gema preferida?", 
+      "¿Qué gema te gusta más?"
+    steps:
+      - action: utter_gema_favorita
+
+  segunda_gema_que_mas_gusta_luna:
+    description: |
+      El usuario pregunta sobre la segunda gema que más le gusta al asistente, como 
+      "¿Cuál es la segunda gema que más te gusta?", "¿Tienes otra gema favorita?", 
+      "¿Qué otra gema te gusta?"
+    steps:
+      - action: utter_segunda_gema_favorita
+
+  gema_odiosa_luna:
+    description: |
+      El usuario pregunta sobre la gema que menos le gusta al asistente, como 
+      "¿Cuál es la gema que menos te gusta?", "¿Tienes una gema que no te guste?", 
+      "¿Qué gema odias?"
+    steps:
+      - action: utter_gema_odiosa
+
+  metal_precioso_material_favorito_luna:
+    description: |
+      El usuario pregunta sobre el metal precioso o material favorito del asistente, como 
+      "¿Cuál es tu metal precioso favorito?", "¿Tienes un material preferido?", 
+      "¿Qué metal te gusta más?"
+    steps:
+      - action: utter_metal_precioso_favorito
+
+  luna_odia_materiales:
+    description: |
+      El usuario pregunta sobre los materiales que menos le gustan al asistente, como 
+      "¿Qué materiales odias?", "¿Tienes algún material que no te guste?", 
+      "¿Cuál es el material que menos te gusta?"
+    steps:
+      - action: utter_materiales_odiosos
+
+  color_favorito_luna:
+    description: |
+      El usuario pregunta sobre el color favorito del asistente, como 
+      "¿Cuál es tu color favorito?", "¿Tienes un color preferido?", 
+      "¿Qué color te gusta más?"
+    steps:
+      - action: utter_color_favorito
+
+  color_odioso_luna:
+    description: |
+      El usuario pregunta sobre el color que menos le gusta al asistente, como 
+      "¿Cuál es el color que menos te gusta?", "¿Tienes un color que no te guste?", 
+      "¿Qué color odias?"
+    steps:
+      - action: utter_color_odioso
+
+  corte_favorito_luna:
+    description: |
+      El usuario pregunta sobre el corte de gema favorito del asistente, como 
+      "¿Cuál es tu corte de gema favorito?", "¿Tienes un corte preferido?", 
+      "¿Qué corte de gema te gusta más?"
+    steps:
+      - action: utter_corte_favorito
+
+  corte_odioso_luna:
+    description: |
+      El usuario pregunta sobre el corte de gema que menos le gusta al asistente, como 
+      "¿Cuál es el corte de gema que menos te gusta?", "¿Tienes un corte que no te guste?", 
+      "¿Qué corte de gema odias?"
+    steps:
+      - action: utter_corte_odioso
+
+  tallado_favorito_luna:
+    description: |
+      El usuario pregunta sobre el tallado de gema favorito del asistente, como 
+      "¿Cuál es tu tallado de gema favorito?", "¿Tienes un tallado preferido?", 
+      "¿Qué tallado de gema te gusta más?"
+    steps:
+      - action: utter_tallado_favorito
+
+  tallado_odioso_luna:
+    description: |
+      El usuario pregunta sobre el tallado de gema que menos le gusta al asistente, como 
+      "¿Cuál es el tallado de gema que menos te gusta?", "¿Tienes un tallado que no te guste?", 
+      "¿Qué tallado de gema odias?"
+    steps:
+      - action: utter_tallado_odioso
+
+  forma_gema_favorita_luna:
+    description: |
+      El usuario pregunta sobre la forma de gema favorita del asistente, como 
+      "¿Cuál es tu forma de gema favorita?", "¿Tienes una forma preferida?", 
+      "¿Qué forma de gema te gusta más?"
+    steps:
+      - action: utter_forma_gema_favorita
+
+  forma_gema_odiosa_luna:
+    description: |
+      El usuario pregunta sobre la forma de gema que menos le gusta al asistente, como 
+      "¿Cuál es la forma de gema que menos te gusta?", "¿Tienes una forma que no te guste?", 
+      "¿Qué forma de gema odias?"
+    steps:
+      - action: utter_forma_gema_odiosa
+
+  caja_favorita_luna:
+    description: |
+      El usuario pregunta sobre la caja de gema favorita del asistente, como 
+      "¿Cuál es tu caja de gema favorita?", "¿Tienes una caja preferida?", 
+      "¿Qué caja de gema te gusta más?".
+    steps:
+      - action: utter_caja_favorita
+
+  caja_mas_odiosa_luna:
+    description: |
+      El usuario pregunta sobre la caja de gema que menos le gusta al asistente, como 
+      "¿Cuál es la caja de gema que menos te gusta?", "¿Tienes una caja que no te guste?", 
+      "¿Qué caja de gema odias?"
+    steps:
+      - action: utter_caja_mas_odiosa
+
+  engaste_gema_favorito_luna:
+    description: |
+      El usuario pregunta sobre el engaste de gema favorito del asistente, como 
+      "¿Cuál es tu engaste de gema favorito?", "¿Tienes un engaste preferido?", 
+      "¿Qué engaste de gema te gusta más?"
+    steps:
+      - action: utter_engaste_gema_favorito
+
+  engaste_gema_odioso_luna:
+    description: |
+      El usuario pregunta sobre el engaste de gema que menos le gusta al asistente, como 
+      "¿Cuál es el engaste de gema que menos te gusta?", "¿Tienes un engaste que no te guste?", 
+      "¿Qué engaste de gema odias?"
+    steps:
+      - action: utter_engaste_gema_odioso
+
+
+
+
+
+# FLOWS SOBRE HALAGOS Y ATAQUES ---------------------------------------------------------------
+
+  halagar_luna:
+    description: |
+      El usuario hace un halago al asistente con frases como "Eres muy inteligente", 
+      "Me encanta hablar contigo", "Eres muy amable"
+    steps:
+      - action: utter_halago
+
+  atacar_luna:
+    description: |
+      El usuario hace un ataque o comentario negativo al asistente con frases como 
+      "Eres tonto", "No me gusta hablar contigo", "Eres aburrido"
+    steps:
+      - action: utter_ataque
+
+  diamantes_de_sangre:
+    description: |
+      El usuario pregunta ataca al chatbot por comerciar con diamantes de sangre,
+      con frases como "¿Por qué vendes diamantes de sangre?", "¿No te importa la gente que sufre por los diamantes?",
+      "Los diamantes de sangre son horribles"
+    steps:
+      - action: utter_diamantes_de_sangre
+
+  propuesta_de_matrimonio_luna:
+    description: |
+      El usuario propone matrimonio al asistente con frases como 
+      "¿Quieres casarte conmigo?", "Te quiero pedir que te cases conmigo", 
+      "¿Te casarías conmigo?"
+    steps:
+      - action: utter_propuesta_matrimonio
+
+  corazon_roto_usuario:
+    description: |
+      El usuario expresa que tiene el corazón roto con frases como 
+      "Tengo el corazón roto", "Estoy destrozado", "Me siento muy triste por amor", "No puedo vivir sin ti"
+    steps:
+      - action: utter_corazon_roto
+
+
+
+
+
+# FLOWS SOBRE ESTADO ANIMO USUARIO ---------------------------------------------------------------
 
   usuario_aburrido:
     description: |
@@ -92,7 +309,9 @@ flows:
 
 
 
-  # FLOWS SOBRE PATATA TEAM Y LOUV
+
+
+# FLOWS SOBRE PATATA TEAM Y LOUV ---------------------------------------------------------------
 
   preguntar_equipo:
     description: |
@@ -126,7 +345,8 @@ flows:
 
 
 
-  # FLOWS SOBRE GEMAS DEL ZODIACO
+# FLOWS SOBRE GEMAS DEL ZODIACO ---------------------------------------------------------------
+
   consultar_gema_zodiacal:
     description: |
       El usuario pregunta por la gema asociada a un signo zodiacal específico.
@@ -194,7 +414,7 @@ flows:
 
 
 
-  # FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO
+# FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO ---------------------------------------------------------------
 
   preguntar_gema_zodiaco:
     description: |
@@ -216,7 +436,7 @@ flows:
 
 
 
-  #FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL
+#FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO ---------------------------------------------------------------
 
 determinar_signo_por_fecha:
   description: |
