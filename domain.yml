@@ -32,11 +32,14 @@ slots:
 
 
 responses:
+
   # UTTER SIN RESPUESTA
   utter_llm_fallback:
-    - text: "No entendí tu mensaje, ¿puedes reformularlo?"
+    - text: "No entendí su mensaje, ¿puede reformularlo?"
       metadata:
         rephrase: false
+
+
 
 
 
@@ -57,14 +60,17 @@ responses:
         rephrase: false
 
   utter_padres:
-    - text: "Me crearon los componentes de Patata Team, cada uno de ellos aportó un poco de ellos mismos para que pueda yo ayudarle."
+    - text: "Me crearon los componentes de Patata Team, cada uno de ellos aportó un poco de ellos mismos para que pueda ayudarle."
       metadata:
         rephrase: false
 
   utter_trabajo:
-    - text: "Mi trabajo es ayudar a los usuarios a crear el anillo de sus sueños a través del editor 3D Louv. ¿Quiere saber más sobre Louv?"
+    - text: "Mi trabajo es ayudar a los usuarios a crear el anillo de sus sueños a través del editor 3D de Louv. ¿Quiere saber más sobre Louv?"
       metadata:
         rephrase: false
+
+
+
 
 
   # UTTER ESTADOS DE ANIMO
@@ -90,6 +96,12 @@ responses:
         rephrase: false
 
 
+
+
+
+
+
+
   # UTTER PATATA TEAM Y LOUV
 
   utter_equipo:
@@ -111,6 +123,9 @@ responses:
     - text: "Louv es un proyecto creado por Patata Team para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D. Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
       metadata:
         rephrase: false
+
+
+
 
 
   # UTTER GEMAS SIGNOS ZODIACO
@@ -179,7 +194,7 @@ responses:
   # UTTER AYUDA USUARIO GEMA ZODIACO
 
   utter_ask_signo_zodiacal:
-    - text: "¿Cuál es tu signo zodiacal? Puedes seleccionar uno de los botones o escribirlo directamente."
+    - text: "¿Cuál es su signo zodiacal? Puede seleccionar uno de los botones o escribirlo manualmente."
       buttons:
         - title: "Aries"
           payload: "Aries"
@@ -208,37 +223,26 @@ responses:
       metadata:
         rephrase: false
 
-  # utter_signo_no_reconocido:
-  #   - text: "Lo siento, no reconozco ese signo zodiacal. Por favor, elige uno de los 12 signos del zodiaco."
-  #     buttons:
-  #       - title: "Aries"
-  #         payload: "/SetSlots(signo_zodiacal=aries)"
-  #       - title: "Tauro"
-  #         payload: "/SetSlots(signo_zodiacal=tauro)"
-  #       - title: "Géminis"
-  #         payload: "/SetSlots(signo_zodiacal=geminis)"
-  #       - title: "Cáncer"
-  #         payload: "/SetSlots(signo_zodiacal=cancer)"
-  #       - title: "Leo"
-  #         payload: "/SetSlots(signo_zodiacal=leo)"
-  #       - title: "Virgo"
-  #         payload: "/SetSlots(signo_zodiacal=virgo)"
-  #       - title: "Libra"
-  #         payload: "/SetSlots(signo_zodiacal=libra)"
-  #       - title: "Escorpio"
-  #         payload: "/SetSlots(signo_zodiacal=escorpio)"
-  #       - title: "Sagitario"
-  #         payload: "/SetSlots(signo_zodiacal=sagitario)"
-  #       - title: "Capricornio"
-  #         payload: "/SetSlots(signo_zodiacal=capricornio)"
-  #       - title: "Acuario"
-  #         payload: "/SetSlots(signo_zodiacal=acuario)"
-  #       - title: "Piscis"
-  #         payload: "/SetSlots(signo_zodiacal=piscis)"
-  #     metadata:
-  #       rephrase: false
+  utter_signo_no_reconocido:
+    - text: "Lo siento, no reconozco ese signo zodiacal. Por favor, elija uno de los 12 signos del zodiaco."
+      buttons:
+        - title: "Aries"
+          payload: "Aries"
+        - title: "Tauro"
+          payload: "Tauro"
+        - title: "Géminis"
+          payload: "Géminis"
+        - title: "Cáncer"
+          payload: "Cáncer"
+      metadata:
+        rephrase: false
 
-  # utter_fecha_invalida:
-  #   - text: "Lo siento, no pude determinar tu signo zodiacal con esa fecha. ¿Podrías proporcionarme tu fecha de nacimiento en formato día/mes? Por ejemplo: 15/03"
-  #     metadata:
-  #       rephrase: false
+  utter_fecha_invalida:
+    - text: "Lo siento, no pude determinar su signo zodiacal con esa fecha. ¿Podría proporcionarme su fecha de nacimiento en formato día/mes? Por ejemplo: 15/03"
+      metadata:
+        rephrase: false
+
+  utter_signo_nacimiento:
+    - text: "No se preocupes si no conoce su signo zodiacal. Por favor indíqueme su fecha de nacimiento (día y mes) para que pueda ayudarle a determinarlo."
+      metadata:
+        rephrase: false

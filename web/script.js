@@ -212,7 +212,7 @@ function removeTyping(id) {
 // Mensaje de bienvenida con botones
 window.addEventListener('load', async () => {
     // Mostrar mensaje de bienvenida
-    addMessage('¡Hola! Soy Luna. ¿En qué puedo ayudarte hoy?', 'bot');
+    addMessage('¡Hola! Soy Luna. ¿En qué puedo ayudarle hoy?', 'bot');
     
     messageInput.focus();
 });
