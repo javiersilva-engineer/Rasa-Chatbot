@@ -124,11 +124,22 @@ function addMessage(text, sender) {
 
     const content = document.createElement('div');
     content.classList.add('message-content');
-    content.textContent = text;
+    
+    // Detectar y convertir URLs a enlaces
+    content.innerHTML = convertUrlsToLinks(text);
 
     messageDiv.appendChild(content);
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function convertUrlsToLinks(text) {
+    // Expresión regular para detectar URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    
+    return text.replace(urlRegex, (url) => {
+        return `<a href="${url}" target="_blank" style="color: #E91E63; text-decoration: underline; cursor: pointer;">${url}</a>`;
+    });
 }
 
 function addButtons(buttons) {

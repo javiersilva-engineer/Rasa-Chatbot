@@ -311,7 +311,55 @@ flows:
 
 
 
-# FLOWS SOBRE PATATA TEAM Y LOUV ---------------------------------------------------------------
+# FLOWS SOBRE INTEGRANTES PATATA TEAM ---------------------------------------------------------------
+
+  pablo_hernandez:
+    description: |
+      El usuario quiere saber información sobre Pablo Hernández, hace preguntas como 
+      "¿Quién es Pablo Hernández?", "Háblame de Pablo Hernández", "¿Puedes darme información sobre Pablo Hernández?"
+    steps:
+      - action: utter_pablo_hernandez
+
+  dario_perez:
+    description: |
+      El usuario quiere saber información sobre Darío Pérez, hace preguntas como 
+      "¿Quién es Darío Pérez?", "Háblame de Darío Pérez", "¿Puedes darme información sobre Darío Pérez?"
+    steps:
+      - action: utter_dario_perez
+
+  sara_marquina:
+    description: |
+      El usuario quiere saber información sobre Sara Marquina, hace preguntas como 
+      "¿Quién es Sara Marquina?", "Háblame de Sara Marquina", "¿Puedes darme información sobre Sara Marquina?"
+    steps:
+      - action: utter_sara_marquina
+
+  laura_saval:
+    description: |
+      El usuario quiere saber información sobre Laura Saval, hace preguntas como 
+      "¿Quién es Laura Saval?", "Háblame de Laura Saval", "¿Puedes darme información sobre Laura Saval?"
+    steps:
+      - action: utter_laura_saval
+
+  belen_sempere:
+    description: |
+      El usuario quiere saber información sobre Belén Sempere, hace preguntas como 
+      "¿Quién es Belén Sempere?", "Háblame de Belén Sempere", "¿Puedes darme información sobre Belén Sempere?"
+    steps:
+      - action: utter_belen_sempere
+
+  javier_silva:
+    description: |
+      El usuario quiere saber información sobre Javier Silva, hace preguntas como 
+      "¿Quién es Javier Silva?", "Háblame de Javier Silva", "¿Puedes darme información sobre Javier Silva?"
+    steps:
+      - action: utter_javier_silva
+
+
+
+
+
+# FLOWS SOBRE PATATA TEAM ---------------------------------------------------------------
 
   preguntar_equipo:
     description: |
@@ -327,6 +375,52 @@ flows:
     steps:
       - action: utter_patata
 
+  lugar_origen_patata_team:
+    description: |
+      El usuario pregunta sobre el lugar de origen del equipo Patata Team, como 
+      "¿De dónde es Patata Team?", "¿Dónde se formó Patata Team?", 
+      "¿Dónde está Patata Team?"
+    steps:
+      - action: utter_lugar_origen_patata_team
+
+  informacion_patata_team:
+    description: |
+      El usuario quiere saber cómo puede obtener más información sobre el equipo Patata Team, hace preguntas como 
+      "¿Cómo puedo saber más información sobre Patata Team?", "Háblame de Patata Team", 
+      "¿Dónde puedo encontrar información de Patata Team?"
+    steps:
+      - action: utter_informacion_patata_team
+
+  proyectos_patata_team:
+    description: |
+      El usuario quiere saber qué proyectos ha realizado el equipo Patata Team, hace preguntas como 
+      "¿Qué proyectos ha hecho Patata Team?", "¿Cuáles son los proyectos de Patata Team?", 
+      "Háblame de los proyectos de Patata Team"
+    steps:
+      - action: utter_proyectos_patata_team
+
+  estudios_patata_team:
+    description: |
+      El usuario pregunta sobre los estudios académicos del equipo Patata Team, como 
+      "¿Qué estudios tienen los miembros de Patata Team?", "¿Dónde estudiaron los integrantes de Patata Team?", 
+      "¿Qué formación académica tiene Patata Team?"
+    steps:
+      - action: utter_estudios_patata_team
+
+  redes_sociales_patata_team:
+    description: |
+      El usuario pregunta por las redes sociales de Patata Team, quiere saber dónde puede seguir a Patata Team en redes sociales,
+      hace preguntas como "¿Dónde puedo seguir a Patata Team en redes sociales?", "¿Tiene Patata Team redes sociales?",
+      "¿Puedo seguir a Patata Team en Instagram/Facebook/Tiktok?"
+    steps:
+      - action: utter_redes_sociales_patata_team
+
+
+
+
+
+# FLOWS SOBRE LOUV ---------------------------------------------------------------
+
   preguntar_nombre_louv:
     description: |
       El usuario pregunta sobre el nombre Louv, como "¿Por qué se llama Louv?", 
@@ -341,6 +435,147 @@ flows:
     steps:
       - action: utter_proyecto_louv
 
+  louv_abp_real:
+    description: |
+      El usuario pregunta si el proyecto ABP Louv es real, cómo "¿Louv es un proyecto real?",
+      "¿Louv tiene una funcionalidad real?"
+    steps:
+      - action: utter_louv_real
+
+  idea_proyecto_abp:
+    description: |
+      El usuario quiere saber cómo surgió la idea de crear Louv, hace preguntas como "¿Cómo se ocurrió la idea de crear Louv?",
+      "¿Por qué decidisteis crear Louv?", "¿De dónde sale la idea de crear Louv?"
+    steps:
+      - action: utter_idea_louv_abp
+
+  tiempo_desarrollo:
+    description: |
+      El usuario pregunta cuánto tiempo lleva en desarrollo el proyecto ABP Louv, quiere saber el tiempo empleado en la creación de Louv,
+      hace preguntas como "¿Cuánto tiempo lleva Louv en desarrollo?", "¿Desde cuando se está desarrollando Louv?", "¿Cuánto tiempo se ha empleado en el desarrollo de esta web?"
+    steps:
+      - action: utter_tiempo_desarrollo
+
+  sugerir_cambios:
+    description: |
+      El usuario da una idea de cómo mejorar Louv o la web, o expresa su deseo de querer sugerir cambios para mejorar, según su criterio la funcionalidad
+      de la web Louv, realiza consultas como "Me gustaría proponer un cambio en la web", "¿Cómo puedo sugerir mejoras/ cambios en la web?"
+    steps:
+      - action: utter_sugerir_cambio
+
+  que_es_abp:
+    description: |
+      El usuario pregunta sobre qué es un ABP, quiere saber en qué consiste un ABP, realiza preguntas como "¿Qué es un ABP?", "¿En qué consiste un ABP",
+      "No sé qué significa ABP."
+    steps:
+      - action: utter_explicar_abp
+
+  confiar_en_louv:
+    description: |
+      El usuario quiere saber por qué debería elegir Louv antes de otras plataformas, hace preguntas como "¿Qué diferencia a Louv de otras marcas?",
+      "¿Por qué debería de confiar en Louv?", "¿Qué hace a Louv especial?"
+    steps:
+      - action: utter_louv_unico
+
+  politica_cookies_condiciones:
+    description: |
+      El usuario quiere saber dónde puede consultar la política de privacidad de louv, los términos y condiciones o las cookies de la misma página.
+      Realiza pregunatas como "¿Dónde puedo consultar la política de privacidad?", "¿Dónde puedo ver los términos y condiciones?",
+      "¿Cómo puedo saber las cookies que usa la página Louv?"
+    steps:
+      - action: utter_terminos_politica_cookies
+
+  devoluciones_anillos:
+    description: |
+      El usuario quiere devolver un producto o pregunta sobre las condiciones de devolución. Realiza consultas como "Quiero hacer una devolución",
+      "¿Puedo devolver un producto que no me gusta?", "¿Quisiera hacer una devolución?"
+    steps:
+      - action: utter_devolucion_anillo
+
+  redes_sociales_louv:
+    description: |
+      El usuario pregunta por las redes sociales de Louv, quiere saber dónde puede seguir a Louv en redes sociales,
+      hace preguntas como "¿Dónde puedo seguir a Louv en redes sociales?", "¿Tiene Louv redes sociales?",
+      "¿Puedo seguir a Louv en Instagram/Facebook/Twitter?"
+    steps:
+      - action: utter_redes_sociales_louv
+
+  instagram_louv:
+    description: |
+      El usuario pregunta por el Instagram de Louv, quiere saber cuál es el perfil oficial de Louv en Instagram,
+      hace preguntas como "¿Cuál es el Instagram de Louv?", "¿Dónde está Louv en Instagram?",
+      "¿Puedo seguir a Louv en Instagram?"
+    steps:
+      - action: utter_instagram_louv
+
+  facebook_louv:
+    description: |
+      El usuario pregunta por el Facebook de Louv, quiere saber cuál es el perfil oficial de Louv en Facebook,
+      hace preguntas como "¿Cuál es el Facebook de Louv?", "¿Dónde está Louv en Facebook?",
+      "¿Puedo seguir a Louv en Facebook?"
+    steps:
+      - action: utter_facebook_louv
+
+  tiktok_louv:
+    description: |
+      El usuario pregunta por el TikTok de Louv, quiere saber cuál es el perfil oficial de Louv en TikTok,
+      hace preguntas como "¿Cuál es el TikTok de Louv?", "¿Dónde está Louv en TikTok?",
+      "¿Puedo seguir a Louv en TikTok?"
+    steps:
+      - action: utter_tiktok_louv
+
+  novedades_louv:
+    description: |
+      El usuario pregunta por las novedades o próximos lanzamientos de Louv, quiere saber qué novedades tiene Louv,
+      hace preguntas como "¿Qué novedades tiene Louv?", "¿Cuáles son los próximos lanzamientos de Louv?",
+      "¿Hay alguna novedad próximamente en Louv?"
+    steps:
+      - action: utter_novedades_louv
+
+
+
+
+
+# FLOWS SOBRE LA UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
+
+  ubicacion_universidad:
+    description: |
+      El usuario pregunta sobre la ubicación de la Universidad de Alicante (UA), realiza preguntas como "¿Dónde está la Universidad de Alicante?",
+      "¿Puedes decirme donde se encuentra la UA?", "¿Cómo puedo llegar a la Universidad de Alicante?"
+    steps:
+      - action: utter_ubicacion_universidad
+
+
+
+# SE PODRÍA INTENTAR QUE CADA VEZ QUE SE ACTIVE ESTE FLOW LA RESPUESTA CAMBIASE DANDO DISTINTOS DATOS
+  que_es_universidad_alicante:
+    description: |
+      El usuario quiere saber información sobre la Universidad de Alicante (UA), realiza preguntas como "¿Qué es la UA?",
+      "¿Puedes darme información sobre la Universidad de Alicante?", "Dime algo sobre la Universidad de Alicante"
+    steps:
+      - action: utter_universidad_alicante
+
+  ciudad_alicante:
+    description: |
+      El usuario pregunta dónde está Alicante, quiere saber la ubicación de esta ciudad, hace preguntas como "¿Dónde está Alicante?",
+      "¿A qué país pertenece Alicante?", "¿Alicante es una ciudad?"
+    steps:
+      - action: utter_ciudad_alicante
+
+  ingenieria_multimedia:
+    description: |
+      El usuario quiere saber en qué consiste una ingeniería multimedia, pregunta sobre la diferencia que hay entre la ingeniería multimedia
+      y la ingeniería informática. Hace preguntas como "¿En qué consiste la ingeniería multimedia?", "¿Qué diferencia hay entre la ingeniería multimedia y la informática?",
+      "¿Hay algún tipo de diferencia entre la ingeniería multimedia y la ingreniería informática?"
+    steps:
+      - action: utter_ingenieria_multimedia
+
+  informacion_grado_multimedia:
+    description: |
+      El usuario desea saber más sobre el grado en ingeniería multimedia, hace preguntas como "¿Cómo puedo saber más sobre la ingeniería multimedia?",
+      "Me gustaría saber más sobre la ingeniería multimedia", "¿Puedes darme más información sobre la ingeniería multimedia?"
+    steps:
+      - action: utter_informacion_grado_multimedia
 
 
 

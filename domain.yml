@@ -254,7 +254,43 @@ responses:
 
 
 
-# UTTER PATATA TEAM Y LOUV ---------------------------------------------------------------
+# UTTER INTEGRANTES PATATA TEAM ---------------------------------------------------------------
+
+  utter_pablo_hernandez:
+    - text: "Pablo Hernández es uno de los integrantes de Patata Team y siempre ha sido un fiel seguidor del anime, además le encanta jugar videojuegos."
+      metadata:
+        rephrase: false
+
+  utter_dario_perez:
+    - text: "Darío Pérez es uno de los integrantes de Patata Team y le encanta la comida asiática, es un adicto al sushi."
+      metadata:
+        rephrase: false
+
+  utter_sara_marquina:
+    - text: "Sara Marquina es una de las integrantes de Patata Team y desde pequeña siempre ha sido una apasionada de la lectura, es incapaz de pasar más de dos horas sin leer un poco."
+      metadata:
+        rephrase: false
+
+  utter_laura_saval:
+    - text: "Laura Saval es una de las integrantes de Patata Team y le encantan las patatas en todas sus formas, desde las clásicas patatas fritas hasta el puré de patatas."
+      metadata:
+        rephrase: false
+
+  utter_belen_sempere:
+    - text: "Belén Sempere es una de las integrantes de Patata Team y le encanta hacer crochet y dibujar, está todo el día pensando en su próximo dibujo."
+      metadata:
+        rephrase: false
+
+  utter_javier_silva:
+    - text: "Javier Silva es uno de los integrantes de Patata Team y es un apasionado de la calistenia, le es imposible estar más de dos días sin entrenar."
+      metadata:
+        rephrase: false
+
+
+
+
+
+# UTTER PATATA TEAM ---------------------------------------------------------------
 
   utter_equipo:
     - text: "El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva. Todos ellos me crearon a mí y a Louv."
@@ -266,6 +302,41 @@ responses:
       metadata:
         rephrase: false
 
+  utter_lugar_origen_patata_team:
+    - text: "Patata Team se formó en la Universidad de Alicante, en España, durante el desarrollo del proyecto Louv como parte de un ABP (Aprendizaje Basado en Proyectos)."
+      metadata:
+        rephrase: false
+
+  utter_informacion_patata_team:
+    - text: "Si desea saber más información sobre Patata Team, le recomiendo visitar la página corporativa: https://louv.ovh/patataTeam/"
+      metadata:
+        rephrase: false
+
+  utter_proyectos_patata_team:
+    - text: "Patata Team ha trabajado principalmente en el desarrollo de Louv, un editor 3D para diseñar anillos personalizados. Por el momento no se conoce que hayan desarrollado más proyectos como equipo."
+      metadata:
+        rephrase: false
+
+  utter_estudios_patata_team:
+    - text: "Patata Team es un equipo de estudiantes de la Universidad de Alicante, están en el último año de la carrera de Ingeniería Multimedia y se unieron para crear Louv como parte de un proyecto académico."
+      metadata:
+        rephrase: false
+
+  utter_redes_sociales_patata_team:
+    - text: | 
+        Patata Team no tiene redes sociales propias, pero puede seguir a Louv en sus redes sociales para estar al tanto de las novedades del equipo.
+        - Instagram: https://www.instagram.com/louv_spain/
+        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+      metadata:
+        rephrase: false
+
+
+
+
+
+# UTTER ABP LOUV ---------------------------------------------------------------
+
   utter_nombre_louv:
     - text: "El nombre de Louv viene de una antigua princesa marroquí de la cual todos estaban enamorados y trataban de conquistarla regalándole joyas preciosas. Por desgracia, ninguno de sus pretendientes consiguió conquistarla nunca, pues no existía joya que estuviese a la altura de su anillo soñado."
       metadata:
@@ -273,6 +344,133 @@ responses:
 
   utter_proyecto_louv:
     - text: "Louv es un proyecto creado por Patata Team para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D. Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
+      metadata:
+        rephrase: false
+
+  utter_louv_real:
+    - text: "Louv es un proyecto universitario. Como ABP que es, no es un proyecto real, no pertenece a una empresa como tal, solo sirve como proyecto académico."
+      metadata:
+        rephrase: false
+
+  utter_idea_louv_abp:
+    - text: "Louv fue el resultado detrás de un proceso de brainstorming, en la que todo el equipo Patata Team propuso distintas ideas y finalmente, tras consultar con el profesorado, se tomó la decisión
+        de crear Louv, un editor de anillos 3D."
+      metadata:
+        rephrase: false
+
+  utter_tiempo_desarrollo:
+    - text: "Louv comenzó a crearse en septiembre de 2025, el tiempo exacto de su desarrollo depende de cuándo me preguntes, pero se estima que su desarrollo termine en mayo de 2026."
+      metadata:
+        rephrase: false
+
+  utter_sugerir_cambio:
+    - text: "Si deseas enviar tus sugerencias al equipo de desarrollo le recomiendo que se ponga en contacto con estos a través del correo louv.spain@gmail.com."
+      metadata:
+        rephrase: false
+
+  utter_explicar_abp:
+    - text: "Un ABP (Aprendizaje Basado en Proyectos) consiste en un enfoque pedagógico en el que los estudiantes adquieren conocimientos y habilidades al desarrollar de manera colaborativa y autónoma un proyecto real para resolver un problema o responder a una pregunta desafiante."
+      metadata:
+        rephrase: false
+
+  utter_louv_unico:
+    - text: "Louv es la única plataforma que ofrece un editor 3D de anillos tan detallado, trabajamos con materiales de alta calidad y no hacemos uso 
+        de diamantes de sangre. Nos preocupamos porque nuestros clientes disfruten de la mayor calidad y de la proveniencia de nuestras gemas."
+      metadata:
+        rephrase: false
+
+  utter_terminos_politica_cookies:
+    - text: |
+        Puede consultar nuestra Política de Privacidad de Datos desde el footer de la página web o desde los siguientes enlaces:
+        - Política de privacidad: (NO EXISTE EL ENLACE)
+        - Términos y condiciones: (NO EXISTE EL ENLACE)
+        - Cookies: (NO EXISTE EL ENLACE)
+      metadata:
+        rephrase: false
+
+  utter_devolucion_anillo:
+    - text: "Si el producto que desea dovelver no estuviese en condiciones óptimas y/o presentase algún defecto, podrá ser devuelto en el plazo máximo
+       de 14 días naturales desde la recepción del pedido, procediendo a su sustitución. Si desea saber más sobre las condiciones de las devoluciones
+       le recomiendo consultar nuestros Términos y Condiciones. En caso de querer realizar una devolución y esta cumpla las condiciones para que pueda realizarse
+       le recomiendo que se ponga en contacto con el departamento de devoluciones a través de louv.spain@gmail.com"
+      metadata:
+        rephrase: false
+
+
+
+
+
+# UTTER REDES SOCIALES LOUV ---------------------------------------------------------------
+
+  utter_redes_sociales_louv:
+    - text: |
+        Puede seguir a Louv en las siguientes redes sociales:
+        - Instagram: https://www.instagram.com/louv_spain/
+        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+      metadata:
+        rephrase: false
+
+  utter_instagram_louv:
+    - text: "El instagram de Louv es: https://www.instagram.com/louv_spain/"
+      metadata:
+        rephrase: false
+
+  utter_facebook_louv:
+    - text: "El facebook de Louv es: https://www.facebook.com/profile.php?id=61583506314797"
+      metadata:
+        rephrase: false
+  
+  utter_tiktok_louv:
+    - text: "El tiktok de Louv es: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc"
+      metadata:
+        rephrase: false
+
+  utter_novedades_louv:
+    - text: |
+        Para estar al tanto de las últimas novedades de Louv, le recomiendo seguirnos en nuestras redes sociales o leer nuestro blog en nuestra página corporativa.
+        - Instagram: https://www.instagram.com/louv_spain/
+        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+        - Blog: https://louv.ovh/patataTeam/blog/
+      metadata:
+        rephrase: false
+  
+
+
+
+
+# UTTER UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
+
+  utter_ubicacion_universidad:
+    - text: "La Universidad de Alicante (UA) se encuentra en Carretera de San Vicente del Raspeig, s/n, en San Vicente del Raspeig (Alicante), España."
+      metadata:
+        rephrase: false
+
+  utter_universidad_alicante:
+    - text: "La Universidad de Alicante es el centro de estudio desde el que se creó Louv, el mismo sitio donde se fundó el equipo  
+        Patata Team y se formaron sus integrantes."
+      metadata:
+        rephrase: false
+
+  utter_ciudad_alicante:
+    - text: "Alicante es una provincia que se encuentra al este de España, más concretamente en el sur de la Comunidad Valenciana."
+      metadata:
+        rephrase: false
+    
+  utter_ingenieria_multimedia:
+    - text: "La Ingeniería Multimedia se enfoca en el diseño y creación de contenido digital interactivo, combinando informática, diseño y comunicación, mientras que 
+        la Ingeniería Informática se centra en el desarrollo de sistemas informáticos más amplios, software, hardware y redes."
+      metadata:
+        rephrase: false
+
+  utter_informacion_grado_multimedia:
+    - text: |
+        Puede obtener más información sobre el grado en Ingeniería Multimedia de la Universidad de Alicante en el siguiente enlace:
+        https://web.ua.es/es/grados/grado-en-ingenieria-multimedia/
+
+        Si deseas saber más información sobre algún grado en concreto, le recomiendo consultar el siguiente enlace:
+        https://web.ua.es/es/grados-oficiales.html
       metadata:
         rephrase: false
 
