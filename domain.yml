@@ -389,7 +389,7 @@ responses:
         rephrase: false
 
   utter_devolucion_anillo:
-    - text: "Si el producto que desea dovelver no estuviese en condiciones óptimas y/o presentase algún defecto, podrá ser devuelto en el plazo máximo
+    - text: "Los productos personalizados como los anillos que ofrecemos no se pueden devolver, pero si el producto que desea devolver no estuviese en condiciones óptimas y/o presentase algún defecto, podrá ser devuelto en el plazo máximo
        de 14 días naturales desde la recepción del pedido, procediendo a su sustitución. Si desea saber más sobre las condiciones de las devoluciones
        le recomiendo consultar nuestros Términos y Condiciones. En caso de querer realizar una devolución y esta cumpla las condiciones para que pueda realizarse
        le recomiendo que se ponga en contacto con el departamento de devoluciones a través de louv.spain@gmail.com"
@@ -557,22 +557,6 @@ responses:
           payload: "Géminis"
         - title: "Cáncer"
           payload: "Cáncer"
-        # - title: "Leo"
-        #   payload: "Leo"
-        # - title: "Virgo"
-        #   payload: "Virgo"
-        # - title: "Libra"
-        #   payload: "Libra"
-        # - title: "Escorpio"
-        #   payload: "Escorpio"
-        # - title: "Sagitario"
-        #   payload: "Sagitario"
-        # - title: "Capricornio"
-        #   payload: "Capricornio"
-        # - title: "Acuario"
-        #   payload: "Acuario"
-        # - title: "Piscis"
-        #   payload: "Piscis"
       metadata:
         rephrase: false
 
@@ -597,5 +581,64 @@ responses:
 
   utter_signo_nacimiento:
     - text: "No se preocupes si no conoce su signo zodiacal. Por favor indíqueme su fecha de nacimiento (día y mes) para que pueda ayudarle a determinarlo."
+      metadata:
+        rephrase: false
+
+
+
+
+
+# UTTER DATOS SOBRE GEMAS ---------------------------------------------------------------
+
+  utter_escala_de_mohs:
+    - text: "La escala de Mohs es una escala de dureza relativa que clasifica los minerales según su capacidad para resistir la abrasión. Va del 1 al 10, siendo el talco el más blando (1) y el diamante el más duro (10)."
+      metadata:
+        rephrase: false
+
+  utter_gemas_certificadas:
+    - text: "Las gemas certificadas son aquellas que han sido evaluadas por laboratorios gemológicos reconocidos, los cuales verifican su autenticidad, calidad y características. En Louv, nos aseguramos de que todas nuestras gemas sean certificadas para garantizar su valor y calidad."
+      metadata:
+        rephrase: false
+
+  utter_sistema_certificacion_kimberley:
+    - text: "El Sistema de Certificación Kimberley es un proceso internacional establecido para prevenir el comercio de diamantes de conflicto, también conocidos como diamantes de sangre. Este sistema certifica que los diamantes han sido extraídos y comercializados de manera ética y legal, sin financiar conflictos armados."
+      metadata:
+        rephrase: false
+
+  utter_certificacion_gia:
+    - text: |
+        Un certificado GIA es un informe científico y objetivo emitido por el Instituto Gemológico de América (GIA) que evalúa la calidad y autenticidad de un diamante basándose en las 4C: Color, Claridad, Corte y Quilates.
+        Si desea saber más sobre los certificados GIA, le recomiendo visitar su página oficial: https://www.gia.edu/
+      metadata:
+        rephrase: false
+
+  utter_diferencia_ct_kt:
+    - text: "La diferencia es que ct (quilate) se usa para medir el peso de las piedras preciosas (un quilate métrico equivale a 0.2 gramos), mientras que kt (quilate) se refiere a la pureza del oro (indica la proporción de oro puro en una aleación de 24 partes)."
+      metadata:
+        rephrase: false
+
+  utter_significado_4c:
+    - text: "Las 4C son los cuatro criterios principales para evaluar la calidad de un diamante: Color (la ausencia de color), Claridad (la presencia de inclusiones), Corte (la calidad del tallado) y Quilates (el peso del diamante). Estos factores determinan el valor y la belleza de un diamante."
+      metadata:
+        rephrase: false
+
+  utter_gema_de_laboratorio:
+    - text: "Una gema de laboratorio es una gema cultivada en un laboratorio que imita el proceso de formación natural, pero en un entorno controlado y acelerado. Son mucho más baratas que las gemas naturales con precios hasta un 30-70% más bajos."
+      metadata:
+        rephrase: false
+
+  utter_distinguir_gema_natural_sintetica:
+    - text: "A simple vista no es posible distinguir una gema natural de una de laboratorio, ya que tienen la misma composición química y propiedades físicas. Sin embargo, un gemólogo certificado con equipo especializado, puede identificar diferencias en las inclusiones y patrones de crecimiento. "
+      metadata:
+        rephrase: false
+
+
+
+
+
+# UTTER DATOS SOBRE MATERIALES ---------------------------------------------------------------
+
+  utter_explicacion_aleacion:
+    - text: "Una aleación es una mezcla de dos o más elementos, donde al menos uno de ellos es un metal. En joyería, las aleaciones se utilizan para mejorar las propiedades del metal base, como su dureza, durabilidad y resistencia a la corrosión."
       metadata:
         rephrase: false

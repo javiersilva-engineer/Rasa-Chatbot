@@ -740,3 +740,80 @@ determinar_signo_por_fecha:
         - else:
             - action: utter_fecha_invalida
               next: END
+
+
+
+
+
+# DATOS SOBRE GEMAS ---------------------------------------------------------------
+
+  escala_de_mohs:
+    description: |
+      El usuario pregunta sobre la escala de Mohs, como "¿Qué es la escala de Mohs?", 
+      "¿Para qué sirve la escala de Mohs?", "Háblame de la escala de Mohs"
+    steps:
+      - action: utter_escala_de_mohs
+
+  gemas_certificadas:
+    description: |
+      El usuario pregunta sobre las gemas certificadas, está interesado en saber si las gemas que vende Louv están certificadas,
+      hace preguntas como "¿Las gemas de Louv están certificadas?", "¿Qué significa que una gema esté certificada?",
+      "¿Por qué es importante que una gema esté certificada?"
+    steps:
+      - action: utter_gemas_certificadas
+
+  sistema_certificacion_proceso_kimberley:
+    description: |
+      El usuario pregunta sobre el sistema de certificación y el proceso de Kimberley, quiere saber en qué consiste este sistema,
+      hace preguntas como "¿Qué es el proceso de Kimberley?", "¿En qué consiste el sistema de certificación de Kimberley?",
+      "¿Por qué es importante el proceso de Kimberley?"
+    steps:
+      - action: utter_sistema_certificacion_kimberley
+
+  certicificacion_gia:
+    description: |
+      El usuario pregunta sobre la certificación GIA, quiere saber en qué consiste esta certificación,
+      hace preguntas como "¿Qué es la certificación GIA?", "¿Por qué es importante la certificación GIA?",
+      "¿En qué consiste la certificación GIA?"
+    steps:
+      - action: utter_certificacion_gia
+
+  diferencia_ct_kt:
+    description: |
+      El usuario pregunta sobre la diferencia entre quilates (ct) y kilates (kt), quiere entender la distinción entre estas dos unidades,
+      hace preguntas como "¿Cuál es la diferencia entre quilates y kilates?", "¿Qué significa ct y kt?",
+      "¿Cómo se diferencian los quilates de los kilates?", "¿Qué significa ct?", "¿Qué significa kt?"
+    steps:
+      - action: utter_diferencia_ct_kt
+
+  significado_4c:
+    description: |
+      El usuario pregunta sobre el significado de las 4C en gemología, quiere entender qué representan estas 4 características,
+      hace preguntas como "¿Qué son las 4C en gemología?", "¿Cuál es el significado de las 4C?",
+      "¿En qué consisten las 4C de una gema?"
+    steps:
+      - action: utter_significado_4c
+
+  gema_de_laboratorio:
+    description: |
+      El usuario pregunta sobre las gemas de laboratorio, quiere entender qué son y cómo se diferencian de las gemas naturales,
+      hace preguntas como "¿Qué es una gema de laboratorio?", "¿Cómo se diferencia una gema de laboratorio de una natural?",
+      "¿Son buenas las gemas de laboratorio?", "¿Son más baratas las gemas de laboratorio?"
+    steps:
+      - action: utter_gema_de_laboratorio
+
+  distinguir_gema_natural_sintetica:
+    description: |
+      El usuario pregunta cómo distinguir una gema natural de una sintética, quiere saber qué características permiten diferenciarlas,
+      hace preguntas como "¿Cómo puedo distinguir una gema natural de una sintética?", "¿Qué diferencias hay entre una gema natural y una sintética?",
+      "¿Cómo sé si una gema es natural o sintética?"
+    steps:
+      - action: utter_distinguir_gema_natural_sintetica
+
+  explicacion_aleacion:
+    description: |
+      El usuario pregunta qué es una aleación, quiere entender en qué consiste este término relacionado con los metales,
+      hace preguntas como "¿Qué es una aleación?", "¿En qué consiste una aleación?",
+      "¿Por qué se usan aleaciones en joyería?"
+    steps:
+      - action: utter_explicacion_aleacion
