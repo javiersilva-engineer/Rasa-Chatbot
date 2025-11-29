@@ -338,6 +338,7 @@ flows:
     description: |
       El usuario quiere saber información sobre Laura Saval, hace preguntas como 
       "¿Quién es Laura Saval?", "Háblame de Laura Saval", "¿Puedes darme información sobre Laura Saval?"
+      "¿Cómo puedo contactar con Laura Saval?", "Quiero contactar con Laura?"
     steps:
       - action: utter_laura_saval
 
@@ -351,7 +352,8 @@ flows:
   javier_silva:
     description: |
       El usuario quiere saber información sobre Javier Silva, hace preguntas como 
-      "¿Quién es Javier Silva?", "Háblame de Javier Silva", "¿Puedes darme información sobre Javier Silva?"
+      "¿Quién es Javier Silva?", "Háblame de Javier Silva", "¿Puedes darme información sobre Javier Silva?",
+      "¿Cómo puedo contactar con Javier Silva?", "Quiero contactar con Javier?"
     steps:
       - action: utter_javier_silva
 
@@ -414,6 +416,14 @@ flows:
       "¿Puedo seguir a Patata Team en Instagram/Facebook/Tiktok?"
     steps:
       - action: utter_redes_sociales_patata_team
+
+  actualizaciones_blog:
+    description: |
+      El usuario pregunta cómo puede estar al tanto de las actualizaciones del blog de Patata Team,
+      hace preguntas como "¿Cómo puedo saber cuándo hay una nueva entrada en el blog de Patata Team?",
+      "¿Dónde puedo ver las actualizaciones del blog de Patata Team?", "¿Cada cuánto tiempo se actualiza el blog?"
+    steps:
+      - action: utter_actualizaciones_blog
 
 
 
@@ -531,6 +541,14 @@ flows:
       "¿Hay alguna novedad próximamente en Louv?"
     steps:
       - action: utter_novedades_louv
+
+  funcionalidades_futuras_louv:
+    description: |
+      El usuario pregunta por las funcionalidades futuras que tendrá Louv, quiere saber qué nuevas funcionalidades se añadirán a Louv,
+      hace preguntas como "¿Qué funcionalidades nuevas tendrá Louv?", "¿Qué nuevas características tendrá Louv en el futuro?",
+      "¿Hay alguna funcionalidad futura planeada para Louv?", "¿Tendrá Louv nuevas funcionalidades próximamente?" "¿Se tiene previsto añadir nuevas funcionalidades a Louv?"
+    steps:
+      - action: utter_funcionalidades_futuras_louv
 
 
 

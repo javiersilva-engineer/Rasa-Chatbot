@@ -272,7 +272,10 @@ responses:
         rephrase: false
 
   utter_laura_saval:
-    - text: "Laura Saval es una de las integrantes de Patata Team y le encantan las patatas en todas sus formas, desde las clásicas patatas fritas hasta el puré de patatas."
+    - text: |
+        Laura Saval es una de las integrantes de Patata Team y le encantan las patatas en todas sus formas, desde las clásicas patatas fritas hasta el puré de patatas."
+        Si desea contactar con Javier Silva, puede hacerlo a través de su perfil de Linkedin:
+        - Linkedin: https://www.linkedin.com/in/laura-saval-cillero-2a9260354
       metadata:
         rephrase: false
 
@@ -282,7 +285,10 @@ responses:
         rephrase: false
 
   utter_javier_silva:
-    - text: "Javier Silva es uno de los integrantes de Patata Team y es un apasionado de la calistenia, le es imposible estar más de dos días sin entrenar."
+    - text: |
+        Javier Silva es uno de los integrantes de Patata Team y es un apasionado de la calistenia, le es imposible estar más de dos días sin entrenar.
+        Si desea contactar con Javier Silva, puede hacerlo a través de su perfil de Linkedin:
+        - Linkedin: https://www.linkedin.com/in/javier-silva-aa411b375
       metadata:
         rephrase: false
 
@@ -331,6 +337,11 @@ responses:
       metadata:
         rephrase: false
 
+  utter_actualizaciones_blog:
+    - text: |
+        El blog de Patata Team se actualiza semanalmente. Para no perderte ninguna publicación, le recomiendo visitar el siguiente enlace: https://louv.ovh/patataTeam/blog/
+      metadata:
+        rephrase: false
 
 
 
@@ -396,6 +407,16 @@ responses:
       metadata:
         rephrase: false
 
+  utter_funcionalidades_futuras_louv:
+    - text: |
+        Me alegro de que estés interesado en el desarrollo de Louv. Si quieres estar al tanto de las funcionalidades futuras que se añadirán a Louv, te recomiendo seguirnos en nuestras redes sociales:
+        - Instagram: https://www.instagram.com/louv_spain/
+        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+        - Blog: https://louv.ovh/patataTeam/blog/
+      metadata:
+        rephrase: false
+
 
 
 
@@ -404,7 +425,7 @@ responses:
 
   utter_redes_sociales_louv:
     - text: |
-        Puede seguir a Louv en las siguientes redes sociales:
+        Para estar al tanto de todas las novedades, puede seguir a Louv en las siguientes redes sociales:
         - Instagram: https://www.instagram.com/louv_spain/
         - Facebook: https://www.facebook.com/profile.php?id=61583506314797
         - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
