@@ -1,6 +1,6 @@
 # Patata Ignore
 .rasa
-.env
+.venv
 
 models/*
 

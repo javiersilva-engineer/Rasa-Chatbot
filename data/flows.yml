@@ -835,3 +835,71 @@ determinar_signo_por_fecha:
       "¿Por qué se usan aleaciones en joyería?"
     steps:
       - action: utter_explicacion_aleacion
+
+
+
+
+
+# FLOWS NAVEGACION POR LOUV ---------------------------------------------------------
+
+  rotar_objeto:
+    description: |
+      El usuario quiere saber cómo puede rotar el objeto en el editor 3D, hace preguntas como
+      "¿Cómo puedo girar el anillo?", "¿Qué tengo que hacer para rotar el anillo?", "¿Se puede girar el anillo del editor?"
+    steps:
+      - action: utter_rotar_anillo_editor_3d
+
+  zoom_editor:
+    description: |
+      El usuario quiere saber cómo puede hacer zoom en el editor 3D, hace preguntas como
+      "¿Cómo puedo hacer zoom al anillo?", "¿Qué tengo que hacer para hacer zoom?", "¿Se puede hacer zoom en el editor?"
+    steps:
+      - action: utter_zoom_editor_3d
+
+  paneo_editor_mover_camara:
+    description: |
+      El usuario quiere saber cómo puede mover la cámara del editor 3D o cómo puede hacer paneo, hace preguntas como
+      "¿Cómo puedo mover la cámara del editor?", "¿Qué tengo que hacer para mover la cámara del editor?", 
+      "¿Se puede mover la cámara del editor?"
+    steps:
+      - action: utter_mover_camara_editor_3d
+
+  utilidad_buscador:
+    description: |
+      El usuario quiere saber para qué puede usar el buscador del editor, hace preguuntas como
+      "¿Para qué sirve el buscador del editor?", "¿Qué puedo buscar cuando uso el buscador?",
+      "¿Qué utilidad tiene el buscador del editor?"
+    steps:
+      - action: utter_utilidad_buscador
+
+  eliminar_busqueda:
+    description: |
+      El usuario pregunta cómo puede eliminar lo que ha introducido en el buscador, o cómo puede eliminar
+      la búsqueda o filtro que ha realizado, hace preguntas como "¿Cómo puedo eliminar lo que he buscado?",
+      "¿Hay alguna manera de eliminar el filtro de los componentes?", "¿Quiero que se vuelvan a mostrar todos los componentes, ¿qué hago?"
+    steps:
+      - action: utter_eliminar_busqueda
+
+  ocultar_precio_diseño_al_compartir:
+    description: |
+      El usuario pregunta si de verdad no se mostrará el precio al compartir un diseño usando el modo de ocultar precio,
+      está preocupado porque no está seguro de ello, hace consultas como "¿De verdad que no se mostrará el precio?",
+      "Si comparto el anillo usando el modo de precio oculto, ¿de verdad que no se verá el precio?"
+    steps:
+      - action: utter_precio_oculto_compartir
+
+  enlaces_caducan:
+    description: |
+      El usuario quiere saber cuánto tiempo tardan en caducar los enlaces que utiliza para compartir sus diseños,
+      hace preguntas como "¿Cuánto tiempo tardan en caducar los enlaces?", "¿Los enlaces caducan?",
+      "¿Cuánto tiempo se mantiene el enlace?"
+    steps:
+      - action: utter_enlace_compartir_caduca
+
+  reiniciar_conversacion:
+    description: |
+      El usuario quiere reiniciar la conversación con el chatbot Luna, quiere empezar de 0 la charla, hace consultas como
+      "¿Cómo puedo reiniciar el chat?", "Quiero reiniciar la conversación.", "¿Es posible reiniciar la conversación?"
+    steps:
+      - action: utter_reiniciar_conversacion_chatbot
+  

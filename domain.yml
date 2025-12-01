@@ -663,3 +663,60 @@ responses:
     - text: "Una aleación es una mezcla de dos o más elementos, donde al menos uno de ellos es un metal. En joyería, las aleaciones se utilizan para mejorar las propiedades del metal base, como su dureza, durabilidad y resistencia a la corrosión."
       metadata:
         rephrase: false
+
+
+
+
+
+# UTTER NAVEGACION POR LOUV -----------------------------------------------------------------
+
+  utter_rotar_anillo_editor_3d:
+    - text: |
+        Para girar el anillo tan solo debe mantener el clic izquierdo sobre el editor y mover el ratón en la dirección que desea girar el modelo 3D.
+      metadata:
+        rephrase: false
+
+  utter_zoom_editor_3d:
+    - text: |
+        Para hacer zoom tan solo debe usar la rueda de su ratón sobre el editor del anillo.
+      metadata:
+        rephrase: false
+
+  utter_mover_camara_editor_3d:
+    - text: |
+        Para mover la cámara del editor 3D, debe mantener el clic izquierdo o derecho del ratón a la vez que pulsa la tecla Ctrl del teclado y desplazar el ratón.
+      metadata:
+        rephrase: false
+
+  utter_utilidad_buscador:
+    - text: |
+        Puede usar el buscador del editor para encontrar piezas para su diseño. El buscador le permite filtrar los componentes que puede utilizar en su diseño.
+      metadata:
+        rephrase: false
+
+  utter_eliminar_busqueda:
+    - text: |
+        Para eliminar la busqueda que ha realizado y poder visualizar nuevamente todos los componentes del editor,
+        debe borrar la búsqueda realizada para que el buscador quede vacío nuevamente.
+      metadata:
+        rephrase: false
+
+  utter_precio_oculto_compartir:
+    - text: |
+        No se preocupe, si comparte su diseño usando el modo "Precio oculto" no se mostrará el precio de su diseño. La persona a la
+        que le comparta el modelo de esta manera no podrá ver cuánto vale el anillo.
+      metadata:
+        rephrase: false
+
+  utter_enlace_compartir_caduca:
+    - text: |
+        Los enlaces que utilice para compartir sus diseños no tienen fecha de caducidad, la única forma de hacer que estos enlaces sean inútiles
+        es generar un nuevo enlace, de esta forma, el enlace generado anteriormente dejará de funcionar.
+      metadata:
+        rephrase: false
+
+  utter_reiniciar_conversacion_chatbot:
+    - text: |
+        No es posible reinicar el chat, si lo desea, debe reiniciar la página web. Para ello puede pulsar Ctrl+F5.
+      metadata:
+        rephrase: false
