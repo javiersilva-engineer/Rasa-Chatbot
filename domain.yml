@@ -857,4 +857,12 @@ responses:
         el resto de joyerías que suelen trabajar desde la 8 a la 30.
       metadata:
         rephrase: false
+
+  utter_cambiar_talla_anillo:
+    - text: |
+        Para cambiar la talla del anillo debe acceder al desplegable "Base del anillo" que se encuentra a la izquierda del editor
+        e introducir la talla deseada. Es importante mencionarle, que este cambio no realizará ningún cambió en la visualización del
+        diseño 3D.
+      metadata:
+        rephrase: false
   

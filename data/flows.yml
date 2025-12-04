@@ -971,3 +971,15 @@ flows:
       "¿Con qué tallas trabajáis?", "¿Qué rango de tallas ofrecéis?", "¿Puedo hacer un anillo talla X?"
     steps:
       - action: utter_talla_de_anillo_trabajo
+
+  cambiar_talla_del_anillo:
+    description: |
+      El usuario quiere cambiar la talla de anillo de su diseño pero no sabe cómo, hace preguntas como
+      "¿Cómo puedo cambiar la talla de mi anillo?", "¿Es posible cambiar la talla de mi diseño?",
+      "Quiero cambiar la talla de mi anillo"
+    steps:
+      - action: utter_cambiar_talla_anillo
+
+  como_puedo_saber_la_talla_de_mi_anillo:
+    description: |
+      
