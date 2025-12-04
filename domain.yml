@@ -1,6 +1,27 @@
 version: "3.1"
 
 
+# ORDEN DE RESPONSES EN ESTE ARCHIVO ---------------------------------------------------------------
+
+# 1. UTTERS PARA CUANDO NO EXISTE RESPUESTA O NO ENTIENDE AL USUARIO
+# 2. UTTERS SALUDOS Y DESPEDIDAS
+# 3. UTTERS SOBRE LUNA
+# 4. UTTERS SOBRE PREFERENCIAS GEMAS Y MATERIALES LUNA
+# 5. UTTERS SOBRE COSAS QUE ODIA LUNA
+# 6. UTTERS SOBRE ESTADO ANIMO USUARIO
+# 7. UTTERS SOBRE HALAGOS Y ATAQUES
+# 8. UTTERS SOBRE INTEGRANTES PATATA TEAM
+# 9. UTTERS SOBRE PATATA TEAM
+# 10. UTTERS SOBRE LOUV
+# 11. UTTERS SOBRE REDES SOCIALES
+# 12. UTTERS SOBRE LA UNIVERSIDAD DE ALICANTE
+# 13. UTTERS SOBRE GEMAS DEL ZODIACO
+# 14. UTTERS SOBRE AYUDA CON GEMAS DEL ZODIACO
+# 15. UTTERS DATOS SOBRE GEMAS
+# 16. UTTERS SOBRE NAVEGACION DE LA PLATAFORMA
+# 17. UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS --------------------------------------------------------------
+
+
 # RECOGER DATOS SOBRE LA CONVERSACIÓN Y EL USUARIO ---------------------------------------------------------------
 slots:
   signo_zodiacal:
@@ -796,3 +817,44 @@ responses:
         No es posible reinicar el chat, si lo desea, debe reiniciar la página web. Para ello puede pulsar Ctrl+F5.
       metadata:
         rephrase: false
+
+  utter_diseno_pantalla_completa:
+    - text: |
+        Para poder ver su diseño en pantalla completa tan solo debe clicar en el botón que muestra las esquinas de un cuadrado.
+        Es un botíon circular que se encuentra en la esquina superior derecha del editor, debajo del botón "Añadir a la cesta".
+      metadata:
+        rephrase: false
+  
+  utter_necesitar_dni_usuario:
+    - text: |
+        Se le solicita su Documento Nacional de Identidad (DNI), debido a través de la plataforma se realizan compras de alto
+        nivel económico, por ello se necesita confirmar la identidad de los usuarios. 
+        Tan solo se le solicitará esta información en caso de realizar una compra.
+      metadata:
+        rephrase: false
+
+
+
+
+
+# UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS --------------------------------------------------------------
+
+  utter_talla_anillo_editor:
+    - text: |
+        La talla del anillo que se muestra en el editor 3D es la 13 (53 mm de diámetro), según el Sistema Español, el cual se usa en Louv. 
+      metadata:
+        rephrase: false
+
+  utter_sistemas_tallas_existen:
+    - text: |
+        Existen multitud de sistemas de medida alrededor del mundo, pero los más conocidos son: Español, Italiano, Francés, Europeo/Alemán, USA/Canadá, UK/Australia y Japonés.
+      metadata: 
+        rephrase: false
+      
+  utter_talla_de_anillo_trabajo:
+    - text: |
+        En Louv se trabajan con todas las tallas posibles, desde la talla 1 a la 36 según el Sistema Español. Al contrario que
+        el resto de joyerías que suelen trabajar desde la 8 a la 30.
+      metadata:
+        rephrase: false
+  

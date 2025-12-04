@@ -15,6 +15,7 @@
 # 13. FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO
 # 14. DATOS SOBRE GEMAS
 # 15. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA
+# 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
 
 
 
@@ -925,3 +926,48 @@ flows:
     steps:
       - action: utter_reiniciar_conversacion_chatbot
   
+  diseno_pantalla_completa:
+    description: |
+      El usuario desea ver su diseño en pantalla completa pero no sabe cómo hacerlo, expresa su deseo de hacerlo y su desconocimiento para ello.
+      Hace preguntas como "¿Cómo puedo ver el anillo en pantalla completa?", "¿Se puede ver el diseño para que ocupe toda la pantalla?",
+      "Quiero ver mi diseño en pantalla completa."
+    steps:
+      - action: utter_diseno_pantalla_completa
+
+  necesitar_dni_usuario:
+    description: |
+      El usuario quiere saber por qué necesitamos su DNI (Documento Nacional de Identidad), hace preguntas como
+      "¿Para qué necesitáis mi DNI?", "¿Es necesario que os dé mi DNI?", "¿Por qué queréis saber mi DNI?"
+    steps:
+      - action: utter_necesitar_dni_usuario
+
+
+
+
+
+# FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
+
+  talla_anillo_editor:
+    description: |
+      El usuario quiere saber qué talla representa el anillo que se muestra en el editor 3D o quiere saber
+      con qué sistema de medida se trabaja en Louv para hacer sus anillos, hace preguntas como
+      "¿De qué talla es el anillo que se muestra en el editor?", "¿Qué talla tiene el anillo del editor?",
+      "¿De qué talla es el anillo de la previsualización?", "¿Con qué sistemas de tallas trabajáis?",
+      "¿Qué sistema de tallas utilizáis?", "¿Qué sistema utilizáis para medir las tallas de anillos?"
+    steps:
+      - action: utter_talla_anillo_editor
+
+  sistemas_de_tallas_que_existen:
+    description: |
+      El usuario está interesado en saber qué sistemas de tallas existen para medir la circunferencia de los anillos,
+      hace preguntas como "¿Qué sistemas de tallas existen?", "¿Cómo se miden las tallas de los anillos?",
+      "¿Existen más sitemas de medidas de tallas además del español?"
+    steps:
+      - action: utter_sistemas_tallas_existen
+
+  tallas_de_anillo_con_la_que_se_trabajan:
+    description: |
+      El usuario quiere saber con qué tallas se trabaja en nuestra web Louv, hace preguntas como
+      "¿Con qué tallas trabajáis?", "¿Qué rango de tallas ofrecéis?", "¿Puedo hacer un anillo talla X?"
+    steps:
+      - action: utter_talla_de_anillo_trabajo
