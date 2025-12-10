@@ -66,7 +66,7 @@ async function sendMessage() {
     } catch (error) {
         removeTyping(typingId);
         console.error('Error:', error);
-        addMessage('❌ Error: No puedo conectar con el servidor. ¿Está corriendo Rasa?', 'error');
+        addMessage('Error: No puedo conectar con el servidor. ¿Está corriendo Rasa?', 'error');
     } finally {
         sendBtn.disabled = false;
         messageInput.focus();
@@ -111,7 +111,7 @@ async function sendButtonPayload(payload) {
     } catch (error) {
         removeTyping(typingId);
         console.error('Error:', error);
-        addMessage('❌ Error: No puedo conectar con el servidor. ¿Está corriendo Rasa?', 'error');
+        addMessage('Error: No puedo conectar con el servidor. ¿Está corriendo Rasa?', 'error');
     } finally {
         sendBtn.disabled = false;
         messageInput.focus();

@@ -18,7 +18,11 @@
 # 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
 
 
+# FALLOS DE FLOWS ---------------------------------------------------------------------------------------
 
+# NO FUNCIONA BIEN LA PROPUESTA DE MATRIMONIO: LINEA 286
+
+# ----------------------------------------------------------------------------------------------------------
 
 
 flows:
@@ -281,6 +285,8 @@ flows:
     steps:
       - action: utter_diamantes_de_sangre
 
+
+# NO FUNCIONA BIEN LA PROPUESTA DE MATRIMONIO -------------------------------------------------
   propuesta_de_matrimonio_luna:
     description: |
       El usuario propone matrimonio al asistente con frases como 
@@ -637,7 +643,7 @@ flows:
         next:
           - if: slots.signo_zodiacal == "aries"
             then:
-              - action: utter_aries_granate
+              - action: utter_aries_granate 
                 next: END
           - if: slots.signo_zodiacal == "tauro"
             then:
@@ -980,6 +986,6 @@ flows:
     steps:
       - action: utter_cambiar_talla_anillo
 
-  como_puedo_saber_la_talla_de_mi_anillo:
-    description: |
+  # como_puedo_saber_la_talla_de_mi_anillo:
+  #   description: |
       

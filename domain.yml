@@ -296,7 +296,7 @@ responses:
   utter_laura_saval:
     - text: |
         Laura Saval es una de las integrantes de Patata Team y le encantan las patatas en todas sus formas, desde las clásicas patatas fritas hasta el puré de patatas."
-        Si desea contactar con Javier Silva, puede hacerlo a través de su perfil de Linkedin:
+        Si desea contactar con Laura Saval, puede hacerlo a través de su perfil de Linkedin:
         - Linkedin: https://www.linkedin.com/in/laura-saval-cillero-2a9260354
       metadata:
         rephrase: false
