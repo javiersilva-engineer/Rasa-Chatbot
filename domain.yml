@@ -19,7 +19,9 @@ version: "3.1"
 # 14. UTTERS SOBRE AYUDA CON GEMAS DEL ZODIACO
 # 15. UTTERS DATOS SOBRE GEMAS
 # 16. UTTERS SOBRE NAVEGACION DE LA PLATAFORMA
-# 17. UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS --------------------------------------------------------------
+# 17. UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS
+
+# ------------------------------------------------------------------------------------------------
 
 
 # RECOGER DATOS SOBRE LA CONVERSACIÓN Y EL USUARIO ---------------------------------------------------------------
@@ -719,7 +721,7 @@ responses:
         rephrase: false
 
   utter_sistema_certificacion_kimberley:
-    - text: "El Sistema de Certificación Kimberley es un proceso internacional establecido para prevenir el comercio de diamantes de conflicto, también conocidos como diamantes de sangre. Este sistema certifica que los diamantes han sido extraídos y comercializados de manera ética y legal, sin financiar conflictos armados."
+    - text: "El Sistema de Certificación Kimberley es un proceso internacional establecido para prevenir el comercio de diamantes de conflicto, también conocidos como diamantes de sangre. Este sistema certifica que los diamantes han sido extraídos y comercializados de manera ética y legal, sin financiar conflictos armados, y es la forma que tenemos de saber de dónde proceden nuestras gemas."
       metadata:
         rephrase: false
 
@@ -746,10 +748,37 @@ responses:
         rephrase: false
 
   utter_distinguir_gema_natural_sintetica:
-    - text: "A simple vista no es posible distinguir una gema natural de una de laboratorio, ya que tienen la misma composición química y propiedades físicas. Sin embargo, un gemólogo certificado con equipo especializado, puede identificar diferencias en las inclusiones y patrones de crecimiento. "
+    - text: "A simple vista no es posible distinguir una gema natural de una de laboratorio, ya que tienen la misma composición química y propiedades físicas. Sin embargo, un gemólogo certificado con equipo especializado, puede identificar diferencias en las inclusiones y patrones de crecimiento."
       metadata:
         rephrase: false
 
+  utter_gemas_caras:
+    - text: "Nuestras gemas tienen una calidad superior en color, pureza y talla, están certificadas y seleccionadas individualmente. Esto garantiza más brillo, durabilidad y valor real a largo plazo."
+      metadata:
+        rephrase: false
+
+  utter_quilates_tamano:
+    - text: "El quilate mide peso, no tamaño. Como cada gema tiene distinta densidad y talla, dos piedras de 1 ct pueden verse de tamaños diferentes."
+      metadata:
+        rephrase: false
+
+  utter_calcular_precio:
+    - text: "El precio de una gema se calcula según el valor actual del mercado, basándonos en reportes profesionales como Rapaport, que marcan las tarifas internacionales para las gemas que ofrecemos."
+      metadata:
+        rephrase: false
+
+  utter_versiones_artificiales:
+    - text: "Algunas gemas tienen versiones artificiales o sintéticas, pero otras, por su rareza o estructura, solo se encuentran de forma natural. Por ejemplo, diamantes y zafiros tienen versiones sintéticas, pero gemas como el alexandrita natural son muy difíciles de reproducir artificialmente."
+      metadata:
+        rephrase: false
+
+  utter_tipos_piedras:
+    - text: |
+        Piedra preciosa: rara, valiosa y duradera (ej. diamante, rubí, zafiro).
+        Piedra semipreciosa: menos rara y más económica (ej. amatista, citrino).
+        Gema de nacimiento: piedra asociada a un mes concreto, puede ser preciosa o semipreciosa."
+      metadata:
+        rephrase: false
 
 
 
@@ -865,4 +894,47 @@ responses:
         diseño 3D.
       metadata:
         rephrase: false
+
+  utter_saber_talla_anillo:
+    - text: |
+        Para saber una talla de anillo es muy sencillo, tan solo debe medir la circunferencia de su dedo. Si no posee herramientas para hacerlo le recomiendo lo siguiente:
+        Corte una tira de papel pequeña, envuélvalo alrededor de su dedo y haga una marca donde el papel se solape, así podrá saberlo.
+        Por ejemplo: si la circunferencia mide 52 mm, su talla es la 12.
+      metadata:
+        rephrase: false
+
+  utter_devolver_anillo_talla:
+    - text: |
+        Lamento decirle que tan solo podrá devolver un producto en caso de que posea un defecto de fábrica. Al ser una pieza personalizada,
+        nuestra política de empresa no permite aceptar devoluciones por el motivo que me comenta.
+      metadata:
+        rephrase: false
+
+  utter_duda_entre_tallas:
+    - text: |
+        Si usted está dudando entre dos tallas, le aconsejo que elija la más grande, siempre es mejor que el anillo quede
+        un poco holgado a que le apriete el dedo.
+      metadata:
+        rephrase: false
+
+  utter_talla_dedo_distinta:
+    - text: |
+        Cada dedo puede tener una talla distinta, en funciónd e lo que mida la circunferencia del dedo, usará una talla u otra.
+      metadata:
+        rephrase: false
+
+  utter_temperatura_talla:
+    - text: |
+        La temperatura puede afectar al grosor de tu dedo y puede cambiar la talla. Por eso es muy importante medirse el dedo al final del día, cuano se está tranquilo,
+        nunca en momentos de frío o calor, como al terminar de ahcer ejercicio.
+      metadata:
+        rephrase: false
+
+  utter_modificar_talla_posteriori:
+    - text: |
+        No se puede hacer un cambio de talla. Una vez recibe su anillo no puede hacer modificaciones.
+      metadata:
+        rephrase: false
+
+  
   

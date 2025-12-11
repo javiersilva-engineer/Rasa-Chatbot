@@ -15,8 +15,9 @@
 # 13. FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO
 # 14. DATOS SOBRE GEMAS
 # 15. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA
-# 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
+# 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS 
 
+# --------------------------------------------------------------------------------------------------------
 
 # FALLOS DE FLOWS ---------------------------------------------------------------------------------------
 
@@ -817,6 +818,14 @@ flows:
     steps:
       - action: utter_sistema_certificacion_kimberley
 
+  saber_origen_de_nuestras_gemas:
+    description: |
+      El usuario pregunta cómo sabemos de donde proceden las gemas que adquirimos, hace preguntas como 
+      "¿Cómo sabéis de dónde proceden vuestras gemas?", ¿"Cómo trazáis el origen de vuestras gemas?",
+      "¿Qué hacéis para comprobar de dónde vienen vuestras gemas?
+    steps:
+      - action: utter_sistema_certificacion_kimberley
+
   certicificacion_gia:
     description: |
       El usuario pregunta sobre la certificación GIA, quiere saber en qué consiste esta certificación,
@@ -864,6 +873,48 @@ flows:
       "¿Por qué se usan aleaciones en joyería?"
     steps:
       - action: utter_explicacion_aleacion
+
+  precio_de_nuestras_gemas:
+    description: |
+      El usuario quiere saber por que son tan caras nuestras gemas o dice que las ha visto más baratas en otro sitio, hace consultas como
+      "¿Por qué son tan caras las gemas?", "Vuestras gemas son muy caras", "He visto gemas más baratas en otro sitio",
+      "¿No vendéis las gemas un poco caras?"
+    steps:
+      - action: utter_gemas_caras
+
+  diferencia_de_tamano_en_gemas_con_mismo_quilataje:
+    description: |
+      El usuario quiere saber si dos gemas con el mismo quilataje son del mismo tamaño, hace preguntas como
+      "¿Dos gemas de 1ct miden lo mismo?", "Si dos gemas son de un quilate, ¿significa que son del mismo tamaño?",
+      "¿Todas las gemas de 1 ct tiene el mismo tamaño?"
+    steps:
+      - action: utter_quilates_tamano
+
+  como_se_calcula_el_precio_de_una_gema:
+    description: |
+      El usuario tiene curiosidad por saber cómo calculamos el precio de nuestras gemas, hace preguntas como
+      "¿Cómo se calcula elprecio de una gema?", "¿En qué os basáis para poner vuestros precios?",
+      "¿De dónde salen estos precios?"
+    steps:
+      - action: utter_calcular_precio
+
+  versiones_artificiales_gemas:
+    description: |
+      El usuario quiere saber si todas las gemas tienen una versión artificial, hace preguntas como
+      "¿Todas las gemas tienen una versión artificial?", "¿Qué gemas pueden ser artificiales?",
+      "¿Hay gemas artificiales para todos los tipos?"
+    steps:
+      - action: utter_versiones_artificiales
+
+  piedra_preciosa_semipreciosa_de_nacimiento:
+    description: |
+      El usuario quiere saber la diferencia entre una piedra preciosa, un a piedra semiprciosa y una piedra de nacimiento
+      hace preguntas como "Qué diferencia hay entre una piedra preciosa, una semipreciosa y una de nacimiento?",
+      "¿Qué es una piedra de nacimiento?", "¿Una gema preciosa no es lo mismo que una semipreciosa?",
+      "Qué tipo de piedras existen?"
+    steps:
+      - action: utter_tipos_piedras
+
 
 
 
@@ -986,6 +1037,51 @@ flows:
     steps:
       - action: utter_cambiar_talla_anillo
 
-  # como_puedo_saber_la_talla_de_mi_anillo:
-  #   description: |
+  como_puedo_saber_la_talla_de_mi_anillo:
+    description: |
+      El usuario quiere saber cómo puede conocer la talla de anillo para él mismo o para un conocido, hace
+      preguntas como "¿Cómo puedo saber qué talla de anillo tengo?", "¿Cómo puedo saber la talla de anillo de un amigo?",
+      "¿Qué debo hacer para saber mi talla?"
+    steps:
+      - action: utter_saber_talla_anillo
+
+  devolver_anillo_talla_equivocada:
+    description: |
+      El usuario pregunta si puede devolver un anillo si el que recibe le queda grande o pequeño, hace pregunats como
+      "¿Puedo devolver un anillo si me queda pequeño?", "El anillo me queda grande, ¿puedo devolverlo?",
+      "Quiero devolver mi anillo porque no es de mi talla."
+    steps:
+      - action: utter_devolver_anillo_talla
+
+  usuario_duda_entre_dos_tallas:
+    description: |
+      El usuario está dudando sobre dos tallas, no sabe si elegir la más grande o la más pequeña, hace consultas como
+      "No sé si coger la talla 12 o 13, ¿qué me recomiendas?", "Estoy dudando entre dos tallas, ¿cuál es mejor?",
+      "Si dudo entre dos tallas de anillo, ¿cuál debería escoger?"
+    steps:
+      - action: utter_duda_entre_tallas
+
+  pregunta_si_cada_dedo_tiene_su_propia_talla:
+    description: |
+      El usuario tiene curiosidad por saber si es cierto que cada dedo tiene una talla distintas, hace preguntas como
+      "¿De verdad existe una talla para cada dedo?", "¿Cada dedo tiene una talla diferente?", "¿Todos los dedos usan la misma talla de anillo?"
+    steps: 
+      - action: utter_talla_dedo_distinta
+
+  la_temperatura_afecta_a_la_talla:
+    description: |
+      El usuario pregunta si la temperatura afecta a la talla de anillo, hace preguntas como
+      "Si hace frío, ¿cambia la talla de mi dedo?", "¿El calor afecta a mi talla?",
+      "¿Las temperaturas afectan a mi talla?"
+    steps:
+      - action: utter_temperatura_talla
+
+  ajustar_talla_anillo:
+    description: |
+      El usuario pregunta si se puede hacer un ajuste de talla una vez recibido el anillo, es decir, quiere
+      saber si puede modificar la talla del anillo tras comprarlo, hace preguntas como
+      "¿Hacéis modificaciones de talla?", "Si el anillo no me está bien, ¿podéis modificarlo?",
+      "El anillo que he recibido no me está bien, ¿puedo modificarlo?"
+    steps:
+      - action: utter_modificar_talla_posteriori
       
