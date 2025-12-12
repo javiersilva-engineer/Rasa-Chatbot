@@ -20,6 +20,7 @@ version: "3.1"
 # 15. UTTERS DATOS SOBRE GEMAS
 # 16. UTTERS SOBRE NAVEGACION DE LA PLATAFORMA
 # 17. UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS
+# 18. UTTERS SOBRE MATERIALES
 
 # ------------------------------------------------------------------------------------------------
 
@@ -936,5 +937,38 @@ responses:
       metadata:
         rephrase: false
 
+
+
+
+
+
+
+
+
+# UTTERS SOBRE MATERIALES --------------------------------------------------------------------------------
+
+  utter_oro_18_14:
+      - text: |
+          El oro de 18k tiene más oro puro y se ve más intenso y cálido, mientras que el de 14k contiene más aleaciones, es más duro y su color es ligeramente más pálido.
+        metadata:
+          rephrase: false
+
+  utter_clases_platino:
+      - text: |
+          Igual que el oro tiene quilates, el platino se clasifica por pureza, como 950, 900 o 850, indicando el porcentaje de platino en la aleación.
+        metadata:
+          rephrase: false
+
+  utter_precio_editor:
+    - text: |
+        El precio que se muestra en el editor 3D junto a su diseño es exactamente la cantidad que deberá pagar por el producto.
+      metadata:
+        rephrase: false
+
+  utter_método_pago:
+    - text: |
+        En Louv puede pagar con tarjeta de crédito o débito, PayPal o Bizzum.
+      metadata:
+        rephrase: false
   
   

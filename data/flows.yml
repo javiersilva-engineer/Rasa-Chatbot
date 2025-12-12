@@ -16,6 +16,7 @@
 # 14. DATOS SOBRE GEMAS
 # 15. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA
 # 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS 
+# 17. FLOWS SOBRE PRECIOS Y PAGOS
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -1084,4 +1085,46 @@ flows:
       "El anillo que he recibido no me está bien, ¿puedo modificarlo?"
     steps:
       - action: utter_modificar_talla_posteriori
+
+  diferencia_oro_18k_y_14k:
+    description: |
+      El usuario quiere saber si existe alguna diferencia entre el oro de 18K y el de 14K, quiere saber si
+      se pueden distinguir, hace preguntas como "¿Se puede diferenciar el oro de 18K y 14K?",
+      "¿En qué se diferencia el oro de 18K con el de 14K?", "¿Hay alguna diferencia entre el oro de 18 y el de 14K?"
+    steps:
+      - action: utter_oro_18_14
+
+  tipos_de_platino_que_existen:
+    description: |
+      El usuario pregunta si existen distintas clases de platino, quiere saber si hay más de un tipo,
+      hace preguntas como "¿Existen varias clases de platino como oro?", "¿Hay diferentes tipos de platino?",
+      "¿Solo existe un tipo de platino?"
+    steps:
+      - action: utter_clases_platino
+
+
+
+
+
+
+
+
+
+# FLOWS SOBRE PRECIOS Y PAGOS ------------------------------------------------------------------------------
+
+  precio_del_editor_es_definitivo:
+    description: |
+      El usuario pregunta si el precio que se muestra en el editor 3D es el precio final que se aplica al producto,
+      hace preguntas como "¿El precio que se muestra es definitivo?", "¿El precio que se ve en el editor es el precio final?",
+      "¿El anillo cuesta lo que pone en el editor?"
+    steps:
+      - actions: utter_precio_editor
+
+  metodos_de_pago:
+    description: |
+      El usuario quiere saber los métodos de pago que aceptamos, es decir la form en la que puede pagarnos,
+      hace consultas como "¿Qué métodos de pago acptáis?", "¿Puedo pagar con X?",
+      "¿Aceptáis X método de pago?"
+    steps:
+      - actions: utter_metodo_pago
       
