@@ -17,6 +17,7 @@
 # 15. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA
 # 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS 
 # 17. FLOWS SOBRE PRECIOS Y PAGOS
+# 18. FLOWS DUDAS SOBRE ENVIOS
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -1127,4 +1128,63 @@ flows:
       "¿Aceptáis X método de pago?"
     steps:
       - actions: utter_metodo_pago
+
+  solo_pagos_en_euros:
+    description: |
+      El usuario pregunta si tan solo se puede pagar en euros, hace preguntas como
+      "¿Tan solo se puede pagar en euros?", "¿Puedo pagar en X moneda?",
+      "¿Aceptáis pagos que no sean en euros?"
+    steps:
+      - actions: utter_pago_euros
+
+  financiamientos_o_pagos_a_plazos:
+    description: |
+      El usuario quiere saber si puede financiar un anillo o puede realizar el pago de su compra a plazos,
+      hace consultas como "¿Puedo realizar el pago a plazos?", "¿Tenéis opciones de financiamiento?",
+      "¿Debo pagarlo todo de golpe?"
+    steps:
+      - actions: utter_pago_financiamiento
+
+  preguntas_sobre_descuentos:
+    description: |
+      El usuario pregunta si tenemos algún tipo de descuento en nuestros pedidos, hace consultas como
+      "¿Tenéis algún tipo de descuento?", "¿Hay opciones con descuento?", "¿Tenéis descuentos?"
+    steps:
+      - actions: utter_descuento
+
+  regalos_por_realizar_compras:
+    description: |
+      El usuario desea saber si por el hecho de realizar varias compras recibirá algún tipo de regalo
+      hace preguntas como "Si hago varias compras ¿recibiré algún regalo?", "¿Si compro me regaláis algo?",
+      "¿Recibiré algún regalo al hacer la compra?"ç
+    steps:
+      - actions: utter_regalo_por_compra
+
+
+
+
+
+
+
+
+
+
+# FLOWS DUDAS SOBRE ENVIOS --------------------------------------------------------------------------------
+
+  empresa_que_envia_los_pedidos:
+    description: |
+      El usuario quiere saber con qué empresa trabajamos para enviar nuestros pedidos, hace preguntas como
+      "¿Con qué empresa trabajáis para mandar los pedidos?", "¿Mandáis vosotros los anillos?",
+      "¿Quién se encarga de traerme lo que compro?"ç
+    steps:
+      - actions: utter_empresa_pedidos
+
+  perdida_de_paquete_de_envio:
+    description:
+      El usuario quiere saber qué ocurre con su pedido en caso de que ocurra alguna incidencia durante el envío de este,
+      hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
+      "¿Qué puedo hacer si se pierde mi pedido durante su envío?"
+    steps:
+      - actions: utter_pedido_perdido
+
       

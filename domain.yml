@@ -21,6 +21,8 @@ version: "3.1"
 # 16. UTTERS SOBRE NAVEGACION DE LA PLATAFORMA
 # 17. UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS
 # 18. UTTERS SOBRE MATERIALES
+# 19. UTTERS SOBRE PRECIOS Y PAGOS
+# 20. UTTERS DUDAS SOBRE ENVIOS
 
 # ------------------------------------------------------------------------------------------------
 
@@ -959,6 +961,17 @@ responses:
         metadata:
           rephrase: false
 
+
+
+
+
+
+
+
+
+
+# UTTERS SOBRE PRECIOS Y PAGOS ---------------------------------------------------------------------------
+
   utter_precio_editor:
     - text: |
         El precio que se muestra en el editor 3D junto a su diseño es exactamente la cantidad que deberá pagar por el producto.
@@ -970,5 +983,51 @@ responses:
         En Louv puede pagar con tarjeta de crédito o débito, PayPal o Bizzum.
       metadata:
         rephrase: false
+
+  utter_pago_euros:
+    - text: |
+        Aunque la empresa esté ubicada en España, aceptamos pagos en distintas monedas.
+      metadata:
+        rephrase: false
+
+  utter_pago_financiamiento:
+    - text: |
+        El pago de su pedido deberá realizarse en un único abono, no se puede pagar a plazos ni existe opción a financiamiento.
+      metadata:
+        rephrase: false
+
+  utter_descuento:
+    - text: |
+        En estos distantes no existe ningún tipo de descuento a la hora de realizar la compra.
+      metadata:
+        rephrase: false
+
+  utter_regalo_por_compra:
+    - text: |
+        Lamento comunicarle que a día de hoy no se ofrece ningún tipo de regalo al realizar la compra de nuestros productos.
+      metadata:
+        rephrase: false
+
+
+
+
+
+
+
+
+
+
+# UTTERS DUDAS SOBRE ENVIOS ------------------------------------------------------------------------------
+
+  utter_empresa_pedidos:
+    - text: |
+        Los pedidos son enviados por la empresa Loomis. Si desea saber más sobre sus servicios, le recomiendo que visite su página web.
+      metadata:
+        rephrase: false
+
+  utter_pedido_perdido:
+    - text: |
+        En caso de que su pedido sufra alguna incidencia sobre su envío, deberá ponerse en contacto con la empresa Loomis.
+  
   
   
