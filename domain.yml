@@ -24,6 +24,7 @@ version: "3.1"
 # 19. UTTERS SOBRE PRECIOS Y PAGOS
 # 20. UTTERS DUDAS SOBRE ENVIOS
 # 21. UTTERS SOBRE TERMINOLOGIA ESPECIFICA
+# 22. UTTERS SOBRE BODAS
 
 # ------------------------------------------------------------------------------------------------
 
@@ -1221,5 +1222,58 @@ responses:
         El diámetro es la medida de un extremo al otro de la gema o anillo, pasando por el centro.
         - En gemas: se mide de un borde al opuesto, generalmente en milímetros.      
         - En anillos: se mide el diámetro interior del aro para determinar la talla.
+      metadata:
+        rephrase: false
+
+
+
+
+
+
+
+
+
+
+# UTTERS SOBRE BODAS -------------------------------------------------------------------------------------
+
+  utter_precio_anillo_compromiso:
+    - text: |
+        Una guía clásica sugiere destinar entre 2 y 3 meses de salario en un anillo de compromiso. Lo más importante es elegir un anillo que se ajuste a su presupuesto y que represente el compromiso de forma significativa, sin comprometer su estabilidad financiera.
+      metadata:
+        rephrase: false
+
+  utter_tamano_calidad_diamante:
+    - text: |
+        Para un anillo de compromiso, la calidad del diamante suele ser más importante que el tamaño. Un diamante de mayor claridad, buen color y excelente talla brillará más y será más duradero, mientras que un diamante más grande pero de menor calidad puede verse opaco y menos atractivo.
+      metadata:
+        rephrase: false
+
+  utter_diamante_anillo_compromiso:
+    - text: | 
+        Se regalan diamantes porque son muy duros y duraderos, simbolizando amor eterno. Además, la tradición los ha convertido en el estándar para anillos de compromiso. Pero es posible usar gemas distintas para anillos de compromiso, como zafiros, esmeraldas o rubíes.
+      metadata:
+        rephrase: false
+
+  utter_diseno_anillo_compromiso:
+    - text: | 
+        El diseño clásico que nunca falla es un anillo de oro blanco o platino, con un diamante como gema central, engastado en solitario con cuatro o seis garras, que realza el brillo de la piedra y mantiene la elegancia atemporal.
+      metadata:
+        rephrase: false
+
+  utter_cuidar_anillo:
+    - text: | 
+        La mejor forma de cuidar su anillo de compromiso cuando no lo use es guardarlo en un estuche o caja acolchada, separado de otras joyas para evitar rayaduras. Evite ambientes húmedos o exposición a productos químicos, y límpielo ocasionalmente con un paño suave.
+      metadata:
+        rephrase: false
+
+  utter_anillo_diario:
+    - text: |
+        Llevar el anillo de compromiso todos los días es común para simbolizar el compromiso. Eso sí, conviene retirarlo al hacer tareas que puedan dañarlo para mantenerlo en perfecto estado.
+      metadata:
+        rephrase: false
+
+  utter_rechazo_matrimonio:
+    - text: |
+        Legalmente, en la mayoría de los países el anillo sigue siendo propiedad de quien lo regaló, ya que se considera un obsequio condicional: se entrega con la intención de compromiso. Sin embargo, las prácticas pueden variar según acuerdos personales o culturales.
       metadata:
         rephrase: false
