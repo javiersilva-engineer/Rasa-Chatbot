@@ -1,5 +1,8 @@
 # ORDEN DE FLOWS EN ESTE ARCHIVO ---------------------------------------------------------------
 
+# LOS FLOWS RELACIONADOS CON EL EDITOR 3D, EL DISENO, ASÍ COMO RECOMENDACIONES AL USUARIO SE LLEVARÁN A CABO
+# CUANDO ESTÉ LA BASE DE LA PÁGINA WEB COMPLETA Y LA CONEXIÓN CON LA BASE DE DATOS REALIZADA
+
 # 1. FLOWS PARA SOBRESCRIBIR OTROS FLOWS PREDEFINIDOS EN RASA QUE DAN MULTIPLES RESPUESTAS
 # 2. FLOWS SALUDOS Y DESPEDIDAS
 # 3. FLOWS SOBRE LUNA
@@ -18,6 +21,7 @@
 # 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS 
 # 17. FLOWS SOBRE PRECIOS Y PAGOS
 # 18. FLOWS DUDAS SOBRE ENVIOS
+# 19. FLOWS SOBRE TERMINOLOGIA ESPECIFICA
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -1180,11 +1184,225 @@ flows:
       - actions: utter_empresa_pedidos
 
   perdida_de_paquete_de_envio:
-    description:
+    description: |
       El usuario quiere saber qué ocurre con su pedido en caso de que ocurra alguna incidencia durante el envío de este,
       hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
-      "¿Qué puedo hacer si se pierde mi pedido durante su envío?"
+      "¿Qué puedo hacer si se pierde mi pedido durante su envío?", "Ha habido un error con la ubicación de envío"
     steps:
       - actions: utter_pedido_perdido
 
-      
+  mudanza_tras_un_pedido:
+    description: |
+      El usuario comenta que ha realizado un pedido pero ha tenido que mudarse, por lo que el pedido llegará
+      a una ubicación incorrecta, hace consultas como "¿Si me mudo ¿qué pasa con mi compra?",
+      "He realizado un pedido pero he tenido que mudarme.", "Si hago un pedido y me mudo antes de que me lo entreguen ¿qué puedo hacer?"
+    steps:
+      - actions: utter_pedido_mudanza
+
+  que_ocurre_si_roban_el_pedido:
+    description: |
+      El usuario pregunta qué ocurre en caso de que el pedido que ha realizado sea robado, hace preguntas como
+      "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
+      "Han robado mi pedido, ¿qué puedo hacer"
+    steps:
+      - actions: utter_pedido_perdido
+
+  tiempo_que_tarda_en_llegar_un_pedido:
+    description: |
+      El usuario quiere saber cuánto tardará en recibir un pedido tras realizar la compra, hace consultas como
+      "¿Cuánto tarda en llegar el pedido?", "Acabo de hacer una compra, ¿cuánto tardaré en recibir la compra?",
+      "Quiero saber cuánto voy a tardar en recibir mi pedido"
+    steps:
+      - actions: utter_tiempo_entrega
+
+  el_pedido_viene_asegurado:
+    description: |
+      El usuario pregunta si el pedido que ha realizado viene asegurado, hace preguntas como
+      "¿Viene asegurado?", "La compra que acabo de realzar ¿tiene algún tipo de seguro?",
+      "¿Mi pedido viene asegurado?"
+    steps:
+      - actions: utter_pedido_asegurado
+
+  lugares_a_los_que_realizamos_envíos:
+    description: |
+      El usuario quiere saber a dónde realizamos envíos, pregunta a nivel general o por una ubicación en concreto,
+      hace preguntas como "¿A dónde realizáis envíos?", "¿Envíais a X sitio?", "¿Realizáis envíos al extranjero?"
+    steps:
+      - actions: utter:_envios_espana
+
+  gastos_de_envío:
+    description: |
+      El usuario quiere saber cuánto cuesta el envío de su compra, quiere saber si es gratuito, hace preguntas com
+      "¿Cuánto cuesta el envío?", "¿El envío es gratuito?", "¿Cómo puedo saber los gastos de envío?"
+    steps:
+      - actions: utter_gastos_envio
+
+  
+
+
+
+
+
+
+
+
+# FLOWS SOBRE TERMINOLOGIA ESPECIFICA -----------------------------------------------------------------------
+
+  diferencia_un_anillo_una_sortija_o_una_alianza:
+    description: |
+      El usuario quiere saber qué es un anillo, una sortija, una alianza o quiere saber la diferencia que existe entre cada uno,
+      hace consultas como "¿Qué es una sortija?", "¿Qué es un anillo?", "¿Qué es una alianza?",
+      "¿Qué diferencia hay entre un anillo, una alianza y una sortija?"
+    steps:
+      - actions: utter_anillo_sortija_alianza
+
+  que_es_la_montura_cabeza_o_corona:
+    description: |
+      El usuario quiere saber qué es una montura, cabeza o corona de un anillo, hace preguntas como
+      "¿Qué es la montura?", "¿Qué es la cabeza de un anillo?", "¿Qué es la corona de una gema?"
+    steps:
+      - actions: utter_montura_cabeza_corona
+
+  que_es_el_aro_o_cuerpo:
+    description: |
+      El usuario quiere saber qué es el aro o el cuerpo, hace pregunats como "¿Qué es el aro?",
+      "¿Qué es el cuerpo de un anillo?", "Explícame que es el cuerpo de un anillo."
+    steps:
+      - actions: utter_aro_cuerpo
+
+  que_es_el_contraste:
+    description: |
+      El usuario quiere saber qué es el contraste de un anillo, hace preguntas como "¿Qué es el contraste?",
+      "Dime qué es el contraste de un anillo.", "¿Cuál es la descripción de contraste?"
+    steps:
+      - actions: utter_contraste
+
+  existen_gemas_o_anillos_sin_contraste:
+    description: |
+      El usuario quiere saber si es posible recibir un anillo o gema sin contraste, hace preguntas como
+      "¿Puedo recibir un anillo sin contraste?", "¿Es posible que me den una gema sin contraste?",
+      "¿Vendéis anillos sin contarste?"
+    steps:
+      - actions: utter_anillos_sin_contraste
+
+  diferencia_entre_engarce_y_engaste:
+    description: |
+      El usuario quiere saber qué diferencia hay entre un engarde y un engaste, hace preguntas como
+      "¿Qué diferencia hay entre un engarce y un engaste?", "¿Qué es un engarce?", "¿Qué es un engaste?"
+    steps:
+      - actions: utter_engarce_engaste
+
+  que_es_el_puente:
+    description: |
+      El usuario quiere saber qué es un puente en joyería, hace preguntas como "¿Qué es el puente?",
+      "¿Puedes explicarme qué es el puente del anillo?", "Dime qué es un puente."
+    steps:
+      - actions: utter_puente
+
+  que_es_el_hombro:
+    description: |
+      El usuario quiere saber qué es el hombro de un anillo, hace preguntas como "¿Qué es el hombro?",
+      "¿Puedes explicarme qué es el hombro de un anillo?", "Me gustaría saber qué es el hombro de un anillo."
+    steps:
+      - actions: utter_hombro
+
+  que_es_el_apoyo_o_canasta:
+    description: |
+      El usuario quiere saber qué es el apollo o canaste de un anillo, hace preguntas como "¿Qué es el apoyo?",
+      "¿Qué es la canasta de un anillo?", "Explícame qué es la canasta de un anillo."
+    steps:
+      - actions: utter_apoyo_canasta
+
+  que_es_la_galeria:
+    description: |
+      El usuario quiere saber qué es la galería, hace preguntas como "¿Qué es la galería?"
+      "¿Puedes explicarme qué es la galería de un anillo?", "Quiero saber qué es la galería."
+    steps:
+      - actions: utter_galeria
+
+  piedra_central_piedras_laterales_piedras_complementarias_piedras_decorativas_piedras_de_acento:
+    description: |
+      El usuario quiere saber el significado de qué es una piedra central, o de una piedra lateral/complementaria,
+      una piedra decorativa/de acento, o pregunta por la diferencia que hay entre estas, hace preguntas como
+      "¿Qué diferencia hay entre la pidra central, laterales/complementarias y decorativas/de acento?",
+      "¿Qué es una piedra central?", "¿Qué son las piedras laterales?", "¿Qué es una piedra complementaria?",
+      "¿Qué es una piedra decorativa?", "¿Qué son las piedras de acento?"
+    steps:
+      - actions: utter_piedra_central_lateral_decorativa
+
+  que_es_la_caña:
+    description: |
+      El usuario quiere saber qué es la caña de un anillo, hace preguntas como "¿Qué es la caña?", 
+      "Explícame loque es la caña de un anillo.", "Dame la definición de caña."
+    steps:
+      - actions: utter_cana
+
+  definicion_y_tipos_de_perfil:
+    description: |
+      El usuario quiere saber qué es el perfil de un anillo y/o pregunta los tipos de perfiles que existen,
+      hace consultas como "¿Qué es el perfil?", "¿Qué tipos de perfil existen?", "¿Existen varios tipos de perfil?"
+    steps:
+      - actions: utter_perfil
+
+  que_es_el_halo:
+    description: | 
+      El usuario quiere saber qué es el halo, hace preguntas como "¿Qué es el halo de un anillo?",
+      "¿Puedes explicarme qué es el halo?", "Dime qué es un halo."
+    steps:
+      - actions: utter_halo
+
+  que_es_el_filetin:
+    description: |
+      El usuario pregunta qué es el filetin, hace consultas como "¿Qué es el filetin?", "Explícame qué es el filetín.",
+      "¿El filetín es una comida?"
+    steps:
+      - actions: utter_filetin
+
+  que_es_la_culata:
+    description: |
+      El usuario quiere saber qué es la culata de un anillo, hace consultas como "¿Qué es la culata?",
+      "¿Un anillo tiene culata?", "¿La culata es solo cosa de armas?"
+    steps:
+      - actions: utter_culata  
+
+  que_es_el_culet:
+    description: |
+      El usuario quiere saber qué esl el culet, hace preguntas como "¿Qué es el culet", "Explícame qué es el culet.",
+      "¿Cuál es la definición de culet?"
+    steps:
+      - actions: utter_culet  
+
+  que_es_la_tabla:
+    description: |
+      El usuario quiere saber qué es la tabla de un anillo, hace preguntas como "¿Qué es la tabla",
+      "¿Los anillos tienen tabla", "Explícame qué es la tabla de un anillo."
+    steps:
+      - actions: utter_tabla
+
+  que_es_una_faceta_clasificacion_facetas:
+    description: |
+      El usuario quiere saber qué es una facet y/o como se clasifican las facetas, hace consultas como
+      "¿Qué es una faceta?", "¿Cómo se clasifican las facetas?", "¿Qué clasificaciones existen para las facetas?"
+    steps:
+      - actions: utter_faceta
+
+  que_es_el_pabellon:
+    description: |
+      El usuario quiere saber qué es el pabellón de un anillo, hace consultas como "¿Qué es el pabellón?",
+      "¿Los anillos tienen pabellón?", "Explícame qué es el pabellón de un anillo."
+    steps:
+      - actions: utter_pabellon
+
+  que_es_el_ratio:
+    description: |
+      El usuario quiere saber qué es el ratio de una gema, hace consultas como "¿Qué es el ratio?",
+      "¿Todas las gemas tienen el mismo ratio", "Explícame cosas sobre el ratio."
+    steps:
+      - actions: utter_ratio
+
+  que_es_el_diametro:
+    description: |
+      El usuario quiere saber qué es el diámetro de un anillo o una gema y quiere saber cómo se mide este diámetro,
+      hace preguntas como "¿Qué es el diámetro?", "¿Cómo se mide el diámetro?", "¿El diámetro de una gema es el mismo que el de un anillo?"
+    steps:
+      - actions: utter_diametro 

@@ -23,6 +23,7 @@ version: "3.1"
 # 18. UTTERS SOBRE MATERIALES
 # 19. UTTERS SOBRE PRECIOS Y PAGOS
 # 20. UTTERS DUDAS SOBRE ENVIOS
+# 21. UTTERS SOBRE TERMINOLOGIA ESPECIFICA
 
 # ------------------------------------------------------------------------------------------------
 
@@ -1028,6 +1029,197 @@ responses:
   utter_pedido_perdido:
     - text: |
         En caso de que su pedido sufra alguna incidencia sobre su envío, deberá ponerse en contacto con la empresa Loomis.
+      metadata:
+        rephrase: false
   
-  
-  
+  utter_pedido_mudanza:
+    - text: |
+        Si existe algún tipo de error en cuanto a la ubicaciónq ue debe enviarse el pedido, deberá ponerse en contacto con Loomis.
+      metadata:
+        rephrase: false
+
+  utter_tiempo_entrega:
+    - text: |
+        Recibirá su pedido en un plazo entre 40 y 60 días laborales desde el día en que realizó la compra.
+      metadata:
+        rephrase: false
+
+  utter_pedido_asegurado:
+    - text: |
+        Todas las consultas relacionadas con el envío de su pedido deberá resolverlas la empresa Loomis.
+      metadata:
+        rephrase: false
+
+  utter_envios_espana:
+    - text: |
+        Louv realiza envíos exclusivamente a España, incluyendo tanto Islas Baleares como Islas Canarias. 
+      metadata:
+        rephrase: false
+
+  utter_gastos_envio:
+    - text: |
+        Los gastos de envío son impuestos por la empresa de transporte. Si desea saber los precios de estos deberá ponerse en contacto con la empresa Loomis. 
+      metadata:
+        rephrase: false
+
+
+
+
+
+
+
+
+
+
+# UTTERS SOBRE TERMINOLOGÍA ESPECÍFICA ---------------------------------------------------------------------
+
+  utter_anillo_sortija_alianza:
+    - text: |
+        Esta es la definición de un anillo, una sortija y una alianza:
+        - Anillo: término general para cualquier joya circular que se lleva en el dedo.
+        - Sortija: tipo de anillo más elaborado o decorativo, normalmente con una o varias gemas.
+        - Alianza: anillo sencillo y liso, tradicionalmente usado como símbolo de compromiso o matrimonio.
+      metadata:
+        rephrase: false
+
+  utter_montura_cabeza_corona:
+    - text: |
+        La montura, cabeza o corona de un anillo es la parte superior donde se sujeta y exhibe la gema, diseñada para protegerla y realzar su brillo.
+        Es importante destacar que, el término corona, también puede hacer referencia a la parte superior de una gema, situada por encima del filetín, formada por las facetas que reflejan la luz y aportan brillo.
+      metadata:
+        rephrase: false
+
+  utter_aro_cuerpo:
+    - text: |
+        El aro o cuerpo es la parte circular del anillo que rodea el dedo y sostiene la montura, aportando estructura y comodidad.
+      metadata:
+        rephrase: false
+
+  utter_contraste:
+    - text: |
+        El contraste es el marcado oficial que certifica la pureza del metal precioso (oro, plata o platino), garantizando su autenticidad conforme a la normativa.
+      metadata:
+        rephrase: false
+
+  utter_anillos_sin_contraste:
+    - text: |
+        Un anillo puede recibirse sin contraste si no ha sido contrastado oficialmente, aunque en Louv se le garantiza que todos los anillos están contrastados. 
+        Las gemas, en cambio, no llevan contraste; su autenticidad y calidad se acreditan mediante certificados gemológicos, no con marcas físicas.
+      metadata:
+        rephrase: false
+
+  utter_engarce_engaste:
+    - text: |
+        El engarce es la técnica mediante la cual la gema se fija a la montura del anillo, asegurando su sujeción y definiendo su estilo y visibilidad.
+        En cambio, el engaste es el sistema o diseño con el que la gema queda sujeta al anillo, determinando cómo se sostiene, se protege y se muestra la piedra.
+      metadata:
+        rephrase: false
+
+  utter_puente:
+    - text: |
+        El puente es la parte del anillo que une la montura con el aro, aportando estabilidad estructural y elevando la cabeza donde se engasta la gema.
+      metadata:
+        rephrase: false
+
+  utter_hombro:
+    - text: |
+        El hombro es la zona del anillo situada entre el aro y la montura, que acompaña y realza la cabeza, aportando transición estética y refuerzo estructural.
+      metadata:
+        rephrase: false
+
+  utter_apoyo_canasta:
+    - text: |
+        El apoyo o canasta es la estructura que sostiene la gema desde abajo en la montura, asegurando su fijación y permitiendo que la luz atraviese la piedra para realzar su brillo.
+      metadata:
+        rephrase: false
+
+  utter_galeria:
+    - text: |
+        La galería es el espacio abierto que queda debajo de la gema en la montura del anillo, permitiendo que la luz entre desde abajo y realce el brillo de la piedra.
+      metadata:
+        rephrase: false
+
+  utter_piedra_central_lateral_decorativa:
+    - text: |
+        Aquí le explico lo que es una piedra central, una piedra lateral y una piedra decorativa:
+        - Piedra central: la gema principal del anillo, foco de atención.
+        - Piedras laterales o complementarias: gemas más pequeñas que acompañan y realzan la piedra central.
+        - Piedras decorativas o de acento: pequeñas piedras adicionales que aportan brillo o detalle, sin ser protagonistas.
+      metadata:
+        rephrase: false
+
+  utter_cana:
+    - text: |
+        La caña es la parte del aro del anillo que se estrecha y se eleva para sostener la montura o cabeza de la gema, aportando soporte y forma al conjunto.
+      metadata:
+        rephrase: false
+
+  utter_perfil:
+    - text: |
+        El perfil es la forma que tiene el aro del anillo visto de lado. Los tipos más comunes son:
+        - Redondo: aro completamente curvado, cómodo y clásico.
+        - Plano: aro con superficie plana, moderno y elegante.
+        - Cuadrado o biselado: bordes angulares, estilizado y contemporáneo.
+        - Doble o combinado: mezcla de formas para diseño especial.
+      metadata:
+        rephrase: false
+
+  utter_halo:
+    - text: |
+        El halo es un conjunto de pequeñas piedras que rodean a la gema central de un anillo, realzando su tamaño, brillo y presencia visual.
+      metadata:
+        rephrase: false
+
+  utter_filetin:
+    - text: |
+        El filetín es el bisel o borde que separa la corona de la gema del resto de la piedra, marcando la transición entre la parte superior (corona) y la inferior (pabellón) y ayudando a protegerla.
+      metadata:
+        rephrase: false
+
+  utter_culata:
+    - text: |
+        En joyería, la culata es la parte inferior del pabellón de la gema, justo en el extremo opuesto a la corona, que suele terminar en un punto o facetado y ayuda a reflejar la luz dentro de la piedra.
+      metadata:
+        rephrase: false
+
+  utter_culet:
+    - text: |
+        El culet es la pequeña punta o faceta en la base del pabellón de una gema, diseñada para proteger la piedra de golpes y, en algunas tallas, permitir mejor paso de la luz.
+      metadata:
+        rephrase: false
+
+  utter_tabla:
+    - text: |
+        La tabla es la faceta superior y más grande de una gema, situada en la corona, por donde entra la luz principal y se refleja para dar brillo a la piedra.
+      metadata:
+        rephrase: false
+
+  utter_faceta:
+    - text: |
+        Una faceta es cada una de las superficies planas pulidas de una gema que reflejan la luz. Se clasifican en:
+        - Facetas de corona: en la parte superior de la gema.
+        - Facetas de pabellón: en la parte inferior de la gema.
+        - Facetas de cintura o filetín: alrededor del borde que separa corona y pabellón.
+      metadata:
+        rephrase: false
+
+  utter_pabellon:
+    - text: |
+        El pabellón es la parte inferior de una gema, situada debajo del filetín, formada por facetas que dirigen la luz reflejada hacia la corona para potenciar el brillo de la piedra.
+      metadata:
+        rephrase: false
+
+  utter_ratio:
+    - text: |
+        El ratio es la proporción entre la altura y el diámetro de una gema, especialmente en diamantes, que influye en su brillo y apariencia visual.
+        El ratio ideal varía según el tipo de gema y su talla. Cada piedra tiene densidad, refracción y estilo de talla distintos, por lo que un ratio que funciona para un diamante puede no ser óptimo para un zafiro o una esmeralda.
+      metadata:
+        rephrase: false
+
+  utter_diametro:
+    - text: |
+        El diámetro es la medida de un extremo al otro de la gema o anillo, pasando por el centro.
+        - En gemas: se mide de un borde al opuesto, generalmente en milímetros.      
+        - En anillos: se mide el diámetro interior del aro para determinar la talla.
+      metadata:
+        rephrase: false
