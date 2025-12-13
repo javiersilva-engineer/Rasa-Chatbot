@@ -19,10 +19,11 @@
 # 14. DATOS SOBRE GEMAS
 # 15. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA
 # 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS 
-# 17. FLOWS SOBRE PRECIOS Y PAGOS
-# 18. FLOWS DUDAS SOBRE ENVIOS
-# 19. FLOWS SOBRE TERMINOLOGIA ESPECIFICA
-# 20. FLOWS SOBRE BODAS
+# 17. FLOWS INFORMACIÓN SOBRE MATERIALES
+# 18. FLOWS SOBRE PRECIOS Y PAGOS
+# 19. FLOWS DUDAS SOBRE ENVIOS
+# 20. FLOWS SOBRE TERMINOLOGIA ESPECIFICA
+# 21. FLOWS SOBRE BODAS
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -1091,6 +1092,17 @@ flows:
       "El anillo que he recibido no me está bien, ¿puedo modificarlo?"
     steps:
       - action: utter_modificar_talla_posteriori
+
+
+
+
+
+
+
+
+
+
+# FLOWS INFORMACIÓN SOBRE MATERIALES ------------------------------------------------------------------
 
   diferencia_oro_18k_y_14k:
     description: |
