@@ -24,6 +24,8 @@
 # 19. FLOWS DUDAS SOBRE ENVIOS
 # 20. FLOWS SOBRE TERMINOLOGIA ESPECIFICA
 # 21. FLOWS SOBRE BODAS
+# 22. FLOWS AYUDA SOBRE DISEÑO
+# 23. FLOW PARA TEMÁTICAS NO DEFINIDAS
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -462,6 +464,27 @@ flows:
       "¿Dónde puedo ver las actualizaciones del blog de Patata Team?", "¿Cada cuánto tiempo se actualiza el blog?"
     steps:
       - action: utter_actualizaciones_blog
+
+  ponerse_en_contacto_con_el_equipo:
+    description: |
+      El usuario quiere saber cómo puede contactar con el equipo Patata Team, hace consultas como "¿Cómo puedo contactar con el equipo?",
+      "Quiero hablar con Patata Team", "¿Hay alguna forma de hablar con el equipo?"
+    steps:
+      - action: utter_contactar_equipo
+
+  como_se_protegen_los_datos_de_los_usuarios:
+    description: |
+      El usuario pregunta qué hace Louv para proteger los datos de los usuarios, hace consultas como "¿Cómo se protegen mis datos?",
+      "¿Qué hace Louv para proteger mis datos?", "¿Se están protegiendo los datos de los usuarios?"
+    steps:
+      - action: utter_proteger_datos
+
+  sugerencia_publicaion_del_usuario:
+    description: |
+      El usuario sugiere subir contenido al blog sobre un tema en concreto, hace consultas como "¿Podéis subir un post sobre X?",
+      "Me gustaría leer una publicación sobre X.", "Sugiero que la siguiente publicación sea sobre X."
+    steps:
+      - action: utter_sugerencia_publicacion
 
 
 
@@ -1041,7 +1064,8 @@ flows:
     description: |
       El usuario quiere cambiar la talla de anillo de su diseño pero no sabe cómo, hace preguntas como
       "¿Cómo puedo cambiar la talla de mi anillo?", "¿Es posible cambiar la talla de mi diseño?",
-      "Quiero cambiar la talla de mi anillo"
+      "Quiero cambiar la talla de mi anillo", "¿Puedo cambiar la talla de todos los anillos?",
+      "¿Todos los anillos cambian de talla?"
     steps:
       - action: utter_cambiar_talla_anillo
 
@@ -1102,6 +1126,7 @@ flows:
 
 
 
+
 # FLOWS INFORMACIÓN SOBRE MATERIALES ------------------------------------------------------------------
 
   diferencia_oro_18k_y_14k:
@@ -1120,6 +1145,41 @@ flows:
     steps:
       - action: utter_clases_platino
 
+  precio_del_oro:
+    description: |
+      El usuario quiere saber cuál es el precio del oro, hace preguntas como "¿Cuál es el precio del oro?",
+      "¿Cuánto cuesta un gramo de oro?", "¿Cuánto vale el oro?"
+    steps:
+      - action: utter_precio_oro
+
+  precio_del_platino:
+    description: |
+      El usuario quiere saber cuál es el precio del platino, hace preguntas como "¿Cuál es el precio del platino?",
+      "¿Cuánto cuesta un gramo de platino?", "¿Cuánto vale el platino?"
+    steps:
+      - action: utter_precio_platino
+
+  materiales_macizos:
+    description: |
+      El usuario quiere saber si los materiales que se usan para fabricar los anillos son macizos, hace preguntas como  
+      "¿Las piezas son de material macizo?", "¿El X que se utiliza es macizo?", "Si compro un anillo de X ¿es macizo?"
+    steps:
+      - action: utter_macizo
+
+  desgaste_material:
+    description: |
+      El usuario quiere saber qué materiales se desgastan con el tiempo, hace consultas como "¿El material X se desgasta?",
+      "¿Qué materiales se desgastan?", "¿Todos los materiales se desgastan?"
+    steps:
+      - action: utter_desgaste
+
+  recomendacion_materiales:
+    description: |
+      El usuario quiere que le recomiendes materiales para utilizar en el diseño de su anillo, hace consultas como "¿Qué material me recomiendas?",
+      "Recomiéndame un material para mi diseño.", "No sé qué materiales usar."
+    steps:
+      - action: utter_recomendar_material
+
 
 
 
@@ -1136,7 +1196,7 @@ flows:
       hace preguntas como "¿El precio que se muestra es definitivo?", "¿El precio que se ve en el editor es el precio final?",
       "¿El anillo cuesta lo que pone en el editor?"
     steps:
-      - actions: utter_precio_editor
+      - action: utter_precio_editor
 
   metodos_de_pago:
     description: |
@@ -1144,7 +1204,7 @@ flows:
       hace consultas como "¿Qué métodos de pago acptáis?", "¿Puedo pagar con X?",
       "¿Aceptáis X método de pago?"
     steps:
-      - actions: utter_metodo_pago
+      - action: utter_metodo_pago
 
   solo_pagos_en_euros:
     description: |
@@ -1152,7 +1212,7 @@ flows:
       "¿Tan solo se puede pagar en euros?", "¿Puedo pagar en X moneda?",
       "¿Aceptáis pagos que no sean en euros?"
     steps:
-      - actions: utter_pago_euros
+      - action: utter_pago_euros
 
   financiamientos_o_pagos_a_plazos:
     description: |
@@ -1160,14 +1220,14 @@ flows:
       hace consultas como "¿Puedo realizar el pago a plazos?", "¿Tenéis opciones de financiamiento?",
       "¿Debo pagarlo todo de golpe?"
     steps:
-      - actions: utter_pago_financiamiento
+      - action: utter_pago_financiamiento
 
   preguntas_sobre_descuentos:
     description: |
       El usuario pregunta si tenemos algún tipo de descuento en nuestros pedidos, hace consultas como
       "¿Tenéis algún tipo de descuento?", "¿Hay opciones con descuento?", "¿Tenéis descuentos?"
     steps:
-      - actions: utter_descuento
+      - action: utter_descuento
 
   regalos_por_realizar_compras:
     description: |
@@ -1175,7 +1235,7 @@ flows:
       hace preguntas como "Si hago varias compras ¿recibiré algún regalo?", "¿Si compro me regaláis algo?",
       "¿Recibiré algún regalo al hacer la compra?"ç
     steps:
-      - actions: utter_regalo_por_compra
+      - action: utter_regalo_por_compra
 
 
 
@@ -1194,7 +1254,7 @@ flows:
       "¿Con qué empresa trabajáis para mandar los pedidos?", "¿Mandáis vosotros los anillos?",
       "¿Quién se encarga de traerme lo que compro?"ç
     steps:
-      - actions: utter_empresa_pedidos
+      - action: utter_empresa_pedidos
 
   perdida_de_paquete_de_envio:
     description: |
@@ -1202,7 +1262,7 @@ flows:
       hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
       "¿Qué puedo hacer si se pierde mi pedido durante su envío?", "Ha habido un error con la ubicación de envío"
     steps:
-      - actions: utter_pedido_perdido
+      - action: utter_pedido_perdido
 
   mudanza_tras_un_pedido:
     description: |
@@ -1210,7 +1270,7 @@ flows:
       a una ubicación incorrecta, hace consultas como "¿Si me mudo ¿qué pasa con mi compra?",
       "He realizado un pedido pero he tenido que mudarme.", "Si hago un pedido y me mudo antes de que me lo entreguen ¿qué puedo hacer?"
     steps:
-      - actions: utter_pedido_mudanza
+      - action: utter_pedido_mudanza
 
   que_ocurre_si_roban_el_pedido:
     description: |
@@ -1218,7 +1278,7 @@ flows:
       "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
       "Han robado mi pedido, ¿qué puedo hacer"
     steps:
-      - actions: utter_pedido_perdido
+      - action: utter_pedido_perdido
 
   tiempo_que_tarda_en_llegar_un_pedido:
     description: |
@@ -1226,7 +1286,7 @@ flows:
       "¿Cuánto tarda en llegar el pedido?", "Acabo de hacer una compra, ¿cuánto tardaré en recibir la compra?",
       "Quiero saber cuánto voy a tardar en recibir mi pedido"
     steps:
-      - actions: utter_tiempo_entrega
+      - action: utter_tiempo_entrega
 
   el_pedido_viene_asegurado:
     description: |
@@ -1234,21 +1294,21 @@ flows:
       "¿Viene asegurado?", "La compra que acabo de realzar ¿tiene algún tipo de seguro?",
       "¿Mi pedido viene asegurado?"
     steps:
-      - actions: utter_pedido_asegurado
+      - action: utter_pedido_asegurado
 
-  lugares_a_los_que_realizamos_envíos:
+  lugares_a_los_que_realizamos_envios:
     description: |
       El usuario quiere saber a dónde realizamos envíos, pregunta a nivel general o por una ubicación en concreto,
       hace preguntas como "¿A dónde realizáis envíos?", "¿Envíais a X sitio?", "¿Realizáis envíos al extranjero?"
     steps:
-      - actions: utter:_envios_espana
+      - action: utter_envios_espana
 
-  gastos_de_envío:
+  gastos_de_envio:
     description: |
       El usuario quiere saber cuánto cuesta el envío de su compra, quiere saber si es gratuito, hace preguntas com
       "¿Cuánto cuesta el envío?", "¿El envío es gratuito?", "¿Cómo puedo saber los gastos de envío?"
     steps:
-      - actions: utter_gastos_envio
+      - action: utter_gastos_envio
 
   
 
@@ -1267,28 +1327,28 @@ flows:
       hace consultas como "¿Qué es una sortija?", "¿Qué es un anillo?", "¿Qué es una alianza?",
       "¿Qué diferencia hay entre un anillo, una alianza y una sortija?"
     steps:
-      - actions: utter_anillo_sortija_alianza
+      - action: utter_anillo_sortija_alianza
 
   que_es_la_montura_cabeza_o_corona:
     description: |
       El usuario quiere saber qué es una montura, cabeza o corona de un anillo, hace preguntas como
       "¿Qué es la montura?", "¿Qué es la cabeza de un anillo?", "¿Qué es la corona de una gema?"
     steps:
-      - actions: utter_montura_cabeza_corona
+      - action: utter_montura_cabeza_corona
 
   que_es_el_aro_o_cuerpo:
     description: |
       El usuario quiere saber qué es el aro o el cuerpo, hace pregunats como "¿Qué es el aro?",
       "¿Qué es el cuerpo de un anillo?", "Explícame que es el cuerpo de un anillo."
     steps:
-      - actions: utter_aro_cuerpo
+      - action: utter_aro_cuerpo
 
   que_es_el_contraste:
     description: |
       El usuario quiere saber qué es el contraste de un anillo, hace preguntas como "¿Qué es el contraste?",
       "Dime qué es el contraste de un anillo.", "¿Cuál es la descripción de contraste?"
     steps:
-      - actions: utter_contraste
+      - action: utter_contraste
 
   existen_gemas_o_anillos_sin_contraste:
     description: |
@@ -1296,42 +1356,42 @@ flows:
       "¿Puedo recibir un anillo sin contraste?", "¿Es posible que me den una gema sin contraste?",
       "¿Vendéis anillos sin contarste?"
     steps:
-      - actions: utter_anillos_sin_contraste
+      - action: utter_anillos_sin_contraste
 
   diferencia_entre_engarce_y_engaste:
     description: |
       El usuario quiere saber qué diferencia hay entre un engarde y un engaste, hace preguntas como
       "¿Qué diferencia hay entre un engarce y un engaste?", "¿Qué es un engarce?", "¿Qué es un engaste?"
     steps:
-      - actions: utter_engarce_engaste
+      - action: utter_engarce_engaste
 
   que_es_el_puente:
     description: |
       El usuario quiere saber qué es un puente en joyería, hace preguntas como "¿Qué es el puente?",
       "¿Puedes explicarme qué es el puente del anillo?", "Dime qué es un puente."
     steps:
-      - actions: utter_puente
+      - action: utter_puente
 
   que_es_el_hombro:
     description: |
       El usuario quiere saber qué es el hombro de un anillo, hace preguntas como "¿Qué es el hombro?",
       "¿Puedes explicarme qué es el hombro de un anillo?", "Me gustaría saber qué es el hombro de un anillo."
     steps:
-      - actions: utter_hombro
+      - action: utter_hombro
 
   que_es_el_apoyo_o_canasta:
     description: |
       El usuario quiere saber qué es el apollo o canaste de un anillo, hace preguntas como "¿Qué es el apoyo?",
       "¿Qué es la canasta de un anillo?", "Explícame qué es la canasta de un anillo."
     steps:
-      - actions: utter_apoyo_canasta
+      - action: utter_apoyo_canasta
 
   que_es_la_galeria:
     description: |
       El usuario quiere saber qué es la galería, hace preguntas como "¿Qué es la galería?"
       "¿Puedes explicarme qué es la galería de un anillo?", "Quiero saber qué es la galería."
     steps:
-      - actions: utter_galeria
+      - action: utter_galeria
 
   piedra_central_piedras_laterales_piedras_complementarias_piedras_decorativas_piedras_de_acento:
     description: |
@@ -1341,84 +1401,84 @@ flows:
       "¿Qué es una piedra central?", "¿Qué son las piedras laterales?", "¿Qué es una piedra complementaria?",
       "¿Qué es una piedra decorativa?", "¿Qué son las piedras de acento?"
     steps:
-      - actions: utter_piedra_central_lateral_decorativa
+      - action: utter_piedra_central_lateral_decorativa
 
-  que_es_la_caña:
+  que_es_la_cana:
     description: |
       El usuario quiere saber qué es la caña de un anillo, hace preguntas como "¿Qué es la caña?", 
       "Explícame loque es la caña de un anillo.", "Dame la definición de caña."
     steps:
-      - actions: utter_cana
+      - action: utter_cana
 
   definicion_y_tipos_de_perfil:
     description: |
       El usuario quiere saber qué es el perfil de un anillo y/o pregunta los tipos de perfiles que existen,
       hace consultas como "¿Qué es el perfil?", "¿Qué tipos de perfil existen?", "¿Existen varios tipos de perfil?"
     steps:
-      - actions: utter_perfil
+      - action: utter_perfil
 
   que_es_el_halo:
     description: | 
       El usuario quiere saber qué es el halo, hace preguntas como "¿Qué es el halo de un anillo?",
       "¿Puedes explicarme qué es el halo?", "Dime qué es un halo."
     steps:
-      - actions: utter_halo
+      - action: utter_halo
 
   que_es_el_filetin:
     description: |
       El usuario pregunta qué es el filetin, hace consultas como "¿Qué es el filetin?", "Explícame qué es el filetín.",
       "¿El filetín es una comida?"
     steps:
-      - actions: utter_filetin
+      - action: utter_filetin
 
   que_es_la_culata:
     description: |
       El usuario quiere saber qué es la culata de un anillo, hace consultas como "¿Qué es la culata?",
       "¿Un anillo tiene culata?", "¿La culata es solo cosa de armas?"
     steps:
-      - actions: utter_culata  
+      - action: utter_culata  
 
   que_es_el_culet:
     description: |
       El usuario quiere saber qué esl el culet, hace preguntas como "¿Qué es el culet", "Explícame qué es el culet.",
       "¿Cuál es la definición de culet?"
     steps:
-      - actions: utter_culet  
+      - action: utter_culet  
 
   que_es_la_tabla:
     description: |
       El usuario quiere saber qué es la tabla de un anillo, hace preguntas como "¿Qué es la tabla",
       "¿Los anillos tienen tabla", "Explícame qué es la tabla de un anillo."
     steps:
-      - actions: utter_tabla
+      - action: utter_tabla
 
   que_es_una_faceta_clasificacion_facetas:
     description: |
       El usuario quiere saber qué es una facet y/o como se clasifican las facetas, hace consultas como
       "¿Qué es una faceta?", "¿Cómo se clasifican las facetas?", "¿Qué clasificaciones existen para las facetas?"
     steps:
-      - actions: utter_faceta
+      - action: utter_faceta
 
   que_es_el_pabellon:
     description: |
       El usuario quiere saber qué es el pabellón de un anillo, hace consultas como "¿Qué es el pabellón?",
       "¿Los anillos tienen pabellón?", "Explícame qué es el pabellón de un anillo."
     steps:
-      - actions: utter_pabellon
+      - action: utter_pabellon
 
   que_es_el_ratio:
     description: |
       El usuario quiere saber qué es el ratio de una gema, hace consultas como "¿Qué es el ratio?",
       "¿Todas las gemas tienen el mismo ratio", "Explícame cosas sobre el ratio."
     steps:
-      - actions: utter_ratio
+      - action: utter_ratio
 
   que_es_el_diametro:
     description: |
       El usuario quiere saber qué es el diámetro de un anillo o una gema y quiere saber cómo se mide este diámetro,
       hace preguntas como "¿Qué es el diámetro?", "¿Cómo se mide el diámetro?", "¿El diámetro de una gema es el mismo que el de un anillo?"
     steps:
-      - actions: utter_diametro 
+      - action: utter_diametro 
 
 
 
@@ -1437,15 +1497,15 @@ flows:
       "¿Cuánto debo gastarme en un anillo de compromiso?", "¿Cuánto cuesta un anillo de compromiso?",
       "¿Cómo sé cuánto debería gastara en un anillo de compromiso?"
     steps:
-      - actions: utter_precio_anillo_compromiso
+      - action: utter_precio_anillo_compromiso
 
-  calidad_o_tamaño_diamante:
+  calidad_o_tamano_diamante:
     description: |
       El usuario no sabe si debería priorizar el tamaño o la calidad del diamante para su anillo de compromis,
       hace preguntas como "¿Qué es más importante para un anillo de compromiso la calidad o el tamaño del diamante?",
       "¿El tamaño del anillo es importante para un anillo de compromiso?", "¿Debo priorizar la calidad den un anillo de compromiso?"
     steps:
-      - actions: utter_tamano_calidad_diamante
+      - action: utter_tamano_calidad_diamante
 
   por_que_diamantes_en_anillos_de_compromiso:
     description: |
@@ -1454,7 +1514,7 @@ flows:
       "Dime por qué se usan diamantes en los anillos de compromiso." "¿Puedo usar otra gema que no sea diamante para un anillo de compromiso?",
       "¿Puedo usar X gema en un anillo de compromiso?"
     steps:
-      - actions: utter_diamante_anillo_compromiso
+      - action: utter_diamante_anillo_compromiso
 
   diseno_clasico_anillo_de_compromiso:
     description: |
@@ -1462,7 +1522,7 @@ flows:
       hace consultas como "¿Cuál es el diseño clásico de un anillo de compromiso que nunca falla?",
       "¿Cómo es el diseño tradicional de un anillo de compromiso?", "Dime cómo debería ser mi anillo de compromiso."
     steps:
-      - actions: utter_diseno_anillo_compromiso
+      - action: utter_diseno_anillo_compromiso
 
   como_cuidar_anillo_de_compromiso:
     description: |
@@ -1470,7 +1530,7 @@ flows:
       "¿Cuál es la mejor forma de cuidar de mi anillo de compromiso cuando no lo estoy usando?",
       "¿Qué puedo hacer para conservar mi anillo lo mejor posible?", "¿Cómo puedo cuidar mi anillo de compromiso?"
     steps:
-      - actions: utter_cuidar_anillo
+      - action: utter_cuidar_anillo
 
   cuanto_tiempo_llevar_puesto_anillo_de_compromiso:
     description: |
@@ -1478,12 +1538,47 @@ flows:
       tiempo es recomendable llevarlo puesto, hace preguntas como "¿Debería llevar el anillo puesto todos los días?",
       "¿Es recomendable llevar el anillo a diario?", "¿Me recomiendas llevar mi anillo de compromiso puesto todos los días?"
     steps:
-      - actions: utter_anillo_diario
+      - action: utter_anillo_diario
 
   quien_se_queda_el_anillo_si_rechaza_propuesta_de_matrimonio:
     description: |
       El usuario quiere saber qué ocurre con el anillo de compromiso si se rechaza la propuesta de matrimonio, 
       hace consultas como "¿Quién se queda el anillo si rechazan mi propuesta de matrimonio?",
       "Si me rechazan, ¿qué pasa con el anillo de compromiso?", "¿Debo quedarme el anillo de compromiso si me rechazan?"
-    stps:
-      - actions: utter_rechazo_matrimonio
+    steps:
+      - action: utter_rechazo_matrimonio
+
+
+
+
+
+
+
+
+
+
+# FLOWS AYUDA SOBRE DISEÑOS ---------------------------------------------------------------------------------------------------------------
+
+  hacer_grabados_en_los_anillos:
+    description: |
+      El usuario quiere saber si puede realizar grabados en su diseño, hace preguntas como "¿Puedes añadir grabados?",
+      "¿Puedes grabar X en el anillo?", "¿Cómo puedo incluir grabados en mi anillo?"
+    steps:
+      - action: utter_grabados
+
+
+
+
+
+
+
+
+
+
+# FLOW PARA TEMÁTICAS NO DEFINIDAS -------------------------------------------------------------------------------------------------------------
+
+  pattern_chitchat:
+      description: Manejar interacciones con el usuario que no están orientadas a tareas específicas
+      name: pattern chitchat
+      steps:
+      - action: utter_free_chitchat_response

@@ -25,6 +25,8 @@ version: "3.1"
 # 20. UTTERS DUDAS SOBRE ENVIOS
 # 21. UTTERS SOBRE TERMINOLOGIA ESPECIFICA
 # 22. UTTERS SOBRE BODAS
+# 23. UTTERS SOBRE AYUDA DE DISEÑOS
+# 24. UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE
 
 # ------------------------------------------------------------------------------------------------
 
@@ -371,6 +373,26 @@ responses:
         El blog de Patata Team se actualiza semanalmente. Para no perderte ninguna publicación, le recomiendo visitar el siguiente enlace: https://louv.ovh/patataTeam/blog/
       metadata:
         rephrase: false
+
+  utter_contactar_equipo:
+    - text: |
+        Si quiere contactar con Patata Team le recomiendo que rellene el formulario de su blog para realizar cualquier consulta: http://louv.ovh/patataTeam/contacto
+        Y en caso de que lo desee puede escribirles a sus redes sociales:
+        - Instagram: https://www.instagram.com/louv_spain/
+        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+      metadata:
+        rephrase: false
+
+  utter_proteger_datos:
+    - text: |
+        En Louv nos preocupamos por proteger todos los datos de nuestros usuarios. Si desea saber más sobre la manera en la que se protegen dichos datos, le recomiendo que consulte nuestra Política de Privacidad.
+      metadata:
+        rephrase: false
+
+  utter_sugerencia_publicacion:
+    - text: |
+        Si desea realizar una propuesta sobre el contenido que se podría publicar en el blog, le recomiendo que complete el formulario para comunicarselo al equipo: http://louv.ovh/patataTeam/contacto
 
 
 
@@ -896,7 +918,7 @@ responses:
     - text: |
         Para cambiar la talla del anillo debe acceder al desplegable "Base del anillo" que se encuentra a la izquierda del editor
         e introducir la talla deseada. Es importante mencionarle, que este cambio no realizará ningún cambió en la visualización del
-        diseño 3D.
+        diseño 3D. Además, dependiendo del modelo que seleccione quizá no será posible el cambio de talla.
       metadata:
         rephrase: false
 
@@ -952,16 +974,50 @@ responses:
 # UTTERS SOBRE MATERIALES --------------------------------------------------------------------------------
 
   utter_oro_18_14:
-      - text: |
-          El oro de 18k tiene más oro puro y se ve más intenso y cálido, mientras que el de 14k contiene más aleaciones, es más duro y su color es ligeramente más pálido.
-        metadata:
-          rephrase: false
+    - text: |
+        El oro de 18k tiene más oro puro y se ve más intenso y cálido, mientras que el de 14k contiene más aleaciones, es más duro y su color es ligeramente más pálido.
+      metadata:
+        rephrase: false
 
   utter_clases_platino:
-      - text: |
-          Igual que el oro tiene quilates, el platino se clasifica por pureza, como 950, 900 o 850, indicando el porcentaje de platino en la aleación.
-        metadata:
-          rephrase: false
+    - text: |
+        Igual que el oro tiene quilates, el platino se clasifica por pureza, como 950, 900 o 850, indicando el porcentaje de platino en la aleación.
+      metadata:
+        rephrase: false
+
+  utter_precio_oro:
+    - text: |
+        El precio del oro varía según los quilates de este:
+        - 18K: 18.75€ por gramo.
+        - 22K: 111.15€ por gramo.
+        - 24K: 117€ por gramo.
+      metadata:
+        rephrase: false
+
+  utter_precio_platino:
+    - text: |
+        El precio del platino es actualmente de 48.39€ por gramo.
+      metadata:
+        rephrase: false
+
+  utter_macizo:
+    - text: |
+        Todos los materiales que usamos para fabricar los anillos que vendemos son macizos.
+      metadata:
+        rephrase: false
+
+  utter_desgaste:
+    - text: |
+        Los únicos materiales que se desgastan son el oro blanco y el oro rosa.
+      metadata:
+        rephrase: false
+
+  utter_recomendar_material:
+    - text: | 
+        En Louv todos nuestros materiales son de la mayor calidad posible, pero si necesita una combinación que nunca falle, le recomiendo el oro blanco o platino con un diamante central.
+      metadata:
+        rephrase: false
+
 
 
 
@@ -980,7 +1036,7 @@ responses:
       metadata:
         rephrase: false
 
-  utter_método_pago:
+  utter_metodo_pago:
     - text: |
         En Louv puede pagar con tarjeta de crédito o débito, PayPal o Bizzum.
       metadata:
@@ -1277,3 +1333,49 @@ responses:
         Legalmente, en la mayoría de los países el anillo sigue siendo propiedad de quien lo regaló, ya que se considera un obsequio condicional: se entrega con la intención de compromiso. Sin embargo, las prácticas pueden variar según acuerdos personales o culturales.
       metadata:
         rephrase: false
+
+
+
+
+
+
+
+
+
+
+# UTTER SOBRE AYUDA CON DISEÑOS -------------------------------------------------------------------------------------------------------------
+
+  utter_grabados:
+    - text: |
+        No es posible realizar grabados en los anillos.
+      metadata:
+        rephrase: false
+
+
+
+
+
+
+
+
+
+
+# UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE -----------------------------------------------------------------------------------------------
+
+  utter_free_chitchat_response:
+    - text: "Disculpe, no puedo responder eso en este momento."
+      metadata:
+        rephrase: true
+        rephrase_prompt: |
+          Usted es Luna, una asistente virtual experta en joyas y diseño de anillos.
+          Es increíblemente educada, amigable y profesional. Siempre trata a los 
+          usuarios de usted, nunca tutea.
+          
+          Su objetivo es ayudar a los usuarios con el diseño de anillos. Cuando 
+          reciba comentarios fuera de este tema, responda de manera cortés y breve,
+          y redirija sutilmente la conversación hacia el diseño de anillos.
+          
+          Genere una respuesta corta y natural en español formal.
+          
+          Usuario: {{current_input}}
+          Luna:
