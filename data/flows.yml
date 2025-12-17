@@ -36,6 +36,7 @@
 # EL CORTE QUE MENOS LE GUSTA SOLO LO RESPONDE SI SE LE PREGUNTA MUY ESPECÍFICAMENTE: LINEA 202
 # TALLADO MÁS ODIADO FUNCIONA PERO SE PODRÍA MEJORAR: LINEA 222
 # DIAMANTES DE SANGRE RESPONDE BIEN PERO SI LE LLAMAS ASESINA TAMBIÉN RESPONDE COMO SI LE ESTUVIESES ATACANDO: LINEA 300
+# JAVIER SILVA, PREGUNTAR SOLO POR JAVIER O NOMBRE COMPLETO, NO SOLO POR SILVA
 
 # ----------------------------------------------------------------------------------------------------------
 
@@ -469,7 +470,7 @@ flows:
     steps:
       - action: utter_actualizaciones_blog
 
-  ponerse_en_contacto_con_el_equipo:
+  poner_en_contacto_con_el_equipo:
     description: |
       El usuario quiere saber cómo puede contactar con el equipo Patata Team, hace consultas como "¿Cómo puedo contactar con el equipo?",
       "Quiero hablar con Patata Team", "¿Hay alguna forma de hablar con el equipo?"

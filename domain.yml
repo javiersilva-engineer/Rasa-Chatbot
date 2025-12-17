@@ -389,7 +389,7 @@ responses:
   utter_contactar_equipo:
     - text: |
         Si quiere contactar con Patata Team le recomiendo que rellene el formulario de su blog para realizar cualquier consulta: http://louv.ovh/patataTeam/contacto
-        Y en caso de que lo desee puede escribirles a sus redes sociales:
+        Y en caso de que lo desee puede escribirles a las redes sociales de Louv:
         - Instagram: https://www.instagram.com/louv_spain/
         - Facebook: https://www.facebook.com/profile.php?id=61583506314797
         - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
