@@ -27,6 +27,13 @@
 # 22. FLOWS AYUDA SOBRE DISEÑO
 # 23. FLOW PARA TEMÁTICAS NO DEFINIDAS
 
+
+
+
+# HAY QUE AÑADIR UN FLOW PARA CALCULAR LA TALLA DEL USUARIO SEGÚN SU MEDIDA
+# HAY QUE VER SI PODEMOS HACER QUE RECUERDE EL MENSAJE ANTERIOR O VARIOS MENSAJES ANTERIORES DE ALGUNA MANERA
+
+
 # --------------------------------------------------------------------------------------------------------
 
 # FALLOS DE FLOWS ---------------------------------------------------------------------------------------
@@ -37,6 +44,11 @@
 # TALLADO MÁS ODIADO FUNCIONA PERO SE PODRÍA MEJORAR: LINEA 222
 # DIAMANTES DE SANGRE RESPONDE BIEN PERO SI LE LLAMAS ASESINA TAMBIÉN RESPONDE COMO SI LE ESTUVIESES ATACANDO: LINEA 300
 # JAVIER SILVA, PREGUNTAR SOLO POR JAVIER O NOMBRE COMPLETO, NO SOLO POR SILVA
+# INGENIERIA MULTIMEDIA E INFORMACION SOBRE EL GRADO EN INGENIERIA MULTIMEDIA COLAPSAN, NO DISTINGUE ENTRE AMBAS, POR LO QUE LO MEJOR ES MEZCLARLAS PUES SON MUY SIMILARES
+# PANEO EDITOR MOVER CÁMARA NO FUNCIONA, TOCA REVISARLO
+# AJUSTAR TALLA ANILLO NO LO ENTIENDE SIEMPRE, A VECES PIENSA QUE HAY QUE DEVOLVERLO Y OTRAS VECES PIENSA QUE ES CAMBIAR LA TALLA EN EL EDITOR
+# MÉTODOS DE PAGO HAY QUE MEJORARLO, MIRAR EL VIDEO PRUEBAS 8
+# NO ENTIENDE CUANDO SE LE PREGUNTA POR EL APOYO O CANASTA
 
 # ----------------------------------------------------------------------------------------------------------
 
@@ -561,7 +573,7 @@ flows:
     steps:
       - action: utter_terminos_politica_cookies
 
-  devoluciones_anillos:
+  devolver_anillos:
     description: |
       El usuario quiere devolver un producto o pregunta sobre las condiciones de devolución. Realiza consultas como "Quiero hacer una devolución",
       "¿Puedo devolver un producto que no me gusta?", "¿Quisiera hacer una devolución?"
@@ -599,14 +611,6 @@ flows:
       "¿Puedo seguir a Louv en TikTok?"
     steps:
       - action: utter_tiktok_louv
-
-  novedades_louv:
-    description: |
-      El usuario pregunta por las novedades o próximos lanzamientos de Louv, quiere saber qué novedades tiene Louv,
-      hace preguntas como "¿Qué novedades tiene Louv?", "¿Cuáles son los próximos lanzamientos de Louv?",
-      "¿Hay alguna novedad próximamente en Louv?"
-    steps:
-      - action: utter_novedades_louv
 
   funcionalidades_futuras_louv:
     description: |
@@ -1074,14 +1078,6 @@ flows:
     steps:
       - action: utter_cambiar_talla_anillo
 
-  como_puedo_saber_la_talla_de_mi_anillo:
-    description: |
-      El usuario quiere saber cómo puede conocer la talla de anillo para él mismo o para un conocido, hace
-      preguntas como "¿Cómo puedo saber qué talla de anillo tengo?", "¿Cómo puedo saber la talla de anillo de un amigo?",
-      "¿Qué debo hacer para saber mi talla?"
-    steps:
-      - action: utter_saber_talla_anillo
-
   devolver_anillo_talla_equivocada:
     description: |
       El usuario pregunta si puede devolver un anillo si el que recibe le queda grande o pequeño, hace pregunats como
@@ -1123,6 +1119,23 @@ flows:
       - action: utter_modificar_talla_posteriori
 
 
+
+
+
+
+
+
+
+
+# FLOWS PARA CALCULAR LA TALLA DE ANILLO DEL USUARIO ---------------------------------------------------------------------
+
+  como_puedo_saber_la_talla_de_mi_anillo:
+    description: |
+      El usuario quiere saber cómo puede conocer la talla de anillo para él mismo o para un conocido, hace
+      preguntas como "¿Cómo puedo saber qué talla de anillo tengo?", "¿Cómo puedo saber la talla de anillo de un amigo?",
+      "¿Qué debo hacer para saber mi talla?"
+    steps:
+      - action: utter_saber_talla_anillo
 
 
 
@@ -1238,7 +1251,7 @@ flows:
     description: |
       El usuario desea saber si por el hecho de realizar varias compras recibirá algún tipo de regalo
       hace preguntas como "Si hago varias compras ¿recibiré algún regalo?", "¿Si compro me regaláis algo?",
-      "¿Recibiré algún regalo al hacer la compra?"ç
+      "¿Recibiré algún regalo al hacer la compra?"
     steps:
       - action: utter_regalo_por_compra
 
@@ -1257,7 +1270,7 @@ flows:
     description: |
       El usuario quiere saber con qué empresa trabajamos para enviar nuestros pedidos, hace preguntas como
       "¿Con qué empresa trabajáis para mandar los pedidos?", "¿Mandáis vosotros los anillos?",
-      "¿Quién se encarga de traerme lo que compro?"ç
+      "¿Quién se encarga de traerme lo que compro?"
     steps:
       - action: utter_empresa_pedidos
 
@@ -1281,7 +1294,7 @@ flows:
     description: |
       El usuario pregunta qué ocurre en caso de que el pedido que ha realizado sea robado, hace preguntas como
       "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
-      "Han robado mi pedido, ¿qué puedo hacer"
+      "Han robado mi pedido, ¿qué puedo hacer?"
     steps:
       - action: utter_pedido_perdido
 

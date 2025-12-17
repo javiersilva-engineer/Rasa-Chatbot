@@ -36,6 +36,9 @@ version: "3.1"
 
 # TALLADO EN PAVÉ NO ES UN TALLADO QUE EXISTA: LINEA  161
 
+
+# LAS RESPUESTAS QUE QUIERAN MOSTRARSE POR LINEAS DEBERÁN MODIFICARSE, PUES NO SE MUESTRAN CORRECTAMENTE
+
 # -------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -509,16 +512,6 @@ responses:
     - text: "El tiktok de Louv es: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc"
       metadata:
         rephrase: false
-
-  utter_novedades_louv:
-    - text: |
-        Para estar al tanto de las últimas novedades de Louv, le recomiendo seguirnos en nuestras redes sociales o leer nuestro blog en nuestra página corporativa.
-        - Instagram: https://www.instagram.com/louv_spain/
-        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
-        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
-        - Blog: https://louv.ovh/patataTeam/blog/
-      metadata:
-        rephrase: false
   
 
 
@@ -792,7 +785,7 @@ responses:
         rephrase: false
 
   utter_gemas_caras:
-    - text: "Nuestras gemas tienen una calidad superior en color, pureza y talla, están certificadas y seleccionadas individualmente. Esto garantiza más brillo, durabilidad y valor real a largo plazo."
+    - text: "Es cierto que existen gemas más económicas en el mercado, pero no de la calidad que se ofrecen en Louv. Nuestras gemas tienen una calidad superior en color, pureza y talla, están certificadas y seleccionadas individualmente. Esto garantiza más brillo, durabilidad y valor real a largo plazo."
       metadata:
         rephrase: false
 
@@ -895,7 +888,7 @@ responses:
   
   utter_necesitar_dni_usuario:
     - text: |
-        Se le solicita su Documento Nacional de Identidad (DNI), debido a través de la plataforma se realizan compras de alto
+        Se le solicita su Documento Nacional de Identidad (DNI), pues a través de la plataforma se realizan compras de alto
         nivel económico, por ello se necesita confirmar la identidad de los usuarios. 
         Tan solo se le solicitará esta información en caso de realizar una compra.
       metadata:
@@ -938,7 +931,7 @@ responses:
     - text: |
         Para saber una talla de anillo es muy sencillo, tan solo debe medir la circunferencia de su dedo. Si no posee herramientas para hacerlo le recomiendo lo siguiente:
         Corte una tira de papel pequeña, envuélvalo alrededor de su dedo y haga una marca donde el papel se solape, así podrá saberlo.
-        Por ejemplo: si la circunferencia mide 52 mm, su talla es la 12.
+        Por ejemplo: si la circunferencia mide 52 mm, su talla es la 12. Si quiere, dígame la medida que ha obtenido y le digo su talla. 
       metadata:
         rephrase: false
 
@@ -958,7 +951,7 @@ responses:
 
   utter_talla_dedo_distinta:
     - text: |
-        Cada dedo puede tener una talla distinta, en funciónd e lo que mida la circunferencia del dedo, usará una talla u otra.
+        Cada dedo puede tener una talla distinta, en función de lo que mida la circunferencia del dedo, usará una talla u otra.
       metadata:
         rephrase: false
 
@@ -1056,7 +1049,7 @@ responses:
 
   utter_pago_euros:
     - text: |
-        Aunque la empresa esté ubicada en España, aceptamos pagos en distintas monedas.
+        Aunque la empresa esté ubicada en España, aceptamos pagos en distintas monedas. Así que no se preocupe si va a pagar con una moneda distinta al euro.
       metadata:
         rephrase: false
 
@@ -1068,7 +1061,7 @@ responses:
 
   utter_descuento:
     - text: |
-        En estos distantes no existe ningún tipo de descuento a la hora de realizar la compra.
+        En estos instantes no existe ningún tipo de descuento a la hora de realizar la compra.
       metadata:
         rephrase: false
 
@@ -1097,13 +1090,13 @@ responses:
 
   utter_pedido_perdido:
     - text: |
-        En caso de que su pedido sufra alguna incidencia sobre su envío, deberá ponerse en contacto con la empresa Loomis.
+        En caso de que su pedido sufra alguna incidencia durante el envío, deberá ponerse en contacto con la empresa encargada de las entregas.
       metadata:
         rephrase: false
   
   utter_pedido_mudanza:
     - text: |
-        Si existe algún tipo de error en cuanto a la ubicaciónq ue debe enviarse el pedido, deberá ponerse en contacto con Loomis.
+        Si existe algún tipo de error en cuanto a la ubicación que debe enviarse el pedido, deberá comunicarse con la empresa a través del correo louv.spain@gmail.com. .
       metadata:
         rephrase: false
 
@@ -1115,7 +1108,7 @@ responses:
 
   utter_pedido_asegurado:
     - text: |
-        Todas las consultas relacionadas con el envío de su pedido deberá resolverlas la empresa Loomis.
+        Todas las consultas relacionadas con el envío de su pedido deberá comunicarlas a través del correo louv.spain@gmail.com..
       metadata:
         rephrase: false
 
@@ -1127,7 +1120,7 @@ responses:
 
   utter_gastos_envio:
     - text: |
-        Los gastos de envío son impuestos por la empresa de transporte. Si desea saber los precios de estos deberá ponerse en contacto con la empresa Loomis. 
+        Los gastos de envío son impuestos por la empresa de transporte. Si desea saber los precios de estos le recomiendo enviar un mensaje al correo louv.spain@gmail.com.. 
       metadata:
         rephrase: false
 
