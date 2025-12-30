@@ -26,8 +26,8 @@ version: "3.1"
 # 21. UTTERS SOBRE TERMINOLOGIA ESPECIFICA
 # 22. UTTERS SOBRE BODAS
 # 23. UTTERS SOBRE AYUDA DE DISEÑOS
-# 24. UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE
 
+# 24. UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE
 
 
 
@@ -76,8 +76,24 @@ slots:
     mappings:
       - type: from_llm
 
+
+
+  talla_anillo:
+    type: float
+    mappings:
+      - type: controlled
+
+  medida_circunferencia:
+    type: text
+    mappings:
+      - type: from_llm
+
+
+
 actions:
   - action_determinar_signo_zodiacal
+  - action_gemas_bd
+  - action_dar_talla_segun_medida
 
 
 
@@ -218,7 +234,7 @@ responses:
         rephrase: false
 
   utter_tallado_odioso:
-    - text: "No tengo tallados que odie, creo que cada tallado tiene su propia belleza y propósito en la joyería."
+    - text: "No hay tallados que no me gusten, creo que cada tallado tiene su propia belleza y propósito en la joyería."
       metadata:
         rephrase: false
 
@@ -534,19 +550,16 @@ responses:
     - text: "Alicante es una provincia que se encuentra al este de España, más concretamente en el sur de la Comunidad Valenciana."
       metadata:
         rephrase: false
-    
-  utter_ingenieria_multimedia:
-    - text: "La Ingeniería Multimedia se enfoca en el diseño y creación de contenido digital interactivo, combinando informática, diseño y comunicación, mientras que 
-        la Ingeniería Informática se centra en el desarrollo de sistemas informáticos más amplios, software, hardware y redes."
-      metadata:
-        rephrase: false
 
   utter_informacion_grado_multimedia:
     - text: |
+        La Ingeniería Multimedia se enfoca en el diseño y creación de contenido digital interactivo, combinando informática, diseño y comunicación, mientras que 
+        la Ingeniería Informática se centra en el desarrollo de sistemas informáticos más amplios, software, hardware y redes.
+ 
         Puede obtener más información sobre el grado en Ingeniería Multimedia de la Universidad de Alicante en el siguiente enlace:
         https://web.ua.es/es/grados/grado-en-ingenieria-multimedia/
 
-        Si deseas saber más información sobre algún grado en concreto, le recomiendo consultar el siguiente enlace:
+        Si desea saber más información sobre algún grado en concreto, le recomiendo consultar el siguiente enlace:
         https://web.ua.es/es/grados-oficiales.html
       metadata:
         rephrase: false
@@ -924,14 +937,6 @@ responses:
         Para cambiar la talla del anillo debe acceder al desplegable "Base del anillo" que se encuentra a la izquierda del editor
         e introducir la talla deseada. Es importante mencionarle, que este cambio no realizará ningún cambió en la visualización del
         diseño 3D. Además, dependiendo del modelo que seleccione quizá no será posible el cambio de talla.
-      metadata:
-        rephrase: false
-
-  utter_saber_talla_anillo:
-    - text: |
-        Para saber una talla de anillo es muy sencillo, tan solo debe medir la circunferencia de su dedo. Si no posee herramientas para hacerlo le recomiendo lo siguiente:
-        Corte una tira de papel pequeña, envuélvalo alrededor de su dedo y haga una marca donde el papel se solape, así podrá saberlo.
-        Por ejemplo: si la circunferencia mide 52 mm, su talla es la 12. Si quiere, dígame la medida que ha obtenido y le digo su talla. 
       metadata:
         rephrase: false
 
@@ -1384,3 +1389,26 @@ responses:
           
           Usuario: {{current_input}}
           Luna:
+
+
+
+
+
+
+
+
+
+
+# UTTER SABER TALLA ANILLO ---------------------------------------------------------------------------------------
+
+  utter_no_se_talla_dedo:
+    - text: |
+        No se preocupe si no conoce su talla de anillo. Le puedo ayudar a determinarla.
+        Por favor, indíqueme la circunferencia de su dedo en mm o cm en formato "Mi dedo mide X mm"
+      metadata:
+        rephrase: false
+
+  utter_ask_medida_circunferencia:
+    - text: "Por favor, dime la medida de la circunferencia de tu dedo en mm o cm."
+      metadata:
+        rephrase: false

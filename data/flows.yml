@@ -27,6 +27,9 @@
 # 22. FLOWS AYUDA SOBRE DISEÑO
 # 23. FLOW PARA TEMÁTICAS NO DEFINIDAS
 
+# 24. FLOWS BASE DE DATOS GEMAS
+# 25. FLOW DAR TALLA USUARIO SEGÚN MEDIDA
+
 
 
 
@@ -38,17 +41,7 @@
 
 # FALLOS DE FLOWS ---------------------------------------------------------------------------------------
 
-# NO FUNCIONA BIEN LA PROPUESTA DE MATRIMONIO: LINEA 288
-# EL CORTE FAVORITO SOLO LO RESPONDE SI SE LE PREGUNTA MUY ESPECÍFICAMENTE: LINEA 193
-# EL CORTE QUE MENOS LE GUSTA SOLO LO RESPONDE SI SE LE PREGUNTA MUY ESPECÍFICAMENTE: LINEA 202
-# TALLADO MÁS ODIADO FUNCIONA PERO SE PODRÍA MEJORAR: LINEA 222
-# DIAMANTES DE SANGRE RESPONDE BIEN PERO SI LE LLAMAS ASESINA TAMBIÉN RESPONDE COMO SI LE ESTUVIESES ATACANDO: LINEA 300
-# JAVIER SILVA, PREGUNTAR SOLO POR JAVIER O NOMBRE COMPLETO, NO SOLO POR SILVA
-# INGENIERIA MULTIMEDIA E INFORMACION SOBRE EL GRADO EN INGENIERIA MULTIMEDIA COLAPSAN, NO DISTINGUE ENTRE AMBAS, POR LO QUE LO MEJOR ES MEZCLARLAS PUES SON MUY SIMILARES
-# PANEO EDITOR MOVER CÁMARA NO FUNCIONA, TOCA REVISARLO
-# AJUSTAR TALLA ANILLO NO LO ENTIENDE SIEMPRE, A VECES PIENSA QUE HAY QUE DEVOLVERLO Y OTRAS VECES PIENSA QUE ES CAMBIAR LA TALLA EN EL EDITOR
 # MÉTODOS DE PAGO HAY QUE MEJORARLO, MIRAR EL VIDEO PRUEBAS 8
-# NO ENTIENDE CUANDO SE LE PREGUNTA POR EL APOYO O CANASTA
 
 # ----------------------------------------------------------------------------------------------------------
 
@@ -209,7 +202,8 @@ flows:
     description: |
       El usuario pregunta sobre el corte de gema favorito del asistente, como 
       "¿Cuál es tu corte de gema favorito?", "¿Tienes un corte preferido?", 
-      "¿Qué corte de gema te gusta más?"
+      "¿Qué corte de gema te gusta más?", "¿Cuál es tu corte favorito?", "¿Tienes algún corte favorito?",
+      "¿Existe un corte que sea el mejor de todos?"
     steps:
       - action: utter_corte_favorito
 
@@ -217,7 +211,8 @@ flows:
     description: |
       El usuario pregunta sobre el corte de gema que menos le gusta al asistente, como 
       "¿Cuál es el corte de gema que menos te gusta?", "¿Tienes un corte que no te guste?", 
-      "¿Qué corte de gema odias?"
+      "¿Qué corte de gema odias?", "¿Cuál es el corte que menos te gusta?", "¿Tienes algún corte que odies?",
+      "¿Existe un corte que sea el peor de todos?"
     steps:
       - action: utter_corte_odioso
 
@@ -225,7 +220,8 @@ flows:
     description: |
       El usuario pregunta sobre el tallado de gema favorito del asistente, como 
       "¿Cuál es tu tallado de gema favorito?", "¿Tienes un tallado preferido?", 
-      "¿Qué tallado de gema te gusta más?"
+      "¿Qué tallado de gema te gusta más?", "¿Cuál es tu tallado favorito?", "¿Tienes algún tallado favorito?",
+      "¿Existe un tallado que sea el mejor de todos?"
     steps:
       - action: utter_tallado_favorito
 
@@ -233,7 +229,8 @@ flows:
     description: |
       El usuario pregunta sobre el tallado de gema que menos le gusta al asistente, como 
       "¿Cuál es el tallado de gema que menos te gusta?", "¿Tienes un tallado que no te guste?", 
-      "¿Qué tallado de gema odias?"
+      "¿Qué tallado de gema odias?", "¿Cuál es el tallado que menos te gusta?", "¿Tienes algún tallado que odies?",
+      "¿Existe un tallado que sea el peor de todos?"
     steps:
       - action: utter_tallado_odioso
 
@@ -294,14 +291,14 @@ flows:
   halagar_luna:
     description: |
       El usuario hace un halago al asistente con frases como "Eres muy inteligente", 
-      "Me encanta hablar contigo", "Eres muy amable"
+      "Me encanta hablar contigo", "Eres muy amable". Nunca le propone matrimonio, ni le dice si se quiere casar con él/ella.
     steps:
       - action: utter_halago
 
   atacar_luna:
     description: |
       El usuario hace un ataque o comentario negativo al asistente con frases como 
-      "Eres tonto", "No me gusta hablar contigo", "Eres aburrido"
+      "Eres tonto", "No me gusta hablar contigo", "Eres aburrido". No le llama asesina en ningún momento.
     steps:
       - action: utter_ataque
 
@@ -309,7 +306,7 @@ flows:
     description: |
       El usuario pregunta ataca al chatbot por comerciar con diamantes de sangre,
       con frases como "¿Por qué vendes diamantes de sangre?", "¿No te importa la gente que sufre por los diamantes?",
-      "Los diamantes de sangre son horribles"
+      "Los diamantes de sangre son horribles", "Eres una asesina", "¿Cómo se te ocurre vender diamanrtes de sangre?"
     steps:
       - action: utter_diamantes_de_sangre
 
@@ -410,7 +407,7 @@ flows:
     description: |
       El usuario quiere saber información sobre Javier Silva, hace preguntas como 
       "¿Quién es Javier Silva?", "Háblame de Javier Silva", "¿Puedes darme información sobre Javier Silva?",
-      "¿Cómo puedo contactar con Javier Silva?", "Quiero contactar con Javier?"
+      "¿Cómo puedo contactar con Javier Silva?", "Quiero contactar con Javier?", "¿Quién es Silva?", ¿Conoces a Silva?
     steps:
       - action: utter_javier_silva
 
@@ -650,16 +647,12 @@ flows:
     steps:
       - action: utter_ciudad_alicante
 
-  ingenieria_multimedia:
+
+  informacion_grado_ingenieria_multimedia:
     description: |
       El usuario quiere saber en qué consiste una ingeniería multimedia, pregunta sobre la diferencia que hay entre la ingeniería multimedia
       y la ingeniería informática. Hace preguntas como "¿En qué consiste la ingeniería multimedia?", "¿Qué diferencia hay entre la ingeniería multimedia y la informática?",
       "¿Hay algún tipo de diferencia entre la ingeniería multimedia y la ingreniería informática?"
-    steps:
-      - action: utter_ingenieria_multimedia
-
-  informacion_grado_multimedia:
-    description: |
       El usuario desea saber más sobre el grado en ingeniería multimedia, hace preguntas como "¿Cómo puedo saber más sobre la ingeniería multimedia?",
       "Me gustaría saber más sobre la ingeniería multimedia", "¿Puedes darme más información sobre la ingeniería multimedia?"
     steps:
@@ -976,11 +969,13 @@ flows:
     steps:
       - action: utter_zoom_editor_3d
 
-  paneo_editor_mover_camara:
+  mover_camara_del_editor_paneo_camara_editor:
     description: |
       El usuario quiere saber cómo puede mover la cámara del editor 3D o cómo puede hacer paneo, hace preguntas como
       "¿Cómo puedo mover la cámara del editor?", "¿Qué tengo que hacer para mover la cámara del editor?", 
-      "¿Se puede mover la cámara del editor?"
+      "¿Se puede mover la cámara del editor?", "¿Cómo funciona el paneo en el editor 3D?", "¿Qué puedo hacer para mover la cámara?",
+      "¿Cómo muevo la cámara?", "¿Cómo puedo mover la cámara en el editor?", "¿Cómo desplazo la cámara del editor 3D?",
+      "¿Qué hay que hacer para mover la cámara del editor?", "¿Cómo muevo la cámara del editor?"
     steps:
       - action: utter_mover_camara_editor_3d
 
@@ -1074,7 +1069,8 @@ flows:
       El usuario quiere cambiar la talla de anillo de su diseño pero no sabe cómo, hace preguntas como
       "¿Cómo puedo cambiar la talla de mi anillo?", "¿Es posible cambiar la talla de mi diseño?",
       "Quiero cambiar la talla de mi anillo", "¿Puedo cambiar la talla de todos los anillos?",
-      "¿Todos los anillos cambian de talla?"
+      "¿Todos los anillos cambian de talla?".
+      No pregunta por cambios o ajustes de talla una vez recibido el anillo, eso es otro flow.
     steps:
       - action: utter_cambiar_talla_anillo
 
@@ -1117,25 +1113,6 @@ flows:
       "El anillo que he recibido no me está bien, ¿puedo modificarlo?"
     steps:
       - action: utter_modificar_talla_posteriori
-
-
-
-
-
-
-
-
-
-
-# FLOWS PARA CALCULAR LA TALLA DE ANILLO DEL USUARIO ---------------------------------------------------------------------
-
-  como_puedo_saber_la_talla_de_mi_anillo:
-    description: |
-      El usuario quiere saber cómo puede conocer la talla de anillo para él mismo o para un conocido, hace
-      preguntas como "¿Cómo puedo saber qué talla de anillo tengo?", "¿Cómo puedo saber la talla de anillo de un amigo?",
-      "¿Qué debo hacer para saber mi talla?"
-    steps:
-      - action: utter_saber_talla_anillo
 
 
 
@@ -1220,7 +1197,8 @@ flows:
     description: |
       El usuario quiere saber los métodos de pago que aceptamos, es decir la form en la que puede pagarnos,
       hace consultas como "¿Qué métodos de pago acptáis?", "¿Puedo pagar con X?",
-      "¿Aceptáis X método de pago?"
+      "¿Aceptáis Bizzum?", "¿Aceptáis tarjetas de crédito?", "¿Aceptáis PayPal?",
+      "Puedo pagar con Bizzum?", "Puedo pagar con tarjeta de crédito?", "Puedo pagar con PayPal?"
     steps:
       - action: utter_metodo_pago
 
@@ -1228,7 +1206,8 @@ flows:
     description: |
       El usuario pregunta si tan solo se puede pagar en euros, hace preguntas como
       "¿Tan solo se puede pagar en euros?", "¿Puedo pagar en X moneda?",
-      "¿Aceptáis pagos que no sean en euros?"
+      "¿Aceptáis pagos que no sean en euros?", "¿Puedo pagar en dólares?", "¿Puedo pagar en libras?", "¿Puedo pagar en yenes?",
+      "¿Aceptáis dólares?", "¿Aceptáis libras?", "¿Aceptáis yenes?"
     steps:
       - action: utter_pago_euros
 
@@ -1400,7 +1379,8 @@ flows:
   que_es_el_apoyo_o_canasta:
     description: |
       El usuario quiere saber qué es el apollo o canaste de un anillo, hace preguntas como "¿Qué es el apoyo?",
-      "¿Qué es la canasta de un anillo?", "Explícame qué es la canasta de un anillo."
+      "¿Qué es la canasta de un anillo?", "Explícame qué es la canasta de un anillo.", "Dime qué es la canasta de un anillo"
+      "Me gustaría saber qué es el apoyo o canasta de un anillo."
     steps:
       - action: utter_apoyo_canasta
 
@@ -1600,3 +1580,113 @@ flows:
       name: pattern chitchat
       steps:
       - action: utter_free_chitchat_response
+
+
+
+
+
+
+
+
+
+
+# FLOWS BASE DE DATOS GEMAS -----------------------------------------------------------------------------------------
+
+  que_gemas_teneis: 
+    description: |
+      El usuario quiere saber qué tipos de gemas tenemos disponibles en nuestra tienda, hace preguntas como
+      "¿Qué gemas tenéis?", "¿Qué tipos de gemas vendéis?", "¿Cuáles son las gemas que ofrecéis?"
+    steps:
+      - action: action_gemas_bd
+
+
+
+
+
+
+
+
+
+
+# FLOW DAR TALLA USUARIO SEGÚN MEDIDA ----------------------------------------------------------------------
+
+  no_se_la_talla_de_mi_dedo:
+    description: |
+      El usuario no sabe qué talla de anillo tiene su dedo, hace preguntas como "No sé qué talla de anillo tengo",
+      "¿Cómo puedo saber la talla de mi dedo?", "¿Cómo puedo medir mi dedo para saber mi talla?", "¿Cómo puedo saber qué talla de anillo tengo?", "¿Cómo puedo saber la talla de anillo de un amigo?",
+      "¿Qué debo hacer para saber mi talla?", "Quiero saber la talla de mi dedo.", "No sé mi talla de anillo.".
+      No da ninguna medida, ni en milímetros ni en centímetros. Tan solo dice que quiere saber su talla
+    steps:
+      - action: utter_no_se_talla_dedo
+  
+  # dar_talla_usuario_segun_medida:
+  #   description: |
+  #     El usuario ha proporcionado una medida en mm o cm y quiere que le digamos qué talla de anillo
+  #     corresponde a esa medida, hace preguntas como "Mi dedo mide X mm, ¿qué talla es esa?", "Mi dedo mide X cm, ¿qué talla de anillo es esa?",
+  #     "¿Qué talla de anillo corresponde a X mm?", "¿Qué talla de anillo corresponde a X cm?",
+  #     "X cm", "X mm", "X centímetros", "X milímetros", "Xcm", "Xmm".
+  #     Simplemente de la medida, sin más contexto. No dice que no sabe su talla, ni pide cómo medir su dedo.
+  #   steps:
+  #     - action: action_dar_talla_segun_medida
+
+  # dar_talla_usuario_segun_medida:
+  #   description: |
+  #     Este flow convierte medidas de circunferencia de dedo a tallas de anillo españolas.
+      
+  #     Se activa cuando el usuario proporciona ÚNICAMENTE una medida numérica con unidad, sin más contexto.
+      
+  #     Ejemplos que DEBEN activar este flow:
+  #     - "48mm"
+  #     - "52 mm"
+  #     - "6,5cm"
+  #     - "6.5 cm"
+  #     - "48 milímetros"
+  #     - "5.2 centímetros"
+  #     - "Mi dedo mide 52mm"
+  #     - "Tengo 6,5 cm"
+  #     - "¿Qué talla es 48mm?"
+  #     - "Mi dedo mide X mm, ¿qué talla es esa?"
+  #     - "Mi dedo mide X cm, ¿qué talla de anillo es esa?"
+  #     - "¿Qué talla de anillo corresponde a X mm?"
+  #     - "¿Qué talla de anillo corresponde a X cm?"
+  #     - "X cm"
+  #     - "X mm"
+  #     - "X centímetros"
+  #     - "X milímetros"
+  #     - "Xcm"
+  #     - "Xmm"
+      
+  #     NO se activa si el usuario:
+  #     - Pregunta cómo medir su dedo
+  #     - Dice que no sabe su talla
+  #     - Pide ayuda para encontrar su talla sin dar una medida
+      
+  #     El sistema responde con la talla española correspondiente (1-36).
+  #   steps:
+  #     - action: action_dar_talla_segun_medida
+
+
+  dar_talla_usuario_segun_medida:
+    description: |
+      Este flow convierte medidas de circunferencia de dedo a tallas de anillo españolas.
+      
+      Se activa cuando el usuario proporciona una medida numérica con unidad (mm, cm, milímetros, centímetros).
+      
+      Ejemplos que DEBEN activar este flow:
+      - "48mm"
+      - "49mm"
+      - "52 mm"
+      - "6,5cm"
+      - "Mi dedo mide 52mm"
+      - "¿Qué talla es 48mm?"
+      
+      El sistema responde con la talla española correspondiente (1-36).
+    steps:
+      - collect: medida_circunferencia
+        description: |
+          La medida de la circunferencia del dedo del usuario en milímetros (mm) o centímetros (cm).
+          Ejemplos: "48mm", "5,2cm", "52 milímetros", "6.5 centímetros".
+        ask_before_filling: false
+      - action: action_dar_talla_segun_medida
+
+
