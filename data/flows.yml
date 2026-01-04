@@ -26,9 +26,20 @@
 # 21. FLOWS SOBRE BODAS
 # 22. FLOWS AYUDA SOBRE DISEÑO
 # 23. FLOW PARA TEMÁTICAS NO DEFINIDAS
+# 24. FLOW DAR TALLA USUARIO SEGÚN MEDIDA
+# 25. DUDA ENTRE DOS FLOWS
 
-# 24. FLOWS BASE DE DATOS GEMAS
-# 25. FLOW DAR TALLA USUARIO SEGÚN MEDIDA
+
+
+
+
+# 26. FLOWS BASE DE DATOS GEMAS
+# 27. FLOWS BASE DE DATOS ESTRUCTURA BASE
+# 27. FLOWS BASE DE DATOS MATERIALES
+
+
+
+
 
 
 
@@ -42,6 +53,17 @@
 # FALLOS DE FLOWS ---------------------------------------------------------------------------------------
 
 # MÉTODOS DE PAGO HAY QUE MEJORARLO, MIRAR EL VIDEO PRUEBAS 8
+
+# ----------------------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# MI PADRE ME HA PREGUNTADO ESTAS COSAS ---------------------------------------------------------------------------------------
+
+# CUAL ES EL PEDIDO MINIMO
+# 
 
 # ----------------------------------------------------------------------------------------------------------
 
@@ -626,6 +648,7 @@ flows:
   ubicacion_universidad:
     description: |
       El usuario pregunta sobre la ubicación de la Universidad de Alicante (UA), realiza preguntas como "¿Dónde está la Universidad de Alicante?",
+      "Dónde está la universidad de alicante?", "Dónde está ubicada la UA?", "Dónde está la ua?",
       "¿Puedes decirme donde se encuentra la UA?", "¿Cómo puedo llegar a la Universidad de Alicante?"
     steps:
       - action: utter_ubicacion_universidad
@@ -1060,7 +1083,8 @@ flows:
   tallas_de_anillo_con_la_que_se_trabajan:
     description: |
       El usuario quiere saber con qué tallas se trabaja en nuestra web Louv, hace preguntas como
-      "¿Con qué tallas trabajáis?", "¿Qué rango de tallas ofrecéis?", "¿Puedo hacer un anillo talla X?"
+      "¿Con qué tallas trabajáis?", "¿Qué rango de tallas ofrecéis?", "¿Puedo hacer un anillo talla X?",
+      "¿Qué tamaños disponeis?", "¿Qué tallas usáis?"
     steps:
       - action: utter_talla_de_anillo_trabajo
 
@@ -1590,24 +1614,6 @@ flows:
 
 
 
-# FLOWS BASE DE DATOS GEMAS -----------------------------------------------------------------------------------------
-
-  que_gemas_teneis: 
-    description: |
-      El usuario quiere saber qué tipos de gemas tenemos disponibles en nuestra tienda, hace preguntas como
-      "¿Qué gemas tenéis?", "¿Qué tipos de gemas vendéis?", "¿Cuáles son las gemas que ofrecéis?"
-    steps:
-      - action: action_gemas_bd
-
-
-
-
-
-
-
-
-
-
 # FLOW DAR TALLA USUARIO SEGÚN MEDIDA ----------------------------------------------------------------------
 
   no_se_la_talla_de_mi_dedo:
@@ -1688,5 +1694,151 @@ flows:
           Ejemplos: "48mm", "5,2cm", "52 milímetros", "6.5 centímetros".
         ask_before_filling: false
       - action: action_dar_talla_segun_medida
+
+
+
+
+
+
+
+
+
+
+# DUDA ENTRE DOS FLOWS ---------------------------------------------------------------------------------------
+
+  pattern_clarification:
+    description: Conversation repair flow for handling ambiguous requests that could match multiple flows
+    name: pattern clarification
+    steps:
+      - action: action_clarify_flows
+      - action: utter_clarification_options_rasa
+
+
+
+
+
+
+
+
+
+
+
+
+
+# FLOWS BASE DE DATOS GEMAS -----------------------------------------------------------------------------------------
+
+  que_gemas_teneis: 
+    description: |
+      El usuario quiere saber qué tipos de gemas tenemos disponibles en nuestra tienda, hace preguntas como
+      "¿Qué gemas tenéis?", "¿Qué tipos de gemas vendéis?", "¿Cuáles son las gemas que ofrecéis?",
+      "¿Cuántas gemas vendeis?", "¿Qué gemas vendéis?".
+    steps:
+      - action: action_gemas_bd
+
+  teneis_esta_gema_en_concreto:
+    description: |
+      El usuario quiere saber si tenemos una gema en concreto en nuestra tienda, hace preguntas como
+      "¿Tenéis zafiros?", "¿Vendéis esmeraldas?", "¿Puedo comprar rubíes en vuestra tienda?",
+      "¿Tenéis amatistas?", "Quiero comprar topacios.", "Me gustaría saber si trabajáis con diamantes.".
+    steps:
+      - collect: gem_name
+        description: "El nombre exacto de la gema que el usuario busca (respetando mayúsculas, minúsculas y tildes)"
+      - action: action_gema_concreta_bd
+
+  que_gema_es_mas_resistente:
+    name: "cuál es la gema más resistente en general"
+    description: |
+      El usuario pregunta de forma general cuál es la gema MÁS resistente de TODAS las disponibles en la tienda,
+      SIN mencionar nombres específicos de gemas. Ejemplos: "¿Qué gema es la más resistente?", 
+      "¿Cuál es la gema más dura que vendéis?", "¿Qué gema aguanta mejor los golpes?", 
+      "Qué gema es la más resistente para usar en el día a día?", "¿Cuál es la gema más resistente en general?".
+    steps:
+      - action: action_gema_mas_resistente_bd
+
+  cual_de_estas_gemas_es_mas_resistente:
+    name: "comparar dos gemas específicas"
+    description: |
+      El usuario quiere COMPARAR la resistencia entre DOS gemas ESPECÍFICAS que menciona por nombre.
+      El usuario SIEMPRE menciona los nombres de DOS gemas concretas en su pregunta.
+      Ejemplos: "¿Qué es más resistente, el diamante o el zafiro?", "¿Es más resistente el zafiro o el rubí?",
+      "¿Cuál es más duro, el zafiro o el diamante?", "¿Qué es más resistente, el diamante o el rubí?".
+    steps:
+      - collect: gem_name
+        description: "El nombre exacto de la primera gema que el usuario quiere comparar (respetando mayúsculas, minúsculas y tildes)"
+      - collect: gem_name_2
+        description: "El nombre exacto de la segunda gema que el usuario quiere comparar (respetando mayúsculas, minúsculas y tildes)"
+      - action: action_gema_mas_resistente_entre_dos_bd
+
+  comparar_la_resistencia_de_dos_gemas:
+    name: "comparar resistencia entre dos gemas (sin nombres específicos)"
+    description: |
+      El usuario quiere COMPARAR la resistencia entre DOS gemas, PERO NO MENCIONA NOMBRES ESPECÍFICOS de gemas.
+      Ejemplos: "¿Qué gema es más resistente, una u otra?", "¿Cuál es más dura, esta gema o la otra?",
+      "¿Qué es más resistente, una gema o la otra?", "¿Cuál es más resistente entre dos gemas?" "Quiero comprar la resistencia entre dos gemas",
+      "Comparar dos gemas específicas".
+    steps:
+      - action: utter_comparar_gemas
+
+  como_ahorrar_dinero_opciones_baratas:
+    description: |
+      El usuario quiere saber qué gemas son las más económicas o baratas que tenemos disponibles en nuestra tienda,
+      hace preguntas como "¿Qué gemas baratas tenéis?", "¿Qué gemas económicas vendéis?", "¿Cuáles son las gemas más asequibles que ofrecéis?",
+      "¿Qué gemas puedo comprar si quiero gastar poco dinero?", "¿Qué gemas tenéis para presupuestos bajos?", "¿Cómo puedo ahorrar dinero?".
+    steps:
+      - action: action_opciones_mas_economicas
+
+  consultar_significado_gema:
+    description: |
+      El usuario quiere saber el significado de una gema en concreto, hace preguntas como
+      "¿Qué significa el diamante?", "¿Cuál es el significado del rubí?", 
+      "Quiero saber qué representa la amatista", "¿Qué simboliza el zafiro?".
+    name: Consultar significado de gema
+    steps:
+      - collect: gem_name
+        description: "El nombre exacto de la gema de la que el usuario quiere conocer el significado"
+      - action: action_significado_gema_bd
+
+
+
+
+
+
+
+
+
+
+# FLOWS BASE DE DATOS ESTRUCTURA BASE -----------------------------------------------------------------------------------------
+  que_formas_teneis: 
+    description: |
+      El usuario quiere saber qué tipos de formas o estructuras tenemos disponibles en nuestra tienda, hace preguntas como
+      "¿Qué formas tenéis?", "¿Qué tipos de estructurras tenéis?", "¿Qué forma puedo elegir?",
+      "¿Cuáles son las formas que puedo seleccionar?"."
+    steps:
+      - action: action_estructuras_bd
+
+
+
+
+
+
+
+
+
+
+# FLOWS BASE DE DATOS MATERIALES -----------------------------------------------------------------------------------------
+
+  que_materiales_teneis: 
+    description: |
+      El usuario quiere saber qué materiales tenemos disponibles en nuestra tienda, hace preguntas como
+      "¿Qué materiales tenéis?", "¿Qué tipos de materiales vendéis?", "¿Cuáles son los materiales que ofrecéis?",
+      "¿Cuántos materiales vendeis?", "¿Qué materiales vendéis?".
+    steps:
+      - action: action_materiales_bd
+
+
+
+
+
+
 
 

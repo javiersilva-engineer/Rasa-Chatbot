@@ -29,6 +29,9 @@ version: "3.1"
 
 # 24. UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE
 
+# 25. UTTER BASE DE DATOS GEMAS
+# 26. UTTER DUDA ENTRE DOS FLOWS
+
 
 
 
@@ -86,14 +89,41 @@ slots:
   medida_circunferencia:
     type: text
     mappings:
+      - type: controlled
+
+
+  gem_name:
+    type: text
+    mappings:
+      - type: from_llm
+
+  gem_name_2:
+    type: text
+    mappings:
       - type: from_llm
 
 
 
 actions:
   - action_determinar_signo_zodiacal
-  - action_gemas_bd
+
   - action_dar_talla_segun_medida
+
+  - action_gemas_bd
+  - action_gema_concreta_bd
+  - action_gema_mas_resistente_bd
+  - action_gema_mas_resistente_entre_dos_bd
+  - action_opciones_mas_economicas
+  - action_significado_gema_bd
+
+  - action_estructuras_bd
+
+  - action_materiales_bd
+
+  - action_clarify_flows
+
+
+  
 
 
 
@@ -104,6 +134,18 @@ responses:
     - text: "No entendí su mensaje, ¿puede reformularlo?"
       metadata:
         rephrase: false
+
+  utter_out_of_scope:
+    - text: "Lo siento, no he podido entenderte. ¿Podrías reformular tu pregunta?"
+  
+  utter_cannot_handle:
+    - text: "Lo siento, no puedo ayudarte con eso en este momento."
+  
+  utter_ask_rephrase:
+    - text: "No estoy seguro de haber entendido. ¿Podrías reformular tu pregunta?"
+  
+  utter_default:
+    - text: "Lo siento, no he entendido eso."
 
 
 
@@ -1412,3 +1454,50 @@ responses:
     - text: "Por favor, dime la medida de la circunferencia de tu dedo en mm o cm."
       metadata:
         rephrase: false
+
+
+
+
+
+
+
+
+
+# UTTER BASE DE DATOS GEMAS ------------------------------------------------------------------------
+  utter_ask_gem_name:
+    - text: "¿Qué gema estás buscando?"
+      metadata:
+        rephrase: false
+
+  utter_ask_gem_name_2:
+    - text: "¿Con qué otra gema quieres compararla?"
+      metadata:
+        rephrase: false
+
+  utter_comparar_gemas:
+    - text: "Dime qué gemas quieres comparar en este formato: (Qué gema es más resitente X o Y)."
+      metadata:
+        rephrase: false
+
+  utter_ask_gem_name_significado:
+    - text: "¿De qué gema te gustaría conocer el significado?"
+      metadata:
+        rephrase: false
+
+
+
+
+
+
+
+
+
+
+
+
+# UTTER DUDA DOS FLOWS ------------------------------------------------------------------------
+  utter_clarify_flows:
+    - text: "Puedo ayudarte, pero necesito más información. ¿Cuál de estas opciones prefieres?"
+  
+  utter_clarification_options_rasa:
+    - text: ""
