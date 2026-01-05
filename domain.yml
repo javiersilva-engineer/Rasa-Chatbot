@@ -30,7 +30,8 @@ version: "3.1"
 # 24. UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE
 
 # 25. UTTER BASE DE DATOS GEMAS
-# 26. UTTER DUDA ENTRE DOS FLOWS
+# 26. UTTER BASE DE DATOS MATERIALES
+# 27. UTTER DUDA ENTRE DOS FLOWS
 
 
 
@@ -102,6 +103,21 @@ slots:
     mappings:
       - type: from_llm
 
+  material_name:
+    type: text
+    mappings:
+      - type: from_llm
+
+  material_type:
+    type: text
+    mappings:
+      - type: from_llm
+
+  zodiac_sign:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_llm
 
 
 actions:
@@ -119,6 +135,11 @@ actions:
   - action_estructuras_bd
 
   - action_materiales_bd
+  - action_alergias_material_bd
+  - action_tipos_material_bd
+  - action_composicion_material_bd
+  - action_significado_material_bd
+  - action_materiales_por_zodiaco_bd
 
   - action_clarify_flows
 
@@ -1481,6 +1502,36 @@ responses:
 
   utter_ask_gem_name_significado:
     - text: "¿De qué gema te gustaría conocer el significado?"
+      metadata:
+        rephrase: false
+
+
+
+
+
+
+
+
+
+
+# UTTER BASE DE DATOS MATERIALES ------------------------------------------------------------------------
+  utter_ask_material_name:
+    - text: "¿De qué material quieres saber si causa alergias?"
+      metadata:
+        rephrase: false
+
+  utter_ask_material_type:
+    - text: "¿De qué material quieres conocer los tipos disponibles?"
+      metadata:
+        rephrase: false
+
+  utter_ask_material_composition:
+    - text: "¿De qué material quieres conocer la composición?"
+      metadata:
+        rephrase: false
+
+  utter_ask_zodiac_sign:
+    - text: "¿Para qué signo zodiacal quieres conocer los materiales recomendados?"
       metadata:
         rephrase: false
 

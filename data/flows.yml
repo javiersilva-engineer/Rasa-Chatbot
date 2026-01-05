@@ -1798,6 +1798,17 @@ flows:
         description: "El nombre exacto de la gema de la que el usuario quiere conocer el significado"
       - action: action_significado_gema_bd
 
+  # cortes_recomendados_para_gemas:
+  #   description: |
+  #     El usuario quiere saber qué corte se recomienda para una gema en concreto, hace preguntas como
+  #     "¿Qué corte es mejor para un diamante?", "¿Qué corte me recomiendas para un zafiro?",
+  #     "¿Cuál es el mejor corte para una esmeralda?", "¿Qué corte es ideal para un rubí?".
+  #   name: Cortes recomendados para gemas
+  #   steps:
+  #     - collect: gem_name
+  #       description: "El nombre exacto de la gema para la que el usuario quiere conocer los cortes recomendados"
+  #     - action: action_cortes_recomendados_gema_bd
+
 
 
 
@@ -1834,6 +1845,62 @@ flows:
       "¿Cuántos materiales vendeis?", "¿Qué materiales vendéis?".
     steps:
       - action: action_materiales_bd
+
+  alergias_material:
+    description: |
+      El usuario quiere saber si un material específico causa alergias o contiene alérgenos,
+      hace preguntas como "¿El oro da alergia?", "¿La plata causa alergias?",
+      "¿Qué alérgenos tiene el platino?", "¿Soy alérgico al acero?".
+    name: Alergias de materiales
+    steps:
+      - collect: material_name
+        description: "El nombre del material del que el usuario quiere saber si causa alergias"
+      - action: action_alergias_material_bd
+
+  tipos_de_material:
+    description: |
+      El usuario quiere saber qué tipos o variantes de un material específico existen,
+      hace preguntas como "¿Qué tipos de oro hay?", "¿Qué variantes de plata tenéis?",
+      "¿Cuántos tipos de platino existen?", "¿Qué clases de acero trabajáis?".
+    name: Tipos de material
+    steps:
+      - collect: material_type
+        description: "El tipo general de material del que el usuario quiere conocer las variantes disponibles"
+      - action: action_tipos_material_bd
+
+  composicion_material:
+    description: |
+      El usuario quiere saber la composición o de qué está hecho un material específico,
+      hace preguntas como "¿De qué está hecho el oro 18K?", "¿Cuál es la composición de la plata 925?",
+      "¿Qué contiene el platino?", "¿Qué lleva el oro blanco?", "De qué está compuesto el platino?"
+      "¿Con qué se mezcla el oro amarillo?".
+    name: Composición de material
+    steps:
+      - collect: material_name
+        description: "El nombre específico del material del que el usuario quiere conocer la composición"
+      - action: action_composicion_material_bd
+
+  significado_material:
+    description: |
+      El usuario quiere saber el significado, simbolismo o qué representa un material específico,
+      hace preguntas como "¿Qué significa el oro?", "¿Qué simboliza la plata?",
+      "¿Cuál es el significado del platino?", "¿Qué representa el oro blanco?".
+    name: Significado de material
+    steps:
+      - collect: material_name
+        description: "El nombre del material del que el usuario quiere conocer el significado o simbolismo"
+      - action: action_significado_material_bd
+
+  materiales_por_zodiaco:
+    description: |
+      El usuario quiere saber qué materiales son recomendados para un signo zodiacal específico,
+      hace preguntas como "¿Qué material me recomiendas para Tauro?", "¿Qué metal es bueno para Leo?",
+      "¿Cuál es el mejor material para Escorpio?", "Materiales para Aries".
+    name: Materiales por signo zodiacal
+    steps:
+      - collect: zodiac_sign
+        description: "El signo zodiacal para el cual el usuario quiere conocer los materiales recomendados"
+      - action: action_materiales_por_zodiaco_bd
 
 
 
