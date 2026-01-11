@@ -1731,7 +1731,7 @@ flows:
     description: |
       El usuario quiere saber qué tipos de gemas tenemos disponibles en nuestra tienda, hace preguntas como
       "¿Qué gemas tenéis?", "¿Qué tipos de gemas vendéis?", "¿Cuáles son las gemas que ofrecéis?",
-      "¿Cuántas gemas vendeis?", "¿Qué gemas vendéis?".
+      "¿Cuántas gemas vendeis?", "¿Qué gemas vendéis?", "¿Con qué gemas trabajáis?".
     steps:
       - action: action_gemas_bd
 
