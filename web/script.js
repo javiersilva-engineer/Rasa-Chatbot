@@ -50,7 +50,7 @@ async function sendMessage() {
         removeTyping(typingId);
 
         // Mostrar respuestas del bot
-        if (data.length > 0) {
+        if (data && data.length > 0) {
             data.forEach(msg => {
                 if (msg.text) {
                     addMessage(msg.text, 'bot');
@@ -61,7 +61,7 @@ async function sendMessage() {
                 }
             });
         } else {
-            addMessage('No entendí tu mensaje, ¿puedes reformularlo?', 'bot');
+            console.warn('Rasa no devolvió ninguna respuesta para el mensaje:', text);
         }
     } catch (error) {
         removeTyping(typingId);
@@ -96,7 +96,7 @@ async function sendButtonPayload(payload) {
         const data = await response.json();
         removeTyping(typingId);
 
-        if (data.length > 0) {
+        if (data && data.length > 0) {
             data.forEach(msg => {
                 if (msg.text) {
                     addMessage(msg.text, 'bot');
@@ -106,7 +106,7 @@ async function sendButtonPayload(payload) {
                 }
             });
         } else {
-            addMessage('No entendí tu mensaje, ¿puedes reformularlo?', 'bot');
+            console.warn('Rasa no devolvió ninguna respuesta para el payload:', payload);
         }
     } catch (error) {
         removeTyping(typingId);
@@ -220,10 +220,58 @@ function removeTyping(id) {
     }
 }
 
-// Mensaje de bienvenida con botones
-window.addEventListener('load', async () => {
-    // Mostrar mensaje de bienvenida
+// Verificar disponibilidad del servidor
+async function checkServerAvailability() {
+    try {
+        const response = await fetch(`${API_URL.replace('/webhooks/rest/webhook', '')}/status`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        return response.ok;
+    } catch (error) {
+        return false;
+    }
+}
+
+// Mostrar saludo con botones de ejemplo
+function showGreetingWithButtons() {
+    // Mensaje de saludo
     addMessage('¡Hola! Soy Luna. ¿En qué puedo ayudarle hoy?', 'bot');
+    
+    // Crear botones de ejemplo
+    const exampleButtons = [
+        {
+            title: "Háblame de Patata Team",
+            payload: "Háblame de Patata Team"
+        },
+        {
+            title: "¿Con qué gemas trabajáis?",
+            payload: "¿Con qué gemas trabajáis?"
+        },
+        {
+            title: "Quiero saber la gema de mi signo zodiacal",
+            payload: "Quiero saber la gema de mi signo zodiacal"
+        }
+    ];
+    
+    addButtons(exampleButtons);
+}
+
+// Mensaje de bienvenida al cargar la página
+window.addEventListener('load', async () => {
+    // Verificar si el servidor está disponible
+    const isServerAvailable = await checkServerAvailability();
+    
+    if (!isServerAvailable) {
+        // Servidor no disponible
+        addMessage('En estos instantes no puedo atenderle, inténtelo de nuevo más tarde.', 'bot');
+    } else {
+        // Servidor disponible - mostrar saludo con botones
+        showGreetingWithButtons();
+    }
     
     messageInput.focus();
 });

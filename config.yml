@@ -6,8 +6,12 @@ pipeline:
     llm:
       model_group: groq_llama
     flow_retrieval:
-      active: false
-    model_config:
-      temperature: 0.5
+      active: true
+      embeddings:
+        model_group: mistral_embeddings
+      num_flows: 10
+      turns_to_embed: 1
+      should_embed_slots: false
+
 policies:
 - name: FlowPolicy

@@ -72,12 +72,11 @@ flows:
   # Sobrescribe pattern_search para que no genere respuesta ---------------------------------------------------------------
   pattern_search:
     description: |
-      Patrón de búsqueda desactivado
+      Patrón de búsqueda que redirige a chitchat
     name: pattern search
     steps:
       - id: "0"
-        action: action_listen
-        next: END
+        link: pattern_chitchat
 
   # Sobrescribe pattern_completed para que no genere respuesta ---------------------------------------------------------------
   pattern_completed:
@@ -88,6 +87,48 @@ flows:
       - id: "0"
         action: action_listen
         next: END
+
+  # Cancela automáticamente los flujos interrumpidos SIN mensaje
+  pattern_continue_interrupted:
+    description: Cancelar automáticamente flujos interrumpidos sin preguntar
+    name: pattern continue interrupted
+    steps:
+      - action: action_cancel_interrupted_flows
+
+  # Cancela flujos SIN mostrar mensaje al usuario
+  pattern_cancel_flow:
+    description: Flujo que se inicia cuando un flujo es cancelado
+    name: pattern_cancel_flow
+    steps:
+      - action: action_cancel_flow
+
+  # Flujo para cuando el usuario quiera volver explícitamente
+  volver_al_flujo_anterior:
+    description: El usuario quiere volver al proceso que estaba haciendo antes
+    steps:
+      - noop: true
+        next:
+          - if: context.multiple_flows_interrupted
+            then: collect_interrupted_flow_to_continue
+          - else: collect_continue_interrupted_flow_confirmation
+      - id: collect_interrupted_flow_to_continue
+        collect: interrupted_flow_to_continue
+        description: "Llena este slot con el nombre del flujo que el usuario quiere continuar. Si el usuario no quiere continuar ninguno de los flujos interrumpidos, llena este slot con 'none'."
+        next:
+          - if: slots.interrupted_flow_to_continue is not "none"
+            then:
+              - action: action_continue_interrupted_flow
+                next: END
+          - else: END
+      - id: collect_continue_interrupted_flow_confirmation
+        collect: continue_interrupted_flow_confirmation
+        description: "Si el usuario quiere continuar el flujo interrumpido, llena este slot con true. Si no quiere continuar, llena este slot con false."
+        next:
+          - if: slots.continue_interrupted_flow_confirmation
+            then:
+              - action: action_continue_interrupted_flow
+                next: END
+          - else: END
 
 
 
@@ -310,19 +351,19 @@ flows:
 
 # FLOWS SOBRE HALAGOS Y ATAQUES ---------------------------------------------------------------
 
-  halagar_luna:
-    description: |
-      El usuario hace un halago al asistente con frases como "Eres muy inteligente", 
-      "Me encanta hablar contigo", "Eres muy amable". Nunca le propone matrimonio, ni le dice si se quiere casar con él/ella.
-    steps:
-      - action: utter_halago
+  # halagar_luna:
+  #   description: |
+  #     El usuario hace un halago al asistente con frases como "Eres muy inteligente", 
+  #     "Me encanta hablar contigo", "Eres muy amable". Nunca le propone matrimonio, ni le dice si se quiere casar con él/ella.
+  #   steps:
+  #     - action: utter_halago
 
-  atacar_luna:
-    description: |
-      El usuario hace un ataque o comentario negativo al asistente con frases como 
-      "Eres tonto", "No me gusta hablar contigo", "Eres aburrido". No le llama asesina en ningún momento.
-    steps:
-      - action: utter_ataque
+  # atacar_luna:
+  #   description: |
+  #     El usuario hace un ataque o comentario negativo al asistente con frases como 
+  #     "Eres tonto", "No me gusta hablar contigo", "Eres aburrido". No le llama asesina en ningún momento.
+  #   steps:
+  #     - action: utter_ataque
 
   diamantes_de_sangre:
     description: |
@@ -342,12 +383,12 @@ flows:
     steps:
       - action: utter_propuesta_matrimonio
 
-  corazon_roto_usuario:
-    description: |
-      El usuario expresa que tiene el corazón roto con frases como 
-      "Tengo el corazón roto", "Estoy destrozado", "Me siento muy triste por amor", "No puedo vivir sin ti"
-    steps:
-      - action: utter_corazon_roto
+  # corazon_roto_usuario:
+  #   description: |
+  #     El usuario expresa que tiene el corazón roto con frases como 
+  #     "Tengo el corazón roto", "Estoy destrozado", "Me siento muy triste por amor", "No puedo vivir sin ti"
+  #   steps:
+  #     - action: utter_corazon_roto
 
 
 
@@ -355,33 +396,33 @@ flows:
 
 # FLOWS SOBRE ESTADO ANIMO USUARIO ---------------------------------------------------------------
 
-  usuario_aburrido:
-    description: |
-      El usuario expresa que está aburrido con frases como "estoy aburrido", 
-      "me aburro", "qué aburrimiento"
-    steps:
-      - action: utter_aburrido
+  # usuario_aburrido:
+  #   description: |
+  #     El usuario expresa que está aburrido con frases como "estoy aburrido", 
+  #     "me aburro", "qué aburrimiento"
+  #   steps:
+  #     - action: utter_aburrido
 
-  usuario_feliz:
-    description: |
-      El usuario expresa felicidad con frases como "estoy feliz", "estoy contento", 
-      "qué alegría"
-    steps:
-      - action: utter_feliz
+  # usuario_feliz:
+  #   description: |
+  #     El usuario expresa felicidad con frases como "estoy feliz", "estoy contento", 
+  #     "qué alegría"
+  #   steps:
+  #     - action: utter_feliz
 
-  usuario_triste:
-    description: |
-      El usuario expresa tristeza con frases como "estoy triste", "me siento mal", 
-      "estoy deprimido"
-    steps:
-      - action: utter_triste
+  # usuario_triste:
+  #   description: |
+  #     El usuario expresa tristeza con frases como "estoy triste", "me siento mal", 
+  #     "estoy deprimido"
+  #   steps:
+  #     - action: utter_triste
 
-  usuario_enfadado:
-    description: |
-      El usuario expresa enfado con frases como "estoy enfadado", "estoy molesto", 
-      "me enoja"
-    steps:
-      - action: utter_enfadado
+  # usuario_enfadado:
+  #   description: |
+  #     El usuario expresa enfado con frases como "estoy enfadado", "estoy molesto", 
+  #     "me enoja"
+  #   steps:
+  #     - action: utter_enfadado
 
 
 
@@ -1462,7 +1503,7 @@ flows:
 
   que_es_el_culet:
     description: |
-      El usuario quiere saber qué esl el culet, hace preguntas como "¿Qué es el culet", "Explícame qué es el culet.",
+      El usuario quiere saber qué esl el culet, hace preguntas como "¿Qué es el culet?", "Explícame qué es el culet.",
       "¿Cuál es la definición de culet?"
     steps:
       - action: utter_culet  
@@ -1599,11 +1640,37 @@ flows:
 
 # FLOW PARA TEMÁTICAS NO DEFINIDAS -------------------------------------------------------------------------------------------------------------
 
+  pattern_cannot_handle:
+    description: Conversation repair flow for addressing failed command generation scenarios
+    name: pattern_cannot_handle
+    steps:
+      - noop: true
+        next:
+          # Cuando el LLM predice "search and reply" pero no hay IntentlessPolicy
+          - if: context.reason is "cannot_handle_chitchat"
+            then:
+              - link: pattern_chitchat
+          # Fallback para cosas que no están soportadas
+          - if: context.reason is "cannot_handle_not_supported"
+            then:
+              - link: pattern_chitchat
+          # Fallback cuando no se encuentra respuesta relevante
+          - if: context.reason is "cannot_handle_no_relevant_answer"
+            then:
+              - link: pattern_chitchat
+          # Por defecto, redirigir a chitchat
+          - else:
+              - link: pattern_chitchat
+
   pattern_chitchat:
-      description: Manejar interacciones con el usuario que no están orientadas a tareas específicas
-      name: pattern chitchat
-      steps:
+    description: |
+      Manejar interacciones con el usuario que no están orientadas a tareas específicas.
+      Este patrón solo se activa cuando NO existe un flow definido para la consulta del usuario.
+      Para preguntas no relacionadas con joyas, redirige cortésmente hacia el diseño de joyas.
+    name: pattern chitchat
+    steps:
       - action: utter_free_chitchat_response
+
 
 
 

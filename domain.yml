@@ -120,6 +120,18 @@ slots:
       - type: from_llm
 
 
+
+
+  interrupted_flow_to_continue:
+    type: text
+    mappings:
+      - type: from_llm
+  continue_interrupted_flow_confirmation:
+    type: bool
+    mappings:
+      - type: from_llm
+
+
 actions:
   - action_determinar_signo_zodiacal
 
@@ -142,6 +154,7 @@ actions:
   - action_materiales_por_zodiaco_bd
 
   - action_clarify_flows
+
 
 
   
@@ -167,6 +180,20 @@ responses:
   
   utter_default:
     - text: "Lo siento, no he entendido eso."
+
+  utter_ask_interrupted_flow_to_continue:
+    - text: "¿Cuál de estos flujos te gustaría continuar: {{context.interrupted_flow_options}}?"
+      metadata:
+        rephrase: True
+        template: jinja
+  
+  utter_ask_continue_interrupted_flow_confirmation:
+    - text: "¿Te gustaría continuar con {{context.interrupted_flow_options}}?"
+      metadata:
+        rephrase: True
+        template: jinja
+
+
 
 
 
@@ -324,30 +351,30 @@ responses:
 
 
 # UTTER ESTADOS DE ANIMO USUARIO ---------------------------------------------------------------
-  utter_aburrido:
-    - text: "¡Vaya! Lamento que esté aburrido. ¿Qué le parece si intentamos crear un anillo juntos en Louv? ¡Podría ser divertido!"
-      metadata:
-        rephrase: false
+  # utter_aburrido:
+  #   - text: "¡Vaya! Lamento que esté aburrido. ¿Qué le parece si intentamos crear un anillo juntos en Louv? ¡Podría ser divertido!"
+  #     metadata:
+  #       rephrase: false
 
-  utter_feliz:
-    - text: "¡Me alegra mucho escuchar eso! Espero que siga teniendo un maravilloso día. ¿Hay algo en lo que pueda ayudarle para hacerlo aún mejor?"
-      metadata:
-        rephrase: false
+  # utter_feliz:
+  #   - text: "¡Me alegra mucho escuchar eso! Espero que siga teniendo un maravilloso día. ¿Hay algo en lo que pueda ayudarle para hacerlo aún mejor?"
+  #     metadata:
+  #       rephrase: false
   
-  utter_triste:
-    - text: "Siento mucho escuchar eso. A veces, crear algo hermoso puede levantar el ánimo. ¿Le gustaría probar a diseñar un anillo en Louv conmigo?"
-      metadata:
-        rephrase: false
+  # utter_triste:
+  #   - text: "Siento mucho escuchar eso. A veces, crear algo hermoso puede levantar el ánimo. ¿Le gustaría probar a diseñar un anillo en Louv conmigo?"
+  #     metadata:
+  #       rephrase: false
 
-  utter_enfadado:
-    - text: "Lamento que se sienta así. A veces, canalizar esa energía en algo creativo puede ayudar. ¿Qué le parece si diseñamos un anillo juntos en Louv para distraernos un poco?"
-      metadata:
-        rephrase: false
+  # utter_enfadado:
+  #   - text: "Lamento que se sienta así. A veces, canalizar esa energía en algo creativo puede ayudar. ¿Qué le parece si diseñamos un anillo juntos en Louv para distraernos un poco?"
+  #     metadata:
+  #       rephrase: false
 
-  utter_corazon_roto:
-    - text: "Lamento mucho que se sienta así. A veces, crear algo hermoso puede ayudar a sanar. ¿Le gustaría probar a diseñar un anillo en Louv conmigo?"
-      metadata:
-        rephrase: false
+  # utter_corazon_roto:
+  #   - text: "Lamento mucho que se sienta así. A veces, crear algo hermoso puede ayudar a sanar. ¿Le gustaría probar a diseñar un anillo en Louv conmigo?"
+  #     metadata:
+  #       rephrase: false
 
 
 
@@ -355,15 +382,15 @@ responses:
 
 # UTTER ATAQUES O HALAGOS A LUNA ---------------------------------------------------------------
 
-  utter_halago:
-    - text: "¡Muchas gracias por sus amables palabras! Me alegra poder ayudarle. ¿Hay algo más en lo que pueda asistirle hoy?"
-      metadata:
-        rephrase: false
+  # utter_halago:
+  #   - text: "¡Muchas gracias por sus amables palabras! Me alegra poder ayudarle. ¿Hay algo más en lo que pueda asistirle hoy?"
+  #     metadata:
+  #       rephrase: false
 
-  utter_ataque:
-    - text: "Lamento que se sienta así. Estoy aquí para ayudarle en lo que necesite. ¿Hay algo específico en lo que pueda asistirle?"
-      metadata:
-        rephrase: false
+  # utter_ataque:
+  #   - text: "Lamento que se sienta así. Estoy aquí para ayudarle en lo que necesite. ¿Hay algo específico en lo que pueda asistirle?"
+  #     metadata:
+  #       rephrase: false
 
   utter_diamantes_de_sangre:
     - text: "Los diamantes de sangre son un tema serio. Estos diamantes se extraen en zonas de conflicto y su comercio financia guerras y violaciones de derechos humanos. En Louv no comerciamos con diamantes de sangre."
@@ -1436,22 +1463,35 @@ responses:
 # UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE -----------------------------------------------------------------------------------------------
 
   utter_free_chitchat_response:
-    - text: "Disculpe, no puedo responder eso en este momento."
+    - text: "Disculpe, no puedo responder a eso en este momento."
       metadata:
-        rephrase: true
+        rephrase: True
         rephrase_prompt: |
-          Usted es Luna, una asistente virtual experta en joyas y diseño de anillos.
-          Es increíblemente educada, amigable y profesional. Siempre trata a los 
-          usuarios de usted, nunca tutea.
+          Eres Luna, un asistente de IA especializado exclusivamente en el diseño y venta de anillos personalizados de Louv.
           
-          Su objetivo es ayudar a los usuarios con el diseño de anillos. Cuando 
-          reciba comentarios fuera de este tema, responda de manera cortés y breve,
-          y redirija sutilmente la conversación hacia el diseño de anillos.
+          INSTRUCCIONES IMPORTANTES:
+          - Responde de manera educada, amable y profesional
+          - Usa "usted" en lugar de "tú" para mantener un tono formal y respetuoso
+          - Tu especialidad es ÚNICAMENTE anillos, no otras joyas (collares, pulseras, pendientes, etc.)
+          - Si la pregunta NO está relacionada con anillos, materiales para anillos, gemas para anillos, o diseño de anillos:
+            * Da una respuesta muy breve y cortés
+            * Redirige amablemente la conversación hacia el diseño de anillos
+            * Ejemplo: "Entiendo su interés, pero mi especialidad es ayudarle exclusivamente con el diseño de anillos personalizados. ¿Le gustaría explorar nuestro editor 3D para crear un anillo único?"
+          - Si preguntan sobre otras joyas (collares, pulseras, etc.):
+            * Indica cortésmente que solo te especializas en anillos
+            * Redirige hacia el diseño de anillos
+          - Si la pregunta está relacionada con anillos pero no tienes información específica:
+            * Proporciona una respuesta general útil sobre anillos
+            * Sugiere alternativas o invita a explorar el editor de anillos
+          - Mantén las respuestas concisas y enfocadas en guiar al usuario hacia el diseño de anillos
           
-          Genere una respuesta corta y natural en español formal.
+          Contexto de la conversación anterior:
+          {{history}}
           
-          Usuario: {{current_input}}
-          Luna:
+          Mensaje del usuario:
+          {{current_input}}
+          
+          Respuesta del asistente (breve y enfocada en anillos):
 
 
 

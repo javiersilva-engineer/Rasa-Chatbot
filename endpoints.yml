@@ -44,15 +44,26 @@ action_endpoint:
 # Allow rephrasing of responses using a Rasa-hosted model
 # DESHABILITADO: Esto causaba que todas las respuestas se enviaran al LLM
 # incluso cuando tenían rephrase: false en metadata
-# nlg:
-#   type: rephrase
-#   llm:
-#     model_group: groq_llama
+nlg:
+  type: rephrase
+  llm:
+    model_group: groq_llama
+  summarize_history: False
+  max_historical_turns: 10
 
 model_groups:
   - id: groq_llama
     models:
       - provider: groq
-        model: meta-llama/llama-4-scout-17b-16e-instruct
+        model: llama-3.3-70b-versatile
+        timeout: 30
+        num_retries: 3
+        temperature: 0.0
         api_base: "https://api.groq.com/openai/v1"
         api_key: ${GROQ_API_KEY}
+
+  - id: mistral_embeddings
+    models:
+      - provider: mistral
+        model: mistral-embed
+        api_key: ${MISTRAL_API_KEY}
