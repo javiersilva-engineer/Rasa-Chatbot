@@ -131,6 +131,11 @@ slots:
     mappings:
       - type: from_llm
 
+  ring_type:
+    type: text
+    mappings:
+      - type: from_llm
+
 
 actions:
   - action_determinar_signo_zodiacal
@@ -154,6 +159,8 @@ actions:
   - action_materiales_por_zodiaco_bd
 
   - action_clarify_flows
+
+  - action_show_ring
 
 
 
@@ -256,10 +263,10 @@ responses:
       metadata:
         rephrase: false
 
-  utter_segunda_gema_favorita:
-    - text: "Me encanta la amatista, por su color vibrante y sus propiedades calmantes."
-      metadata:
-        rephrase: false
+  # utter_segunda_gema_favorita:
+  #   - text: "Me encanta la amatista, por su color vibrante y sus propiedades calmantes."
+  #     metadata:
+  #       rephrase: false
 
   utter_metal_precioso_favorito:
     - text: "Mi metal precioso favorito es el platino, por su durabilidad y brillo elegante."
@@ -303,45 +310,45 @@ responses:
 
 # UTTER CHATBOT LUNA COSAS QUE ODIA ---------------------------------------------------------------
 
-  utter_gema_odiosa:
-    - text: "No tengo una gema que odie, creo que cada gema tiene su propia belleza y significado."
-      metadata:
-        rephrase: false
+  # utter_gema_odiosa:
+  #   - text: "No tengo una gema que odie, creo que cada gema tiene su propia belleza y significado."
+  #     metadata:
+  #       rephrase: false
 
-  utter_materiales_odiosos:
-    - text: "No tengo materiales que odie, creo que cada material es único y puede encajar perfectamente."
-      metadata:
-        rephrase: false
+  # utter_materiales_odiosos:
+  #   - text: "No tengo materiales que odie, creo que cada material es único y puede encajar perfectamente."
+  #     metadata:
+  #       rephrase: false
 
-  utter_color_odioso:
-    - text: "No tengo colores que odie, aunque prefiero los colores calmados y serenos, como el azul y el verde."
-      metadata:
-        rephrase: false
+  # utter_color_odioso:
+  #   - text: "No tengo colores que odie, aunque prefiero los colores calmados y serenos, como el azul y el verde."
+  #     metadata:
+  #       rephrase: false
 
-  utter_corte_odioso:
-    - text: "No tengo cortes de gema que odie, creo que cada corte tiene su propia belleza y propósito en la joyería."
-      metadata:
-        rephrase: false
+  # utter_corte_odioso:
+  #   - text: "No tengo cortes de gema que odie, creo que cada corte tiene su propia belleza y propósito en la joyería."
+  #     metadata:
+  #       rephrase: false
 
-  utter_tallado_odioso:
-    - text: "No hay tallados que no me gusten, creo que cada tallado tiene su propia belleza y propósito en la joyería."
-      metadata:
-        rephrase: false
+  # utter_tallado_odioso:
+  #   - text: "No hay tallados que no me gusten, creo que cada tallado tiene su propia belleza y propósito en la joyería."
+  #     metadata:
+  #       rephrase: false
 
-  utter_forma_gema_odiosa:
-    - text: "No tengo formas de gema que odie, cada forma aporta a la gema la belleza y elegancia que necesita."
-      metadata:
-        rephrase: false
+  # utter_forma_gema_odiosa:
+  #   - text: "No tengo formas de gema que odie, cada forma aporta a la gema la belleza y elegancia que necesita."
+  #     metadata:
+  #       rephrase: false
 
-  utter_engaste_gema_odioso:
-    - text: "No tengo engastes que odie, hay engastes que destacan por su sencillez y engastes que maravillan por la complejidad de su composición."
-      metadata:
-        rephrase: false
+  # utter_engaste_gema_odioso:
+  #   - text: "No tengo engastes que odie, hay engastes que destacan por su sencillez y engastes que maravillan por la complejidad de su composición."
+  #     metadata:
+  #       rephrase: false
 
-  utter_caja_mas_odiosa:
-    - text: "No tengo cajas que odie, todas las cajas que ofrece Louv son preciosas y pueden encajar perfectamente con cada situación y momento."
-      metadata:
-        rephrase: false
+  # utter_caja_mas_odiosa:
+  #   - text: "No tengo cajas que odie, todas las cajas que ofrece Louv son preciosas y pueden encajar perfectamente con cada situación y momento."
+  #     metadata:
+  #       rephrase: false
 
 
 
@@ -397,10 +404,10 @@ responses:
       metadata:
         rephrase: false
 
-  utter_propuesta_matrimonio:
-    - text: "¡Me siento muy halagada! Pero lamento decirle que no puedo casarme con usted, tan solo soy un asistente virtual."
-      metadata:
-        rephrase: false
+  # utter_propuesta_matrimonio:
+  #   - text: "¡Me siento muy halagada! Pero lamento decirle que no puedo casarme con usted, tan solo soy un asistente virtual."
+  #     metadata:
+  #       rephrase: false
 
 
 
@@ -449,118 +456,132 @@ responses:
 
 
 # UTTER PATATA TEAM ---------------------------------------------------------------
-
-  utter_equipo:
-    - text: "El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva. Todos ellos me crearon a mí y a Louv."
+  utter_equipo_patata_team:
+    - text: "Patata Team es un equipo de estudiantes del grado de ingerniería multimedia de la Universidad de Alicante, en España. El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva.
+            Si desea saber más sobre el equipo, le recomiendo visitar la página corporativa: https://louv.ovh/patatateam o cualquiera de sus redes sociales:
+            - Instagram: https://www.instagram.com/louv_spain/
+            - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+            - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc"
       metadata:
         rephrase: false
 
-  utter_patata:
-    - text: "El nombre de Patata Team nació de una sugerencia cómica de Javier Silva al saber que a Laura Saval le encantan las patatas. ¡Y así quedó!"
-      metadata:
-        rephrase: false
+  # utter_equipo:
+  #   - text: "El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva. Todos ellos me crearon a mí y a Louv."
+  #     metadata:
+  #       rephrase: false
 
-  utter_lugar_origen_patata_team:
-    - text: "Patata Team se formó en la Universidad de Alicante, en España, durante el desarrollo del proyecto Louv como parte de un ABP (Aprendizaje Basado en Proyectos)."
-      metadata:
-        rephrase: false
+  # utter_patata:
+  #   - text: "El nombre de Patata Team nació de una sugerencia cómica de Javier Silva al saber que a Laura Saval le encantan las patatas. ¡Y así quedó!"
+  #     metadata:
+  #       rephrase: false
 
-  utter_informacion_patata_team:
-    - text: "Si desea saber más información sobre Patata Team, le recomiendo visitar la página corporativa: https://louv.ovh/patataTeam/"
-      metadata:
-        rephrase: false
+  # utter_lugar_origen_patata_team:
+  #   - text: "Patata Team se formó en la Universidad de Alicante, en España, durante el desarrollo del proyecto Louv como parte de un ABP (Aprendizaje Basado en Proyectos)."
+  #     metadata:
+  #       rephrase: false
 
-  utter_proyectos_patata_team:
-    - text: "Patata Team ha trabajado principalmente en el desarrollo de Louv, un editor 3D para diseñar anillos personalizados. Por el momento no se conoce que hayan desarrollado más proyectos como equipo."
-      metadata:
-        rephrase: false
+  # utter_informacion_patata_team:
+  #   - text: "Si desea saber más información sobre Patata Team, le recomiendo visitar la página corporativa: https://louv.ovh/patataTeam/"
+  #     metadata:
+  #       rephrase: false
 
-  utter_estudios_patata_team:
-    - text: "Patata Team es un equipo de estudiantes de la Universidad de Alicante, están en el último año de la carrera de Ingeniería Multimedia y se unieron para crear Louv como parte de un proyecto académico."
-      metadata:
-        rephrase: false
+  # utter_proyectos_patata_team:
+  #   - text: "Patata Team ha trabajado principalmente en el desarrollo de Louv, un editor 3D para diseñar anillos personalizados. Por el momento no se conoce que hayan desarrollado más proyectos como equipo."
+  #     metadata:
+  #       rephrase: false
 
-  utter_redes_sociales_patata_team:
-    - text: | 
-        Patata Team no tiene redes sociales propias, pero puede seguir a Louv en sus redes sociales para estar al tanto de las novedades del equipo.
-        - Instagram: https://www.instagram.com/louv_spain/
-        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
-        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
-      metadata:
-        rephrase: false
+  # utter_estudios_patata_team:
+  #   - text: "Patata Team es un equipo de estudiantes de la Universidad de Alicante, están en el último año de la carrera de Ingeniería Multimedia y se unieron para crear Louv como parte de un proyecto académico."
+  #     metadata:
+  #       rephrase: false
 
-  utter_actualizaciones_blog:
-    - text: |
-        El blog de Patata Team se actualiza semanalmente. Para no perderte ninguna publicación, le recomiendo visitar el siguiente enlace: https://louv.ovh/patataTeam/blog/
-      metadata:
-        rephrase: false
+  # utter_redes_sociales_patata_team:
+  #   - text: | 
+  #       Patata Team no tiene redes sociales propias, pero puede seguir a Louv en sus redes sociales para estar al tanto de las novedades del equipo.
+  #       - Instagram: https://www.instagram.com/louv_spain/
+  #       - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+  #       - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+  #     metadata:
+  #       rephrase: false
 
-  utter_contactar_equipo:
-    - text: |
-        Si quiere contactar con Patata Team le recomiendo que rellene el formulario de su blog para realizar cualquier consulta: http://louv.ovh/patataTeam/contacto
-        Y en caso de que lo desee puede escribirles a las redes sociales de Louv:
-        - Instagram: https://www.instagram.com/louv_spain/
-        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
-        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
-      metadata:
-        rephrase: false
+  # utter_actualizaciones_blog:
+  #   - text: |
+  #       El blog de Patata Team se actualiza semanalmente. Para no perderte ninguna publicación, le recomiendo visitar el siguiente enlace: https://louv.ovh/patataTeam/blog/
+  #     metadata:
+  #       rephrase: false
 
-  utter_proteger_datos:
-    - text: |
-        En Louv nos preocupamos por proteger todos los datos de nuestros usuarios. Si desea saber más sobre la manera en la que se protegen dichos datos, le recomiendo que consulte nuestra Política de Privacidad.
-      metadata:
-        rephrase: false
+  # utter_contactar_equipo:
+  #   - text: |
+  #       Si quiere contactar con Patata Team le recomiendo que rellene el formulario de su blog para realizar cualquier consulta: http://louv.ovh/patataTeam/contacto
+  #       Y en caso de que lo desee puede escribirles a las redes sociales de Louv:
+  #       - Instagram: https://www.instagram.com/louv_spain/
+  #       - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+  #       - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+  #     metadata:
+  #       rephrase: false
 
-  utter_sugerencia_publicacion:
-    - text: |
-        Si desea realizar una propuesta sobre el contenido que se podría publicar en el blog, le recomiendo que complete el formulario para comunicarselo al equipo: http://louv.ovh/patataTeam/contacto
+  # utter_proteger_datos:
+  #   - text: |
+  #       En Louv nos preocupamos por proteger todos los datos de nuestros usuarios. Si desea saber más sobre la manera en la que se protegen dichos datos, le recomiendo que consulte nuestra Política de Privacidad.
+  #     metadata:
+  #       rephrase: false
+
+  # utter_sugerencia_publicacion:
+  #   - text: |
+  #       Si desea realizar una propuesta sobre el contenido que se podría publicar en el blog, le recomiendo que complete el formulario para comunicarselo al equipo: http://louv.ovh/patataTeam/contacto
 
 
 
 
 # UTTER ABP LOUV ---------------------------------------------------------------
 
+  utter_proyecto_louv_abp:
+    - text: "Louv es un proyecto ABP (Aprendizaje Basado en Proyectos) creado por Patata Team. Al ser un ABP no es un proyecto real y surgió como resultado detrás de un proceso de brainstorming,
+            en el que todos los integrantes apòrtaron su sideas y, tras ello, se decidió crear Louv, para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D."
+      metadata:
+        rephrase: false
+
   utter_nombre_louv:
     - text: "El nombre de Louv viene de una antigua princesa marroquí de la cual todos estaban enamorados y trataban de conquistarla regalándole joyas preciosas. Por desgracia, ninguno de sus pretendientes consiguió conquistarla nunca, pues no existía joya que estuviese a la altura de su anillo soñado."
       metadata:
         rephrase: false
 
-  utter_proyecto_louv:
-    - text: "Louv es un proyecto creado por Patata Team para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D. Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
-      metadata:
-        rephrase: false
+  # utter_proyecto_louv:
+  #   - text: "Louv es un proyecto creado por Patata Team para permitir a los usuarios diseñar su anillo soñado de manera fácil e intuitiva mediante un editor 3D. Cuando se creó Louv, se enfocó en el mercado del lujo medio, permitiendo a los usuarios crear el anillo que siempre quisieron a un precio asequible."
+  #     metadata:
+  #       rephrase: false
 
-  utter_louv_real:
-    - text: "Louv es un proyecto universitario. Como ABP que es, no es un proyecto real, no pertenece a una empresa como tal, solo sirve como proyecto académico."
-      metadata:
-        rephrase: false
+  # utter_louv_real:
+  #   - text: "Louv es un proyecto universitario. Como ABP que es, no es un proyecto real, no pertenece a una empresa como tal, solo sirve como proyecto académico."
+  #     metadata:
+  #       rephrase: false
 
-  utter_idea_louv_abp:
-    - text: "Louv fue el resultado detrás de un proceso de brainstorming, en la que todo el equipo Patata Team propuso distintas ideas y finalmente, tras consultar con el profesorado, se tomó la decisión
-        de crear Louv, un editor de anillos 3D."
-      metadata:
-        rephrase: false
+  # utter_idea_louv_abp:
+  #   - text: "Louv fue el resultado detrás de un proceso de brainstorming, en la que todo el equipo Patata Team propuso distintas ideas y finalmente, tras consultar con el profesorado, se tomó la decisión
+  #       de crear Louv, un editor de anillos 3D."
+  #     metadata:
+  #       rephrase: false
 
-  utter_tiempo_desarrollo:
-    - text: "Louv comenzó a crearse en septiembre de 2025, el tiempo exacto de su desarrollo depende de cuándo me preguntes, pero se estima que su desarrollo termine en mayo de 2026."
-      metadata:
-        rephrase: false
+  # utter_tiempo_desarrollo:
+  #   - text: "Louv comenzó a crearse en septiembre de 2025, el tiempo exacto de su desarrollo depende de cuándo me preguntes, pero se estima que su desarrollo termine en mayo de 2026."
+  #     metadata:
+  #       rephrase: false
 
-  utter_sugerir_cambio:
-    - text: "Si deseas enviar tus sugerencias al equipo de desarrollo le recomiendo que se ponga en contacto con estos a través del correo louv.spain@gmail.com."
-      metadata:
-        rephrase: false
+  # utter_sugerir_cambio:
+  #   - text: "Si deseas enviar tus sugerencias al equipo de desarrollo le recomiendo que se ponga en contacto con estos a través del correo louv.spain@gmail.com."
+  #     metadata:
+  #       rephrase: false
 
   utter_explicar_abp:
     - text: "Un ABP (Aprendizaje Basado en Proyectos) consiste en un enfoque pedagógico en el que los estudiantes adquieren conocimientos y habilidades al desarrollar de manera colaborativa y autónoma un proyecto real para resolver un problema o responder a una pregunta desafiante."
       metadata:
         rephrase: false
 
-  utter_louv_unico:
-    - text: "Louv es la única plataforma que ofrece un editor 3D de anillos tan detallado, trabajamos con materiales de alta calidad y no hacemos uso 
-        de diamantes de sangre. Nos preocupamos porque nuestros clientes disfruten de la mayor calidad y de la proveniencia de nuestras gemas."
-      metadata:
-        rephrase: false
+  # utter_louv_unico:
+  #   - text: "Louv es la única plataforma que ofrece un editor 3D de anillos tan detallado, trabajamos con materiales de alta calidad y no hacemos uso 
+  #       de diamantes de sangre. Nos preocupamos porque nuestros clientes disfruten de la mayor calidad y de la proveniencia de nuestras gemas."
+  #     metadata:
+  #       rephrase: false
 
   utter_terminos_politica_cookies:
     - text: |
@@ -579,15 +600,15 @@ responses:
       metadata:
         rephrase: false
 
-  utter_funcionalidades_futuras_louv:
-    - text: |
-        Me alegro de que estés interesado en el desarrollo de Louv. Si quieres estar al tanto de las funcionalidades futuras que se añadirán a Louv, te recomiendo seguirnos en nuestras redes sociales:
-        - Instagram: https://www.instagram.com/louv_spain/
-        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
-        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
-        - Blog: https://louv.ovh/patataTeam/blog/
-      metadata:
-        rephrase: false
+  # utter_funcionalidades_futuras_louv:
+  #   - text: |
+  #       Me alegro de que estés interesado en el desarrollo de Louv. Si quieres estar al tanto de las funcionalidades futuras que se añadirán a Louv, te recomiendo seguirnos en nuestras redes sociales:
+  #       - Instagram: https://www.instagram.com/louv_spain/
+  #       - Facebook: https://www.facebook.com/profile.php?id=61583506314797
+  #       - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+  #       - Blog: https://louv.ovh/patataTeam/blog/
+  #     metadata:
+  #       rephrase: false
 
 
 
@@ -604,20 +625,20 @@ responses:
       metadata:
         rephrase: false
 
-  utter_instagram_louv:
-    - text: "El instagram de Louv es: https://www.instagram.com/louv_spain/"
-      metadata:
-        rephrase: false
+  # utter_instagram_louv:
+  #   - text: "El instagram de Louv es: https://www.instagram.com/louv_spain/"
+  #     metadata:
+  #       rephrase: false
 
-  utter_facebook_louv:
-    - text: "El facebook de Louv es: https://www.facebook.com/profile.php?id=61583506314797"
-      metadata:
-        rephrase: false
+  # utter_facebook_louv:
+  #   - text: "El facebook de Louv es: https://www.facebook.com/profile.php?id=61583506314797"
+  #     metadata:
+  #       rephrase: false
   
-  utter_tiktok_louv:
-    - text: "El tiktok de Louv es: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc"
-      metadata:
-        rephrase: false
+  # utter_tiktok_louv:
+  #   - text: "El tiktok de Louv es: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc"
+  #     metadata:
+  #       rephrase: false
   
 
 
@@ -625,10 +646,10 @@ responses:
 
 # UTTER UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
 
-  utter_ubicacion_universidad:
-    - text: "La Universidad de Alicante (UA) se encuentra en Carretera de San Vicente del Raspeig, s/n, en San Vicente del Raspeig (Alicante), España."
-      metadata:
-        rephrase: false
+  # utter_ubicacion_universidad:
+  #   - text: "La Universidad de Alicante (UA) se encuentra en Carretera de San Vicente del Raspeig, s/n, en San Vicente del Raspeig (Alicante), España."
+  #     metadata:
+  #       rephrase: false
 
   utter_universidad_alicante:
     - text: "La Universidad de Alicante es el centro de estudio desde el que se creó Louv, el mismo sitio donde se fundó el equipo  
@@ -636,10 +657,10 @@ responses:
       metadata:
         rephrase: false
 
-  utter_ciudad_alicante:
-    - text: "Alicante es una provincia que se encuentra al este de España, más concretamente en el sur de la Comunidad Valenciana."
-      metadata:
-        rephrase: false
+  # utter_ciudad_alicante:
+  #   - text: "Alicante es una provincia que se encuentra al este de España, más concretamente en el sur de la Comunidad Valenciana."
+  #     metadata:
+  #       rephrase: false
 
   utter_informacion_grado_multimedia:
     - text: |
@@ -855,10 +876,17 @@ responses:
       metadata:
         rephrase: false
 
-  utter_sistema_certificacion_kimberley:
-    - text: "El Sistema de Certificación Kimberley es un proceso internacional establecido para prevenir el comercio de diamantes de conflicto, también conocidos como diamantes de sangre. Este sistema certifica que los diamantes han sido extraídos y comercializados de manera ética y legal, sin financiar conflictos armados, y es la forma que tenemos de saber de dónde proceden nuestras gemas."
+  utter_diamantes_de_sangre_y_kimberley:
+    - text: "Para saber el origen de nuestras gemas y evitar los diamantes de sangre, en Louv se hace uso del Sistema de Certificación Kimberley,
+            de esta manera, nos aseguramos de que nuestras gemas no se extraen en zonas de conflicto, ni se financian guerras ni violan los derechos humanos.
+            Pues el Sistema de Certificación Kimberley, es un proceso internacional establecido para prevenir el comercio de diamantes de sangre. Este sistema certifica que los diamantes han sido extraídos y comercializados de manera ética y legal, sin financiar conflictos armados."
       metadata:
         rephrase: false
+
+  # utter_sistema_certificacion_kimberley:
+  #   - text: "El Sistema de Certificación Kimberley es un proceso internacional establecido para prevenir el comercio de diamantes de conflicto, también conocidos como diamantes de sangre. Este sistema certifica que los diamantes han sido extraídos y comercializados de manera ética y legal, sin financiar conflictos armados, y es la forma que tenemos de saber de dónde proceden nuestras gemas."
+  #     metadata:
+  #       rephrase: false
 
   utter_certificacion_gia:
     - text: |
@@ -877,15 +905,21 @@ responses:
       metadata:
         rephrase: false
 
-  utter_gema_de_laboratorio:
-    - text: "Una gema de laboratorio es una gema cultivada en un laboratorio que imita el proceso de formación natural, pero en un entorno controlado y acelerado. Son mucho más baratas que las gemas naturales con precios hasta un 30-70% más bajos."
+  utter_gema_de_laboratorio_y_distinguir_gema_natural_sintetica:
+    - text: "Una gema de laboratorio es una gema cultivada en un laboratorio que imita el proceso de formación natural, pero en un entorno controlado y acelerado. Son mucho más baratas que las gemas naturales con precios hasta un 30-70% más bajos.
+            A simple vista no es posible distinguir una gema natural de una de laboratorio, ya que tienen la misma composición química y propiedades físicas. Sin embargo, un gemólogo certificado con equipo especializado, puede identificar diferencias en las inclusiones y patrones de crecimiento."
       metadata:
         rephrase: false
 
-  utter_distinguir_gema_natural_sintetica:
-    - text: "A simple vista no es posible distinguir una gema natural de una de laboratorio, ya que tienen la misma composición química y propiedades físicas. Sin embargo, un gemólogo certificado con equipo especializado, puede identificar diferencias en las inclusiones y patrones de crecimiento."
-      metadata:
-        rephrase: false
+  # utter_gema_de_laboratorio:
+  #   - text: "Una gema de laboratorio es una gema cultivada en un laboratorio que imita el proceso de formación natural, pero en un entorno controlado y acelerado. Son mucho más baratas que las gemas naturales con precios hasta un 30-70% más bajos."
+  #     metadata:
+  #       rephrase: false
+
+  # utter_distinguir_gema_natural_sintetica:
+  #   - text: "A simple vista no es posible distinguir una gema natural de una de laboratorio, ya que tienen la misma composición química y propiedades físicas. Sin embargo, un gemólogo certificado con equipo especializado, puede identificar diferencias en las inclusiones y patrones de crecimiento."
+  #     metadata:
+  #       rephrase: false
 
   utter_gemas_caras:
     - text: "Es cierto que existen gemas más económicas en el mercado, pero no de la calidad que se ofrecen en Louv. Nuestras gemas tienen una calidad superior en color, pureza y talla, están certificadas y seleccionadas individualmente. Esto garantiza más brillo, durabilidad y valor real a largo plazo."
@@ -949,18 +983,18 @@ responses:
       metadata:
         rephrase: false
 
-  utter_utilidad_buscador:
-    - text: |
-        Puede usar el buscador del editor para encontrar piezas para su diseño. El buscador le permite filtrar los componentes que puede utilizar en su diseño.
-      metadata:
-        rephrase: false
+  # utter_utilidad_buscador:
+  #   - text: |
+  #       Puede usar el buscador del editor para encontrar piezas para su diseño. El buscador le permite filtrar los componentes que puede utilizar en su diseño.
+  #     metadata:
+  #       rephrase: false
 
-  utter_eliminar_busqueda:
-    - text: |
-        Para eliminar la busqueda que ha realizado y poder visualizar nuevamente todos los componentes del editor,
-        debe borrar la búsqueda realizada para que el buscador quede vacío nuevamente.
-      metadata:
-        rephrase: false
+  # utter_eliminar_busqueda:
+  #   - text: |
+  #       Para eliminar la busqueda que ha realizado y poder visualizar nuevamente todos los componentes del editor,
+  #       debe borrar la búsqueda realizada para que el buscador quede vacío nuevamente.
+  #     metadata:
+  #       rephrase: false
 
   utter_precio_oculto_compartir:
     - text: |
@@ -978,7 +1012,7 @@ responses:
 
   utter_reiniciar_conversacion_chatbot:
     - text: |
-        No es posible reinicar el chat, si lo desea, debe reiniciar la página web. Para ello puede pulsar Ctrl+F5.
+        Parar reiniciar la conversación, pulse el botón que se encuentra sobre el chat, a la derecha del nombre "Luna".
       metadata:
         rephrase: false
 
@@ -989,13 +1023,13 @@ responses:
       metadata:
         rephrase: false
   
-  utter_necesitar_dni_usuario:
-    - text: |
-        Se le solicita su Documento Nacional de Identidad (DNI), pues a través de la plataforma se realizan compras de alto
-        nivel económico, por ello se necesita confirmar la identidad de los usuarios. 
-        Tan solo se le solicitará esta información en caso de realizar una compra.
-      metadata:
-        rephrase: false
+  # utter_necesitar_dni_usuario:
+  #   - text: |
+  #       Se le solicita su Documento Nacional de Identidad (DNI), pues a través de la plataforma se realizan compras de alto
+  #       nivel económico, por ello se necesita confirmar la identidad de los usuarios. 
+  #       Tan solo se le solicitará esta información en caso de realizar una compra.
+  #     metadata:
+  #       rephrase: false
 
 
 
@@ -1009,18 +1043,26 @@ responses:
       metadata:
         rephrase: false
 
-  utter_sistemas_tallas_existen:
+  utter_sistemas_tallas_existen_y_tallas_trabajan:
     - text: |
         Existen multitud de sistemas de medida alrededor del mundo, pero los más conocidos son: Español, Italiano, Francés, Europeo/Alemán, USA/Canadá, UK/Australia y Japonés.
-      metadata: 
-        rephrase: false
-      
-  utter_talla_de_anillo_trabajo:
-    - text: |
         En Louv se trabajan con todas las tallas posibles, desde la talla 1 a la 36 según el Sistema Español. Al contrario que
         el resto de joyerías que suelen trabajar desde la 8 a la 30.
-      metadata:
+      metadata: 
         rephrase: false
+
+  # utter_sistemas_tallas_existen:
+  #   - text: |
+  #       Existen multitud de sistemas de medida alrededor del mundo, pero los más conocidos son: Español, Italiano, Francés, Europeo/Alemán, USA/Canadá, UK/Australia y Japonés.
+  #     metadata: 
+  #       rephrase: false
+      
+  # utter_talla_de_anillo_trabajo:
+  #   - text: |
+  #       En Louv se trabajan con todas las tallas posibles, desde la talla 1 a la 36 según el Sistema Español. Al contrario que
+  #       el resto de joyerías que suelen trabajar desde la 8 a la 30.
+  #     metadata:
+  #       rephrase: false
 
   utter_cambiar_talla_anillo:
     - text: |
@@ -1030,12 +1072,12 @@ responses:
       metadata:
         rephrase: false
 
-  utter_devolver_anillo_talla:
-    - text: |
-        Lamento decirle que tan solo podrá devolver un producto en caso de que posea un defecto de fábrica. Al ser una pieza personalizada,
-        nuestra política de empresa no permite aceptar devoluciones por el motivo que me comenta.
-      metadata:
-        rephrase: false
+  # utter_devolver_anillo_talla:
+  #   - text: |
+  #       Lamento decirle que tan solo podrá devolver un producto en caso de que posea un defecto de fábrica. Al ser una pieza personalizada,
+  #       nuestra política de empresa no permite aceptar devoluciones por el motivo que me comenta.
+  #     metadata:
+  #       rephrase: false
 
   utter_duda_entre_tallas:
     - text: |
@@ -1044,11 +1086,11 @@ responses:
       metadata:
         rephrase: false
 
-  utter_talla_dedo_distinta:
-    - text: |
-        Cada dedo puede tener una talla distinta, en función de lo que mida la circunferencia del dedo, usará una talla u otra.
-      metadata:
-        rephrase: false
+  # utter_talla_dedo_distinta:
+  #   - text: |
+  #       Cada dedo puede tener una talla distinta, en función de lo que mida la circunferencia del dedo, usará una talla u otra.
+  #     metadata:
+  #       rephrase: false
 
   utter_temperatura_talla:
     - text: |
@@ -1057,11 +1099,11 @@ responses:
       metadata:
         rephrase: false
 
-  utter_modificar_talla_posteriori:
-    - text: |
-        No se puede hacer un cambio de talla. Una vez recibe su anillo no puede hacer modificaciones.
-      metadata:
-        rephrase: false
+  # utter_modificar_talla_posteriori:
+  #   - text: |
+  #       No se puede hacer un cambio de talla. Una vez recibe su anillo no puede hacer modificaciones.
+  #     metadata:
+  #       rephrase: false
 
 
 
@@ -1085,26 +1127,26 @@ responses:
       metadata:
         rephrase: false
 
-  utter_precio_oro:
-    - text: |
-        El precio del oro varía según los quilates de este:
-        - 18K: 18.75€ por gramo.
-        - 22K: 111.15€ por gramo.
-        - 24K: 117€ por gramo.
-      metadata:
-        rephrase: false
+  # utter_precio_oro:
+  #   - text: |
+  #       El precio del oro varía según los quilates de este:
+  #       - 18K: 18.75€ por gramo.
+  #       - 22K: 111.15€ por gramo.
+  #       - 24K: 117€ por gramo.
+  #     metadata:
+  #       rephrase: false
 
-  utter_precio_platino:
-    - text: |
-        El precio del platino es actualmente de 48.39€ por gramo.
-      metadata:
-        rephrase: false
+  # utter_precio_platino:
+  #   - text: |
+  #       El precio del platino es actualmente de 48.39€ por gramo.
+  #     metadata:
+  #       rephrase: false
 
-  utter_macizo:
-    - text: |
-        Todos los materiales que usamos para fabricar los anillos que vendemos son macizos.
-      metadata:
-        rephrase: false
+  # utter_macizo:
+  #   - text: |
+  #       Todos los materiales que usamos para fabricar los anillos que vendemos son macizos.
+  #     metadata:
+  #       rephrase: false
 
   utter_desgaste:
     - text: |
@@ -1183,17 +1225,17 @@ responses:
       metadata:
         rephrase: false
 
-  utter_pedido_perdido:
-    - text: |
-        En caso de que su pedido sufra alguna incidencia durante el envío, deberá ponerse en contacto con la empresa encargada de las entregas.
-      metadata:
-        rephrase: false
+  # utter_pedido_perdido:
+  #   - text: |
+  #       En caso de que su pedido sufra alguna incidencia durante el envío, deberá ponerse en contacto con la empresa encargada de las entregas.
+  #     metadata:
+  #       rephrase: false
   
-  utter_pedido_mudanza:
-    - text: |
-        Si existe algún tipo de error en cuanto a la ubicación que debe enviarse el pedido, deberá comunicarse con la empresa a través del correo louv.spain@gmail.com. .
-      metadata:
-        rephrase: false
+  # utter_pedido_mudanza:
+  #   - text: |
+  #       Si existe algún tipo de error en cuanto a la ubicación que debe enviarse el pedido, deberá comunicarse con la empresa a través del correo louv.spain@gmail.com. .
+  #     metadata:
+  #       rephrase: false
 
   utter_tiempo_entrega:
     - text: |
@@ -1216,6 +1258,14 @@ responses:
   utter_gastos_envio:
     - text: |
         Los gastos de envío son impuestos por la empresa de transporte. Si desea saber los precios de estos le recomiendo enviar un mensaje al correo louv.spain@gmail.com.. 
+      metadata:
+        rephrase: false
+
+  utter_incidenciass_pedido_devoluciones:
+    - text: |
+        En caso de que el pedido sufra algún tipo de incidencia y no haya podido ser recibido, se le recomienda ponerse en contacto con la empresa a través del correo louv.spain@gmail.com.
+        También se le recuerda que en caso de ser una pieza personalizada, tan solo se aceptarán devoluciones por defectos de fábrica.
+        Para más información sobre nuestra política de devoluciones, le recomiendo leer nuestros Términos y Condiciones. 
       metadata:
         rephrase: false
 
@@ -1422,17 +1472,17 @@ responses:
       metadata:
         rephrase: false
 
-  utter_anillo_diario:
-    - text: |
-        Llevar el anillo de compromiso todos los días es común para simbolizar el compromiso. Eso sí, conviene retirarlo al hacer tareas que puedan dañarlo para mantenerlo en perfecto estado.
-      metadata:
-        rephrase: false
+  # utter_anillo_diario:
+  #   - text: |
+  #       Llevar el anillo de compromiso todos los días es común para simbolizar el compromiso. Eso sí, conviene retirarlo al hacer tareas que puedan dañarlo para mantenerlo en perfecto estado.
+  #     metadata:
+  #       rephrase: false
 
-  utter_rechazo_matrimonio:
-    - text: |
-        Legalmente, en la mayoría de los países el anillo sigue siendo propiedad de quien lo regaló, ya que se considera un obsequio condicional: se entrega con la intención de compromiso. Sin embargo, las prácticas pueden variar según acuerdos personales o culturales.
-      metadata:
-        rephrase: false
+  # utter_rechazo_matrimonio:
+  #   - text: |
+  #       Legalmente, en la mayoría de los países el anillo sigue siendo propiedad de quien lo regaló, ya que se considera un obsequio condicional: se entrega con la intención de compromiso. Sin embargo, las prácticas pueden variar según acuerdos personales o culturales.
+  #     metadata:
+  #       rephrase: false
 
 
 
@@ -1592,3 +1642,16 @@ responses:
   
   utter_clarification_options_rasa:
     - text: ""
+
+
+
+
+
+
+
+
+
+# UTTERS INTERACCION CON MOTOR 3D --------------------------------------------------------------
+
+  utter_ask_ring_type:
+    - text: "¿Qué tipo de anillo te gustaría ver?"

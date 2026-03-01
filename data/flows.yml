@@ -44,38 +44,22 @@
 
 
 
-# HAY QUE AÑADIR UN FLOW PARA CALCULAR LA TALLA DEL USUARIO SEGÚN SU MEDIDA
-# HAY QUE VER SI PODEMOS HACER QUE RECUERDE EL MENSAJE ANTERIOR O VARIOS MENSAJES ANTERIORES DE ALGUNA MANERA
-
-
-# --------------------------------------------------------------------------------------------------------
-
-# FALLOS DE FLOWS ---------------------------------------------------------------------------------------
-
-# MÉTODOS DE PAGO HAY QUE MEJORARLO, MIRAR EL VIDEO PRUEBAS 8
-
-# ----------------------------------------------------------------------------------------------------------
-
-
-
-# --------------------------------------------------------------------------------------------------------
-
-# MI PADRE ME HA PREGUNTADO ESTAS COSAS ---------------------------------------------------------------------------------------
-
-# CUAL ES EL PEDIDO MINIMO
-# 
-
-# ----------------------------------------------------------------------------------------------------------
-
 
 flows:
   # Sobrescribe pattern_search para que no genere respuesta ---------------------------------------------------------------
   pattern_search:
     description: |
-      Patrón de búsqueda que redirige a chitchat
+      Patrón de búsqueda que redirige a chitchat solo si no hay otro flow activo
     name: pattern search
     steps:
-      - id: "0"
+      - noop: true
+        next:
+          # Si hay algún flow activo en el stack, termina sin activar chitchat
+          - if: context.flow_stack
+            then: END
+          # Si no hay flows activos, enlaza a chitchat
+          - else: link_to_chitchat
+      - id: link_to_chitchat
         link: pattern_chitchat
 
   # Sobrescribe pattern_completed para que no genere respuesta ---------------------------------------------------------------
@@ -213,37 +197,37 @@ flows:
     steps:
       - action: utter_gema_favorita
 
-  segunda_gema_que_mas_gusta_luna:
-    description: |
-      El usuario pregunta sobre la segunda gema que más le gusta al asistente, como 
-      "¿Cuál es la segunda gema que más te gusta?", "¿Tienes otra gema favorita?", 
-      "¿Qué otra gema te gusta?"
-    steps:
-      - action: utter_segunda_gema_favorita
+  # segunda_gema_que_mas_gusta_luna:
+  #   description: |
+  #     El usuario pregunta sobre la segunda gema que más le gusta al asistente, como 
+  #     "¿Cuál es la segunda gema que más te gusta?", "¿Tienes otra gema favorita?", 
+  #     "¿Qué otra gema te gusta?"
+  #   steps:
+  #     - action: utter_segunda_gema_favorita
 
-  gema_odiosa_luna:
-    description: |
-      El usuario pregunta sobre la gema que menos le gusta al asistente, como 
-      "¿Cuál es la gema que menos te gusta?", "¿Tienes una gema que no te guste?", 
-      "¿Qué gema odias?"
-    steps:
-      - action: utter_gema_odiosa
+  # gema_odiosa_luna:
+  #   description: |
+  #     El usuario pregunta sobre la gema que menos le gusta al asistente, como 
+  #     "¿Cuál es la gema que menos te gusta?", "¿Tienes una gema que no te guste?", 
+  #     "¿Qué gema odias?"
+  #   steps:
+  #     - action: utter_gema_odiosa
 
-  metal_precioso_material_favorito_luna:
-    description: |
-      El usuario pregunta sobre el metal precioso o material favorito del asistente, como 
-      "¿Cuál es tu metal precioso favorito?", "¿Tienes un material preferido?", 
-      "¿Qué metal te gusta más?"
-    steps:
-      - action: utter_metal_precioso_favorito
+  # metal_precioso_material_favorito_luna:
+  #   description: |
+  #     El usuario pregunta sobre el metal precioso o material favorito del asistente, como 
+  #     "¿Cuál es tu metal precioso favorito?", "¿Tienes un material preferido?", 
+  #     "¿Qué metal te gusta más?"
+  #   steps:
+  #     - action: utter_metal_precioso_favorito
 
-  luna_odia_materiales:
-    description: |
-      El usuario pregunta sobre los materiales que menos le gustan al asistente, como 
-      "¿Qué materiales odias?", "¿Tienes algún material que no te guste?", 
-      "¿Cuál es el material que menos te gusta?"
-    steps:
-      - action: utter_materiales_odiosos
+  # luna_odia_materiales:
+  #   description: |
+  #     El usuario pregunta sobre los materiales que menos le gustan al asistente, como 
+  #     "¿Qué materiales odias?", "¿Tienes algún material que no te guste?", 
+  #     "¿Cuál es el material que menos te gusta?"
+  #   steps:
+  #     - action: utter_materiales_odiosos
 
   color_favorito_luna:
     description: |
@@ -253,13 +237,13 @@ flows:
     steps:
       - action: utter_color_favorito
 
-  color_odioso_luna:
-    description: |
-      El usuario pregunta sobre el color que menos le gusta al asistente, como 
-      "¿Cuál es el color que menos te gusta?", "¿Tienes un color que no te guste?", 
-      "¿Qué color odias?"
-    steps:
-      - action: utter_color_odioso
+  # color_odioso_luna:
+  #   description: |
+  #     El usuario pregunta sobre el color que menos le gusta al asistente, como 
+  #     "¿Cuál es el color que menos te gusta?", "¿Tienes un color que no te guste?", 
+  #     "¿Qué color odias?"
+  #   steps:
+  #     - action: utter_color_odioso
 
   corte_favorito_luna:
     description: |
@@ -270,14 +254,14 @@ flows:
     steps:
       - action: utter_corte_favorito
 
-  corte_odioso_luna:
-    description: |
-      El usuario pregunta sobre el corte de gema que menos le gusta al asistente, como 
-      "¿Cuál es el corte de gema que menos te gusta?", "¿Tienes un corte que no te guste?", 
-      "¿Qué corte de gema odias?", "¿Cuál es el corte que menos te gusta?", "¿Tienes algún corte que odies?",
-      "¿Existe un corte que sea el peor de todos?"
-    steps:
-      - action: utter_corte_odioso
+  # corte_odioso_luna:
+  #   description: |
+  #     El usuario pregunta sobre el corte de gema que menos le gusta al asistente, como 
+  #     "¿Cuál es el corte de gema que menos te gusta?", "¿Tienes un corte que no te guste?", 
+  #     "¿Qué corte de gema odias?", "¿Cuál es el corte que menos te gusta?", "¿Tienes algún corte que odies?",
+  #     "¿Existe un corte que sea el peor de todos?"
+  #   steps:
+  #     - action: utter_corte_odioso
 
   tallado_favorito_luna:
     description: |
@@ -288,14 +272,14 @@ flows:
     steps:
       - action: utter_tallado_favorito
 
-  tallado_odioso_luna:
-    description: |
-      El usuario pregunta sobre el tallado de gema que menos le gusta al asistente, como 
-      "¿Cuál es el tallado de gema que menos te gusta?", "¿Tienes un tallado que no te guste?", 
-      "¿Qué tallado de gema odias?", "¿Cuál es el tallado que menos te gusta?", "¿Tienes algún tallado que odies?",
-      "¿Existe un tallado que sea el peor de todos?"
-    steps:
-      - action: utter_tallado_odioso
+  # tallado_odioso_luna:
+  #   description: |
+  #     El usuario pregunta sobre el tallado de gema que menos le gusta al asistente, como 
+  #     "¿Cuál es el tallado de gema que menos te gusta?", "¿Tienes un tallado que no te guste?", 
+  #     "¿Qué tallado de gema odias?", "¿Cuál es el tallado que menos te gusta?", "¿Tienes algún tallado que odies?",
+  #     "¿Existe un tallado que sea el peor de todos?"
+  #   steps:
+  #     - action: utter_tallado_odioso
 
   forma_gema_favorita_luna:
     description: |
@@ -305,13 +289,13 @@ flows:
     steps:
       - action: utter_forma_gema_favorita
 
-  forma_gema_odiosa_luna:
-    description: |
-      El usuario pregunta sobre la forma de gema que menos le gusta al asistente, como 
-      "¿Cuál es la forma de gema que menos te gusta?", "¿Tienes una forma que no te guste?", 
-      "¿Qué forma de gema odias?"
-    steps:
-      - action: utter_forma_gema_odiosa
+  # forma_gema_odiosa_luna:
+  #   description: |
+  #     El usuario pregunta sobre la forma de gema que menos le gusta al asistente, como 
+  #     "¿Cuál es la forma de gema que menos te gusta?", "¿Tienes una forma que no te guste?", 
+  #     "¿Qué forma de gema odias?"
+  #   steps:
+  #     - action: utter_forma_gema_odiosa
 
   caja_favorita_luna:
     description: |
@@ -321,13 +305,13 @@ flows:
     steps:
       - action: utter_caja_favorita
 
-  caja_mas_odiosa_luna:
-    description: |
-      El usuario pregunta sobre la caja de gema que menos le gusta al asistente, como 
-      "¿Cuál es la caja de gema que menos te gusta?", "¿Tienes una caja que no te guste?", 
-      "¿Qué caja de gema odias?"
-    steps:
-      - action: utter_caja_mas_odiosa
+  # caja_mas_odiosa_luna:
+  #   description: |
+  #     El usuario pregunta sobre la caja de gema que menos le gusta al asistente, como 
+  #     "¿Cuál es la caja de gema que menos te gusta?", "¿Tienes una caja que no te guste?", 
+  #     "¿Qué caja de gema odias?"
+  #   steps:
+  #     - action: utter_caja_mas_odiosa
 
   engaste_gema_favorito_luna:
     description: |
@@ -337,13 +321,13 @@ flows:
     steps:
       - action: utter_engaste_gema_favorito
 
-  engaste_gema_odioso_luna:
-    description: |
-      El usuario pregunta sobre el engaste de gema que menos le gusta al asistente, como 
-      "¿Cuál es el engaste de gema que menos te gusta?", "¿Tienes un engaste que no te guste?", 
-      "¿Qué engaste de gema odias?"
-    steps:
-      - action: utter_engaste_gema_odioso
+  # engaste_gema_odioso_luna:
+  #   description: |
+  #     El usuario pregunta sobre el engaste de gema que menos le gusta al asistente, como 
+  #     "¿Cuál es el engaste de gema que menos te gusta?", "¿Tienes un engaste que no te guste?", 
+  #     "¿Qué engaste de gema odias?"
+  #   steps:
+  #     - action: utter_engaste_gema_odioso
 
 
 
@@ -365,23 +349,23 @@ flows:
   #   steps:
   #     - action: utter_ataque
 
-  diamantes_de_sangre:
-    description: |
-      El usuario pregunta ataca al chatbot por comerciar con diamantes de sangre,
-      con frases como "¿Por qué vendes diamantes de sangre?", "¿No te importa la gente que sufre por los diamantes?",
-      "Los diamantes de sangre son horribles", "Eres una asesina", "¿Cómo se te ocurre vender diamanrtes de sangre?"
-    steps:
-      - action: utter_diamantes_de_sangre
+  # diamantes_de_sangre:
+  #   description: |
+  #     El usuario pregunta ataca al chatbot por comerciar con diamantes de sangre,
+  #     con frases como "¿Por qué vendes diamantes de sangre?", "¿No te importa la gente que sufre por los diamantes?",
+  #     "Los diamantes de sangre son horribles", "Eres una asesina", "¿Cómo se te ocurre vender diamanrtes de sangre?",
+  #     "¿Comercias con diamantes de sangre?"
+  #   steps:
+  #     - action: utter_diamantes_de_sangre
 
 
-# NO FUNCIONA BIEN LA PROPUESTA DE MATRIMONIO -------------------------------------------------
-  propuesta_de_matrimonio_luna:
-    description: |
-      El usuario propone matrimonio al asistente con frases como 
-      "¿Quieres casarte conmigo?", "Te quiero pedir que te cases conmigo", 
-      "¿Te casarías conmigo?"
-    steps:
-      - action: utter_propuesta_matrimonio
+  # propuesta_de_matrimonio_luna:
+  #   description: |
+  #     El usuario propone matrimonio al asistente con frases como 
+  #     "¿Quieres casarte conmigo?", "Te quiero pedir que te cases conmigo", 
+  #     "¿Te casarías conmigo?"
+  #   steps:
+  #     - action: utter_propuesta_matrimonio
 
   # corazon_roto_usuario:
   #   description: |
@@ -480,88 +464,102 @@ flows:
 
 # FLOWS SOBRE PATATA TEAM ---------------------------------------------------------------
 
-  preguntar_equipo:
+  # preguntar_equipo:
+  #   description: |
+  #     El usuario pregunta sobre el equipo Patata Team, como "¿Quién es Patata Team?", 
+  #     "¿Quiénes forman el equipo?"
+  #   steps:
+  #     - action: utter_equipo
+
+  preguntar_equipo_patata_team:
     description: |
       El usuario pregunta sobre el equipo Patata Team, como "¿Quién es Patata Team?", 
-      "¿Quiénes forman el equipo?"
-    steps:
-      - action: utter_equipo
-
-  preguntar_nombre_patata:
-    description: |
-      El usuario pregunta por qué se llama Patata Team, como "¿Por qué Patata Team?", 
-      "¿De dónde viene el nombre?"
-    steps:
-      - action: utter_patata
-
-  lugar_origen_patata_team:
-    description: |
-      El usuario pregunta sobre el lugar de origen del equipo Patata Team, como 
-      "¿De dónde es Patata Team?", "¿Dónde se formó Patata Team?", 
-      "¿Dónde está Patata Team?"
-    steps:
-      - action: utter_lugar_origen_patata_team
-
-  informacion_patata_team:
-    description: |
-      El usuario quiere saber cómo puede obtener más información sobre el equipo Patata Team, hace preguntas como 
-      "¿Cómo puedo saber más información sobre Patata Team?", "Háblame de Patata Team", 
-      "¿Dónde puedo encontrar información de Patata Team?"
-    steps:
-      - action: utter_informacion_patata_team
-
-  proyectos_patata_team:
-    description: |
-      El usuario quiere saber qué proyectos ha realizado el equipo Patata Team, hace preguntas como 
-      "¿Qué proyectos ha hecho Patata Team?", "¿Cuáles son los proyectos de Patata Team?", 
-      "Háblame de los proyectos de Patata Team"
-    steps:
-      - action: utter_proyectos_patata_team
-
-  estudios_patata_team:
-    description: |
-      El usuario pregunta sobre los estudios académicos del equipo Patata Team, como 
-      "¿Qué estudios tienen los miembros de Patata Team?", "¿Dónde estudiaron los integrantes de Patata Team?", 
-      "¿Qué formación académica tiene Patata Team?"
-    steps:
-      - action: utter_estudios_patata_team
-
-  redes_sociales_patata_team:
-    description: |
-      El usuario pregunta por las redes sociales de Patata Team, quiere saber dónde puede seguir a Patata Team en redes sociales,
-      hace preguntas como "¿Dónde puedo seguir a Patata Team en redes sociales?", "¿Tiene Patata Team redes sociales?",
-      "¿Puedo seguir a Patata Team en Instagram/Facebook/Tiktok?"
-    steps:
-      - action: utter_redes_sociales_patata_team
-
-  actualizaciones_blog:
-    description: |
-      El usuario pregunta cómo puede estar al tanto de las actualizaciones del blog de Patata Team,
-      hace preguntas como "¿Cómo puedo saber cuándo hay una nueva entrada en el blog de Patata Team?",
-      "¿Dónde puedo ver las actualizaciones del blog de Patata Team?", "¿Cada cuánto tiempo se actualiza el blog?"
-    steps:
-      - action: utter_actualizaciones_blog
-
-  poner_en_contacto_con_el_equipo:
-    description: |
-      El usuario quiere saber cómo puede contactar con el equipo Patata Team, hace consultas como "¿Cómo puedo contactar con el equipo?",
+      "¿Quiénes forman el equipo?", "¿De dónde viene el nombre?", "¿De dónde viene el nombre del equipo?",
+      "¿Por qué Patata Team?", "¿De dónde es Patata Team?", "¿Dónde se formó Patata Team?", 
+      "¿Dónde está Patata Team?", "¿Cómo puedo saber más información sobre Patata Team?", "Háblame de Patata Team", 
+      "¿Dónde puedo encontrar información de Patata Team?", "¿Qué proyectos ha hecho Patata Team?", "¿Cuáles son los proyectos de Patata Team?", 
+      "Háblame de los proyectos de Patata Team", "¿Qué estudios tienen los miembros de Patata Team?", "¿Dónde estudiaron los integrantes de Patata Team?", 
+      "¿Qué formación académica tiene Patata Team?", "¿Dónde puedo seguir a Patata Team en redes sociales?", "¿Tiene Patata Team redes sociales?",
+      "¿Puedo seguir a Patata Team en Instagram/Facebook/Tiktok?", "¿Cómo puedo contactar con el equipo?",
       "Quiero hablar con Patata Team", "¿Hay alguna forma de hablar con el equipo?"
     steps:
-      - action: utter_contactar_equipo
+      - action: utter_equipo_patata_team
 
-  como_se_protegen_los_datos_de_los_usuarios:
-    description: |
-      El usuario pregunta qué hace Louv para proteger los datos de los usuarios, hace consultas como "¿Cómo se protegen mis datos?",
-      "¿Qué hace Louv para proteger mis datos?", "¿Se están protegiendo los datos de los usuarios?"
-    steps:
-      - action: utter_proteger_datos
+  # preguntar_nombre_patata:
+  #   description: |
+  #     El usuario pregunta por qué se llama Patata Team, como "¿Por qué Patata Team?", 
+  #     "¿De dónde viene el nombre?"
+  #   steps:
+  #     - action: utter_patata
 
-  sugerencia_publicaion_del_usuario:
-    description: |
-      El usuario sugiere subir contenido al blog sobre un tema en concreto, hace consultas como "¿Podéis subir un post sobre X?",
-      "Me gustaría leer una publicación sobre X.", "Sugiero que la siguiente publicación sea sobre X."
-    steps:
-      - action: utter_sugerencia_publicacion
+  # lugar_origen_patata_team:
+  #   description: |
+  #     El usuario pregunta sobre el lugar de origen del equipo Patata Team, como 
+  #     "¿De dónde es Patata Team?", "¿Dónde se formó Patata Team?", 
+  #     "¿Dónde está Patata Team?"
+  #   steps:
+  #     - action: utter_lugar_origen_patata_team
+
+  # informacion_patata_team:
+  #   description: |
+  #     El usuario quiere saber cómo puede obtener más información sobre el equipo Patata Team, hace preguntas como 
+  #     "¿Cómo puedo saber más información sobre Patata Team?", "Háblame de Patata Team", 
+  #     "¿Dónde puedo encontrar información de Patata Team?"
+  #   steps:
+  #     - action: utter_informacion_patata_team
+
+  # proyectos_patata_team:
+  #   description: |
+  #     El usuario quiere saber qué proyectos ha realizado el equipo Patata Team, hace preguntas como 
+  #     "¿Qué proyectos ha hecho Patata Team?", "¿Cuáles son los proyectos de Patata Team?", 
+  #     "Háblame de los proyectos de Patata Team"
+  #   steps:
+  #     - action: utter_proyectos_patata_team
+
+  # estudios_patata_team:
+  #   description: |
+  #     El usuario pregunta sobre los estudios académicos del equipo Patata Team, como 
+  #     "¿Qué estudios tienen los miembros de Patata Team?", "¿Dónde estudiaron los integrantes de Patata Team?", 
+  #     "¿Qué formación académica tiene Patata Team?"
+  #   steps:
+  #     - action: utter_estudios_patata_team
+
+  # redes_sociales_patata_team:
+  #   description: |
+  #     El usuario pregunta por las redes sociales de Patata Team, quiere saber dónde puede seguir a Patata Team en redes sociales,
+  #     hace preguntas como "¿Dónde puedo seguir a Patata Team en redes sociales?", "¿Tiene Patata Team redes sociales?",
+  #     "¿Puedo seguir a Patata Team en Instagram/Facebook/Tiktok?"
+  #   steps:
+  #     - action: utter_redes_sociales_patata_team
+
+  # actualizaciones_blog:
+  #   description: |
+  #     El usuario pregunta cómo puede estar al tanto de las actualizaciones del blog de Patata Team,
+  #     hace preguntas como "¿Cómo puedo saber cuándo hay una nueva entrada en el blog de Patata Team?",
+  #     "¿Dónde puedo ver las actualizaciones del blog de Patata Team?", "¿Cada cuánto tiempo se actualiza el blog?"
+  #   steps:
+  #     - action: utter_actualizaciones_blog
+
+  # poner_en_contacto_con_el_equipo:
+  #   description: |
+  #     El usuario quiere saber cómo puede contactar con el equipo Patata Team, hace consultas como "¿Cómo puedo contactar con el equipo?",
+  #     "Quiero hablar con Patata Team", "¿Hay alguna forma de hablar con el equipo?"
+  #   steps:
+  #     - action: utter_contactar_equipo
+
+  # como_se_protegen_los_datos_de_los_usuarios:
+  #   description: |
+  #     El usuario pregunta qué hace Louv para proteger los datos de los usuarios, hace consultas como "¿Cómo se protegen mis datos?",
+  #     "¿Qué hace Louv para proteger mis datos?", "¿Se están protegiendo los datos de los usuarios?"
+  #   steps:
+  #     - action: utter_proteger_datos
+
+  # sugerencia_publicaion_del_usuario:
+  #   description: |
+  #     El usuario sugiere subir contenido al blog sobre un tema en concreto, hace consultas como "¿Podéis subir un post sobre X?",
+  #     "Me gustaría leer una publicación sobre X.", "Sugiero que la siguiente publicación sea sobre X."
+  #   steps:
+  #     - action: utter_sugerencia_publicacion
 
 
 
@@ -571,10 +569,19 @@ flows:
 
   preguntar_nombre_louv:
     description: |
-      El usuario pregunta sobre el nombre Louv, como "¿Por qué se llama Louv?", 
-      "¿Qué significa Louv?"
+        El usuario pregunta sobre el nombre Louv, como "¿Por qué se llama Louv?", 
+        "¿Qué significa Louv?"
     steps:
       - action: utter_nombre_louv
+  
+  preguntar_proyecto_louv_abp:
+    description: |
+      El usuario pregunta sobre el proyecto Louv, hace distintos tipos de pregunta como
+      "¿Para qué sirve Louv?", "Háblame de Louv", "¿Louv es un proyecto real?",
+      "¿Louv tiene una funcionalidad real?", "¿Cómo se ocurrió la idea de crear Louv?",
+      "¿Por qué decidisteis crear Louv?", "¿De dónde sale la idea de crear Louv?"
+    steps:
+      - action: utter_proyecto_louv_abp
 
   preguntar_proyecto_louv:
     description: |
@@ -597,19 +604,19 @@ flows:
     steps:
       - action: utter_idea_louv_abp
 
-  tiempo_desarrollo:
-    description: |
-      El usuario pregunta cuánto tiempo lleva en desarrollo el proyecto ABP Louv, quiere saber el tiempo empleado en la creación de Louv,
-      hace preguntas como "¿Cuánto tiempo lleva Louv en desarrollo?", "¿Desde cuando se está desarrollando Louv?", "¿Cuánto tiempo se ha empleado en el desarrollo de esta web?"
-    steps:
-      - action: utter_tiempo_desarrollo
+  # tiempo_desarrollo:
+  #   description: |
+  #     El usuario pregunta cuánto tiempo lleva en desarrollo el proyecto ABP Louv, quiere saber el tiempo empleado en la creación de Louv,
+  #     hace preguntas como "¿Cuánto tiempo lleva Louv en desarrollo?", "¿Desde cuando se está desarrollando Louv?", "¿Cuánto tiempo se ha empleado en el desarrollo de esta web?"
+  #   steps:
+  #     - action: utter_tiempo_desarrollo
 
-  sugerir_cambios:
-    description: |
-      El usuario da una idea de cómo mejorar Louv o la web, o expresa su deseo de querer sugerir cambios para mejorar, según su criterio la funcionalidad
-      de la web Louv, realiza consultas como "Me gustaría proponer un cambio en la web", "¿Cómo puedo sugerir mejoras/ cambios en la web?"
-    steps:
-      - action: utter_sugerir_cambio
+  # sugerir_cambios:
+  #   description: |
+  #     El usuario da una idea de cómo mejorar Louv o la web, o expresa su deseo de querer sugerir cambios para mejorar, según su criterio la funcionalidad
+  #     de la web Louv, realiza consultas como "Me gustaría proponer un cambio en la web", "¿Cómo puedo sugerir mejoras/ cambios en la web?"
+  #   steps:
+  #     - action: utter_sugerir_cambio
 
   que_es_abp:
     description: |
@@ -618,12 +625,12 @@ flows:
     steps:
       - action: utter_explicar_abp
 
-  confiar_en_louv:
-    description: |
-      El usuario quiere saber por qué debería elegir Louv antes de otras plataformas, hace preguntas como "¿Qué diferencia a Louv de otras marcas?",
-      "¿Por qué debería de confiar en Louv?", "¿Qué hace a Louv especial?"
-    steps:
-      - action: utter_louv_unico
+  # confiar_en_louv:
+  #   description: |
+  #     El usuario quiere saber por qué debería elegir Louv antes de otras plataformas, hace preguntas como "¿Qué diferencia a Louv de otras marcas?",
+  #     "¿Por qué debería de confiar en Louv?", "¿Qué hace a Louv especial?"
+  #   steps:
+  #     - action: utter_louv_unico
 
   politica_cookies_condiciones:
     description: |
@@ -644,41 +651,44 @@ flows:
     description: |
       El usuario pregunta por las redes sociales de Louv, quiere saber dónde puede seguir a Louv en redes sociales,
       hace preguntas como "¿Dónde puedo seguir a Louv en redes sociales?", "¿Tiene Louv redes sociales?",
-      "¿Puedo seguir a Louv en Instagram/Facebook/Twitter?"
+      "¿Puedo seguir a Louv en Instagram/Facebook/Twitter?", "¿Cuál es el Instagram de Louv?", "¿Dónde está Louv en Instagram?",
+      "¿Puedo seguir a Louv en Instagram?", "¿Cuál es el Facebook de Louv?", "¿Dónde está Louv en Facebook?",
+      "¿Puedo seguir a Louv en Facebook?", "¿Cuál es el TikTok de Louv?", "¿Dónde está Louv en TikTok?",
+      "¿Puedo seguir a Louv en TikTok?"
     steps:
       - action: utter_redes_sociales_louv
 
-  instagram_louv:
-    description: |
-      El usuario pregunta por el Instagram de Louv, quiere saber cuál es el perfil oficial de Louv en Instagram,
-      hace preguntas como "¿Cuál es el Instagram de Louv?", "¿Dónde está Louv en Instagram?",
-      "¿Puedo seguir a Louv en Instagram?"
-    steps:
-      - action: utter_instagram_louv
+  # instagram_louv:
+  #   description: |
+  #     El usuario pregunta por el Instagram de Louv, quiere saber cuál es el perfil oficial de Louv en Instagram,
+  #     hace preguntas como "¿Cuál es el Instagram de Louv?", "¿Dónde está Louv en Instagram?",
+  #     "¿Puedo seguir a Louv en Instagram?"
+  #   steps:
+  #     - action: utter_instagram_louv
 
-  facebook_louv:
-    description: |
-      El usuario pregunta por el Facebook de Louv, quiere saber cuál es el perfil oficial de Louv en Facebook,
-      hace preguntas como "¿Cuál es el Facebook de Louv?", "¿Dónde está Louv en Facebook?",
-      "¿Puedo seguir a Louv en Facebook?"
-    steps:
-      - action: utter_facebook_louv
+  # facebook_louv:
+  #   description: |
+  #     El usuario pregunta por el Facebook de Louv, quiere saber cuál es el perfil oficial de Louv en Facebook,
+  #     hace preguntas como "¿Cuál es el Facebook de Louv?", "¿Dónde está Louv en Facebook?",
+  #     "¿Puedo seguir a Louv en Facebook?"
+  #   steps:
+  #     - action: utter_facebook_louv
 
-  tiktok_louv:
-    description: |
-      El usuario pregunta por el TikTok de Louv, quiere saber cuál es el perfil oficial de Louv en TikTok,
-      hace preguntas como "¿Cuál es el TikTok de Louv?", "¿Dónde está Louv en TikTok?",
-      "¿Puedo seguir a Louv en TikTok?"
-    steps:
-      - action: utter_tiktok_louv
+  # tiktok_louv:
+  #   description: |
+  #     El usuario pregunta por el TikTok de Louv, quiere saber cuál es el perfil oficial de Louv en TikTok,
+  #     hace preguntas como "¿Cuál es el TikTok de Louv?", "¿Dónde está Louv en TikTok?",
+  #     "¿Puedo seguir a Louv en TikTok?"
+  #   steps:
+  #     - action: utter_tiktok_louv
 
-  funcionalidades_futuras_louv:
-    description: |
-      El usuario pregunta por las funcionalidades futuras que tendrá Louv, quiere saber qué nuevas funcionalidades se añadirán a Louv,
-      hace preguntas como "¿Qué funcionalidades nuevas tendrá Louv?", "¿Qué nuevas características tendrá Louv en el futuro?",
-      "¿Hay alguna funcionalidad futura planeada para Louv?", "¿Tendrá Louv nuevas funcionalidades próximamente?" "¿Se tiene previsto añadir nuevas funcionalidades a Louv?"
-    steps:
-      - action: utter_funcionalidades_futuras_louv
+  # funcionalidades_futuras_louv:
+  #   description: |
+  #     El usuario pregunta por las funcionalidades futuras que tendrá Louv, quiere saber qué nuevas funcionalidades se añadirán a Louv,
+  #     hace preguntas como "¿Qué funcionalidades nuevas tendrá Louv?", "¿Qué nuevas características tendrá Louv en el futuro?",
+  #     "¿Hay alguna funcionalidad futura planeada para Louv?", "¿Tendrá Louv nuevas funcionalidades próximamente?" "¿Se tiene previsto añadir nuevas funcionalidades a Louv?"
+  #   steps:
+  #     - action: utter_funcionalidades_futuras_louv
 
 
 
@@ -686,17 +696,18 @@ flows:
 
 # FLOWS SOBRE LA UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
 
-  ubicacion_universidad:
-    description: |
-      El usuario pregunta sobre la ubicación de la Universidad de Alicante (UA), realiza preguntas como "¿Dónde está la Universidad de Alicante?",
-      "Dónde está la universidad de alicante?", "Dónde está ubicada la UA?", "Dónde está la ua?",
-      "¿Puedes decirme donde se encuentra la UA?", "¿Cómo puedo llegar a la Universidad de Alicante?"
-    steps:
-      - action: utter_ubicacion_universidad
+  # ubicacion_universidad:
+  #   description: |
+  #     El usuario pregunta sobre la ubicación de la Universidad de Alicante (UA), realiza preguntas como "¿Dónde está la Universidad de Alicante?",
+  #     "Dónde está la universidad de alicante?", "Dónde está ubicada la UA?", "Dónde está la ua?",
+  #     "¿Puedes decirme donde se encuentra la UA?", "¿Cómo puedo llegar a la Universidad de Alicante?"
+  #   steps:
+  #     - action: utter_ubicacion_universidad
 
 
 
 # SE PODRÍA INTENTAR QUE CADA VEZ QUE SE ACTIVE ESTE FLOW LA RESPUESTA CAMBIASE DANDO DISTINTOS DATOS
+  
   que_es_universidad_alicante:
     description: |
       El usuario quiere saber información sobre la Universidad de Alicante (UA), realiza preguntas como "¿Qué es la UA?",
@@ -704,12 +715,12 @@ flows:
     steps:
       - action: utter_universidad_alicante
 
-  ciudad_alicante:
-    description: |
-      El usuario pregunta dónde está Alicante, quiere saber la ubicación de esta ciudad, hace preguntas como "¿Dónde está Alicante?",
-      "¿A qué país pertenece Alicante?", "¿Alicante es una ciudad?"
-    steps:
-      - action: utter_ciudad_alicante
+  # ciudad_alicante:
+  #   description: |
+  #     El usuario pregunta dónde está Alicante, quiere saber la ubicación de esta ciudad, hace preguntas como "¿Dónde está Alicante?",
+  #     "¿A qué país pertenece Alicante?", "¿Alicante es una ciudad?"
+  #   steps:
+  #     - action: utter_ciudad_alicante
 
 
   informacion_grado_ingenieria_multimedia:
@@ -907,21 +918,34 @@ flows:
     steps:
       - action: utter_gemas_certificadas
 
-  sistema_certificacion_proceso_kimberley:
+  diamantes_de_sangre_y_sistema_certificacion_proceso_kimberley:
     description: |
-      El usuario pregunta sobre el sistema de certificación y el proceso de Kimberley, quiere saber en qué consiste este sistema,
-      hace preguntas como "¿Qué es el proceso de Kimberley?", "¿En qué consiste el sistema de certificación de Kimberley?",
-      "¿Por qué es importante el proceso de Kimberley?"
+      El usuario pregunta o hace menciones sobre los diamantes de sangre o ataca al chatbot por la venta de estos.
+      También puede preguntar sobre el sistema de certificaciones y el proceso de Kimberley, quiere saber en qué consiste,
+      e incluso puede preguntar cómo se sabe de dónde proceden las gemas que vende Louv. El usuario
+      hace consultas como: "¿Por qué vendes diamantes de sangre?", "¿No te importa la gente que sufre por los diamantes?",
+      "Los diamantes de sangre son horribles", "Eres una asesina", "¿Cómo se te ocurre vender diamanrtes de sangre?",
+      "¿Comercias con diamantes de sangre?, ¿Qué es el proceso de Kimberley?", "¿En qué consiste el sistema de certificación de Kimberley?",
+      "¿Por qué es importante el proceso de Kimberley?, "¿Cómo sabéis de dónde proceden vuestras gemas?", ¿"Cómo trazáis el origen de vuestras gemas?",
+      "¿Qué hacéis para comprobar de dónde vienen vuestras gemas?"
     steps:
-      - action: utter_sistema_certificacion_kimberley
+      - action: utter_diamantes_de_sangre_y_kimberley
 
-  saber_origen_de_nuestras_gemas:
-    description: |
-      El usuario pregunta cómo sabemos de donde proceden las gemas que adquirimos, hace preguntas como 
-      "¿Cómo sabéis de dónde proceden vuestras gemas?", ¿"Cómo trazáis el origen de vuestras gemas?",
-      "¿Qué hacéis para comprobar de dónde vienen vuestras gemas?
-    steps:
-      - action: utter_sistema_certificacion_kimberley
+  # sistema_certificacion_proceso_kimberley:
+  #   description: |
+  #     El usuario pregunta sobre el sistema de certificación y el proceso de Kimberley, quiere saber en qué consiste este sistema,
+  #     hace preguntas como "¿Qué es el proceso de Kimberley?", "¿En qué consiste el sistema de certificación de Kimberley?",
+  #     "¿Por qué es importante el proceso de Kimberley? "
+  #   steps:
+  #     - action: utter_sistema_certificacion_kimberley
+
+  # saber_origen_de_nuestras_gemas:
+  #   description: |
+  #     El usuario pregunta cómo sabemos de donde proceden las gemas que adquirimos, hace preguntas como 
+  #     "¿Cómo sabéis de dónde proceden vuestras gemas?", ¿"Cómo trazáis el origen de vuestras gemas?",
+  #     "¿Qué hacéis para comprobar de dónde vienen vuestras gemas?
+  #   steps:
+  #     - action: utter_sistema_certificacion_kimberley
 
   certicificacion_gia:
     description: |
@@ -947,21 +971,30 @@ flows:
     steps:
       - action: utter_significado_4c
 
-  gema_de_laboratorio:
+  gema_de_laboratorio_y_como_distinguirla_de_una_gema_natural:
     description: |
-      El usuario pregunta sobre las gemas de laboratorio, quiere entender qué son y cómo se diferencian de las gemas naturales,
-      hace preguntas como "¿Qué es una gema de laboratorio?", "¿Cómo se diferencia una gema de laboratorio de una natural?",
+      El usuario pregunta sobre las gemas de laboratorio, quiere entender qué son y cómo se diferencian de las gemas naturales, quiere saber qué características permiten diferenciarlas,
+      hace preguntas como "¿Cómo puedo distinguir una gema natural de una sintética?", "¿Qué diferencias hay entre una gema natural y una sintética?",
+      "¿Cómo sé si una gema es natural o sintética?, ¿Qué es una gema de laboratorio?", "¿Cómo se diferencia una gema de laboratorio de una natural?",
       "¿Son buenas las gemas de laboratorio?", "¿Son más baratas las gemas de laboratorio?"
     steps:
-      - action: utter_gema_de_laboratorio
+      - action: utter_gema_de_laboratorio_y_distinguir_gema_natural_sintetica
 
-  distinguir_gema_natural_sintetica:
-    description: |
-      El usuario pregunta cómo distinguir una gema natural de una sintética, quiere saber qué características permiten diferenciarlas,
-      hace preguntas como "¿Cómo puedo distinguir una gema natural de una sintética?", "¿Qué diferencias hay entre una gema natural y una sintética?",
-      "¿Cómo sé si una gema es natural o sintética?"
-    steps:
-      - action: utter_distinguir_gema_natural_sintetica
+  # gema_de_laboratorio:
+  #   description: |
+  #     El usuario pregunta sobre las gemas de laboratorio, quiere entender qué son y cómo se diferencian de las gemas naturales,
+  #     hace preguntas como "¿Qué es una gema de laboratorio?", "¿Cómo se diferencia una gema de laboratorio de una natural?",
+  #     "¿Son buenas las gemas de laboratorio?", "¿Son más baratas las gemas de laboratorio?"
+  #   steps:
+  #     - action: utter_gema_de_laboratorio
+
+  # distinguir_gema_natural_sintetica:
+  #   description: |
+  #     El usuario pregunta cómo distinguir una gema natural de una sintética, quiere saber qué características permiten diferenciarlas,
+  #     hace preguntas como "¿Cómo puedo distinguir una gema natural de una sintética?", "¿Qué diferencias hay entre una gema natural y una sintética?",
+  #     "¿Cómo sé si una gema es natural o sintética?"
+  #   steps:
+  #     - action: utter_distinguir_gema_natural_sintetica
 
   explicacion_aleacion:
     description: |
@@ -1043,21 +1076,21 @@ flows:
     steps:
       - action: utter_mover_camara_editor_3d
 
-  utilidad_buscador:
-    description: |
-      El usuario quiere saber para qué puede usar el buscador del editor, hace preguuntas como
-      "¿Para qué sirve el buscador del editor?", "¿Qué puedo buscar cuando uso el buscador?",
-      "¿Qué utilidad tiene el buscador del editor?"
-    steps:
-      - action: utter_utilidad_buscador
+  # utilidad_buscador:
+  #   description: |
+  #     El usuario quiere saber para qué puede usar el buscador del editor, hace preguuntas como
+  #     "¿Para qué sirve el buscador del editor?", "¿Qué puedo buscar cuando uso el buscador?",
+  #     "¿Qué utilidad tiene el buscador del editor?"
+  #   steps:
+  #     - action: utter_utilidad_buscador
 
-  eliminar_busqueda:
-    description: |
-      El usuario pregunta cómo puede eliminar lo que ha introducido en el buscador, o cómo puede eliminar
-      la búsqueda o filtro que ha realizado, hace preguntas como "¿Cómo puedo eliminar lo que he buscado?",
-      "¿Hay alguna manera de eliminar el filtro de los componentes?", "¿Quiero que se vuelvan a mostrar todos los componentes, ¿qué hago?"
-    steps:
-      - action: utter_eliminar_busqueda
+  # eliminar_busqueda:
+  #   description: |
+  #     El usuario pregunta cómo puede eliminar lo que ha introducido en el buscador, o cómo puede eliminar
+  #     la búsqueda o filtro que ha realizado, hace preguntas como "¿Cómo puedo eliminar lo que he buscado?",
+  #     "¿Hay alguna manera de eliminar el filtro de los componentes?", "¿Quiero que se vuelvan a mostrar todos los componentes, ¿qué hago?"
+  #   steps:
+  #     - action: utter_eliminar_busqueda
 
   ocultar_precio_diseno_al_compartir:
     description: |
@@ -1090,12 +1123,12 @@ flows:
     steps:
       - action: utter_diseno_pantalla_completa
 
-  necesitar_dni_usuario:
-    description: |
-      El usuario quiere saber por qué necesitamos su DNI (Documento Nacional de Identidad), hace preguntas como
-      "¿Para qué necesitáis mi DNI?", "¿Es necesario que os dé mi DNI?", "¿Por qué queréis saber mi DNI?"
-    steps:
-      - action: utter_necesitar_dni_usuario
+  # necesitar_dni_usuario:
+  #   description: |
+  #     El usuario quiere saber por qué necesitamos su DNI (Documento Nacional de Identidad), hace preguntas como
+  #     "¿Para qué necesitáis mi DNI?", "¿Es necesario que os dé mi DNI?", "¿Por qué queréis saber mi DNI?"
+  #   steps:
+  #     - action: utter_necesitar_dni_usuario
 
 
 
@@ -1113,21 +1146,31 @@ flows:
     steps:
       - action: utter_talla_anillo_editor
 
-  sistemas_de_tallas_que_existen:
+  sistemas_de_tallas_que_existen_y_tallas_de_anillo_con_las_que_se_trabajan_en_louv:
     description: |
       El usuario está interesado en saber qué sistemas de tallas existen para medir la circunferencia de los anillos,
+      así como también quiere saber con qué tallas se trabaja en nuestra web Louv,
       hace preguntas como "¿Qué sistemas de tallas existen?", "¿Cómo se miden las tallas de los anillos?",
-      "¿Existen más sitemas de medidas de tallas además del español?"
-    steps:
-      - action: utter_sistemas_tallas_existen
-
-  tallas_de_anillo_con_la_que_se_trabajan:
-    description: |
-      El usuario quiere saber con qué tallas se trabaja en nuestra web Louv, hace preguntas como
-      "¿Con qué tallas trabajáis?", "¿Qué rango de tallas ofrecéis?", "¿Puedo hacer un anillo talla X?",
+      "¿Existen más sitemas de medidas de tallas además del español?", "¿Con qué tallas trabajáis?", "¿Qué rango de tallas ofrecéis?", "¿Puedo hacer un anillo talla X?",
       "¿Qué tamaños disponeis?", "¿Qué tallas usáis?"
     steps:
-      - action: utter_talla_de_anillo_trabajo
+      - action: utter_sistemas_tallas_existen_y_tallas_trabajan
+
+  # sistemas_de_tallas_que_existen:
+  #   description: |
+  #     El usuario está interesado en saber qué sistemas de tallas existen para medir la circunferencia de los anillos,
+  #     hace preguntas como "¿Qué sistemas de tallas existen?", "¿Cómo se miden las tallas de los anillos?",
+  #     "¿Existen más sitemas de medidas de tallas además del español?"
+  #   steps:
+  #     - action: utter_sistemas_tallas_existen
+
+  # tallas_de_anillo_con_la_que_se_trabajan:
+  #   description: |
+  #     El usuario quiere saber con qué tallas se trabaja en nuestra web Louv, hace preguntas como
+  #     "¿Con qué tallas trabajáis?", "¿Qué rango de tallas ofrecéis?", "¿Puedo hacer un anillo talla X?",
+  #     "¿Qué tamaños disponeis?", "¿Qué tallas usáis?"
+  #   steps:
+  #     - action: utter_talla_de_anillo_trabajo
 
   cambiar_talla_del_anillo:
     description: |
@@ -1139,13 +1182,13 @@ flows:
     steps:
       - action: utter_cambiar_talla_anillo
 
-  devolver_anillo_talla_equivocada:
-    description: |
-      El usuario pregunta si puede devolver un anillo si el que recibe le queda grande o pequeño, hace pregunats como
-      "¿Puedo devolver un anillo si me queda pequeño?", "El anillo me queda grande, ¿puedo devolverlo?",
-      "Quiero devolver mi anillo porque no es de mi talla."
-    steps:
-      - action: utter_devolver_anillo_talla
+  # devolver_anillo_talla_equivocada:
+  #   description: |
+  #     El usuario pregunta si puede devolver un anillo si el que recibe le queda grande o pequeño, hace pregunats como
+  #     "¿Puedo devolver un anillo si me queda pequeño?", "El anillo me queda grande, ¿puedo devolverlo?",
+  #     "Quiero devolver mi anillo porque no es de mi talla."
+  #   steps:
+  #     - action: utter_devolver_anillo_talla
 
   usuario_duda_entre_dos_tallas:
     description: |
@@ -1155,12 +1198,12 @@ flows:
     steps:
       - action: utter_duda_entre_tallas
 
-  pregunta_si_cada_dedo_tiene_su_propia_talla:
-    description: |
-      El usuario tiene curiosidad por saber si es cierto que cada dedo tiene una talla distintas, hace preguntas como
-      "¿De verdad existe una talla para cada dedo?", "¿Cada dedo tiene una talla diferente?", "¿Todos los dedos usan la misma talla de anillo?"
-    steps: 
-      - action: utter_talla_dedo_distinta
+  # pregunta_si_cada_dedo_tiene_su_propia_talla:
+  #   description: |
+  #     El usuario tiene curiosidad por saber si es cierto que cada dedo tiene una talla distintas, hace preguntas como
+  #     "¿De verdad existe una talla para cada dedo?", "¿Cada dedo tiene una talla diferente?", "¿Todos los dedos usan la misma talla de anillo?"
+  #   steps: 
+  #     - action: utter_talla_dedo_distinta
 
   la_temperatura_afecta_a_la_talla:
     description: |
@@ -1170,14 +1213,14 @@ flows:
     steps:
       - action: utter_temperatura_talla
 
-  ajustar_talla_anillo:
-    description: |
-      El usuario pregunta si se puede hacer un ajuste de talla una vez recibido el anillo, es decir, quiere
-      saber si puede modificar la talla del anillo tras comprarlo, hace preguntas como
-      "¿Hacéis modificaciones de talla?", "Si el anillo no me está bien, ¿podéis modificarlo?",
-      "El anillo que he recibido no me está bien, ¿puedo modificarlo?"
-    steps:
-      - action: utter_modificar_talla_posteriori
+  # ajustar_talla_anillo:
+  #   description: |
+  #     El usuario pregunta si se puede hacer un ajuste de talla una vez recibido el anillo, es decir, quiere
+  #     saber si puede modificar la talla del anillo tras comprarlo, hace preguntas como
+  #     "¿Hacéis modificaciones de talla?", "Si el anillo no me está bien, ¿podéis modificarlo?",
+  #     "El anillo que he recibido no me está bien, ¿puedo modificarlo?"
+  #   steps:
+  #     - action: utter_modificar_talla_posteriori
 
 
 
@@ -1205,26 +1248,26 @@ flows:
     steps:
       - action: utter_clases_platino
 
-  precio_del_oro:
-    description: |
-      El usuario quiere saber cuál es el precio del oro, hace preguntas como "¿Cuál es el precio del oro?",
-      "¿Cuánto cuesta un gramo de oro?", "¿Cuánto vale el oro?"
-    steps:
-      - action: utter_precio_oro
+  # precio_del_oro:
+  #   description: |
+  #     El usuario quiere saber cuál es el precio del oro, hace preguntas como "¿Cuál es el precio del oro?",
+  #     "¿Cuánto cuesta un gramo de oro?", "¿Cuánto vale el oro?"
+  #   steps:
+  #     - action: utter_precio_oro
 
-  precio_del_platino:
-    description: |
-      El usuario quiere saber cuál es el precio del platino, hace preguntas como "¿Cuál es el precio del platino?",
-      "¿Cuánto cuesta un gramo de platino?", "¿Cuánto vale el platino?"
-    steps:
-      - action: utter_precio_platino
+  # precio_del_platino:
+  #   description: |
+  #     El usuario quiere saber cuál es el precio del platino, hace preguntas como "¿Cuál es el precio del platino?",
+  #     "¿Cuánto cuesta un gramo de platino?", "¿Cuánto vale el platino?"
+  #   steps:
+  #     - action: utter_precio_platino
 
-  materiales_macizos:
-    description: |
-      El usuario quiere saber si los materiales que se usan para fabricar los anillos son macizos, hace preguntas como  
-      "¿Las piezas son de material macizo?", "¿El X que se utiliza es macizo?", "Si compro un anillo de X ¿es macizo?"
-    steps:
-      - action: utter_macizo
+  # materiales_macizos:
+  #   description: |
+  #     El usuario quiere saber si los materiales que se usan para fabricar los anillos son macizos, hace preguntas como  
+  #     "¿Las piezas son de material macizo?", "¿El X que se utiliza es macizo?", "Si compro un anillo de X ¿es macizo?"
+  #   steps:
+  #     - action: utter_macizo
 
   desgaste_material:
     description: |
@@ -1318,29 +1361,29 @@ flows:
     steps:
       - action: utter_empresa_pedidos
 
-  perdida_de_paquete_de_envio:
-    description: |
-      El usuario quiere saber qué ocurre con su pedido en caso de que ocurra alguna incidencia durante el envío de este,
-      hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
-      "¿Qué puedo hacer si se pierde mi pedido durante su envío?", "Ha habido un error con la ubicación de envío"
-    steps:
-      - action: utter_pedido_perdido
+  # perdida_de_paquete_de_envio:
+  #   description: |
+  #     El usuario quiere saber qué ocurre con su pedido en caso de que ocurra alguna incidencia durante el envío de este,
+  #     hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
+  #     "¿Qué puedo hacer si se pierde mi pedido durante su envío?", "Ha habido un error con la ubicación de envío"
+  #   steps:
+  #     - action: utter_pedido_perdido
 
-  mudanza_tras_un_pedido:
-    description: |
-      El usuario comenta que ha realizado un pedido pero ha tenido que mudarse, por lo que el pedido llegará
-      a una ubicación incorrecta, hace consultas como "¿Si me mudo ¿qué pasa con mi compra?",
-      "He realizado un pedido pero he tenido que mudarme.", "Si hago un pedido y me mudo antes de que me lo entreguen ¿qué puedo hacer?"
-    steps:
-      - action: utter_pedido_mudanza
+  # mudanza_tras_un_pedido:
+  #   description: |
+  #     El usuario comenta que ha realizado un pedido pero ha tenido que mudarse, por lo que el pedido llegará
+  #     a una ubicación incorrecta, hace consultas como "¿Si me mudo ¿qué pasa con mi compra?",
+  #     "He realizado un pedido pero he tenido que mudarme.", "Si hago un pedido y me mudo antes de que me lo entreguen ¿qué puedo hacer?"
+  #   steps:
+  #     - action: utter_pedido_mudanza
 
-  que_ocurre_si_roban_el_pedido:
-    description: |
-      El usuario pregunta qué ocurre en caso de que el pedido que ha realizado sea robado, hace preguntas como
-      "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
-      "Han robado mi pedido, ¿qué puedo hacer?"
-    steps:
-      - action: utter_pedido_perdido
+  # que_ocurre_si_roban_el_pedido:
+  #   description: |
+  #     El usuario pregunta qué ocurre en caso de que el pedido que ha realizado sea robado, hace preguntas como
+  #     "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
+  #     "Han robado mi pedido, ¿qué puedo hacer?"
+  #   steps:
+  #     - action: utter_pedido_perdido
 
   tiempo_que_tarda_en_llegar_un_pedido:
     description: |
@@ -1371,6 +1414,21 @@ flows:
       "¿Cuánto cuesta el envío?", "¿El envío es gratuito?", "¿Cómo puedo saber los gastos de envío?"
     steps:
       - action: utter_gastos_envio
+
+  incidencias_con_el_envio_y_devoluciones:
+     description: |
+       El usuario quiere saber qué ocurre con su pedido en caso de que ocurra alguna incidencia durante el envío de este.
+       Además, quiere saber si puede realizar una devolución,
+       hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
+       "¿Qué puedo hacer si se pierde mi pedido durante su envío?", "Ha habido un error con la ubicación de envío." 
+       "¿Puedo devolver un anillo si me queda pequeño?", "El anillo me queda grande, ¿puedo devolverlo?",
+       "Quiero devolver mi anillo porque no es de mi talla.", "¿Si me mudo ¿qué pasa con mi compra?",
+       "He realizado un pedido pero he tenido que mudarme.", "Si hago un pedido y me mudo antes de que me lo entreguen ¿qué puedo hacer?",
+       "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
+       "Han robado mi pedido, ¿qué puedo hacer?"
+     steps:
+       - action: utter_incidenciass_pedido_devoluciones
+      
 
   
 
@@ -1582,7 +1640,7 @@ flows:
   diseno_clasico_anillo_de_compromiso:
     description: |
       El usuario quiere saber cuál es el diseño típico de un anillo de compromiso, pregunta sobre un diseño que no puede fallar nunca,
-      hace consultas como "¿Cuál es el diseño clásico de un anillo de compromiso que nunca falla?",
+      hace consultas como "¿Cuál es el diseño de un anillo de compromiso que nunca falla?",
       "¿Cómo es el diseño tradicional de un anillo de compromiso?", "Dime cómo debería ser mi anillo de compromiso."
     steps:
       - action: utter_diseno_anillo_compromiso
@@ -1595,21 +1653,21 @@ flows:
     steps:
       - action: utter_cuidar_anillo
 
-  cuanto_tiempo_llevar_puesto_anillo_de_compromiso:
-    description: |
-      El usuario quiere saber si es bueno llevar su anillo de compromiso puesto todos los días o cada cuanto
-      tiempo es recomendable llevarlo puesto, hace preguntas como "¿Debería llevar el anillo puesto todos los días?",
-      "¿Es recomendable llevar el anillo a diario?", "¿Me recomiendas llevar mi anillo de compromiso puesto todos los días?"
-    steps:
-      - action: utter_anillo_diario
+  # cuanto_tiempo_llevar_puesto_anillo_de_compromiso:
+  #   description: |
+  #     El usuario quiere saber si es bueno llevar su anillo de compromiso puesto todos los días o cada cuanto
+  #     tiempo es recomendable llevarlo puesto, hace preguntas como "¿Debería llevar el anillo puesto todos los días?",
+  #     "¿Es recomendable llevar el anillo a diario?", "¿Me recomiendas llevar mi anillo de compromiso puesto todos los días?"
+  #   steps:
+  #     - action: utter_anillo_diario
 
-  quien_se_queda_el_anillo_si_rechaza_propuesta_de_matrimonio:
-    description: |
-      El usuario quiere saber qué ocurre con el anillo de compromiso si se rechaza la propuesta de matrimonio, 
-      hace consultas como "¿Quién se queda el anillo si rechazan mi propuesta de matrimonio?",
-      "Si me rechazan, ¿qué pasa con el anillo de compromiso?", "¿Debo quedarme el anillo de compromiso si me rechazan?"
-    steps:
-      - action: utter_rechazo_matrimonio
+  # quien_se_queda_el_anillo_si_rechaza_propuesta_de_matrimonio:
+  #   description: |
+  #     El usuario quiere saber qué ocurre con el anillo de compromiso si se rechaza la propuesta de matrimonio, 
+  #     hace consultas como "¿Quién se queda el anillo si rechazan mi propuesta de matrimonio?",
+  #     "Si me rechazan, ¿qué pasa con el anillo de compromiso?", "¿Debo quedarme el anillo de compromiso si me rechazan?"
+  #   steps:
+  #     - action: utter_rechazo_matrimonio
 
 
 
@@ -1692,15 +1750,15 @@ flows:
     steps:
       - action: utter_no_se_talla_dedo
   
-  # dar_talla_usuario_segun_medida:
-  #   description: |
-  #     El usuario ha proporcionado una medida en mm o cm y quiere que le digamos qué talla de anillo
-  #     corresponde a esa medida, hace preguntas como "Mi dedo mide X mm, ¿qué talla es esa?", "Mi dedo mide X cm, ¿qué talla de anillo es esa?",
-  #     "¿Qué talla de anillo corresponde a X mm?", "¿Qué talla de anillo corresponde a X cm?",
-  #     "X cm", "X mm", "X centímetros", "X milímetros", "Xcm", "Xmm".
-  #     Simplemente de la medida, sin más contexto. No dice que no sabe su talla, ni pide cómo medir su dedo.
-  #   steps:
-  #     - action: action_dar_talla_segun_medida
+  dar_talla_usuario_segun_medida:
+    description: |
+      El usuario ha proporcionado una medida en mm o cm y quiere que le digamos qué talla de anillo
+      corresponde a esa medida, hace preguntas como "Mi dedo mide X mm, ¿qué talla es esa?", "Mi dedo mide X cm, ¿qué talla de anillo es esa?",
+      "¿Qué talla de anillo corresponde a X mm?", "¿Qué talla de anillo corresponde a X cm?",
+      "X cm", "X mm", "X centímetros", "X milímetros", "Xcm", "Xmm".
+      Simplemente de la medida, sin más contexto. No dice que no sabe su talla, ni pide cómo medir su dedo.
+    steps:
+      - action: action_dar_talla_segun_medida
 
   # dar_talla_usuario_segun_medida:
   #   description: |
@@ -1739,28 +1797,28 @@ flows:
   #     - action: action_dar_talla_segun_medida
 
 
-  dar_talla_usuario_segun_medida:
-    description: |
-      Este flow convierte medidas de circunferencia de dedo a tallas de anillo españolas.
+  # dar_talla_usuario_segun_medida:
+  #   description: |
+  #     Este flow convierte medidas de circunferencia de dedo a tallas de anillo españolas.
       
-      Se activa cuando el usuario proporciona una medida numérica con unidad (mm, cm, milímetros, centímetros).
+  #     Se activa cuando el usuario proporciona una medida numérica con unidad (mm, cm, milímetros, centímetros).
       
-      Ejemplos que DEBEN activar este flow:
-      - "48mm"
-      - "49mm"
-      - "52 mm"
-      - "6,5cm"
-      - "Mi dedo mide 52mm"
-      - "¿Qué talla es 48mm?"
+  #     Ejemplos que DEBEN activar este flow:
+  #     - "48mm"
+  #     - "49mm"
+  #     - "52 mm"
+  #     - "6,5cm"
+  #     - "Mi dedo mide 52mm"
+  #     - "¿Qué talla es 48mm?"
       
-      El sistema responde con la talla española correspondiente (1-36).
-    steps:
-      - collect: medida_circunferencia
-        description: |
-          La medida de la circunferencia del dedo del usuario en milímetros (mm) o centímetros (cm).
-          Ejemplos: "48mm", "5,2cm", "52 milímetros", "6.5 centímetros".
-        ask_before_filling: false
-      - action: action_dar_talla_segun_medida
+  #     El sistema responde con la talla española correspondiente (1-36).
+  #   steps:
+  #     - collect: medida_circunferencia
+  #       description: |
+  #         La medida de la circunferencia del dedo del usuario en milímetros (mm) o centímetros (cm).
+  #         Ejemplos: "48mm", "5,2cm", "52 milímetros", "6.5 centímetros".
+  #       ask_before_filling: false
+  #     - action: action_dar_talla_segun_medida
 
 
 
@@ -1968,6 +2026,23 @@ flows:
       - collect: zodiac_sign
         description: "El signo zodiacal para el cual el usuario quiere conocer los materiales recomendados"
       - action: action_materiales_por_zodiaco_bd
+
+
+
+
+
+
+
+
+
+# FLOWS INTERACCIÓN CON MOTOR 3D ---------------------------------------------------------------------------
+
+  show_ring:
+    description: Mostrar un anillo específico en el editor 3D. El usuario hace consultas como "Quiero el anillo clásico en el editor 3D".
+    steps:
+      - collect: ring_type
+        description: el tipo de anillo que el usuario quiere ver (clásico, moderno, vintage, etc.)
+      - action: action_show_ring
 
 
 

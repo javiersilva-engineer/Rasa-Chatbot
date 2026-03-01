@@ -3,6 +3,7 @@ language: es
 assistant_id: similar-flow
 pipeline:
   - name: SearchReadyLLMCommandGenerator
+    minimize_num_calls: true
     llm:
       model_group: groq_llama
     flow_retrieval:
