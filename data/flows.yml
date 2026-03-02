@@ -583,26 +583,26 @@ flows:
     steps:
       - action: utter_proyecto_louv_abp
 
-  preguntar_proyecto_louv:
-    description: |
-      El usuario pregunta sobre el proyecto Louv, como "¿Qué es Louv?", 
-      "¿Para qué sirve Louv?", "Háblame de Louv"
-    steps:
-      - action: utter_proyecto_louv
+  # preguntar_proyecto_louv:
+  #   description: |
+  #     El usuario pregunta sobre el proyecto Louv, como "¿Qué es Louv?", 
+  #     "¿Para qué sirve Louv?", "Háblame de Louv"
+  #   steps:
+  #     - action: utter_proyecto_louv
 
-  louv_abp_real:
-    description: |
-      El usuario pregunta si el proyecto ABP Louv es real, cómo "¿Louv es un proyecto real?",
-      "¿Louv tiene una funcionalidad real?"
-    steps:
-      - action: utter_louv_real
+  # louv_abp_real:
+  #   description: |
+  #     El usuario pregunta si el proyecto ABP Louv es real, cómo "¿Louv es un proyecto real?",
+  #     "¿Louv tiene una funcionalidad real?"
+  #   steps:
+  #     - action: utter_louv_real
 
-  idea_proyecto_abp:
-    description: |
-      El usuario quiere saber cómo surgió la idea de crear Louv, hace preguntas como "¿Cómo se ocurrió la idea de crear Louv?",
-      "¿Por qué decidisteis crear Louv?", "¿De dónde sale la idea de crear Louv?"
-    steps:
-      - action: utter_idea_louv_abp
+  # idea_proyecto_abp:
+  #   description: |
+  #     El usuario quiere saber cómo surgió la idea de crear Louv, hace preguntas como "¿Cómo se ocurrió la idea de crear Louv?",
+  #     "¿Por qué decidisteis crear Louv?", "¿De dónde sale la idea de crear Louv?"
+  #   steps:
+  #     - action: utter_idea_louv_abp
 
   # tiempo_desarrollo:
   #   description: |
@@ -2038,10 +2038,17 @@ flows:
 # FLOWS INTERACCIÓN CON MOTOR 3D ---------------------------------------------------------------------------
 
   show_ring:
-    description: Mostrar un anillo específico en el editor 3D. El usuario hace consultas como "Quiero el anillo clásico en el editor 3D".
+    description: |
+      El usuario quiere ver un anillo específico en el editor 3D. 
+      Hace consultas como "Quiero ver el anillo clásico en el editor 3D", 
+      "Muéstrame el anillo ondulado en el editor", "Quiero ver el anillo moderno",
+      "Carga el anillo vintage en el editor 3D", "Abre el anillo solitario en el editor".
+      El usuario menciona explícitamente que quiere VER o MOSTRAR un tipo específico de anillo.
     steps:
       - collect: ring_type
-        description: el tipo de anillo que el usuario quiere ver (clásico, moderno, vintage, etc.)
+        description: |
+          El tipo de anillo que el usuario quiere ver (clásico, moderno, vintage, 
+          ondulado, solitario, etc.)
       - action: action_show_ring
 
 

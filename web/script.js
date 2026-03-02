@@ -244,8 +244,8 @@ function showGreetingWithButtons() {
     // Crear botones de ejemplo
     const exampleButtons = [
         {
-            title: "Háblame de Patata Team",
-            payload: "Háblame de Patata Team"
+            title: "Quiero modificar el diseño de mi anillo",
+            payload: "Quiero modificar el diseño de mi anillo"
         },
         {
             title: "¿Con qué gemas trabajáis?",

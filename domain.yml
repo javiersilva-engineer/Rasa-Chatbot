@@ -1654,4 +1654,4 @@ responses:
 # UTTERS INTERACCION CON MOTOR 3D --------------------------------------------------------------
 
   utter_ask_ring_type:
-    - text: "¿Qué tipo de anillo te gustaría ver?"
+    - text: "¿Qué tipo de anillo quieres ver?"
