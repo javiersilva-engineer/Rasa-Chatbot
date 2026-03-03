@@ -1655,3 +1655,27 @@ responses:
 
   utter_ask_ring_type:
     - text: "¿Qué tipo de anillo quieres ver?"
+
+  utter_editar_anillo:
+    - text: "¿Qué parte de su anillo desea modificar? Puede seleccionar uno de los botones o escribirlo manualmente."
+      buttons:
+        - title: "Base"
+          payload: "Quiero modificar la base de mi anillo."
+        - title: "Gema"
+          payload: "Quiero modificar la gema de mi anillo."
+        - title: "Material"
+          payload: "Quiero modificar el material de mi anillo."
+      metadata:
+        rephrase: false
+
+  utter_editar_base_anillo:
+    - text: "¿Qué base desea? Puede seleccionar uno de los botones o escribirlo manualmente."
+      buttons:
+        - title: "Clásico"
+          payload: "Quiero la base clásico."
+        - title: "Ondulado"
+          payload: "Quiero la base ondulado."
+        - title: "Bypass"
+          payload: "Quiero la base bypass."
+      metadata:
+        rephrase: false

@@ -2042,7 +2042,8 @@ flows:
       El usuario quiere ver un anillo específico en el editor 3D. 
       Hace consultas como "Quiero ver el anillo clásico en el editor 3D", 
       "Muéstrame el anillo ondulado en el editor", "Quiero ver el anillo moderno",
-      "Carga el anillo vintage en el editor 3D", "Abre el anillo solitario en el editor".
+      "Carga el anillo vintage en el editor 3D", "Abre el anillo solitario en el editor", "Quiero la base clásica"
+      "Quiero la base ondulada", "Quiero la base bypass".
       El usuario menciona explícitamente que quiere VER o MOSTRAR un tipo específico de anillo.
     steps:
       - collect: ring_type
@@ -2050,6 +2051,26 @@ flows:
           El tipo de anillo que el usuario quiere ver (clásico, moderno, vintage, 
           ondulado, solitario, etc.)
       - action: action_show_ring
+
+
+  editar_anillo:
+    description: |
+      El usuario quiere editar su anillo en el editor 3D, hace consultas como
+      "Quiero editar mi anillo", "Quiero modificar mi diseño en el editor 3D",
+      "Quiero cambiar mi diseño"
+    name: Editar anillo en editor 3D
+    steps:
+      - action: utter_editar_anillo
+
+  modificar_base_del_anillo:
+    description: |
+      El usuario desea modificar la base de su anillo, hace consultas como
+      "Quiero modificar la base de mi anillo", "Quiero cambiar la base",
+      "Quiero cambiar la base de mi diseño en el editor 3D"
+    name: Editar base de anillo en editor 3D
+    steps:
+      - action: utter_editar_base_anillo
+
 
 
 
