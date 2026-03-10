@@ -137,6 +137,12 @@ slots:
       - type: from_llm
 
 
+
+
+
+
+
+
 actions:
   - action_determinar_signo_zodiacal
 
@@ -148,6 +154,7 @@ actions:
   - action_gema_mas_resistente_entre_dos_bd
   - action_opciones_mas_economicas
   - action_significado_gema_bd
+  - action_choose_gem
 
   - action_estructuras_bd
 
@@ -1030,6 +1037,41 @@ responses:
   #       Tan solo se le solicitará esta información en caso de realizar una compra.
   #     metadata:
   #       rephrase: false
+
+  utter_consultar_mis_pedidos:
+    - text: |
+        Para poder consultar sus pedidos, priemero debe iniciar sesión, después debe ir a su cuenta clicando el botón de perfil 
+        que se encuentra arriba a la derecha en la barra de navegaión y pulsar el apartado "Mis pedidos".
+      metadata:
+        rephrase: false
+
+  utter_consultar_mis_disenos:
+    - text: |
+        Para poder consultar sus diseños, priemero debe iniciar sesión, después debe ir a su cuenta clicando el botón de perfil 
+        que se encuentra arriba a la derecha en la barra de navegaión y pulsar el apartado "Mis anillos".
+      metadata:
+        rephrase: false
+
+  utter_cambiar_nombre_del_diseno:
+    - text: |
+        Para cambiar el nombre de su diseño debe clicar en el campo que se encuentra en la parte superior izquierda del editor
+        e introducir el nombre que desea para su diseño.
+      metadata:
+        rephrase: false
+
+  utter_guardar_diseno:
+    - text: |
+        Para guardar su diseño, tan solo debe clicar en el botón que se encuentra en la parte superior derecha del editor,
+        debaje del nombre del diseño, que muestra un icono de un disquete. Es importante mencionar que no hay autoguardado.
+      metadata:
+        rephrase: false
+
+  utter_cambiar_dato_personal:
+    - text: |
+        Para cambiar cualquier dato personal, debe ir a su cuenta clicando el botón de perfil que se encuentra en la parte superior derecha de la barra de navegación
+        y pulsar en "Mis datos", ahí podrá modificar e incluir cualquier dato que desee.
+      metadata:
+        rephrase: false  
 
 
 

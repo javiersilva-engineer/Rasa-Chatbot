@@ -34,13 +34,28 @@ class ActionGemasDB(Action):
                         
                         if gemstone_names:
                             gemstone_list = ", ".join(gemstone_names)
-                            message = f"Las gemas con las que trabajamos son: {gemstone_list}"
+                            message = f"Las gemas con las que trabajamos son: {gemstone_list}\n\n¿Hay algo más en lo que pueda ayudarle?"
                         else:
                             message = "Lo siento, actualmente no tenemos gemas disponibles."
                     else:
                         message = "Lo siento, no pude obtener la información de las gemas en este momento."
             
-            dispatcher.utter_message(text=message)
+            buttons = [
+                {
+                    "title": "¿Con qué materiales trabajáis?",
+                    "payload": "/start_flow{\"flow_id\": \"que_materiales_teneis\"}"
+                },
+                {
+                    "title": "¿Qué formas tenéis?",
+                    "payload": "/start_flow{\"flow_id\": \"que_formas_teneis\"}"
+                },
+                {
+                    "title": "Quiero modificar el diseño de mi anillo",
+                    "payload": "/start_flow{\"flow_id\": \"modificar_diseño_anillo\"}"
+                }
+            ]
+            
+            dispatcher.utter_message(text=message, buttons=buttons)
             
         except Exception as e:
             dispatcher.utter_message(
@@ -433,5 +448,37 @@ class ActionSignificadoGemaDB(Action):
                 text="Lo siento, ha ocurrido un error al consultar el significado de la gema."
             )
             print(f"Error al consultar la API: {str(e)}")
+        
+        return []
+    
+from typing import Any, Text, Dict, List
+from rasa_sdk import Action, Tracker
+from rasa_sdk.executor import CollectingDispatcher
+import re
+
+class ActionChooseGem(Action):
+    def name(self) -> Text:
+        return "action_choose_gem"
+    
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # Obtener el último mensaje del usuario
+        user_message = tracker.latest_message.get('text', '').lower()
+        
+        # Lista de gemas comunes
+        gems = ['diamante', 'esmeralda', 'rubí', 'zafiro', 'topacio', 
+                'amatista', 'perla', 'ópalo', 'jade', 'turquesa']
+        
+        # Encontrar las gemas mencionadas
+        found_gems = [gem for gem in gems if gem in user_message]
+        
+        if len(found_gems) >= 2:
+            # Ordenar alfabéticamente y elegir la primera
+            chosen_gem = sorted(found_gems)[0]
+            dispatcher.utter_message(text=f"Ambas gemas me parecen preciosas, pero prefiero {chosen_gem}.")
+        else:
+            dispatcher.utter_message(text="No pude identificar dos gemas en tu pregunta.")
         
         return []

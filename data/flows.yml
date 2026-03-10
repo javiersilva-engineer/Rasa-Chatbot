@@ -329,6 +329,13 @@ flows:
   #   steps:
   #     - action: utter_engaste_gema_odioso
 
+  choose_gem:
+    description: El usuario pregunta al chatbot qué gema prefiere entre dos opciones, hace preguntas como
+      "¿Qué gema prefieres, el diamante o la esmeralda?". "Te gusta más el rubí o el zafiro?",
+      "¿Prefieres la esmeralda o el peridoto?".
+    steps:
+      - action: action_choose_gem
+
 
 
 
@@ -1129,6 +1136,46 @@ flows:
   #     "¿Para qué necesitáis mi DNI?", "¿Es necesario que os dé mi DNI?", "¿Por qué queréis saber mi DNI?"
   #   steps:
   #     - action: utter_necesitar_dni_usuario
+
+  consultar_mis_pedidos:
+    description: |
+      El usuario quiere saber cómo puede consultar sus pedidos, hace preguntas como
+      "¿Cómo puedo consultar mis pedidos?", "¿Dónde puedo ver los pedidos que he realizado?",
+      "Quiero consultar mis pedidos, ¿cómo lo hago?"
+    steps:
+      - action: utter_consultar_mis_pedidos
+
+  como_ver_mis_disenos:
+    description: |
+      El usuario quiere saber cómo puede consultar sus diseños, hace preguntas como
+      "¿Cómo puedo ver mis diseños?", "¿Dónde puedo modificar los diseños que he realizado?",
+      "Quiero consultar mis anillos, ¿cómo lo hago?"
+    steps:
+      - action: utter_consultar_mis_disenos
+
+  como_cambiar_nombre_del_diseno:
+    description: |
+      El usuario quiere cambiar el nombre del diseño que está creando, hace consultas como
+      "¿Cómo puedo cambiar el nombre de mi diseño", "Quiero cambiar el nombre del anillo que estoy editando.",
+      "¿Puedo cambiar el nombre de mi diseño?", "¿Cómo se cambia el nombre del diseño?"
+    steps:
+      - action: utter_cambiar_nombre_diseno
+
+  guardar_diseno_:
+    description: |
+      El usuario quiere guardar su diseño pero no sabe cómo hacerlo, hace consultas como
+      "¿Cómo guardo mi diseño?", "¿Hay auto guardado?", "Quiero guardar mi diseño, ¿cómo lo hago?"
+      "¿Se guarda automáticamente?", "Cómo puedo guardar el diseño que estoy haciendo?"
+    steps:
+      - action: utter_guardar_diseno
+
+  cambiar_dato_personal:
+    description: |
+      El usuario desea cambiar alguno de sus datos personales, hace consultas como
+      "¿Cómo cambio mi DNI?", "¿Puedo cambiar mi nombre?", "Quiero cambiar mi contraseña.",
+      "¿Es posible cambiar mi correo electrónico?", "¿Cómo puedo cambiar mis datos personales?".
+    steps:
+      - action: utter_cambiar_dato_personal
 
 
 
