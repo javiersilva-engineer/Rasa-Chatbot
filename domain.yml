@@ -136,6 +136,36 @@ slots:
     mappings:
       - type: from_llm
 
+  profile_id:
+    type: text
+    mappings:
+      - type: from_llm
+
+  ring_id:
+    type: text
+    mappings:
+      - type: custom
+
+  variante_id:
+    type: text
+    mappings:
+      - type: from_llm
+
+  material_id:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  current_material_id:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  pureza_id:
+    type: text
+    mappings:
+      - type: from_llm
+
 
 
 
@@ -163,11 +193,28 @@ actions:
   - action_tipos_material_bd
   - action_composicion_material_bd
   - action_significado_material_bd
-  - action_materiales_por_zodiaco_bd
+  # - action_materiales_por_zodiaco_bd
 
   - action_clarify_flows
 
+# ACTIONS DEL MOTOR 3D ----------------------------------------
+
   - action_show_ring
+
+  - action_ask_profile_id
+  - action_change_profile
+
+  - action_ask_variante_id
+  - action_change_variante
+
+  - action_ask_material_id
+  - action_change_material
+  - action_ask_pureza_id
+  - action_change_pureza_material
+
+# ------------------------------------------------------------
+
+  - action_recomendacion_signo_zodiacal
 
 
 
@@ -1052,7 +1099,7 @@ responses:
       metadata:
         rephrase: false
 
-  utter_cambiar_nombre_del_diseno:
+  utter_cambiar_nombre_diseno:
     - text: |
         Para cambiar el nombre de su diseño debe clicar en el campo que se encuentra en la parte superior izquierda del editor
         e introducir el nombre que desea para su diseño.
@@ -1719,5 +1766,31 @@ responses:
           payload: "Quiero la base ondulado."
         - title: "Bypass"
           payload: "Quiero la base bypass."
+      metadata:
+        rephrase: false
+
+  # TENGO QUE HACER TODAS LAS FUNCIONES QUE QUE HAY DEBAJO DE ESTE COMENTARIO
+
+  utter_editar_gema_anillo:
+    - text: "¿Qué gema desea? Puede seleccionar uno de los botones o escribirlo manualmente."
+      buttons:
+        - title: "Esmeralda"
+          payload: "Quiero la esmeralda."
+        - title: "Zafiro"
+          payload: "Quiero el zafiro."
+        - title: "Diamante"
+          payload: "Quiero el diamante."
+      metadata:
+        rephrase: false
+
+  utter_editar_material_anillo:
+    - text: "¿Qué material desea? Puede seleccionar uno de los botones o escribirlo manualmente."
+      buttons:
+        - title: "Oro amarillo"
+          payload: "Quiero el oro amarillo."
+        - title: "Oro rosa"
+          payload: "Quiero el oro rosa."
+        - title: "Platino"
+          payload: "Quiero el platino."
       metadata:
         rephrase: false

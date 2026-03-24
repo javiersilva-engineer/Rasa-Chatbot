@@ -150,7 +150,7 @@ flows:
   preguntar_nacimiento:
     description: |
       El usuario pregunta cuándo fue creado el asistente, como "¿Cuándo naciste?", 
-      "¿Cuándo te crearon?", "¿Cuál es tu fecha de nacimiento?"
+      "¿Cuándo te crearon?", "¿Cuál es tu fecha de nacimiento?", "¿Qué edad tienes?", "¿Cuántos años tienes?"
     steps:
       - action: utter_nacimiento
 
@@ -164,14 +164,14 @@ flows:
   preguntar_trabajo:
     description: |
       El usuario pregunta sobre el trabajo o función del asistente, como 
-      "¿Qué haces?", "¿Cuál es tu trabajo?", "¿Para qué sirves?"
+      "¿Qué haces?", "¿Cuál es tu trabajo?", "¿Para qué sirves?", "¿A qué te dedicas?"
     steps:
       - action: utter_trabajo
   
   hobbies_luna:
     description: |
       El usuario pregunta sobre los hobbies o intereses del asistente, como 
-      "¿Cuáles son tus hobbies?", "¿Qué te gusta hacer?", "¿Tienes algún pasatiempo?"
+      "¿Cuáles son tus hobbies?", "¿Qué te gusta hacer?", "¿Tienes algún pasatiempo?", "¿Qué te gusta hacer en tu tiempo libre?"
     steps:
       - action: utter_hobbies
 
@@ -213,13 +213,13 @@ flows:
   #   steps:
   #     - action: utter_gema_odiosa
 
-  # metal_precioso_material_favorito_luna:
-  #   description: |
-  #     El usuario pregunta sobre el metal precioso o material favorito del asistente, como 
-  #     "¿Cuál es tu metal precioso favorito?", "¿Tienes un material preferido?", 
-  #     "¿Qué metal te gusta más?"
-  #   steps:
-  #     - action: utter_metal_precioso_favorito
+  metal_precioso_material_favorito_luna:
+    description: |
+      El usuario pregunta sobre el metal precioso o material favorito del asistente, como 
+      "¿Cuál es tu metal precioso favorito?", "¿Tienes un material preferido?", 
+      "¿Qué metal te gusta más?"
+    steps:
+      - action: utter_metal_precioso_favorito
 
   # luna_odia_materiales:
   #   description: |
@@ -331,7 +331,7 @@ flows:
 
   choose_gem:
     description: El usuario pregunta al chatbot qué gema prefiere entre dos opciones, hace preguntas como
-      "¿Qué gema prefieres, el diamante o la esmeralda?". "Te gusta más el rubí o el zafiro?",
+      "¿Qué gema prefieres, el diamante o la esmeralda?". "¿Te gusta más el rubí o el zafiro?",
       "¿Prefieres la esmeralda o el peridoto?".
     steps:
       - action: action_choose_gem
@@ -1981,6 +1981,16 @@ flows:
   #       description: "El nombre exacto de la gema para la que el usuario quiere conocer los cortes recomendados"
   #     - action: action_cortes_recomendados_gema_bd
 
+  recomendacion_signo_zodiacal:
+    description: |
+      El usuario quiere saber qué tipo de gema o material se recomienda para un signo zodiacal específico,
+      hace consultas como "¿Qué gema me recomiendas para Tauro?", "¿Qué material es bueno para Leo?",
+      "¿Qué me recomiendas para Capricornio?", "?¿Cuál es la mejor gema para Virgo?""
+    steps:
+      - collect: zodiac_sign
+        description: El signo zodiacal del usuario (aries, tauro, géminis, cáncer, leo, virgo, libra, escorpio, sagitario, capricornio, acuario, piscis)
+      - action: action_recomendacion_signo_zodiacal
+
 
 
 
@@ -2063,16 +2073,16 @@ flows:
         description: "El nombre del material del que el usuario quiere conocer el significado o simbolismo"
       - action: action_significado_material_bd
 
-  materiales_por_zodiaco:
-    description: |
-      El usuario quiere saber qué materiales son recomendados para un signo zodiacal específico,
-      hace preguntas como "¿Qué material me recomiendas para Tauro?", "¿Qué metal es bueno para Leo?",
-      "¿Cuál es el mejor material para Escorpio?", "Materiales para Aries".
-    name: Materiales por signo zodiacal
-    steps:
-      - collect: zodiac_sign
-        description: "El signo zodiacal para el cual el usuario quiere conocer los materiales recomendados"
-      - action: action_materiales_por_zodiaco_bd
+  # materiales_por_zodiaco:
+  #   description: |
+  #     El usuario quiere saber qué materiales son recomendados para un signo zodiacal específico,
+  #     hace preguntas como "¿Qué material me recomiendas para Tauro?", "¿Qué metal es bueno para Leo?",
+  #     "¿Cuál es el mejor material para Escorpio?", "Materiales para Aries".
+  #   name: Materiales por signo zodiacal
+  #   steps:
+  #     - collect: zodiac_sign
+  #       description: "El signo zodiacal para el cual el usuario quiere conocer los materiales recomendados"
+  #     - action: action_materiales_por_zodiaco_bd
 
 
 
@@ -2120,6 +2130,193 @@ flows:
 
 
 
+
+
+
+  modificar_perfil_del_anillo:
+    description: |
+      El usuario desea modificar el perfil de su anillo, hace consultas como
+      "Quiero modificar el perfil de mi anillo", "Quiero cambiar el perfil",
+      "Quiero cambiar el perfil de mi diseño en el editor 3D"
+    name: Editar perfil de anillo en editor 3D
+    steps:
+      - action: action_ask_profile_id
+
+  cambiar_perfil:
+    description: |
+      El usuario especifica el nombre del perfil que quiere aplicar a su anillo, hace consultas como "Liso",
+      "Redondo", "Media caña", "Quiero el perfil liso", "Aplica el perfil redondo", "Pon el perfil media caña"
+    steps:
+      - collect: profile_id
+        description: El nombre del perfil que el usuario desea aplicar
+      - action: action_change_profile
+
+
+
+
+
+
+  modificar_variante_del_anillo:
+    description: |
+      El usuario desea modificar la variante de la base de su anillo, hace consultas como
+      "Quiero modificar la variante de la base de mi anillo", "Quiero cambiar la variante de mi anillo",
+      "Quiero cambiar la variante de mi diseño en el editor 3D"
+    name: Editar variante de anillo en editor 3D
+    steps:
+      - action: action_ask_variante_id
+
+  cambiar_variante:
+    description: |
+      El usuario especifica el nombre del perfil que quiere aplicar a su anillo, hace consultas como "1 gema",
+      "Incrustado múltiple", "3 gemas", "Quiero el anillo sin gemas", "Aplica la variante de 3 gemas", "Pon la variante de incrustado múltiple"
+    steps:
+      - collect: variante_id
+        description: El nombre de la variante que el usuario desea aplicar
+      - action: action_change_variante
+
+
+
+
+
+# TENGO QUE HACER TODAS LAS FUNCIONES QUE QUE HAY DEBAJO DE ESTE COMENTARIO
+
+  modificar_material_del_anillo:
+    description: |
+      El usuario desea modificar el material de su anillo, hace consultas como
+      "Quiero modificar el material de mi anillo", "Quiero cambiar el material",
+      "Quiero cambiar el material de mi diseño en el editor 3D"
+    name: Editar material de anillo en editor 3D
+    steps:
+      - action: action_ask_material_id
+
+  cambiar_material:
+    description: |
+      El usuario especifica el nombre del material que quiere aplicar a su anillo, hace consultas como "Oro amarillo",
+      "Oro rosa", "Oro blanco", "Platino", "Aplica el material oro blanco", "Pon el material platino"
+    steps:
+      - collect: material_id
+        description: El nombre del material que el usuario desea aplicar
+      - action: action_change_material
+      - link: modificar_pureza_del_material_del_anillo
+
+  modificar_pureza_del_material_del_anillo:
+    description: |
+      El usuario desea modificar la pureza del material de su anillo, hace consultas como
+      "Quiero modificar la pureza del material", "Quiero cambiar la pureza",
+      "Quiero cambiar la pureza de mi diseño en el editor 3D"
+    name: Editar pureza de anillo en editor 3D
+    steps:
+      - action: action_ask_pureza_id
+      - collect: pureza_id
+        description: El nombre de la pureza del material que el usuario desea aplicar
+      - action: action_change_pureza_material
+
+
+
+
+
+
+  # modificar_gema_del_anillo:
+  #   description: |
+  #     El usuario desea modificar la gema de su anillo, hace consultas como
+  #     "Quiero modificar la gema de mi anillo", "Quiero cambiar la gema",
+  #     "Quiero cambiar la gema de mi diseño en el editor 3D"
+  #   name: Editar gema de anillo en editor 3D
+  #   steps:
+  #   # HACER UN ACTION DIRECTAMENTE
+  #     - action: utter_editar_gema_anillo
+
+  # modificar_origen_de_la_gema_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el origen dela gema de su anillo, hace consultas como
+  #     "Quiero modificar el origen de la gema de mi anillo", "Quiero cambiar el origen de la gema",
+  #     "Quiero cambiar el origen de la gema de mi diseño en el editor 3D"
+  #   name: Editar origen de gema de anillo en editor 3D
+  #   steps:
+  #   # HACER UN ACTION DIRECTAMENTE
+  #     - action: utter_editar_origen_gema
+
+  # modificar_forma_de_la_gema_del_anillo:
+  #   description: |
+  #     El usuario desea modificar la forma dela gema de su anillo, hace consultas como
+  #     "Quiero modificar la forma de la gema de mi anillo", "Quiero cambiar la forma de la gema",
+  #     "Quiero cambiar la forma de la gema de mi diseño en el editor 3D"
+  #   name: Editar forma de gema de anillo en editor 3D
+  #   steps:
+  #   # HACER UN ACTION DIRECTAMENTE
+  #     - action: utter_editar_forma_gema
+
+
+
+
+  # modificar_engaste_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el engaste de su anillo, hace consultas como
+  #     "Quiero modificar el engaste de mi anillo", "Quiero cambiar el engaste",
+  #     "Quiero cambiar el engaste de mi diseño en el editor 3D"
+  #   name: Editar engaste de anillo en editor 3D
+  #   steps:
+  #   # HACER UN ACTION DIRECTAMENTE
+  #     - action: utter_editar_engaste_anillo
+
+  # modificar_numero_de_garras_del_engaste_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el número de garras del engaste de su anillo, hace consultas como
+  #     "Quiero modificar el número de garras del engaste de mi anillo", "Quiero cambiar el número de garras",
+  #     "Quiero cambiar el número de garras del engaste de mi diseño en el editor 3D"
+  #   name: Editar número de garras del engaste de anillo en editor 3D
+  #   steps:
+  #   # HACER UN ACTION DIRECTAMENTE
+  #     - action: utter_editar_numero_garras_engaste_anillo
+
+  # modificar_tipo_de_garras_del_engaste_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el tipo de garras del engaste de su anillo, hace consultas como
+  #     "Quiero modificar el tipo de garras del engaste de mi anillo", "Quiero cambiar el tipo de garras",
+  #     "Quiero cambiar el tipo de garras del engaste de mi diseño en el editor 3D"
+  #   name: Editar tipo de garras del engaste de anillo en editor 3D
+  #   steps:
+  #   # HACER UN ACTION DIRECTAMENTE
+  #     - action: utter_editar_tipo_garras_engaste_anillo
+
+
+
+
+  # modificar_empaquetado_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el empaquetado de su anillo, hace consultas como
+  #     "Quiero modificar el empaquetado de mi anillo", "Quiero cambiar el empaquetado",
+  #     "Quiero cambiar la caja de mi diseño en el editor 3D"
+  #   name: Editar empaquetado de anillo en editor 3D
+  #   steps:
+  #     - action: utter_editar_empaquetado_anillo
+
+  # modificar_material_empaquetado_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el material del empaquetado de su anillo, hace consultas como
+  #     "Quiero modificar el material del empaquetado de mi anillo", "Quiero cambiar el color del empaquetado",
+  #     "Quiero cambiar el material de la caja de mi diseño en el editor 3D"
+  #   name: Editar material empaquetado de anillo en editor 3D
+  #   steps:
+  #     - action: utter_editar_material_empaquetado_anillo
+
+  # modificar_material_interior_empaquetado_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el material interior del empaquetado de su anillo, hace consultas como
+  #     "Quiero modificar el material interior del empaquetado de mi anillo", "Quiero cambiar el color interior del empaquetado",
+  #     "Quiero cambiar el material interior de la caja de mi diseño en el editor 3D"
+  #   name: Editar material interior empaquetado de anillo en editor 3D
+  #   steps:
+  #     - action: utter_editar_material_interior_empaquetado_anillo
+
+  # modificar_material_exterior_empaquetado_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el material exterior del empaquetado de su anillo, hace consultas como
+  #     "Quiero modificar el material exterior del empaquetado de mi anillo", "Quiero cambiar el color exterior del empaquetado",
+  #     "Quiero cambiar el material exterior de la caja de mi diseño en el editor 3D"
+  #   name: Editar material exterior empaquetado de anillo en editor 3D
+  #   steps:
+  #     - action: utter_editar_material_exterior_empaquetado_anillo
 
 
 

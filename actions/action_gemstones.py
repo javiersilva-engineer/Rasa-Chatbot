@@ -482,3 +482,98 @@ class ActionChooseGem(Action):
             dispatcher.utter_message(text="No pude identificar dos gemas en tu pregunta.")
         
         return []
+    
+class ActionRecomendacionSignoZodiacal(Action):
+    
+    def name(self) -> Text:
+        return "action_recomendacion_signo_zodiacal"
+    
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        
+        try:
+            # Obtener el signo zodiacal desde el slot
+            zodiac_sign = tracker.get_slot("zodiac_sign")
+            
+            if not zodiac_sign:
+                dispatcher.utter_message(
+                    text="Lo siento, no he podido identificar el signo zodiacal."
+                )
+                return []
+            
+            # Normalizar el signo zodiacal a minúsculas
+            zodiac_sign_normalized = zodiac_sign.lower().strip()
+            
+            api_url = os.getenv("API_URL")
+            
+            # Consultar gemas y materiales
+            encoded_zodiac = quote(zodiac_sign_normalized)
+            # gemstones_endpoint = f"http://localhost:5000/api/gemstones?zodiac={encoded_zodiac}"
+            gemstones_endpoint = f"{api_url}/api/gemstones?zodiac={encoded_zodiac}"
+            materials_endpoint = f"{api_url}/api/materials?zodiac={encoded_zodiac}"
+            
+            recommended_gems = []
+            recommended_materials = []
+            
+            async with aiohttp.ClientSession() as session:
+                # Consultar gemas
+                async with session.get(gemstones_endpoint) as gem_response:
+                    print(f"DEBUG - Gemstones endpoint: {gemstones_endpoint}")
+                    print(f"DEBUG - Gemstones status: {gem_response.status}")
+                    
+                    if gem_response.status == 200:
+                        gem_data = await gem_response.json()
+                        print(f"DEBUG - Gemstones response: {gem_data}")
+                        
+                        gemstones_array = gem_data.get("gemstones", [])
+                        print(f"DEBUG - Gemstones array length: {len(gemstones_array)}")
+                        
+                        recommended_gems = [gem.get("name") for gem in gemstones_array if gem.get("name")]
+                        print(f"DEBUG - Recommended gems: {recommended_gems}")
+                
+                # Consultar materiales
+                async with session.get(materials_endpoint) as material_response:
+                    print(f"DEBUG - Materials endpoint: {materials_endpoint}")
+                    print(f"DEBUG - Materials status: {material_response.status}")
+                    
+                    if material_response.status == 200:
+                        material_data = await material_response.json()
+                        print(f"DEBUG - Materials response: {material_data}")
+                        
+                        materials_array = material_data.get("materials", [])
+                        print(f"DEBUG - Materials array length: {len(materials_array)}")
+                        
+                        recommended_materials = [mat.get("name") for mat in materials_array if mat.get("name")]
+                        print(f"DEBUG - Recommended materials: {recommended_materials}")
+            
+            # Construir el mensaje de respuesta
+            if recommended_gems or recommended_materials:
+                message_parts = [f"Para el signo {zodiac_sign}, te recomiendo:"]
+                
+                if recommended_gems:
+                    gems_text = ", ".join(recommended_gems)
+                    message_parts.append(f"\nGemas: {gems_text}")
+                
+                if recommended_materials:
+                    materials_text = ", ".join(recommended_materials)
+                    message_parts.append(f"\n**Materiales:** {materials_text}")
+                
+                message = "".join(message_parts)
+            else:
+                message = f"Para el signo {zodiac_sign}, cualquier combinación de gemas y materiales quedaría bien."
+            
+            dispatcher.utter_message(text=message)
+            
+        except Exception as e:
+            dispatcher.utter_message(
+                text="Lo siento, ha ocurrido un error al consultar las recomendaciones."
+            )
+            print(f"Error al consultar la API: {str(e)}")
+            import traceback
+            traceback.print_exc()
+        
+        return []
