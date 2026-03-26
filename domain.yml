@@ -166,6 +166,80 @@ slots:
     mappings:
       - type: from_llm
 
+  gema_id:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  gem_position:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  has_multiple_gems:
+    type: bool
+    mappings:
+      - type: custom
+
+  gem_position_for_cut:
+    type: text
+    mappings:
+      - type: from_llm
+        # conditions:
+        #   - active_loop: null
+  
+  forma_gema_id:
+    type: text
+    mappings:
+      - type: from_llm
+        # conditions:
+        #   - active_loop: null
+
+  gem_position_for_setting:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  engaste_id:
+    type: text
+    mappings:
+      - type: from_llm
+
+  gem_position_for_claw_number:
+    type: text
+    mappings:
+      - type: from_llm
+
+  numero_garras_id:
+    type: text
+    mappings:
+      - type: from_llm
+
+  gem_position_for_claw_type:
+    type: text
+    mappings:
+      - type: from_llm
+
+  tipo_garras_id:
+    type: text
+    mappings:
+      - type: from_llm
+
+  box_shape_id:
+    type: text
+    mappings:
+      - type: from_llm
+
+  box_outer_color_id:
+    type: text
+    mappings:
+      - type: from_llm
+
+  box_inner_color_id:
+    type: text
+    mappings:
+      - type: from_llm
+
 
 
 
@@ -211,6 +285,36 @@ actions:
   - action_change_material
   - action_ask_pureza_id
   - action_change_pureza_material
+
+  - action_ask_gem_position
+  - action_ask_gema_id
+  - action_change_gema
+
+  - action_ask_gem_position_for_cut
+  - action_ask_forma_gema_id
+  - action_change_forma_gema
+
+
+  - action_ask_gem_position_for_setting
+  - action_ask_engaste_id
+  - action_change_engaste
+
+  - action_ask_gem_position_for_claw_number
+  - action_ask_numero_garras_id
+  - action_change_garras_engaste
+
+  - action_ask_gem_position_for_claw_type    
+  - action_ask_tipo_garras_id                
+  - action_change_garras_type_engaste
+
+  - action_ask_box_shape_id
+  - action_change_box_shape
+
+  - action_ask_box_outer_color_id
+  - action_change_box_outer_color
+
+  - action_ask_box_inner_color_id
+  - action_change_box_inner_color
 
 # ------------------------------------------------------------
 
@@ -1794,3 +1898,14 @@ responses:
           payload: "Quiero el platino."
       metadata:
         rephrase: false
+
+  # utter_need_gem_position_first:
+  #   - text: "Primero necesito saber qué gema quieres modificar."
+  #     metadata:
+  #       rephrase: false
+
+  # utter_ask_gem_position_for_setting:
+  #   - text: "¿A qué gema deseas cambiarle el engaste?"
+  
+  # utter_ask_engaste_id:
+  #   - text: "Selecciona el engaste que deseas aplicar:"

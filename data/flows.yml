@@ -18,7 +18,7 @@
 # 13. FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO
 # 14. DATOS SOBRE GEMAS
 # 15. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA
-# 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS 
+# 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS
 # 17. FLOWS INFORMACIÓN SOBRE MATERIALES
 # 18. FLOWS SOBRE PRECIOS Y PAGOS
 # 19. FLOWS DUDAS SOBRE ENVIOS
@@ -29,21 +29,9 @@
 # 24. FLOW DAR TALLA USUARIO SEGÚN MEDIDA
 # 25. DUDA ENTRE DOS FLOWS
 
-
-
-
-
 # 26. FLOWS BASE DE DATOS GEMAS
 # 27. FLOWS BASE DE DATOS ESTRUCTURA BASE
 # 27. FLOWS BASE DE DATOS MATERIALES
-
-
-
-
-
-
-
-
 
 flows:
   # Sobrescribe pattern_search para que no genere respuesta ---------------------------------------------------------------
@@ -114,11 +102,7 @@ flows:
                 next: END
           - else: END
 
-
-
-
-
-# FLOWS SALUDOS Y DESPEDIDAS ---------------------------------------------------------------
+  # FLOWS SALUDOS Y DESPEDIDAS ---------------------------------------------------------------
 
   saludar:
     description: |
@@ -134,11 +118,7 @@ flows:
     steps:
       - action: utter_despedida
 
-
-
-
-
-# FLOWS SOBRE LUNA ---------------------------------------------------------------
+  # FLOWS SOBRE LUNA ---------------------------------------------------------------
 
   preguntar_nombre:
     description: |
@@ -167,7 +147,7 @@ flows:
       "¿Qué haces?", "¿Cuál es tu trabajo?", "¿Para qué sirves?", "¿A qué te dedicas?"
     steps:
       - action: utter_trabajo
-  
+
   hobbies_luna:
     description: |
       El usuario pregunta sobre los hobbies o intereses del asistente, como 
@@ -181,13 +161,9 @@ flows:
       "¿Cuál es tu talla de anillo?", "¿Qué talla de anillo usas?", 
       "¿Tienes una talla de anillo favorita?"
     steps:
-      - action: utter_talla_anillo  
+      - action: utter_talla_anillo
 
-
-
-
-
-# FLOWS SOBRE PREFERENCIAS GEMAS Y MATERIALES LUNA ---------------------------------------------------------------
+  # FLOWS SOBRE PREFERENCIAS GEMAS Y MATERIALES LUNA ---------------------------------------------------------------
 
   gema_favorita_luna:
     description: |
@@ -199,16 +175,16 @@ flows:
 
   # segunda_gema_que_mas_gusta_luna:
   #   description: |
-  #     El usuario pregunta sobre la segunda gema que más le gusta al asistente, como 
-  #     "¿Cuál es la segunda gema que más te gusta?", "¿Tienes otra gema favorita?", 
+  #     El usuario pregunta sobre la segunda gema que más le gusta al asistente, como
+  #     "¿Cuál es la segunda gema que más te gusta?", "¿Tienes otra gema favorita?",
   #     "¿Qué otra gema te gusta?"
   #   steps:
   #     - action: utter_segunda_gema_favorita
 
   # gema_odiosa_luna:
   #   description: |
-  #     El usuario pregunta sobre la gema que menos le gusta al asistente, como 
-  #     "¿Cuál es la gema que menos te gusta?", "¿Tienes una gema que no te guste?", 
+  #     El usuario pregunta sobre la gema que menos le gusta al asistente, como
+  #     "¿Cuál es la gema que menos te gusta?", "¿Tienes una gema que no te guste?",
   #     "¿Qué gema odias?"
   #   steps:
   #     - action: utter_gema_odiosa
@@ -223,8 +199,8 @@ flows:
 
   # luna_odia_materiales:
   #   description: |
-  #     El usuario pregunta sobre los materiales que menos le gustan al asistente, como 
-  #     "¿Qué materiales odias?", "¿Tienes algún material que no te guste?", 
+  #     El usuario pregunta sobre los materiales que menos le gustan al asistente, como
+  #     "¿Qué materiales odias?", "¿Tienes algún material que no te guste?",
   #     "¿Cuál es el material que menos te gusta?"
   #   steps:
   #     - action: utter_materiales_odiosos
@@ -239,8 +215,8 @@ flows:
 
   # color_odioso_luna:
   #   description: |
-  #     El usuario pregunta sobre el color que menos le gusta al asistente, como 
-  #     "¿Cuál es el color que menos te gusta?", "¿Tienes un color que no te guste?", 
+  #     El usuario pregunta sobre el color que menos le gusta al asistente, como
+  #     "¿Cuál es el color que menos te gusta?", "¿Tienes un color que no te guste?",
   #     "¿Qué color odias?"
   #   steps:
   #     - action: utter_color_odioso
@@ -256,8 +232,8 @@ flows:
 
   # corte_odioso_luna:
   #   description: |
-  #     El usuario pregunta sobre el corte de gema que menos le gusta al asistente, como 
-  #     "¿Cuál es el corte de gema que menos te gusta?", "¿Tienes un corte que no te guste?", 
+  #     El usuario pregunta sobre el corte de gema que menos le gusta al asistente, como
+  #     "¿Cuál es el corte de gema que menos te gusta?", "¿Tienes un corte que no te guste?",
   #     "¿Qué corte de gema odias?", "¿Cuál es el corte que menos te gusta?", "¿Tienes algún corte que odies?",
   #     "¿Existe un corte que sea el peor de todos?"
   #   steps:
@@ -274,8 +250,8 @@ flows:
 
   # tallado_odioso_luna:
   #   description: |
-  #     El usuario pregunta sobre el tallado de gema que menos le gusta al asistente, como 
-  #     "¿Cuál es el tallado de gema que menos te gusta?", "¿Tienes un tallado que no te guste?", 
+  #     El usuario pregunta sobre el tallado de gema que menos le gusta al asistente, como
+  #     "¿Cuál es el tallado de gema que menos te gusta?", "¿Tienes un tallado que no te guste?",
   #     "¿Qué tallado de gema odias?", "¿Cuál es el tallado que menos te gusta?", "¿Tienes algún tallado que odies?",
   #     "¿Existe un tallado que sea el peor de todos?"
   #   steps:
@@ -291,8 +267,8 @@ flows:
 
   # forma_gema_odiosa_luna:
   #   description: |
-  #     El usuario pregunta sobre la forma de gema que menos le gusta al asistente, como 
-  #     "¿Cuál es la forma de gema que menos te gusta?", "¿Tienes una forma que no te guste?", 
+  #     El usuario pregunta sobre la forma de gema que menos le gusta al asistente, como
+  #     "¿Cuál es la forma de gema que menos te gusta?", "¿Tienes una forma que no te guste?",
   #     "¿Qué forma de gema odias?"
   #   steps:
   #     - action: utter_forma_gema_odiosa
@@ -307,8 +283,8 @@ flows:
 
   # caja_mas_odiosa_luna:
   #   description: |
-  #     El usuario pregunta sobre la caja de gema que menos le gusta al asistente, como 
-  #     "¿Cuál es la caja de gema que menos te gusta?", "¿Tienes una caja que no te guste?", 
+  #     El usuario pregunta sobre la caja de gema que menos le gusta al asistente, como
+  #     "¿Cuál es la caja de gema que menos te gusta?", "¿Tienes una caja que no te guste?",
   #     "¿Qué caja de gema odias?"
   #   steps:
   #     - action: utter_caja_mas_odiosa
@@ -323,35 +299,32 @@ flows:
 
   # engaste_gema_odioso_luna:
   #   description: |
-  #     El usuario pregunta sobre el engaste de gema que menos le gusta al asistente, como 
-  #     "¿Cuál es el engaste de gema que menos te gusta?", "¿Tienes un engaste que no te guste?", 
+  #     El usuario pregunta sobre el engaste de gema que menos le gusta al asistente, como
+  #     "¿Cuál es el engaste de gema que menos te gusta?", "¿Tienes un engaste que no te guste?",
   #     "¿Qué engaste de gema odias?"
   #   steps:
   #     - action: utter_engaste_gema_odioso
 
   choose_gem:
-    description: El usuario pregunta al chatbot qué gema prefiere entre dos opciones, hace preguntas como
+    description:
+      El usuario pregunta al chatbot qué gema prefiere entre dos opciones, hace preguntas como
       "¿Qué gema prefieres, el diamante o la esmeralda?". "¿Te gusta más el rubí o el zafiro?",
       "¿Prefieres la esmeralda o el peridoto?".
     steps:
       - action: action_choose_gem
 
-
-
-
-
-# FLOWS SOBRE HALAGOS Y ATAQUES ---------------------------------------------------------------
+  # FLOWS SOBRE HALAGOS Y ATAQUES ---------------------------------------------------------------
 
   # halagar_luna:
   #   description: |
-  #     El usuario hace un halago al asistente con frases como "Eres muy inteligente", 
+  #     El usuario hace un halago al asistente con frases como "Eres muy inteligente",
   #     "Me encanta hablar contigo", "Eres muy amable". Nunca le propone matrimonio, ni le dice si se quiere casar con él/ella.
   #   steps:
   #     - action: utter_halago
 
   # atacar_luna:
   #   description: |
-  #     El usuario hace un ataque o comentario negativo al asistente con frases como 
+  #     El usuario hace un ataque o comentario negativo al asistente con frases como
   #     "Eres tonto", "No me gusta hablar contigo", "Eres aburrido". No le llama asesina en ningún momento.
   #   steps:
   #     - action: utter_ataque
@@ -365,61 +338,52 @@ flows:
   #   steps:
   #     - action: utter_diamantes_de_sangre
 
-
   # propuesta_de_matrimonio_luna:
   #   description: |
-  #     El usuario propone matrimonio al asistente con frases como 
-  #     "¿Quieres casarte conmigo?", "Te quiero pedir que te cases conmigo", 
+  #     El usuario propone matrimonio al asistente con frases como
+  #     "¿Quieres casarte conmigo?", "Te quiero pedir que te cases conmigo",
   #     "¿Te casarías conmigo?"
   #   steps:
   #     - action: utter_propuesta_matrimonio
 
   # corazon_roto_usuario:
   #   description: |
-  #     El usuario expresa que tiene el corazón roto con frases como 
+  #     El usuario expresa que tiene el corazón roto con frases como
   #     "Tengo el corazón roto", "Estoy destrozado", "Me siento muy triste por amor", "No puedo vivir sin ti"
   #   steps:
   #     - action: utter_corazon_roto
 
-
-
-
-
-# FLOWS SOBRE ESTADO ANIMO USUARIO ---------------------------------------------------------------
+  # FLOWS SOBRE ESTADO ANIMO USUARIO ---------------------------------------------------------------
 
   # usuario_aburrido:
   #   description: |
-  #     El usuario expresa que está aburrido con frases como "estoy aburrido", 
+  #     El usuario expresa que está aburrido con frases como "estoy aburrido",
   #     "me aburro", "qué aburrimiento"
   #   steps:
   #     - action: utter_aburrido
 
   # usuario_feliz:
   #   description: |
-  #     El usuario expresa felicidad con frases como "estoy feliz", "estoy contento", 
+  #     El usuario expresa felicidad con frases como "estoy feliz", "estoy contento",
   #     "qué alegría"
   #   steps:
   #     - action: utter_feliz
 
   # usuario_triste:
   #   description: |
-  #     El usuario expresa tristeza con frases como "estoy triste", "me siento mal", 
+  #     El usuario expresa tristeza con frases como "estoy triste", "me siento mal",
   #     "estoy deprimido"
   #   steps:
   #     - action: utter_triste
 
   # usuario_enfadado:
   #   description: |
-  #     El usuario expresa enfado con frases como "estoy enfadado", "estoy molesto", 
+  #     El usuario expresa enfado con frases como "estoy enfadado", "estoy molesto",
   #     "me enoja"
   #   steps:
   #     - action: utter_enfadado
 
-
-
-
-
-# FLOWS SOBRE INTEGRANTES PATATA TEAM ---------------------------------------------------------------
+  # FLOWS SOBRE INTEGRANTES PATATA TEAM ---------------------------------------------------------------
 
   pablo_hernandez:
     description: |
@@ -465,15 +429,11 @@ flows:
     steps:
       - action: utter_javier_silva
 
-
-
-
-
-# FLOWS SOBRE PATATA TEAM ---------------------------------------------------------------
+  # FLOWS SOBRE PATATA TEAM ---------------------------------------------------------------
 
   # preguntar_equipo:
   #   description: |
-  #     El usuario pregunta sobre el equipo Patata Team, como "¿Quién es Patata Team?", 
+  #     El usuario pregunta sobre el equipo Patata Team, como "¿Quién es Patata Team?",
   #     "¿Quiénes forman el equipo?"
   #   steps:
   #     - action: utter_equipo
@@ -494,39 +454,39 @@ flows:
 
   # preguntar_nombre_patata:
   #   description: |
-  #     El usuario pregunta por qué se llama Patata Team, como "¿Por qué Patata Team?", 
+  #     El usuario pregunta por qué se llama Patata Team, como "¿Por qué Patata Team?",
   #     "¿De dónde viene el nombre?"
   #   steps:
   #     - action: utter_patata
 
   # lugar_origen_patata_team:
   #   description: |
-  #     El usuario pregunta sobre el lugar de origen del equipo Patata Team, como 
-  #     "¿De dónde es Patata Team?", "¿Dónde se formó Patata Team?", 
+  #     El usuario pregunta sobre el lugar de origen del equipo Patata Team, como
+  #     "¿De dónde es Patata Team?", "¿Dónde se formó Patata Team?",
   #     "¿Dónde está Patata Team?"
   #   steps:
   #     - action: utter_lugar_origen_patata_team
 
   # informacion_patata_team:
   #   description: |
-  #     El usuario quiere saber cómo puede obtener más información sobre el equipo Patata Team, hace preguntas como 
-  #     "¿Cómo puedo saber más información sobre Patata Team?", "Háblame de Patata Team", 
+  #     El usuario quiere saber cómo puede obtener más información sobre el equipo Patata Team, hace preguntas como
+  #     "¿Cómo puedo saber más información sobre Patata Team?", "Háblame de Patata Team",
   #     "¿Dónde puedo encontrar información de Patata Team?"
   #   steps:
   #     - action: utter_informacion_patata_team
 
   # proyectos_patata_team:
   #   description: |
-  #     El usuario quiere saber qué proyectos ha realizado el equipo Patata Team, hace preguntas como 
-  #     "¿Qué proyectos ha hecho Patata Team?", "¿Cuáles son los proyectos de Patata Team?", 
+  #     El usuario quiere saber qué proyectos ha realizado el equipo Patata Team, hace preguntas como
+  #     "¿Qué proyectos ha hecho Patata Team?", "¿Cuáles son los proyectos de Patata Team?",
   #     "Háblame de los proyectos de Patata Team"
   #   steps:
   #     - action: utter_proyectos_patata_team
 
   # estudios_patata_team:
   #   description: |
-  #     El usuario pregunta sobre los estudios académicos del equipo Patata Team, como 
-  #     "¿Qué estudios tienen los miembros de Patata Team?", "¿Dónde estudiaron los integrantes de Patata Team?", 
+  #     El usuario pregunta sobre los estudios académicos del equipo Patata Team, como
+  #     "¿Qué estudios tienen los miembros de Patata Team?", "¿Dónde estudiaron los integrantes de Patata Team?",
   #     "¿Qué formación académica tiene Patata Team?"
   #   steps:
   #     - action: utter_estudios_patata_team
@@ -568,19 +528,15 @@ flows:
   #   steps:
   #     - action: utter_sugerencia_publicacion
 
-
-
-
-
-# FLOWS SOBRE LOUV ---------------------------------------------------------------
+  # FLOWS SOBRE LOUV ---------------------------------------------------------------
 
   preguntar_nombre_louv:
     description: |
-        El usuario pregunta sobre el nombre Louv, como "¿Por qué se llama Louv?", 
-        "¿Qué significa Louv?"
+      El usuario pregunta sobre el nombre Louv, como "¿Por qué se llama Louv?", 
+      "¿Qué significa Louv?"
     steps:
       - action: utter_nombre_louv
-  
+
   preguntar_proyecto_louv_abp:
     description: |
       El usuario pregunta sobre el proyecto Louv, hace distintos tipos de pregunta como
@@ -592,7 +548,7 @@ flows:
 
   # preguntar_proyecto_louv:
   #   description: |
-  #     El usuario pregunta sobre el proyecto Louv, como "¿Qué es Louv?", 
+  #     El usuario pregunta sobre el proyecto Louv, como "¿Qué es Louv?",
   #     "¿Para qué sirve Louv?", "Háblame de Louv"
   #   steps:
   #     - action: utter_proyecto_louv
@@ -697,11 +653,7 @@ flows:
   #   steps:
   #     - action: utter_funcionalidades_futuras_louv
 
-
-
-
-
-# FLOWS SOBRE LA UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
+  # FLOWS SOBRE LA UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
 
   # ubicacion_universidad:
   #   description: |
@@ -711,10 +663,8 @@ flows:
   #   steps:
   #     - action: utter_ubicacion_universidad
 
+  # SE PODRÍA INTENTAR QUE CADA VEZ QUE SE ACTIVE ESTE FLOW LA RESPUESTA CAMBIASE DANDO DISTINTOS DATOS
 
-
-# SE PODRÍA INTENTAR QUE CADA VEZ QUE SE ACTIVE ESTE FLOW LA RESPUESTA CAMBIASE DANDO DISTINTOS DATOS
-  
   que_es_universidad_alicante:
     description: |
       El usuario quiere saber información sobre la Universidad de Alicante (UA), realiza preguntas como "¿Qué es la UA?",
@@ -729,7 +679,6 @@ flows:
   #   steps:
   #     - action: utter_ciudad_alicante
 
-
   informacion_grado_ingenieria_multimedia:
     description: |
       El usuario quiere saber en qué consiste una ingeniería multimedia, pregunta sobre la diferencia que hay entre la ingeniería multimedia
@@ -740,10 +689,7 @@ flows:
     steps:
       - action: utter_informacion_grado_multimedia
 
-
-
-
-# FLOWS SOBRE GEMAS DEL ZODIACO ---------------------------------------------------------------
+  # FLOWS SOBRE GEMAS DEL ZODIACO ---------------------------------------------------------------
 
   consultar_gema_zodiacal:
     description: |
@@ -759,7 +705,7 @@ flows:
         next:
           - if: slots.signo_zodiacal == "aries"
             then:
-              - action: utter_aries_granate 
+              - action: utter_aries_granate
                 next: END
           - if: slots.signo_zodiacal == "tauro"
             then:
@@ -809,10 +755,7 @@ flows:
               - action: utter_signo_no_reconocido
                 next: END
 
-
-
-
-# FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO ---------------------------------------------------------------
+  # FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO ---------------------------------------------------------------
 
   preguntar_gema_zodiaco:
     description: |
@@ -832,9 +775,7 @@ flows:
     steps:
       - action: utter_signo_nacimiento
 
-
-
-#FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO ---------------------------------------------------------------
+  #FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO ---------------------------------------------------------------
 
   determinar_signo_por_fecha:
     description: |
@@ -848,7 +789,7 @@ flows:
           La fecha de nacimiento del usuario en formato día/mes (por ejemplo: 15/03, 25/07)
           o en texto natural como "20 de septiembre".
           Solo necesitamos el día y el mes, no el año.
-      
+
       - id: determinar_signo
         action: action_determinar_signo_zodiacal
         next:
@@ -904,11 +845,7 @@ flows:
               - action: utter_fecha_invalida
                 next: END
 
-
-
-
-
-# DATOS SOBRE GEMAS ---------------------------------------------------------------
+  # DATOS SOBRE GEMAS ---------------------------------------------------------------
 
   escala_de_mohs:
     description: |
@@ -948,7 +885,7 @@ flows:
 
   # saber_origen_de_nuestras_gemas:
   #   description: |
-  #     El usuario pregunta cómo sabemos de donde proceden las gemas que adquirimos, hace preguntas como 
+  #     El usuario pregunta cómo sabemos de donde proceden las gemas que adquirimos, hace preguntas como
   #     "¿Cómo sabéis de dónde proceden vuestras gemas?", ¿"Cómo trazáis el origen de vuestras gemas?",
   #     "¿Qué hacéis para comprobar de dónde vienen vuestras gemas?
   #   steps:
@@ -1052,12 +989,7 @@ flows:
     steps:
       - action: utter_tipos_piedras
 
-
-
-
-
-
-# FLOWS NAVEGACION POR LOUV ---------------------------------------------------------
+  # FLOWS NAVEGACION POR LOUV ---------------------------------------------------------
 
   rotar_objeto:
     description: |
@@ -1121,7 +1053,7 @@ flows:
       "¿Cómo puedo reiniciar el chat?", "Quiero reiniciar la conversación.", "¿Es posible reiniciar la conversación?"
     steps:
       - action: utter_reiniciar_conversacion_chatbot
-  
+
   diseno_pantalla_completa:
     description: |
       El usuario desea ver su diseño en pantalla completa pero no sabe cómo hacerlo, expresa su deseo de hacerlo y su desconocimiento para ello.
@@ -1177,11 +1109,7 @@ flows:
     steps:
       - action: utter_cambiar_dato_personal
 
-
-
-
-
-# FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
+  # FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
 
   talla_anillo_editor:
     description: |
@@ -1249,7 +1177,7 @@ flows:
   #   description: |
   #     El usuario tiene curiosidad por saber si es cierto que cada dedo tiene una talla distintas, hace preguntas como
   #     "¿De verdad existe una talla para cada dedo?", "¿Cada dedo tiene una talla diferente?", "¿Todos los dedos usan la misma talla de anillo?"
-  #   steps: 
+  #   steps:
   #     - action: utter_talla_dedo_distinta
 
   la_temperatura_afecta_a_la_talla:
@@ -1269,15 +1197,7 @@ flows:
   #   steps:
   #     - action: utter_modificar_talla_posteriori
 
-
-
-
-
-
-
-
-
-# FLOWS INFORMACIÓN SOBRE MATERIALES ------------------------------------------------------------------
+  # FLOWS INFORMACIÓN SOBRE MATERIALES ------------------------------------------------------------------
 
   diferencia_oro_18k_y_14k:
     description: |
@@ -1311,7 +1231,7 @@ flows:
 
   # materiales_macizos:
   #   description: |
-  #     El usuario quiere saber si los materiales que se usan para fabricar los anillos son macizos, hace preguntas como  
+  #     El usuario quiere saber si los materiales que se usan para fabricar los anillos son macizos, hace preguntas como
   #     "¿Las piezas son de material macizo?", "¿El X que se utiliza es macizo?", "Si compro un anillo de X ¿es macizo?"
   #   steps:
   #     - action: utter_macizo
@@ -1330,15 +1250,7 @@ flows:
     steps:
       - action: utter_recomendar_material
 
-
-
-
-
-
-
-
-
-# FLOWS SOBRE PRECIOS Y PAGOS ------------------------------------------------------------------------------
+  # FLOWS SOBRE PRECIOS Y PAGOS ------------------------------------------------------------------------------
 
   precio_del_editor_es_definitivo:
     description: |
@@ -1389,16 +1301,7 @@ flows:
     steps:
       - action: utter_regalo_por_compra
 
-
-
-
-
-
-
-
-
-
-# FLOWS DUDAS SOBRE ENVIOS --------------------------------------------------------------------------------
+  # FLOWS DUDAS SOBRE ENVIOS --------------------------------------------------------------------------------
 
   empresa_que_envia_los_pedidos:
     description: |
@@ -1463,30 +1366,20 @@ flows:
       - action: utter_gastos_envio
 
   incidencias_con_el_envio_y_devoluciones:
-     description: |
-       El usuario quiere saber qué ocurre con su pedido en caso de que ocurra alguna incidencia durante el envío de este.
-       Además, quiere saber si puede realizar una devolución,
-       hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
-       "¿Qué puedo hacer si se pierde mi pedido durante su envío?", "Ha habido un error con la ubicación de envío." 
-       "¿Puedo devolver un anillo si me queda pequeño?", "El anillo me queda grande, ¿puedo devolverlo?",
-       "Quiero devolver mi anillo porque no es de mi talla.", "¿Si me mudo ¿qué pasa con mi compra?",
-       "He realizado un pedido pero he tenido que mudarme.", "Si hago un pedido y me mudo antes de que me lo entreguen ¿qué puedo hacer?",
-       "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
-       "Han robado mi pedido, ¿qué puedo hacer?"
-     steps:
-       - action: utter_incidenciass_pedido_devoluciones
-      
+    description: |
+      El usuario quiere saber qué ocurre con su pedido en caso de que ocurra alguna incidencia durante el envío de este.
+      Además, quiere saber si puede realizar una devolución,
+      hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
+      "¿Qué puedo hacer si se pierde mi pedido durante su envío?", "Ha habido un error con la ubicación de envío." 
+      "¿Puedo devolver un anillo si me queda pequeño?", "El anillo me queda grande, ¿puedo devolverlo?",
+      "Quiero devolver mi anillo porque no es de mi talla.", "¿Si me mudo ¿qué pasa con mi compra?",
+      "He realizado un pedido pero he tenido que mudarme.", "Si hago un pedido y me mudo antes de que me lo entreguen ¿qué puedo hacer?",
+      "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
+      "Han robado mi pedido, ¿qué puedo hacer?"
+    steps:
+      - action: utter_incidenciass_pedido_devoluciones
 
-  
-
-
-
-
-
-
-
-
-# FLOWS SOBRE TERMINOLOGIA ESPECIFICA -----------------------------------------------------------------------
+  # FLOWS SOBRE TERMINOLOGIA ESPECIFICA -----------------------------------------------------------------------
 
   diferencia_un_anillo_una_sortija_o_una_alianza:
     description: |
@@ -1586,7 +1479,7 @@ flows:
       - action: utter_perfil
 
   que_es_el_halo:
-    description: | 
+    description: |
       El usuario quiere saber qué es el halo, hace preguntas como "¿Qué es el halo de un anillo?",
       "¿Puedes explicarme qué es el halo?", "Dime qué es un halo."
     steps:
@@ -1604,14 +1497,14 @@ flows:
       El usuario quiere saber qué es la culata de un anillo, hace consultas como "¿Qué es la culata?",
       "¿Un anillo tiene culata?", "¿La culata es solo cosa de armas?"
     steps:
-      - action: utter_culata  
+      - action: utter_culata
 
   que_es_el_culet:
     description: |
       El usuario quiere saber qué esl el culet, hace preguntas como "¿Qué es el culet?", "Explícame qué es el culet.",
       "¿Cuál es la definición de culet?"
     steps:
-      - action: utter_culet  
+      - action: utter_culet
 
   que_es_la_tabla:
     description: |
@@ -1646,18 +1539,9 @@ flows:
       El usuario quiere saber qué es el diámetro de un anillo o una gema y quiere saber cómo se mide este diámetro,
       hace preguntas como "¿Qué es el diámetro?", "¿Cómo se mide el diámetro?", "¿El diámetro de una gema es el mismo que el de un anillo?"
     steps:
-      - action: utter_diametro 
+      - action: utter_diametro
 
-
-
-
-
-
-
-
-
-
-# FLOWS SOBRE BODAS --------------------------------------------------------------------------------------
+  # FLOWS SOBRE BODAS --------------------------------------------------------------------------------------
 
   precio_anillo_de_compromiso:
     description:
@@ -1710,22 +1594,13 @@ flows:
 
   # quien_se_queda_el_anillo_si_rechaza_propuesta_de_matrimonio:
   #   description: |
-  #     El usuario quiere saber qué ocurre con el anillo de compromiso si se rechaza la propuesta de matrimonio, 
+  #     El usuario quiere saber qué ocurre con el anillo de compromiso si se rechaza la propuesta de matrimonio,
   #     hace consultas como "¿Quién se queda el anillo si rechazan mi propuesta de matrimonio?",
   #     "Si me rechazan, ¿qué pasa con el anillo de compromiso?", "¿Debo quedarme el anillo de compromiso si me rechazan?"
   #   steps:
   #     - action: utter_rechazo_matrimonio
 
-
-
-
-
-
-
-
-
-
-# FLOWS AYUDA SOBRE DISEÑOS ---------------------------------------------------------------------------------------------------------------
+  # FLOWS AYUDA SOBRE DISEÑOS ---------------------------------------------------------------------------------------------------------------
 
   hacer_grabados_en_los_anillos:
     description: |
@@ -1734,16 +1609,7 @@ flows:
     steps:
       - action: utter_grabados
 
-
-
-
-
-
-
-
-
-
-# FLOW PARA TEMÁTICAS NO DEFINIDAS -------------------------------------------------------------------------------------------------------------
+  # FLOW PARA TEMÁTICAS NO DEFINIDAS -------------------------------------------------------------------------------------------------------------
 
   pattern_cannot_handle:
     description: Conversation repair flow for addressing failed command generation scenarios
@@ -1776,17 +1642,7 @@ flows:
     steps:
       - action: utter_free_chitchat_response
 
-
-
-
-
-
-
-
-
-
-
-# FLOW DAR TALLA USUARIO SEGÚN MEDIDA ----------------------------------------------------------------------
+  # FLOW DAR TALLA USUARIO SEGÚN MEDIDA ----------------------------------------------------------------------
 
   no_se_la_talla_de_mi_dedo:
     description: |
@@ -1796,7 +1652,7 @@ flows:
       No da ninguna medida, ni en milímetros ni en centímetros. Tan solo dice que quiere saber su talla
     steps:
       - action: utter_no_se_talla_dedo
-  
+
   dar_talla_usuario_segun_medida:
     description: |
       El usuario ha proporcionado una medida en mm o cm y quiere que le digamos qué talla de anillo
@@ -1810,9 +1666,9 @@ flows:
   # dar_talla_usuario_segun_medida:
   #   description: |
   #     Este flow convierte medidas de circunferencia de dedo a tallas de anillo españolas.
-      
+
   #     Se activa cuando el usuario proporciona ÚNICAMENTE una medida numérica con unidad, sin más contexto.
-      
+
   #     Ejemplos que DEBEN activar este flow:
   #     - "48mm"
   #     - "52 mm"
@@ -1833,23 +1689,22 @@ flows:
   #     - "X milímetros"
   #     - "Xcm"
   #     - "Xmm"
-      
+
   #     NO se activa si el usuario:
   #     - Pregunta cómo medir su dedo
   #     - Dice que no sabe su talla
   #     - Pide ayuda para encontrar su talla sin dar una medida
-      
+
   #     El sistema responde con la talla española correspondiente (1-36).
   #   steps:
   #     - action: action_dar_talla_segun_medida
 
-
   # dar_talla_usuario_segun_medida:
   #   description: |
   #     Este flow convierte medidas de circunferencia de dedo a tallas de anillo españolas.
-      
+
   #     Se activa cuando el usuario proporciona una medida numérica con unidad (mm, cm, milímetros, centímetros).
-      
+
   #     Ejemplos que DEBEN activar este flow:
   #     - "48mm"
   #     - "49mm"
@@ -1857,7 +1712,7 @@ flows:
   #     - "6,5cm"
   #     - "Mi dedo mide 52mm"
   #     - "¿Qué talla es 48mm?"
-      
+
   #     El sistema responde con la talla española correspondiente (1-36).
   #   steps:
   #     - collect: medida_circunferencia
@@ -1867,16 +1722,7 @@ flows:
   #       ask_before_filling: false
   #     - action: action_dar_talla_segun_medida
 
-
-
-
-
-
-
-
-
-
-# DUDA ENTRE DOS FLOWS ---------------------------------------------------------------------------------------
+  # DUDA ENTRE DOS FLOWS ---------------------------------------------------------------------------------------
 
   pattern_clarification:
     description: Conversation repair flow for handling ambiguous requests that could match multiple flows
@@ -1885,21 +1731,9 @@ flows:
       - action: action_clarify_flows
       - action: utter_clarification_options_rasa
 
+  # FLOWS BASE DE DATOS GEMAS -----------------------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-# FLOWS BASE DE DATOS GEMAS -----------------------------------------------------------------------------------------
-
-  que_gemas_teneis: 
+  que_gemas_teneis:
     description: |
       El usuario quiere saber qué tipos de gemas tenemos disponibles en nuestra tienda, hace preguntas como
       "¿Qué gemas tenéis?", "¿Qué tipos de gemas vendéis?", "¿Cuáles son las gemas que ofrecéis?",
@@ -1991,17 +1825,8 @@ flows:
         description: El signo zodiacal del usuario (aries, tauro, géminis, cáncer, leo, virgo, libra, escorpio, sagitario, capricornio, acuario, piscis)
       - action: action_recomendacion_signo_zodiacal
 
-
-
-
-
-
-
-
-
-
-# FLOWS BASE DE DATOS ESTRUCTURA BASE -----------------------------------------------------------------------------------------
-  que_formas_teneis: 
+  # FLOWS BASE DE DATOS ESTRUCTURA BASE -----------------------------------------------------------------------------------------
+  que_formas_teneis:
     description: |
       El usuario quiere saber qué tipos de formas o estructuras tenemos disponibles en nuestra tienda, hace preguntas como
       "¿Qué formas tenéis?", "¿Qué tipos de estructurras tenéis?", "¿Qué forma puedo elegir?",
@@ -2009,18 +1834,9 @@ flows:
     steps:
       - action: action_estructuras_bd
 
+  # FLOWS BASE DE DATOS MATERIALES -----------------------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-# FLOWS BASE DE DATOS MATERIALES -----------------------------------------------------------------------------------------
-
-  que_materiales_teneis: 
+  que_materiales_teneis:
     description: |
       El usuario quiere saber qué materiales tenemos disponibles en nuestra tienda, hace preguntas como
       "¿Qué materiales tenéis?", "¿Qué tipos de materiales vendéis?", "¿Cuáles son los materiales que ofrecéis?",
@@ -2084,15 +1900,7 @@ flows:
   #       description: "El signo zodiacal para el cual el usuario quiere conocer los materiales recomendados"
   #     - action: action_materiales_por_zodiaco_bd
 
-
-
-
-
-
-
-
-
-# FLOWS INTERACCIÓN CON MOTOR 3D ---------------------------------------------------------------------------
+  # FLOWS INTERACCIÓN CON MOTOR 3D ---------------------------------------------------------------------------
 
   show_ring:
     description: |
@@ -2108,7 +1916,6 @@ flows:
           El tipo de anillo que el usuario quiere ver (clásico, moderno, vintage, 
           ondulado, solitario, etc.)
       - action: action_show_ring
-
 
   editar_anillo:
     description: |
@@ -2128,11 +1935,6 @@ flows:
     steps:
       - action: utter_editar_base_anillo
 
-
-
-
-
-
   modificar_perfil_del_anillo:
     description: |
       El usuario desea modificar el perfil de su anillo, hace consultas como
@@ -2151,11 +1953,6 @@ flows:
         description: El nombre del perfil que el usuario desea aplicar
       - action: action_change_profile
 
-
-
-
-
-
   modificar_variante_del_anillo:
     description: |
       El usuario desea modificar la variante de la base de su anillo, hace consultas como
@@ -2173,12 +1970,6 @@ flows:
       - collect: variante_id
         description: El nombre de la variante que el usuario desea aplicar
       - action: action_change_variante
-
-
-
-
-
-# TENGO QUE HACER TODAS LAS FUNCIONES QUE QUE HAY DEBAJO DE ESTE COMENTARIO
 
   modificar_material_del_anillo:
     description: |
@@ -2211,20 +2002,74 @@ flows:
         description: El nombre de la pureza del material que el usuario desea aplicar
       - action: action_change_pureza_material
 
+  # TENGO QUE HACER TODAS LAS FUNCIONES QUE QUE HAY DEBAJO DE ESTE COMENTARIO
 
+  modificar_gema_del_anillo:
+    description: |
+      El usuario desea modificar la gema de su anillo, hace consultas como
+      "Quiero modificar la gema de mi anillo", "Quiero cambiar la gema",
+      "Quiero cambiar la gema de mi diseño en el editor 3D"
+    name: Editar gema de anillo en editor 3D
+    steps:
+      - collect: gem_position
+        description: |
+          La posición de la gema que el usuario desea modificar.
+          Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
+        ask_before_filling: true
+        utter: action_ask_gem_position
+      - action: action_ask_gema_id
 
+  cambiar_gema:
+    description: |
+      El usuario especifica el nombre de la gema que quiere aplicar a su anillo, hace consultas como "Diamante",
+      "Rubí", "Esmeralda", "Zafiro", "Amatista", "Turmalina", "Aguamarina" "Aplica la gema diamante", "Pon un rubí"
+    steps:
+      - collect: gema_id
+        description: El nombre de la gema que el usuario desea aplicar
+      - action: action_change_gema
 
+  modificar_forma_de_la_gema_del_anillo:
+    description: |
+      El usuario desea modificar la forma de la gema de su anillo, hace consultas como
+      "Quiero modificar la forma de la gema de mi anillo", "Quiero cambiar la forma de la gema",
+      "Quiero cambiar la forma de la gema de mi diseño en el editor 3D"
+    name: Editar forma de gema de anillo en editor 3D
+    steps:
+      - collect: gem_position_for_cut
+        description: |
+          La posición de la gema cuya forma el usuario desea modificar.
+          Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
+        ask_before_filling: true
+      - action: action_ask_forma_gema_id
 
+  cambiar_forma_gema:
+    description: |
+      El usuario especifica el nombre de la forma de la gema que quiere aplicar a su anillo, hace consultas como "Brillante",
+      "Oval clásico", "Oval East-West", "Princesa", "Marquesa", "Pera", "Esmeralda", "Quiero la forma marquesa", "Aplica la forma pera", "Pon la forma de gema esmeralda"
+    steps:
+      - collect: forma_gema_id
+        description: El nombre de la forma de gema que el usuario desea aplicar
+        ask_before_filling: true
+      - action: action_change_forma_gema
 
-  # modificar_gema_del_anillo:
+  # modificar_tamano_de_la_gema_del_anillo:
   #   description: |
-  #     El usuario desea modificar la gema de su anillo, hace consultas como
-  #     "Quiero modificar la gema de mi anillo", "Quiero cambiar la gema",
-  #     "Quiero cambiar la gema de mi diseño en el editor 3D"
-  #   name: Editar gema de anillo en editor 3D
+  #     El usuario desea modificar el tamano de la gema de su anillo, hace consultas como
+  #     "Quiero modificar el tamano de la gema de mi anillo", "Quiero cambiar el tamano dela gema",
+  #     "Quiero cambiar el tamano de la gema de mi diseño en el editor 3D"
+  #   name: Editar el tamano de la gema de anillo en editor 3D
   #   steps:
-  #   # HACER UN ACTION DIRECTAMENTE
-  #     - action: utter_editar_gema_anillo
+  #     - action: action_ask_tamano_id
+
+  # cambiar_tamano_de_la_gema:
+  #   description: |
+  #     El usuario especifica el tamano tamano de la gema que quiere aplicar a su anillo, hace consultas como "Delicado",
+  #     "Equilibrado", "Imponente", "Aplica el tamano delicado", "Pon el tamano imponente"
+  #   steps:
+  #     - collect: tamano_id
+  #       description: El tamano de la gema que el usuario desea aplicar
+  #     - action: action_tamano_gema
+  #     - link: modificar_tamano_gema_anillo
 
   # modificar_origen_de_la_gema_del_anillo:
   #   description: |
@@ -2236,60 +2081,100 @@ flows:
   #   # HACER UN ACTION DIRECTAMENTE
   #     - action: utter_editar_origen_gema
 
-  # modificar_forma_de_la_gema_del_anillo:
-  #   description: |
-  #     El usuario desea modificar la forma dela gema de su anillo, hace consultas como
-  #     "Quiero modificar la forma de la gema de mi anillo", "Quiero cambiar la forma de la gema",
-  #     "Quiero cambiar la forma de la gema de mi diseño en el editor 3D"
-  #   name: Editar forma de gema de anillo en editor 3D
-  #   steps:
-  #   # HACER UN ACTION DIRECTAMENTE
-  #     - action: utter_editar_forma_gema
+  # FUNCION DE CAMBIAR ENGASTE FUNCIONA CORRECTAMENTE
 
+  modificar_engaste_del_anillo:
+    description: |
+      El usuario desea modificar el engaste de su anillo, hace consultas como
+      "Quiero modificar el engaste de mi anillo", "Quiero cambiar el engaste",
+      "Quiero cambiar el engaste de mi diseño en el editor 3D"
+    name: Editar engaste de anillo en editor 3D
+    steps:
+      - action: action_ask_gem_position_for_setting
+      - collect: gem_position_for_setting
+        description: "La posición de la gema cuyo engaste se desea modificar (0, 1 o 2)"
+      - action: action_ask_engaste_id
+      - collect: engaste_id
+        description: |
+          El nombre del engaste que el usuario desea aplicar. Puede ser uno de los siguientes:
+          Prong, Prong diagonal, Halo, Bisel, Incrustado, Incrustado dos
+      - action: action_change_engaste
 
+  # FUNCION DE CAMBIAR NUMERO DE GARRAS FUNCIONA CORRECTAMENTE
 
+  modificar_numero_de_garras_del_engaste_del_anillo:
+    description: |
+      El usuario desea modificar el número de garras del engaste de su anillo, hace consultas como
+      "Quiero modificar el número de garras del engaste de mi anillo", "Quiero cambiar el número de garras",
+      "Quiero cambiar el número de garras del engaste de mi diseño en el editor 3D"
+    name: Editar número de garras del engaste de anillo en editor 3D
+    steps:
+      - action: action_ask_gem_position_for_claw_number
+      - collect: gem_position_for_claw_number
+        description: "La posición de la gema cuyo número de garras del engaste se desea modificar (0, 1 o 2)"
+      - action: action_ask_numero_garras_id
+      - collect: numero_garras_id
+        description: |
+          El ID del número de garras que el usuario desea aplicar al engaste.
+          Ejemplos: Sin garras, 4 garras, 6 garras
+      - action: action_change_garras_engaste
 
-  # modificar_engaste_del_anillo:
-  #   description: |
-  #     El usuario desea modificar el engaste de su anillo, hace consultas como
-  #     "Quiero modificar el engaste de mi anillo", "Quiero cambiar el engaste",
-  #     "Quiero cambiar el engaste de mi diseño en el editor 3D"
-  #   name: Editar engaste de anillo en editor 3D
-  #   steps:
-  #   # HACER UN ACTION DIRECTAMENTE
-  #     - action: utter_editar_engaste_anillo
+  # FUNCION DE CAMBIAR TIPO DE GARRAS FUNCIONA CORRECTAMENTE
 
-  # modificar_numero_de_garras_del_engaste_del_anillo:
-  #   description: |
-  #     El usuario desea modificar el número de garras del engaste de su anillo, hace consultas como
-  #     "Quiero modificar el número de garras del engaste de mi anillo", "Quiero cambiar el número de garras",
-  #     "Quiero cambiar el número de garras del engaste de mi diseño en el editor 3D"
-  #   name: Editar número de garras del engaste de anillo en editor 3D
-  #   steps:
-  #   # HACER UN ACTION DIRECTAMENTE
-  #     - action: utter_editar_numero_garras_engaste_anillo
+  modificar_tipo_de_garras_del_engaste_del_anillo:
+    description: |
+      El usuario desea modificar el tipo de garras del engaste de su anillo, hace consultas como
+      "Quiero modificar el tipo de garras del engaste de mi anillo", "Quiero cambiar el tipo de garras",
+      "Quiero cambiar el tipo de garras del engaste de mi diseño en el editor 3D"
+    name: Editar tipo de garras del engaste de anillo en editor 3D
+    steps:
+      - action: action_ask_gem_position_for_claw_type
+      - collect: gem_position_for_claw_type
+        description: "La posición de la gema cuyo tipo de garras del engaste se desea modificar (0, 1 o 2)"
+      - action: action_ask_tipo_garras_id
+      - collect: tipo_garras_id
+        description: |
+          El ID del tipo de garras que el usuario desea aplicar al engaste.
+          Ejemplos: Simple, Doble
+      - action: action_change_garras_type_engaste
 
-  # modificar_tipo_de_garras_del_engaste_del_anillo:
-  #   description: |
-  #     El usuario desea modificar el tipo de garras del engaste de su anillo, hace consultas como
-  #     "Quiero modificar el tipo de garras del engaste de mi anillo", "Quiero cambiar el tipo de garras",
-  #     "Quiero cambiar el tipo de garras del engaste de mi diseño en el editor 3D"
-  #   name: Editar tipo de garras del engaste de anillo en editor 3D
-  #   steps:
-  #   # HACER UN ACTION DIRECTAMENTE
-  #     - action: utter_editar_tipo_garras_engaste_anillo
+  modificar_empaquetado_del_anillo:
+    description: |
+      El usuario desea modificar el empaquetado de su anillo. Consultas como:
+      "Quiero cambiar el empaquetado", "Modificar la caja del anillo",
+      "Cambiar el tipo de empaquetado", "Quiero otro empaquetado"
+    name: Editar empaquetado del anillo en editor 3D
+    steps:
+      - action: action_ask_box_shape_id
+      - collect: box_shape_id
+        description: "El ID del tipo de empaquetado que el usuario desea aplicar al anillo"
+      - action: action_change_box_shape
 
+  modificar_material_exterior_empaquetado:
+    description: |
+      El usuario desea modificar el material exterior del empaquetado de su anillo. 
+      Consultas como: "Quiero cambiar el material exterior del empaquetado",
+      "Cambiar el color exterior de la caja", "Modificar material exterior",
+      "Quiero otro color exterior para la caja"
+    name: Editar material exterior del empaquetado en editor 3D
+    steps:
+      - action: action_ask_box_outer_color_id
+      - collect: box_outer_color_id
+        description: "El ID del material exterior que el usuario desea aplicar al empaquetado"
+      - action: action_change_box_outer_color
 
-
-
-  # modificar_empaquetado_del_anillo:
-  #   description: |
-  #     El usuario desea modificar el empaquetado de su anillo, hace consultas como
-  #     "Quiero modificar el empaquetado de mi anillo", "Quiero cambiar el empaquetado",
-  #     "Quiero cambiar la caja de mi diseño en el editor 3D"
-  #   name: Editar empaquetado de anillo en editor 3D
-  #   steps:
-  #     - action: utter_editar_empaquetado_anillo
+  modificar_material_interior_empaquetado:
+    description: |
+      El usuario desea modificar el material interior del empaquetado de su anillo. 
+      Consultas como: "Quiero cambiar el material interior del empaquetado",
+      "Cambiar el color interior de la caja", "Modificar material interior",
+      "Quiero otro color interior para la caja"
+    name: Editar material interior del empaquetado en editor 3D
+    steps:
+      - action: action_ask_box_inner_color_id
+      - collect: box_inner_color_id
+        description: "El ID del material interior que el usuario desea aplicar al empaquetado"
+      - action: action_change_box_inner_color
 
   # modificar_material_empaquetado_del_anillo:
   #   description: |
@@ -2299,27 +2184,3 @@ flows:
   #   name: Editar material empaquetado de anillo en editor 3D
   #   steps:
   #     - action: utter_editar_material_empaquetado_anillo
-
-  # modificar_material_interior_empaquetado_del_anillo:
-  #   description: |
-  #     El usuario desea modificar el material interior del empaquetado de su anillo, hace consultas como
-  #     "Quiero modificar el material interior del empaquetado de mi anillo", "Quiero cambiar el color interior del empaquetado",
-  #     "Quiero cambiar el material interior de la caja de mi diseño en el editor 3D"
-  #   name: Editar material interior empaquetado de anillo en editor 3D
-  #   steps:
-  #     - action: utter_editar_material_interior_empaquetado_anillo
-
-  # modificar_material_exterior_empaquetado_del_anillo:
-  #   description: |
-  #     El usuario desea modificar el material exterior del empaquetado de su anillo, hace consultas como
-  #     "Quiero modificar el material exterior del empaquetado de mi anillo", "Quiero cambiar el color exterior del empaquetado",
-  #     "Quiero cambiar el material exterior de la caja de mi diseño en el editor 3D"
-  #   name: Editar material exterior empaquetado de anillo en editor 3D
-  #   steps:
-  #     - action: utter_editar_material_exterior_empaquetado_anillo
-
-
-
-
-
-

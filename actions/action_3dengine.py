@@ -616,3 +616,1800 @@ class ActionChangePurezaMaterial(Action):
             SlotSet("pureza_id", None),
             SlotSet("current_material_id", None)
         ]
+
+
+
+
+
+# =========================
+# VERIFICAR Y SELECCIONAR POSICIÓN DE GEMA
+# =========================
+class ActionAskGemPosition(Action):
+    def name(self) -> Text:
+        return "action_ask_gem_position"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        current_ring_id = tracker.get_slot('ring_id')
+        if not current_ring_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_ring_id = metadata.get('ring_id')
+
+        print(f"[DEBUG] Ring ID para gemas: {current_ring_id}")
+
+        if not current_ring_id:
+            dispatcher.utter_message(
+                text="No tengo información del anillo actual."
+            )
+            return []
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                print(f"[DEBUG] GET {endpoint}")
+
+                async with session.get(endpoint) as response:
+                    if response.status < 200 or response.status >= 300:
+                        dispatcher.utter_message(
+                            text="No pude cargar la información del anillo."
+                        )
+                        return []
+
+                    ring_data = await response.json()
+
+            base_structure = ring_data.get("baseStructure", {})
+            
+            # Obtener el perfil y variante actuales
+            current_profile_id = tracker.get_slot('profile_id')
+            if not current_profile_id and base_structure.get("profiles"):
+                first_profile = base_structure["profiles"][0]
+                profile_obj = first_profile.get('profile', {})
+                current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+
+            # Buscar el perfil específico
+            target_profile = None
+            for profile_data in base_structure.get("profiles", []):
+                profile_obj = profile_data.get('profile', {})
+                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                
+                if profile_id == current_profile_id:
+                    target_profile = profile_data
+                    break
+
+            if not target_profile:
+                dispatcher.utter_message(
+                    text="No pude encontrar el perfil actual del anillo."
+                )
+                return []
+
+            # Obtener la variante actual
+            current_variant_id = tracker.get_slot('variante_id')
+            if not current_variant_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_variant_id = metadata.get('variant_id')
+
+            if not current_variant_id and target_profile.get("variants"):
+                current_variant_id = target_profile["variants"][0].get('_id', '')
+
+            variant = None
+            for v in target_profile.get("variants", []):
+                if v.get('_id') == current_variant_id:
+                    variant = v
+                    break
+
+            if not variant:
+                dispatcher.utter_message(
+                    text="No pude encontrar la variante actual del anillo."
+                )
+                return []
+
+            # Verificar si la variante tiene settings (gemas)
+            settings_info = variant.get("settingsInfo", [])
+            
+            print(f"[DEBUG] Nº settings en variante: {len(settings_info)}")
+
+            if not settings_info:
+                dispatcher.utter_message(
+                    text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+                )
+                return []
+
+            # Si hay exactamente 3 settings (variante "3 gemas"), preguntar cuál modificar
+            if len(settings_info) == 3:
+                buttons = [
+                    {"title": "Gema izquierda", "payload": 'SetSlot("gem_position", "0")'},
+                    {"title": "Gema central", "payload": 'SetSlot("gem_position", "1")'},
+                    {"title": "Gema derecha", "payload": 'SetSlot("gem_position", "2")'}
+                ]
+                
+                dispatcher.utter_message(
+                    text="¿Qué gema deseas modificar?",
+                    buttons=buttons
+                )
+                
+                # NO retornar ningún slot aquí - dejar que el botón lo establezca
+                return []
+            else:
+                # Si solo hay 1 gema, establecer posición 0 automáticamente
+                return [SlotSet("gem_position", "0")]
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error al verificar la configuración del anillo."
+            )
+            return []
+
+
+# =========================
+# MOSTRAR GEMAS
+# =========================
+class ActionAskGemaId(Action):
+    def name(self) -> Text:
+        return "action_ask_gema_id"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+
+        # Verificar que tenemos una posición de gema seleccionada
+        gem_position = tracker.get_slot('gem_position')
+        
+        print(f"[DEBUG] Posición de gema: {gem_position}")
+
+        if gem_position is None:
+            dispatcher.utter_message(
+                text="Primero debes seleccionar qué gema deseas modificar."
+            )
+            return []
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                endpoint = f"{api_url}/api/gemstones"
+                print(f"[DEBUG] GET {endpoint}")
+
+                async with session.get(endpoint) as response:
+                    if response.status != 200:
+                        dispatcher.utter_message(
+                            text="No pude cargar las gemas disponibles."
+                        )
+                        return []
+
+                    data = await response.json()
+                    gemstones = data.get('gemstones', [])
+
+                    print(f"[DEBUG] Nº gemas: {len(gemstones)}")
+
+                    if not gemstones:
+                        dispatcher.utter_message(
+                            text="No hay gemas disponibles."
+                        )
+                        return []
+
+                    buttons = []
+                    for gemstone in gemstones:
+                        gem_id = gemstone.get('_id', '')
+                        gem_name = gemstone.get('name', 'Sin nombre')
+
+                        print(f"[DEBUG] Añadiendo botón gema: {gem_name} ({gem_id})")
+
+                        buttons.append({
+                            "title": gem_name,
+                            "payload": f'SetSlot("gema_id", "{gem_id}")'
+                        })
+
+                    dispatcher.utter_message(
+                        text="Selecciona la gema que deseas aplicar:",
+                        buttons=buttons
+                    )
+
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Conexión: {e}")
+            dispatcher.utter_message(
+                text="Error de conexión con el servidor."
+            )
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error interno en el servidor."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR GEMA
+# =========================
+class ActionChangeGema(Action):
+    def name(self) -> Text:
+        return "action_change_gema"
+
+    async def run(self, dispatcher, tracker, domain):
+        gema_id = tracker.get_slot('gema_id')
+        gem_position = tracker.get_slot('gem_position')
+
+        print(f"[DEBUG] gema_id recibido: {gema_id}")
+        print(f"[DEBUG] gem_position: {gem_position}")
+
+        if not gema_id:
+            dispatcher.utter_message(
+                text="No pude identificar la gema seleccionada."
+            )
+            return []
+
+        if gem_position is None:
+            gem_position = "0"  # Por defecto primera posición
+
+        dispatcher.utter_message(
+            text="Gema cambiada correctamente.",
+            custom={
+                "type": "change_gema",
+                "gema_id": gema_id,
+                "gem_position": int(gem_position)  # Convertir a int aquí
+            }
+        )
+
+        # Limpiar los slots después de usarlos
+        return [
+            SlotSet("gema_id", None),
+            SlotSet("gem_position", None)  # Esto permite que se vuelva a preguntar
+        ]
+
+
+
+
+
+# =========================
+# PREGUNTAR POSICIÓN DE GEMA PARA FORMA
+# =========================
+class ActionAskGemPositionForCut(Action):
+    def name(self) -> Text:
+        return "action_ask_gem_position_for_cut"
+
+    async def run(self, dispatcher, tracker, domain):
+        # Simplemente pregunta qué gema modificar, sin validar variantes
+        buttons = [
+            {"title": "Gema izquierda", "payload": 'SetSlot("gem_position_for_cut", "0")'},
+            {"title": "Gema central", "payload": 'SetSlot("gem_position_for_cut", "1")'},
+            {"title": "Gema derecha", "payload": 'SetSlot("gem_position_for_cut", "2")'}
+        ]
+        
+        dispatcher.utter_message(
+            text="¿A qué gema deseas cambiarle la forma?",
+            buttons=buttons
+        )
+        
+        return []
+
+
+# =========================
+# MOSTRAR FORMAS DE GEMA (CUTS)
+# =========================
+class ActionAskFormaGemaId(Action):
+    def name(self) -> Text:
+        return "action_ask_forma_gema_id"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+
+        gem_position = tracker.get_slot('gem_position_for_cut')
+        
+        print(f"[DEBUG] Posición de gema para cambiar forma: {gem_position}")
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                endpoint = f"{api_url}/api/cuts"
+                print(f"[DEBUG] GET {endpoint}")
+
+                async with session.get(endpoint) as response:
+                    if response.status != 200:
+                        dispatcher.utter_message(
+                            text="No pude cargar las formas de gema disponibles."
+                        )
+                        return []
+
+                    data = await response.json()
+                    cuts = data.get('cuts', [])
+
+                    if not cuts:
+                        dispatcher.utter_message(
+                            text="No hay formas de gema disponibles."
+                        )
+                        return []
+
+                    buttons = []
+                    for cut in cuts:
+                        cut_id = cut.get('_id', '')
+                        cut_name = cut.get('name', 'Sin nombre')
+
+                        # ✅ CORRECCIÓN: Usar SetSlot en lugar de intent
+                        buttons.append({
+                            "title": cut_name,
+                            "payload": f'SetSlot("forma_gema_id", "{cut_id}")'
+                        })
+
+                    dispatcher.utter_message(
+                        text="Selecciona la forma de gema que deseas aplicar:",
+                        buttons=buttons
+                    )
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error interno en el servidor."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR FORMA DE GEMA
+# =========================
+class ActionChangeFormaGema(Action):
+    def name(self) -> Text:
+        return "action_change_forma_gema"
+
+    async def run(self, dispatcher, tracker, domain):
+        forma_gema_id = tracker.get_slot('forma_gema_id')
+        gem_position = tracker.get_slot('gem_position_for_cut')
+
+        print(f"[DEBUG] forma_gema_id recibido: {forma_gema_id}")
+        print(f"[DEBUG] gem_position recibido: {gem_position}")
+        print(f"[DEBUG] TODOS LOS SLOTS: {tracker.current_slot_values()}")
+
+        if not forma_gema_id:
+            dispatcher.utter_message(
+                text="No pude identificar la forma de gema seleccionada."
+            )
+            return []
+
+        # ✅ Convertir a int de manera segura
+        try:
+            position_int = int(gem_position) if gem_position is not None else 0
+        except (ValueError, TypeError):
+            position_int = 0
+            print(f"[WARNING] No se pudo convertir gem_position '{gem_position}' a int, usando 0")
+
+        dispatcher.utter_message(
+            text="Forma de gema cambiada correctamente.",
+            custom={
+                "type": "change_forma_gema",
+                "forma_gema_id": forma_gema_id,
+                "gem_position": position_int
+            }
+        )
+
+        # Limpiar los slots después de usarlos
+        return [
+            SlotSet("forma_gema_id", None),
+            SlotSet("gem_position_for_cut", None),
+            SlotSet("has_gems", None),
+            SlotSet("gem_count", None)
+        ]
+
+class ActionVerifyGemsAvailable(Action):
+    def name(self) -> Text:
+        return "action_verify_gems_available"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        current_ring_id = tracker.get_slot('ring_id')
+        if not current_ring_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_ring_id = metadata.get('ring_id')
+
+        if not current_ring_id:
+            dispatcher.utter_message(
+                text="No tengo información del anillo actual."
+            )
+            return [SlotSet("has_gems", False)]
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                async with session.get(endpoint) as response:
+                    if response.status < 200 or response.status >= 300:
+                        return [SlotSet("has_gems", False)]
+
+                    ring_data = await response.json()
+
+            base_structure = ring_data.get("baseStructure", {})
+            
+            # Obtener perfil y variante actuales
+            current_profile_id = tracker.get_slot('profile_id')
+            if not current_profile_id and base_structure.get("profiles"):
+                first_profile = base_structure["profiles"][0]
+                profile_obj = first_profile.get('profile', {})
+                current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+
+            target_profile = None
+            for profile_data in base_structure.get("profiles", []):
+                profile_obj = profile_data.get('profile', {})
+                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                
+                if profile_id == current_profile_id:
+                    target_profile = profile_data
+                    break
+
+            if not target_profile:
+                dispatcher.utter_message(
+                    text="No pude encontrar el perfil actual del anillo."
+                )
+                return [SlotSet("has_gems", False)]
+
+            current_variant_id = tracker.get_slot('variante_id')
+            if not current_variant_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_variant_id = metadata.get('variant_id')
+
+            if not current_variant_id and target_profile.get("variants"):
+                current_variant_id = target_profile["variants"][0].get('_id', '')
+
+            variant = None
+            for v in target_profile.get("variants", []):
+                if v.get('_id') == current_variant_id:
+                    variant = v
+                    break
+
+            if not variant:
+                dispatcher.utter_message(
+                    text="No pude encontrar la variante actual del anillo."
+                )
+                return [SlotSet("has_gems", False)]
+
+            settings_info = variant.get("settingsInfo", [])
+            gem_count = len(settings_info)
+            
+            if gem_count == 0:
+                dispatcher.utter_message(
+                    text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+                )
+                return [
+                    SlotSet("has_gems", False),
+                    SlotSet("gem_count", 0)
+                ]
+
+            return [
+                SlotSet("has_gems", True),
+                SlotSet("gem_count", gem_count)
+            ]
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            return [SlotSet("has_gems", False)]
+
+
+
+
+
+# =========================
+# VERIFICAR Y SELECCIONAR POSICIÓN DE GEMA PARA ENGASTE
+# =========================
+class ActionAskGemPositionForSetting(Action):
+    def name(self) -> Text:
+        return "action_ask_gem_position_for_setting"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        current_ring_id = tracker.get_slot('ring_id')
+        if not current_ring_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_ring_id = metadata.get('ring_id')
+
+        print(f"[DEBUG] Ring ID para engastes: {current_ring_id}")
+
+        if not current_ring_id:
+            dispatcher.utter_message(
+                text="No tengo información del anillo actual."
+            )
+            return []
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                print(f"[DEBUG] GET {endpoint}")
+
+                async with session.get(endpoint) as response:
+                    if response.status < 200 or response.status >= 300:
+                        dispatcher.utter_message(
+                            text="No pude cargar la información del anillo."
+                        )
+                        return []
+
+                    ring_data = await response.json()
+
+            base_structure = ring_data.get("baseStructure", {})
+            
+            # Obtener el perfil y variante actuales
+            current_profile_id = tracker.get_slot('profile_id')
+            if not current_profile_id and base_structure.get("profiles"):
+                first_profile = base_structure["profiles"][0]
+                profile_obj = first_profile.get('profile', {})
+                current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+
+            # Buscar el perfil específico
+            target_profile = None
+            for profile_data in base_structure.get("profiles", []):
+                profile_obj = profile_data.get('profile', {})
+                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                
+                if profile_id == current_profile_id:
+                    target_profile = profile_data
+                    break
+
+            if not target_profile:
+                dispatcher.utter_message(
+                    text="No pude encontrar el perfil actual del anillo."
+                )
+                return []
+
+            # Obtener la variante actual
+            current_variant_id = tracker.get_slot('variante_id')
+            if not current_variant_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_variant_id = metadata.get('variant_id')
+
+            if not current_variant_id and target_profile.get("variants"):
+                current_variant_id = target_profile["variants"][0].get('_id', '')
+
+            variant = None
+            for v in target_profile.get("variants", []):
+                if v.get('_id') == current_variant_id:
+                    variant = v
+                    break
+
+            if not variant:
+                dispatcher.utter_message(
+                    text="No pude encontrar la variante actual del anillo."
+                )
+                return []
+
+            # Verificar si la variante tiene settings (gemas)
+            settings_info = variant.get("settingsInfo", [])
+            
+            print(f"[DEBUG] Nº settings en variante: {len(settings_info)}")
+
+            if not settings_info:
+                dispatcher.utter_message(
+                    text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+                )
+                return []
+
+            # Si hay exactamente 3 settings, preguntar cuál modificar
+            if len(settings_info) == 3:
+                buttons = [
+                    {"title": "Gema izquierda", "payload": 'SetSlot("gem_position_for_setting", "0")'},
+                    {"title": "Gema central", "payload": 'SetSlot("gem_position_for_setting", "1")'},
+                    {"title": "Gema derecha", "payload": 'SetSlot("gem_position_for_setting", "2")'}
+                ]
+                
+                dispatcher.utter_message(
+                    text="¿A qué gema deseas cambiarle el engaste?",
+                    buttons=buttons
+                )
+                
+                return []
+            else:
+                # Si solo hay 1 gema, establecer posición 0 automáticamente
+                return [SlotSet("gem_position_for_setting", "0")]
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error al verificar la configuración del anillo."
+            )
+            return []
+
+
+# =========================
+# MOSTRAR ENGASTES COMPATIBLES
+# =========================
+class ActionAskEngasteId(Action):
+    def name(self) -> Text:
+        return "action_ask_engaste_id"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+
+        gem_position = tracker.get_slot('gem_position_for_setting')
+        current_ring_id = tracker.get_slot('ring_id')
+        
+        if not current_ring_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_ring_id = metadata.get('ring_id')
+        
+        print(f"[DEBUG] Ring ID: {current_ring_id}")
+        print(f"[DEBUG] Posición de gema para cambiar engaste: {gem_position}")
+
+        if not current_ring_id:
+            dispatcher.utter_message(
+                text="No tengo información del anillo actual."
+            )
+            return []
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                # Obtener la estructura base del anillo
+                endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                print(f"[DEBUG] GET {endpoint}")
+
+                async with session.get(endpoint) as response:
+                    if response.status < 200 or response.status >= 300:
+                        dispatcher.utter_message(
+                            text="No pude cargar la información del anillo."
+                        )
+                        return []
+
+                    ring_data = await response.json()
+
+            base_structure = ring_data.get("baseStructure", {})
+            
+            # Obtener el perfil actual
+            current_profile_id = tracker.get_slot('profile_id')
+            if not current_profile_id and base_structure.get("profiles"):
+                first_profile = base_structure["profiles"][0]
+                profile_obj = first_profile.get('profile', {})
+                current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+
+            # Buscar el perfil específico
+            target_profile = None
+            for profile_data in base_structure.get("profiles", []):
+                profile_obj = profile_data.get('profile', {})
+                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                
+                if profile_id == current_profile_id:
+                    target_profile = profile_data
+                    break
+
+            if not target_profile:
+                dispatcher.utter_message(
+                    text="No pude encontrar el perfil actual del anillo."
+                )
+                return []
+
+            # Obtener la variante actual
+            current_variant_id = tracker.get_slot('variante_id')
+            if not current_variant_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_variant_id = metadata.get('variant_id')
+
+            if not current_variant_id and target_profile.get("variants"):
+                current_variant_id = target_profile["variants"][0].get('_id', '')
+
+            variant = None
+            for v in target_profile.get("variants", []):
+                if v.get('_id') == current_variant_id:
+                    variant = v
+                    break
+
+            if not variant:
+                dispatcher.utter_message(
+                    text="No pude encontrar la variante actual del anillo."
+                )
+                return []
+
+            # Obtener los settings info de la variante
+            settings_info = variant.get("settingsInfo", [])
+            
+            if not settings_info:
+                dispatcher.utter_message(
+                    text="Esta variante no tiene configuración de engastes."
+                )
+                return []
+
+            # Determinar qué posición usar
+            position_index = 0
+            if gem_position is not None:
+                try:
+                    position_index = int(gem_position)
+                except (ValueError, TypeError):
+                    position_index = 0
+
+            # Validar que la posición existe
+            if position_index >= len(settings_info):
+                position_index = 0
+
+            # Obtener los engastes compatibles para esta posición
+            setting_info = settings_info[position_index]
+            compatible_settings = setting_info.get("compatibleSettings", [])
+
+            if not compatible_settings:
+                dispatcher.utter_message(
+                    text="No hay engastes compatibles para esta posición."
+                )
+                return []
+
+            # Extraer los IDs de los engastes compatibles
+            compatible_setting_ids = set()
+            for comp_setting in compatible_settings:
+                setting_obj = comp_setting.get('setting')
+                if isinstance(setting_obj, str):
+                    compatible_setting_ids.add(setting_obj)
+                elif isinstance(setting_obj, dict):
+                    compatible_setting_ids.add(setting_obj.get('_id', ''))
+
+            print(f"[DEBUG] Engastes compatibles IDs: {compatible_setting_ids}")
+
+            # Obtener todos los engastes del catálogo
+            settings_endpoint = f"{api_url}/api/settings"
+            print(f"[DEBUG] GET {settings_endpoint}")
+
+            async with aiohttp.ClientSession() as session:
+                async with session.get(settings_endpoint) as response:
+                    if response.status != 200:
+                        dispatcher.utter_message(
+                            text="No pude cargar los engastes disponibles."
+                        )
+                        return []
+
+                    data = await response.json()
+                    all_settings = data.get('settings', [])
+
+            # Filtrar solo los engastes compatibles
+            buttons = []
+            for setting in all_settings:
+                setting_id = setting.get('_id', '')
+                
+                # Solo añadir si está en la lista de compatibles
+                if setting_id in compatible_setting_ids:
+                    setting_name = setting.get('name', 'Sin nombre')
+                    
+                    print(f"[DEBUG] Añadiendo engaste compatible: {setting_name} ({setting_id})")
+                    
+                    buttons.append({
+                        "title": setting_name,
+                        "payload": f'SetSlot("engaste_id", "{setting_id}")'
+                    })
+
+            if not buttons:
+                dispatcher.utter_message(
+                    text="No encontré engastes compatibles disponibles."
+                )
+                return []
+
+            dispatcher.utter_message(
+                text="Selecciona el engaste que deseas aplicar:",
+                buttons=buttons
+            )
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error interno en el servidor."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR ENGASTE
+# =========================
+class ActionChangeEngaste(Action):
+    def name(self) -> Text:
+        return "action_change_engaste"
+
+    async def run(self, dispatcher, tracker, domain):
+        engaste_id = tracker.get_slot('engaste_id')
+        gem_position = tracker.get_slot('gem_position_for_setting')
+
+        print(f"[DEBUG] engaste_id recibido: {engaste_id}")
+        print(f"[DEBUG] gem_position recibido: {gem_position}")
+
+        if not engaste_id:
+            dispatcher.utter_message(
+                text="No pude identificar el engaste seleccionado."
+            )
+            return []
+
+        # Convertir a int de manera segura
+        try:
+            position_int = int(gem_position) if gem_position is not None else 0
+        except (ValueError, TypeError):
+            position_int = 0
+            print(f"[WARNING] No se pudo convertir gem_position '{gem_position}' a int, usando 0")
+
+        dispatcher.utter_message(
+            text="Engaste cambiado correctamente.",
+            custom={
+                "type": "change_engaste",
+                "engaste_id": engaste_id,
+                "gem_position": position_int
+            }
+        )
+
+        # Limpiar los slots después de usarlos
+        return [
+            SlotSet("engaste_id", None),
+            SlotSet("gem_position_for_setting", None)
+        ]
+    
+
+
+
+
+
+
+# =========================
+# VERIFICAR Y SELECCIONAR POSICIÓN DE GEMA PARA NÚMERO DE GARRAS
+# =========================
+class ActionAskGemPositionForClawNumber(Action):
+    def name(self) -> Text:
+        return "action_ask_gem_position_for_claw_number"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        current_ring_id = tracker.get_slot('ring_id')
+        if not current_ring_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_ring_id = metadata.get('ring_id')
+
+        print(f"[DEBUG] Ring ID para número de garras: {current_ring_id}")
+
+        if not current_ring_id:
+            dispatcher.utter_message(
+                text="No tengo información del anillo actual."
+            )
+            return []
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                print(f"[DEBUG] GET {endpoint}")
+
+                async with session.get(endpoint) as response:
+                    if response.status < 200 or response.status >= 300:
+                        dispatcher.utter_message(
+                            text="No pude cargar la información del anillo."
+                        )
+                        return []
+
+                    ring_data = await response.json()
+
+            base_structure = ring_data.get("baseStructure", {})
+            
+            # Obtener el perfil y variante actuales
+            current_profile_id = tracker.get_slot('profile_id')
+            if not current_profile_id and base_structure.get("profiles"):
+                first_profile = base_structure["profiles"][0]
+                profile_obj = first_profile.get('profile', {})
+                current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+
+            # Buscar el perfil específico
+            target_profile = None
+            for profile_data in base_structure.get("profiles", []):
+                profile_obj = profile_data.get('profile', {})
+                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                
+                if profile_id == current_profile_id:
+                    target_profile = profile_data
+                    break
+
+            if not target_profile:
+                dispatcher.utter_message(
+                    text="No pude encontrar el perfil actual del anillo."
+                )
+                return []
+
+            # Obtener la variante actual
+            current_variant_id = tracker.get_slot('variante_id')
+            if not current_variant_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_variant_id = metadata.get('variant_id')
+
+            if not current_variant_id and target_profile.get("variants"):
+                current_variant_id = target_profile["variants"][0].get('_id', '')
+
+            variant = None
+            for v in target_profile.get("variants", []):
+                if v.get('_id') == current_variant_id:
+                    variant = v
+                    break
+
+            if not variant:
+                dispatcher.utter_message(
+                    text="No pude encontrar la variante actual del anillo."
+                )
+                return []
+
+            # Verificar si la variante tiene settings (gemas)
+            settings_info = variant.get("settingsInfo", [])
+            
+            print(f"[DEBUG] Nº settings en variante: {len(settings_info)}")
+
+            if not settings_info:
+                dispatcher.utter_message(
+                    text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+                )
+                return []
+
+            # Si hay exactamente 3 settings, preguntar cuál modificar
+            if len(settings_info) == 3:
+                buttons = [
+                    {"title": "Gema izquierda", "payload": 'SetSlot("gem_position_for_claw_number", "0")'},
+                    {"title": "Gema central", "payload": 'SetSlot("gem_position_for_claw_number", "1")'},
+                    {"title": "Gema derecha", "payload": 'SetSlot("gem_position_for_claw_number", "2")'}
+                ]
+                
+                dispatcher.utter_message(
+                    text="¿A qué gema deseas cambiarle el número de garras?",
+                    buttons=buttons
+                )
+                
+                return []
+            else:
+                # Si solo hay 1 gema, establecer posición 0 automáticamente
+                return [SlotSet("gem_position_for_claw_number", "0")]
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error al verificar la configuración del anillo."
+            )
+            return []
+
+
+class ActionAskNumeroGarrasId(Action):
+    def name(self) -> Text:
+        return "action_ask_numero_garras_id"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+
+        gem_position = tracker.get_slot('gem_position_for_claw_number')
+        current_ring_id = tracker.get_slot('ring_id')
+        
+        if not current_ring_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_ring_id = metadata.get('ring_id')
+        
+        # ← NUEVO: Obtener el setting_id desde metadata
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        current_setting_id = metadata.get('setting_id')
+        
+        print(f"[DEBUG] Ring ID: {current_ring_id}")
+        print(f"[DEBUG] Setting ID actual: {current_setting_id}")
+        print(f"[DEBUG] Posición de gema para cambiar número de garras: {gem_position}")
+
+        if not current_ring_id:
+            dispatcher.utter_message(
+                text="No tengo información del anillo actual."
+            )
+            return []
+
+        if not current_setting_id:
+            dispatcher.utter_message(
+                text="No pude identificar el engaste actual."
+            )
+            return []
+
+        try:
+            # Obtener todos los engastes del catálogo
+            settings_endpoint = f"{api_url}/api/settings"
+            print(f"[DEBUG] GET {settings_endpoint}")
+
+            async with aiohttp.ClientSession() as session:
+                async with session.get(settings_endpoint) as response:
+                    if response.status != 200:
+                        dispatcher.utter_message(
+                            text="No pude cargar los engastes disponibles."
+                        )
+                        return []
+
+                    data = await response.json()
+                    all_settings = data.get('settings', [])
+
+            # Buscar el engaste actual en el catálogo usando el setting_id del metadata
+            current_setting = None
+            for setting in all_settings:
+                if setting.get('_id', '') == current_setting_id:
+                    current_setting = setting
+                    break
+
+            if not current_setting:
+                dispatcher.utter_message(
+                    text="No pude encontrar el engaste actual en el catálogo."
+                )
+                return []
+
+            print(f"[DEBUG] Engaste encontrado: {current_setting.get('name', 'Sin nombre')}")
+
+            # Obtener los números de garras disponibles para este engaste
+            claw_numbers = current_setting.get('clawNumber', [])
+
+            if not claw_numbers:
+                dispatcher.utter_message(
+                    text="Este engaste no tiene opciones de número de garras disponibles."
+                )
+                return []
+
+            print(f"[DEBUG] Números de garras disponibles: {len(claw_numbers)}")
+
+            # Crear botones con los números de garras disponibles
+            buttons = []
+            for claw_num in claw_numbers:
+                claw_num_id = claw_num.get('_id', '')
+                claw_num_name = claw_num.get('name', 'Sin nombre')
+                
+                print(f"[DEBUG] Añadiendo número de garras: {claw_num_name} ({claw_num_id})")
+                
+                buttons.append({
+                    "title": claw_num_name,
+                    "payload": f'SetSlot("numero_garras_id", "{claw_num_id}")'
+                })
+
+            if not buttons:
+                dispatcher.utter_message(
+                    text="No encontré opciones de número de garras disponibles para este engaste."
+                )
+                return []
+
+            dispatcher.utter_message(
+                text=f"Selecciona el número de garras que deseas aplicar al engaste {current_setting.get('name', '')}:",
+                buttons=buttons
+            )
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error interno en el servidor."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR NÚMERO DE GARRAS
+# =========================
+class ActionChangeGarrasEngaste(Action):
+    def name(self) -> Text:
+        return "action_change_garras_engaste"
+
+    async def run(self, dispatcher, tracker, domain):
+        numero_garras_id = tracker.get_slot('numero_garras_id')
+        gem_position = tracker.get_slot('gem_position_for_claw_number')
+
+        print(f"[DEBUG] numero_garras_id recibido: {numero_garras_id}")
+        print(f"[DEBUG] gem_position recibido: {gem_position}")
+
+        if not numero_garras_id:
+            dispatcher.utter_message(
+                text="No pude identificar el número de garras seleccionado."
+            )
+            return []
+
+        # Convertir a int de manera segura
+        try:
+            position_int = int(gem_position) if gem_position is not None else 0
+        except (ValueError, TypeError):
+            position_int = 0
+            print(f"[WARNING] No se pudo convertir gem_position '{gem_position}' a int, usando 0")
+
+        dispatcher.utter_message(
+            text="Número de garras cambiado correctamente.",
+            custom={
+                "type": "change_claw_number",
+                "numero_garras_id": numero_garras_id,
+                "gem_position": position_int
+            }
+        )
+
+        # Limpiar los slots después de usarlos
+        return [
+            SlotSet("numero_garras_id", None),
+            SlotSet("gem_position_for_claw_number", None)
+        ]
+
+
+
+
+
+
+# =========================
+# VERIFICAR Y SELECCIONAR POSICIÓN DE GEMA PARA TIPO DE GARRAS
+# =========================
+class ActionAskGemPositionForClawType(Action):
+    def name(self) -> Text:
+        return "action_ask_gem_position_for_claw_type"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        current_ring_id = tracker.get_slot('ring_id')
+        if not current_ring_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_ring_id = metadata.get('ring_id')
+
+        print(f"[DEBUG] Ring ID para tipo de garras: {current_ring_id}")
+
+        if not current_ring_id:
+            dispatcher.utter_message(
+                text="No tengo información del anillo actual."
+            )
+            return []
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                print(f"[DEBUG] GET {endpoint}")
+
+                async with session.get(endpoint) as response:
+                    if response.status < 200 or response.status >= 300:
+                        dispatcher.utter_message(
+                            text="No pude cargar la información del anillo."
+                        )
+                        return []
+
+                    ring_data = await response.json()
+
+            base_structure = ring_data.get("baseStructure", {})
+            
+            # Obtener el perfil y variante actuales
+            current_profile_id = tracker.get_slot('profile_id')
+            if not current_profile_id and base_structure.get("profiles"):
+                first_profile = base_structure["profiles"][0]
+                profile_obj = first_profile.get('profile', {})
+                current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+
+            # Buscar el perfil específico
+            target_profile = None
+            for profile_data in base_structure.get("profiles", []):
+                profile_obj = profile_data.get('profile', {})
+                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                
+                if profile_id == current_profile_id:
+                    target_profile = profile_data
+                    break
+
+            if not target_profile:
+                dispatcher.utter_message(
+                    text="No pude encontrar el perfil actual del anillo."
+                )
+                return []
+
+            # Obtener la variante actual
+            current_variant_id = tracker.get_slot('variante_id')
+            if not current_variant_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_variant_id = metadata.get('variant_id')
+
+            if not current_variant_id and target_profile.get("variants"):
+                current_variant_id = target_profile["variants"][0].get('_id', '')
+
+            variant = None
+            for v in target_profile.get("variants", []):
+                if v.get('_id') == current_variant_id:
+                    variant = v
+                    break
+
+            if not variant:
+                dispatcher.utter_message(
+                    text="No pude encontrar la variante actual del anillo."
+                )
+                return []
+
+            # Verificar si la variante tiene settings (gemas)
+            settings_info = variant.get("settingsInfo", [])
+            
+            print(f"[DEBUG] Nº settings en variante: {len(settings_info)}")
+
+            if not settings_info:
+                dispatcher.utter_message(
+                    text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+                )
+                return []
+
+            # Si hay exactamente 3 settings, preguntar cuál modificar
+            if len(settings_info) == 3:
+                buttons = [
+                    {"title": "Gema izquierda", "payload": 'SetSlot("gem_position_for_claw_type", "0")'},
+                    {"title": "Gema central", "payload": 'SetSlot("gem_position_for_claw_type", "1")'},
+                    {"title": "Gema derecha", "payload": 'SetSlot("gem_position_for_claw_type", "2")'}
+                ]
+                
+                dispatcher.utter_message(
+                    text="¿A qué gema deseas cambiarle el tipo de garras?",
+                    buttons=buttons
+                )
+                
+                return []
+            else:
+                # Si solo hay 1 gema, establecer posición 0 automáticamente
+                return [SlotSet("gem_position_for_claw_type", "0")]
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error al verificar la configuración del anillo."
+            )
+            return []
+
+
+# =========================
+# MOSTRAR TIPOS DE GARRAS COMPATIBLES SEGÚN EL ENGASTE Y NÚMERO DE GARRAS ACTUAL
+# =========================
+class ActionAskTipoGarrasId(Action):
+    def name(self) -> Text:
+        return "action_ask_tipo_garras_id"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+
+        gem_position = tracker.get_slot('gem_position_for_claw_type')
+        
+        # Obtener datos desde metadata
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        current_setting_id = metadata.get('setting_id')
+        current_claw_number_id = metadata.get('claw_number_id')  # ← NUEVO
+        current_cut_id = metadata.get('cut_id')  # ← NUEVO
+        
+        print(f"[DEBUG] Setting ID: {current_setting_id}")
+        print(f"[DEBUG] Claw Number ID: {current_claw_number_id}")
+        print(f"[DEBUG] Cut ID: {current_cut_id}")
+        print(f"[DEBUG] Gem position: {gem_position}")
+
+        if not current_setting_id:
+            dispatcher.utter_message(
+                text="No pude identificar el engaste actual."
+            )
+            return []
+
+        try:
+            # Obtener todos los engastes
+            settings_endpoint = f"{api_url}/api/settings"
+            async with aiohttp.ClientSession() as session:
+                async with session.get(settings_endpoint) as response:
+                    if response.status != 200:
+                        dispatcher.utter_message(
+                            text="No pude cargar los engastes disponibles."
+                        )
+                        return []
+                    data = await response.json()
+                    all_settings = data.get('settings', [])
+
+            # Buscar el engaste actual
+            current_setting = next((s for s in all_settings if s.get('_id') == current_setting_id), None)
+            
+            if not current_setting:
+                dispatcher.utter_message(
+                    text="No pude encontrar el engaste actual."
+                )
+                return []
+
+            # Buscar el clawNumber específico
+            claw_number_obj = None
+            for cn in current_setting.get('clawNumber', []):
+                if cn.get('_id') == current_claw_number_id:
+                    claw_number_obj = cn
+                    break
+            
+            if not claw_number_obj:
+                # Si no se encuentra, usar el primero
+                claw_number_obj = current_setting.get('clawNumber', [{}])[0]
+
+            # Buscar el cut específico dentro del clawNumber
+            compatible_cut_obj = None
+            for cc in claw_number_obj.get('compatibleCuts', []):
+                cut_obj = cc.get('cut')
+                cut_id = cut_obj if isinstance(cut_obj, str) else cut_obj.get('_id')
+                if cut_id == current_cut_id:
+                    compatible_cut_obj = cc
+                    break
+            
+            if not compatible_cut_obj:
+                # Si no se encuentra, usar el primero
+                compatible_cut_obj = claw_number_obj.get('compatibleCuts', [{}])[0]
+
+            # Obtener los tipos de garras disponibles
+            claw_types = compatible_cut_obj.get('clawType', [])
+
+            if not claw_types:
+                dispatcher.utter_message(
+                    text="No hay tipos de garras disponibles para esta configuración."
+                )
+                return []
+
+            # Crear botones
+            buttons = []
+            for claw_type in claw_types:
+                claw_type_id = claw_type.get('_id', '')
+                claw_type_name = claw_type.get('name', 'Sin nombre')
+                
+                buttons.append({
+                    "title": claw_type_name,
+                    "payload": f'SetSlot("tipo_garras_id", "{claw_type_id}")'
+                })
+
+            if not buttons:
+                dispatcher.utter_message(
+                    text="No encontré tipos de garras disponibles."
+                )
+                return []
+
+            dispatcher.utter_message(
+                text=f"Selecciona el tipo de garras para el engaste {current_setting.get('name', '')}:",
+                buttons=buttons
+            )
+
+        except Exception as e:
+            print(f"[ERROR] {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error interno en el servidor."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR TIPO DE GARRAS
+# =========================
+class ActionChangeGarrasTypeEngaste(Action):
+    def name(self) -> Text:
+        return "action_change_garras_type_engaste"
+
+    async def run(self, dispatcher, tracker, domain):
+        tipo_garras_id = tracker.get_slot('tipo_garras_id')
+        gem_position = tracker.get_slot('gem_position_for_claw_type')
+
+        print(f"[DEBUG] tipo_garras_id recibido: {tipo_garras_id}")
+        print(f"[DEBUG] gem_position recibido: {gem_position}")
+
+        if not tipo_garras_id:
+            dispatcher.utter_message(
+                text="No pude identificar el tipo de garras seleccionado."
+            )
+            return []
+
+        # Convertir a int de manera segura
+        try:
+            position_int = int(gem_position) if gem_position is not None else 0
+        except (ValueError, TypeError):
+            position_int = 0
+            print(f"[WARNING] No se pudo convertir gem_position '{gem_position}' a int, usando 0")
+
+        dispatcher.utter_message(
+            text="Tipo de garras cambiado correctamente.",
+            custom={
+                "type": "change_claw_type",
+                "tipo_garras_id": tipo_garras_id,
+                "gem_position": position_int
+            }
+        )
+
+        # Limpiar los slots después de usarlos
+        return [
+            SlotSet("tipo_garras_id", None),
+            SlotSet("gem_position_for_claw_type", None)
+        ]
+    
+
+
+
+
+# =========================
+# MOSTRAR OPCIONES DE EMPAQUETADO
+# =========================
+class ActionAskBoxShapeId(Action):
+    def name(self) -> Text:
+        return "action_ask_box_shape_id"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        try:
+            # Obtener todas las formas de cajas disponibles
+            boxes_endpoint = f"{api_url}/api/box"
+            print(f"[DEBUG] GET {boxes_endpoint}")
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.get(boxes_endpoint) as response:
+                    print(f"[DEBUG] Status code: {response.status}")
+                    
+                    if response.status != 200:
+                        # Intentar leer el contenido del error
+                        error_text = await response.text()
+                        print(f"[ERROR] Response body: {error_text}")
+                        
+                        dispatcher.utter_message(
+                            text="No pude cargar las opciones de empaquetado disponibles."
+                        )
+                        return []
+                    
+                    data = await response.json()
+                    print(f"[DEBUG] Response data: {data}")
+                    
+                    all_boxes = data.get('boxes', [])
+                    print(f"[DEBUG] Número de cajas encontradas: {len(all_boxes)}")
+
+            if not all_boxes:
+                dispatcher.utter_message(
+                    text="No hay opciones de empaquetado disponibles en este momento."
+                )
+                return []
+
+            # Crear botones con las opciones de empaquetado
+            buttons = []
+            for box in all_boxes:
+                box_id = box.get('_id', '')
+                box_name = box.get('name', 'Sin nombre')
+                
+                print(f"[DEBUG] Caja: {box_name} - ID: {box_id}")
+                
+                buttons.append({
+                    "title": box_name,
+                    "payload": f'SetSlot("box_shape_id", "{box_id}")'
+                })
+
+            if not buttons:
+                dispatcher.utter_message(
+                    text="No encontré opciones de empaquetado disponibles."
+                )
+                return []
+
+            print(f"[DEBUG] Enviando {len(buttons)} botones al usuario")
+            
+            dispatcher.utter_message(
+                text="Selecciona el tipo de empaquetado que deseas:",
+                buttons=buttons
+            )
+
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Error de conexión: {e}")
+            dispatcher.utter_message(
+                text="Error de conexión al cargar las opciones de empaquetado."
+            )
+        except Exception as e:
+            print(f"[ERROR] Error general: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error interno al cargar las opciones de empaquetado."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR EMPAQUETADO
+# =========================
+class ActionChangeBoxShape(Action):
+    def name(self) -> Text:
+        return "action_change_box_shape"
+
+    async def run(self, dispatcher, tracker, domain):
+        box_shape_id = tracker.get_slot('box_shape_id')
+
+        print(f"[DEBUG] box_shape_id recibido: {box_shape_id}")
+
+        if not box_shape_id:
+            dispatcher.utter_message(
+                text="No pude identificar el tipo de empaquetado seleccionado."
+            )
+            return []
+
+        dispatcher.utter_message(
+            text="Empaquetado cambiado correctamente.",
+            custom={
+                "type": "change_box_shape",
+                "box_shape_id": box_shape_id
+            }
+        )
+
+        # NO limpiar el slot, mantenerlo para futuras acciones
+        # return [SlotSet("box_shape_id", None)]  # ← ELIMINAR ESTA LÍNEA
+        return []  # ← Devolver lista vacía para mantener el slot
+    
+
+
+
+# =========================
+# MOSTRAR OPCIONES DE MATERIAL EXTERIOR
+# =========================
+class ActionAskBoxOuterColorId(Action):
+    def name(self) -> Text:
+        return "action_ask_box_outer_color_id"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        # Obtener el box_shape_id del slot
+        box_shape_id = tracker.get_slot('box_shape_id')
+        
+        # Si no está en el slot, intentar obtenerlo desde metadata
+        if not box_shape_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            box_shape_id = metadata.get('box_shape_id')
+        
+        print(f"[DEBUG] box_shape_id para material exterior: {box_shape_id}")
+        
+        # Verificar que hay una caja seleccionada
+        if not box_shape_id:
+            dispatcher.utter_message(
+                text="Primero debes seleccionar un tipo de empaquetado antes de cambiar su material exterior."
+            )
+            return []
+        
+        try:
+            # Obtener los materiales exteriores de la caja específica
+            outer_materials_endpoint = f"{api_url}/api/box/{box_shape_id}/outerMaterials"
+            print(f"[DEBUG] GET {outer_materials_endpoint}")
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.get(outer_materials_endpoint) as response:
+                    print(f"[DEBUG] Status code: {response.status}")
+                    
+                    if response.status != 200:
+                        error_text = await response.text()
+                        print(f"[ERROR] Response body: {error_text}")
+                        
+                        dispatcher.utter_message(
+                            text="No pude cargar las opciones de material exterior para este empaquetado."
+                        )
+                        return []
+                    
+                    data = await response.json()
+                    print(f"[DEBUG] Response data: {data}")
+                    
+                    # Ajusta según la estructura de tu API
+                    all_outer_materials = data.get('outerMaterials', [])
+                    print(f"[DEBUG] Número de materiales exteriores encontrados: {len(all_outer_materials)}")
+
+            if not all_outer_materials:
+                dispatcher.utter_message(
+                    text="No hay opciones de material exterior disponibles para este empaquetado."
+                )
+                return []
+
+            # Crear botones con las opciones de material exterior
+            buttons = []
+            for material in all_outer_materials:
+                material_id = material.get('_id', '')
+                material_name = material.get('name', 'Sin nombre')
+                
+                print(f"[DEBUG] Material exterior: {material_name} - ID: {material_id}")
+                
+                buttons.append({
+                    "title": material_name,
+                    "payload": f'SetSlot("box_outer_color_id", "{material_id}")'
+                })
+
+            if not buttons:
+                dispatcher.utter_message(
+                    text="No encontré opciones de material exterior disponibles."
+                )
+                return []
+
+            print(f"[DEBUG] Enviando {len(buttons)} botones al usuario")
+            
+            dispatcher.utter_message(
+                text="Selecciona el material exterior que deseas para el empaquetado:",
+                buttons=buttons
+            )
+
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Error de conexión: {e}")
+            dispatcher.utter_message(
+                text="Error de conexión al cargar las opciones de material exterior."
+            )
+        except Exception as e:
+            print(f"[ERROR] Error general: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error interno al cargar las opciones de material exterior."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR MATERIAL EXTERIOR DEL EMPAQUETADO
+# =========================
+class ActionChangeBoxOuterColor(Action):
+    def name(self) -> Text:
+        return "action_change_box_outer_color"
+
+    async def run(self, dispatcher, tracker, domain):
+        box_outer_color_id = tracker.get_slot('box_outer_color_id')
+        box_shape_id = tracker.get_slot('box_shape_id')
+
+        print(f"[DEBUG] box_outer_color_id recibido: {box_outer_color_id}")
+        print(f"[DEBUG] box_shape_id actual: {box_shape_id}")
+
+        if not box_outer_color_id:
+            dispatcher.utter_message(
+                text="No pude identificar el material exterior seleccionado."
+            )
+            return []
+
+        dispatcher.utter_message(
+            text="Material exterior del empaquetado cambiado correctamente.",
+            custom={
+                "type": "change_box_outer_color",
+                "box_outer_color_id": box_outer_color_id
+            }
+        )
+
+        # Limpiar solo el slot del material exterior, mantener el box_shape_id
+        return [SlotSet("box_outer_color_id", None)]
+    
+
+
+
+
+
+
+# =========================
+# MOSTRAR OPCIONES DE MATERIAL INTERIOR
+# =========================
+class ActionAskBoxInnerColorId(Action):
+    def name(self) -> Text:
+        return "action_ask_box_inner_color_id"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        # Obtener el box_shape_id del slot
+        box_shape_id = tracker.get_slot('box_shape_id')
+        
+        # Si no está en el slot, intentar obtenerlo desde metadata
+        if not box_shape_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            box_shape_id = metadata.get('box_shape_id')
+        
+        print(f"[DEBUG] box_shape_id para material interior: {box_shape_id}")
+        
+        # Verificar que hay una caja seleccionada
+        if not box_shape_id:
+            dispatcher.utter_message(
+                text="Primero debes seleccionar un tipo de empaquetado antes de cambiar su material interior."
+            )
+            return []
+        
+        try:
+            # Obtener los materiales interiores de la caja específica
+            inner_materials_endpoint = f"{api_url}/api/box/{box_shape_id}/innerMaterials"
+            print(f"[DEBUG] GET {inner_materials_endpoint}")
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.get(inner_materials_endpoint) as response:
+                    print(f"[DEBUG] Status code: {response.status}")
+                    
+                    if response.status != 200:
+                        error_text = await response.text()
+                        print(f"[ERROR] Response body: {error_text}")
+                        
+                        dispatcher.utter_message(
+                            text="No pude cargar las opciones de material interior para este empaquetado."
+                        )
+                        return []
+                    
+                    data = await response.json()
+                    print(f"[DEBUG] Response data: {data}")
+                    
+                    # Ajusta según la estructura de tu API
+                    all_inner_materials = data.get('innerMaterials', [])
+                    print(f"[DEBUG] Número de materiales interiores encontrados: {len(all_inner_materials)}")
+
+            if not all_inner_materials:
+                dispatcher.utter_message(
+                    text="No hay opciones de material interior disponibles para este empaquetado."
+                )
+                return []
+
+            # Crear botones con las opciones de material interior
+            buttons = []
+            for material in all_inner_materials:
+                material_id = material.get('_id', '')
+                material_name = material.get('name', 'Sin nombre')
+                
+                print(f"[DEBUG] Material interior: {material_name} - ID: {material_id}")
+                
+                buttons.append({
+                    "title": material_name,
+                    "payload": f'SetSlot("box_inner_color_id", "{material_id}")'
+                })
+
+            if not buttons:
+                dispatcher.utter_message(
+                    text="No encontré opciones de material interior disponibles."
+                )
+                return []
+
+            print(f"[DEBUG] Enviando {len(buttons)} botones al usuario")
+            
+            dispatcher.utter_message(
+                text="Selecciona el material interior que deseas para el empaquetado:",
+                buttons=buttons
+            )
+
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Error de conexión: {e}")
+            dispatcher.utter_message(
+                text="Error de conexión al cargar las opciones de material interior."
+            )
+        except Exception as e:
+            print(f"[ERROR] Error general: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error interno al cargar las opciones de material interior."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR MATERIAL INTERIOR DEL EMPAQUETADO
+# =========================
+class ActionChangeBoxInnerColor(Action):
+    def name(self) -> Text:
+        return "action_change_box_inner_color"
+
+    async def run(self, dispatcher, tracker, domain):
+        box_inner_color_id = tracker.get_slot('box_inner_color_id')
+        box_shape_id = tracker.get_slot('box_shape_id')
+
+        print(f"[DEBUG] box_inner_color_id recibido: {box_inner_color_id}")
+        print(f"[DEBUG] box_shape_id actual: {box_shape_id}")
+
+        if not box_inner_color_id:
+            dispatcher.utter_message(
+                text="No pude identificar el material interior seleccionado."
+            )
+            return []
+
+        dispatcher.utter_message(
+            text="Material interior del empaquetado cambiado correctamente.",
+            custom={
+                "type": "change_box_inner_color",
+                "box_inner_color_id": box_inner_color_id
+            }
+        )
+
+        # Limpiar solo el slot del material interior, mantener el box_shape_id
+        return [SlotSet("box_inner_color_id", None)]
+    
+
+
+
