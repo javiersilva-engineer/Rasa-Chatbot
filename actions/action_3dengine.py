@@ -424,7 +424,7 @@ class ActionChangeVariante(Action):
             }
         )
 
-        # ✅ NO limpiar el slot aquí - se limpiará después de action_ask_next_edit_option
+        # NO limpiar el slot aquí - se limpiará después de action_ask_next_edit_option
         return []
 
 
@@ -903,15 +903,12 @@ class ActionChangeGema(Action):
             custom={
                 "type": "change_gema",
                 "gema_id": gema_id,
-                "gem_position": int(gem_position)  # Convertir a int aquí
+                "gem_position": int(gem_position)
             }
         )
 
-        # Limpiar los slots después de usarlos
-        return [
-            SlotSet("gema_id", None),
-            SlotSet("gem_position", None)  # Esto permite que se vuelva a preguntar
-        ]
+        # NO limpiar los slots aquí - se limpiarán en action_ask_next_edit_option
+        return []
 
 
 

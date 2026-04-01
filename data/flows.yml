@@ -1950,21 +1950,11 @@ flows:
       - action: action_change_profile
       - action: action_ask_next_edit_option
 
-  # cambiar_perfil:
-  #   description: |
-  #     El usuario especifica el nombre del perfil que quiere aplicar a su anillo, hace consultas como "Liso",
-  #     "Redondo", "Media caña", "Quiero el perfil liso", "Aplica el perfil redondo", "Pon el perfil media caña"
-  #   steps:
-  #     - collect: profile_id
-  #       description: El nombre del perfil que el usuario desea aplicar
-  #     - action: action_change_profile
-  #     - action: action_ask_next_edit_option
-
   modificar_variante_del_anillo:
     description: |
         El usuario desea modificar la variante de la base de su anillo, hace consultas como
         "Quiero modificar la variante de la base de mi anillo", "Quiero cambiar la variante de mi anillo",
-        "Quiero cambiar la variante de mi diseño en el editor 3D"
+        "Quiero cambiar la variante de mi diseño en el editor 3D", "Quiero cambiar la variante"
     name: Editar variante de anillo en editor 3D
     steps:
       - action: action_ask_variante_id
@@ -1972,24 +1962,6 @@ flows:
         description: El nombre de la variante que el usuario desea aplicar
       - action: action_change_variante
       - action: action_ask_next_edit_option
-
-  # modificar_variante_del_anillo:
-  #   description: |
-  #     El usuario desea modificar la variante de la base de su anillo, hace consultas como
-  #     "Quiero modificar la variante de la base de mi anillo", "Quiero cambiar la variante de mi anillo",
-  #     "Quiero cambiar la variante de mi diseño en el editor 3D"
-  #   name: Editar variante de anillo en editor 3D
-  #   steps:
-  #     - action: action_ask_variante_id
-
-  # cambiar_variante:
-  #   description: |
-  #     El usuario especifica el nombre del perfil que quiere aplicar a su anillo, hace consultas como "1 gema",
-  #     "Incrustado múltiple", "3 gemas", "Quiero el anillo sin gemas", "Aplica la variante de 3 gemas", "Pon la variante de incrustado múltiple"
-  #   steps:
-  #     - collect: variante_id
-  #       description: El nombre de la variante que el usuario desea aplicar
-  #     - action: action_change_variante
 
   modificar_material_del_anillo:
     description: |
@@ -2023,30 +1995,50 @@ flows:
       - action: action_change_pureza_material
 
   # TENGO QUE HACER TODAS LAS FUNCIONES QUE QUE HAY DEBAJO DE ESTE COMENTARIO
-
   modificar_gema_del_anillo:
     description: |
-      El usuario desea modificar la gema de su anillo, hace consultas como
-      "Quiero modificar la gema de mi anillo", "Quiero cambiar la gema",
-      "Quiero cambiar la gema de mi diseño en el editor 3D"
+      El usuario desea modificar la gema de su anillo
     name: Editar gema de anillo en editor 3D
     steps:
+      - set_slots:
+        - gem_position: null
+      - action: action_ask_gem_position
       - collect: gem_position
         description: |
           La posición de la gema que el usuario desea modificar.
           Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
-        ask_before_filling: true
-        utter: action_ask_gem_position
+      - set_slots:
+        - gema_id: null
       - action: action_ask_gema_id
-
-  cambiar_gema:
-    description: |
-      El usuario especifica el nombre de la gema que quiere aplicar a su anillo, hace consultas como "Diamante",
-      "Rubí", "Esmeralda", "Zafiro", "Amatista", "Turmalina", "Aguamarina" "Aplica la gema diamante", "Pon un rubí"
-    steps:
       - collect: gema_id
-        description: El nombre de la gema que el usuario desea aplicar
+        description: El ID de la gema que el usuario desea aplicar
       - action: action_change_gema
+      - action: action_ask_next_edit_option
+
+
+  # modificar_gema_del_anillo:
+  #   description: |
+  #     El usuario desea modificar la gema de su anillo, hace consultas como
+  #     "Quiero modificar la gema de mi anillo", "Quiero cambiar la gema",
+  #     "Quiero cambiar la gema de mi diseño en el editor 3D"
+  #   name: Editar gema de anillo en editor 3D
+  #   steps:
+  #     - collect: gem_position
+  #       description: |
+  #         La posición de la gema que el usuario desea modificar.
+  #         Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
+  #       ask_before_filling: true
+  #       utter: action_ask_gem_position
+  #     - action: action_ask_gema_id
+
+  # cambiar_gema:
+  #   description: |
+  #     El usuario especifica el nombre de la gema que quiere aplicar a su anillo, hace consultas como "Diamante",
+  #     "Rubí", "Esmeralda", "Zafiro", "Amatista", "Turmalina", "Aguamarina" "Aplica la gema diamante", "Pon un rubí"
+  #   steps:
+  #     - collect: gema_id
+  #       description: El nombre de la gema que el usuario desea aplicar
+  #     - action: action_change_gema
 
   modificar_forma_de_la_gema_del_anillo:
     description: |
