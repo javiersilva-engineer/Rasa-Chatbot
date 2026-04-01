@@ -2015,31 +2015,6 @@ flows:
       - action: action_change_gema
       - action: action_ask_next_edit_option
 
-
-  # modificar_gema_del_anillo:
-  #   description: |
-  #     El usuario desea modificar la gema de su anillo, hace consultas como
-  #     "Quiero modificar la gema de mi anillo", "Quiero cambiar la gema",
-  #     "Quiero cambiar la gema de mi diseño en el editor 3D"
-  #   name: Editar gema de anillo en editor 3D
-  #   steps:
-  #     - collect: gem_position
-  #       description: |
-  #         La posición de la gema que el usuario desea modificar.
-  #         Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
-  #       ask_before_filling: true
-  #       utter: action_ask_gem_position
-  #     - action: action_ask_gema_id
-
-  # cambiar_gema:
-  #   description: |
-  #     El usuario especifica el nombre de la gema que quiere aplicar a su anillo, hace consultas como "Diamante",
-  #     "Rubí", "Esmeralda", "Zafiro", "Amatista", "Turmalina", "Aguamarina" "Aplica la gema diamante", "Pon un rubí"
-  #   steps:
-  #     - collect: gema_id
-  #       description: El nombre de la gema que el usuario desea aplicar
-  #     - action: action_change_gema
-
   modificar_forma_de_la_gema_del_anillo:
     description: |
       El usuario desea modificar la forma de la gema de su anillo, hace consultas como
@@ -2104,13 +2079,16 @@ flows:
     steps:
       - action: action_ask_gem_position_for_setting
       - collect: gem_position_for_setting
+        ask_before_filling: true
         description: "La posición de la gema cuyo engaste se desea modificar (0, 1 o 2)"
       - action: action_ask_engaste_id
       - collect: engaste_id
+        ask_before_filling: true
         description: |
           El nombre del engaste que el usuario desea aplicar. Puede ser uno de los siguientes:
           Prong, Prong diagonal, Halo, Bisel, Incrustado, Incrustado dos
       - action: action_change_engaste
+      - action: action_ask_next_edit_option
 
   # FUNCION DE CAMBIAR NUMERO DE GARRAS FUNCIONA CORRECTAMENTE
 

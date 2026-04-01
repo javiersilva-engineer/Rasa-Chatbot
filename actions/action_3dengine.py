@@ -1488,11 +1488,7 @@ class ActionChangeEngaste(Action):
             }
         )
 
-        # Limpiar los slots después de usarlos
-        return [
-            SlotSet("engaste_id", None),
-            SlotSet("gem_position_for_setting", None)
-        ]
+        return []
     
 
 
