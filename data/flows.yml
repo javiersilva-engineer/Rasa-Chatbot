@@ -37,7 +37,7 @@ flows:
   # Sobrescribe pattern_search para que no genere respuesta ---------------------------------------------------------------
   pattern_search:
     description: |
-      Patrón de búsqueda que redirige a chitchat solo si no hay otro flow activo
+      Patrón de búsqueda que redirige a chitchat solo si no hay otro flow activo en el stack. Si hay un flow activo, termina sin generar respuesta para evitar activar chitchat.
     name: pattern search
     steps:
       - noop: true
@@ -1943,33 +1943,53 @@ flows:
     name: Editar perfil de anillo en editor 3D
     steps:
       - action: action_ask_profile_id
-
-  cambiar_perfil:
-    description: |
-      El usuario especifica el nombre del perfil que quiere aplicar a su anillo, hace consultas como "Liso",
-      "Redondo", "Media caña", "Quiero el perfil liso", "Aplica el perfil redondo", "Pon el perfil media caña"
-    steps:
       - collect: profile_id
-        description: El nombre del perfil que el usuario desea aplicar
+        description: |
+          El nombre del perfil que el usuario desea aplicar. Puede ser uno de los siguientes:
+          Liso, Redondo, Media caña, u otros perfiles disponibles
       - action: action_change_profile
+      - action: action_ask_next_edit_option
+
+  # cambiar_perfil:
+  #   description: |
+  #     El usuario especifica el nombre del perfil que quiere aplicar a su anillo, hace consultas como "Liso",
+  #     "Redondo", "Media caña", "Quiero el perfil liso", "Aplica el perfil redondo", "Pon el perfil media caña"
+  #   steps:
+  #     - collect: profile_id
+  #       description: El nombre del perfil que el usuario desea aplicar
+  #     - action: action_change_profile
+  #     - action: action_ask_next_edit_option
 
   modificar_variante_del_anillo:
     description: |
-      El usuario desea modificar la variante de la base de su anillo, hace consultas como
-      "Quiero modificar la variante de la base de mi anillo", "Quiero cambiar la variante de mi anillo",
-      "Quiero cambiar la variante de mi diseño en el editor 3D"
+        El usuario desea modificar la variante de la base de su anillo, hace consultas como
+        "Quiero modificar la variante de la base de mi anillo", "Quiero cambiar la variante de mi anillo",
+        "Quiero cambiar la variante de mi diseño en el editor 3D"
     name: Editar variante de anillo en editor 3D
     steps:
       - action: action_ask_variante_id
-
-  cambiar_variante:
-    description: |
-      El usuario especifica el nombre del perfil que quiere aplicar a su anillo, hace consultas como "1 gema",
-      "Incrustado múltiple", "3 gemas", "Quiero el anillo sin gemas", "Aplica la variante de 3 gemas", "Pon la variante de incrustado múltiple"
-    steps:
       - collect: variante_id
         description: El nombre de la variante que el usuario desea aplicar
       - action: action_change_variante
+      - action: action_ask_next_edit_option
+
+  # modificar_variante_del_anillo:
+  #   description: |
+  #     El usuario desea modificar la variante de la base de su anillo, hace consultas como
+  #     "Quiero modificar la variante de la base de mi anillo", "Quiero cambiar la variante de mi anillo",
+  #     "Quiero cambiar la variante de mi diseño en el editor 3D"
+  #   name: Editar variante de anillo en editor 3D
+  #   steps:
+  #     - action: action_ask_variante_id
+
+  # cambiar_variante:
+  #   description: |
+  #     El usuario especifica el nombre del perfil que quiere aplicar a su anillo, hace consultas como "1 gema",
+  #     "Incrustado múltiple", "3 gemas", "Quiero el anillo sin gemas", "Aplica la variante de 3 gemas", "Pon la variante de incrustado múltiple"
+  #   steps:
+  #     - collect: variante_id
+  #       description: El nombre de la variante que el usuario desea aplicar
+  #     - action: action_change_variante
 
   modificar_material_del_anillo:
     description: |

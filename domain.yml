@@ -316,6 +316,8 @@ actions:
   - action_ask_box_inner_color_id
   - action_change_box_inner_color
 
+  - action_ask_next_edit_option
+
 # ------------------------------------------------------------
 
   - action_recomendacion_signo_zodiacal
