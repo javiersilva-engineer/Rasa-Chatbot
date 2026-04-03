@@ -1924,7 +1924,7 @@ flows:
       "Quiero cambiar mi diseño"
     name: Editar anillo en editor 3D
     steps:
-      - action: utter_editar_anillo
+      - action: action_ask_edit_option
 
   modificar_base_del_anillo:
     description: |
@@ -1959,7 +1959,7 @@ flows:
     steps:
       - action: action_ask_variante_id
       - collect: variante_id
-        description: El nombre de la variante que el usuario desea aplicar
+        description: El nombre de la variante que el usuario desea aplicar, hace consultas como "Sin gemas", "1 gema", "3 gemas"
       - action: action_change_variante
       - action: action_ask_next_edit_option
 
@@ -1971,16 +1971,29 @@ flows:
     name: Editar material de anillo en editor 3D
     steps:
       - action: action_ask_material_id
-
-  cambiar_material:
-    description: |
-      El usuario especifica el nombre del material que quiere aplicar a su anillo, hace consultas como "Oro amarillo",
-      "Oro rosa", "Oro blanco", "Platino", "Aplica el material oro blanco", "Pon el material platino"
-    steps:
       - collect: material_id
-        description: El nombre del material que el usuario desea aplicar
+        description: El nombre del material que el usuario desea aplicar, hace consultas como "Oro amarillo", "Oro rosa", "Oro blanco", "Platino"
       - action: action_change_material
       - link: modificar_pureza_del_material_del_anillo
+
+  # modificar_material_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el material de su anillo, hace consultas como
+  #     "Quiero modificar el material de mi anillo", "Quiero cambiar el material",
+  #     "Quiero cambiar el material de mi diseño en el editor 3D"
+  #   name: Editar material de anillo en editor 3D
+  #   steps:
+  #     - action: action_ask_material_id
+
+  # cambiar_material:
+  #   description: |
+  #     El usuario especifica el nombre del material que quiere aplicar a su anillo, hace consultas como "Oro amarillo",
+  #     "Oro rosa", "Oro blanco", "Platino", "Aplica el material oro blanco", "Pon el material platino"
+  #   steps:
+  #     - collect: material_id
+  #       description: El nombre del material que el usuario desea aplicar
+  #     - action: action_change_material
+  #     - link: modificar_pureza_del_material_del_anillo
 
   modificar_pureza_del_material_del_anillo:
     description: |
@@ -1993,8 +2006,8 @@ flows:
       - collect: pureza_id
         description: El nombre de la pureza del material que el usuario desea aplicar
       - action: action_change_pureza_material
+      - action: action_ask_next_edit_option
 
-  # TENGO QUE HACER TODAS LAS FUNCIONES QUE QUE HAY DEBAJO DE ESTE COMENTARIO
   modificar_gema_del_anillo:
     description: |
       El usuario desea modificar la gema de su anillo
@@ -2068,7 +2081,6 @@ flows:
   #   # HACER UN ACTION DIRECTAMENTE
   #     - action: utter_editar_origen_gema
 
-  # FUNCION DE CAMBIAR ENGASTE FUNCIONA CORRECTAMENTE
 
   modificar_engaste_del_anillo:
     description: |
@@ -2090,8 +2102,6 @@ flows:
       - action: action_change_engaste
       - action: action_ask_next_edit_option
 
-  # FUNCION DE CAMBIAR NUMERO DE GARRAS FUNCIONA CORRECTAMENTE
-
   modificar_numero_de_garras_del_engaste_del_anillo:
     description: |
       El usuario desea modificar el número de garras del engaste de su anillo, hace consultas como
@@ -2109,8 +2119,6 @@ flows:
           Ejemplos: Sin garras, 4 garras, 6 garras
       - action: action_change_garras_engaste
 
-  # FUNCION DE CAMBIAR TIPO DE GARRAS FUNCIONA CORRECTAMENTE
-
   modificar_tipo_de_garras_del_engaste_del_anillo:
     description: |
       El usuario desea modificar el tipo de garras del engaste de su anillo, hace consultas como
@@ -2120,13 +2128,16 @@ flows:
     steps:
       - action: action_ask_gem_position_for_claw_type
       - collect: gem_position_for_claw_type
+        ask_before_filling: true
         description: "La posición de la gema cuyo tipo de garras del engaste se desea modificar (0, 1 o 2)"
       - action: action_ask_tipo_garras_id
       - collect: tipo_garras_id
+        ask_before_filling: true
         description: |
           El ID del tipo de garras que el usuario desea aplicar al engaste.
           Ejemplos: Simple, Doble
       - action: action_change_garras_type_engaste
+      - action: action_ask_next_edit_option
 
   modificar_empaquetado_del_anillo:
     description: |

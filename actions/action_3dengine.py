@@ -1290,19 +1290,20 @@ class ActionAskEngasteId(Action):
         print(f"[DEBUG] Posición de gema para cambiar engaste: {gem_position}")
 
         if not current_ring_id:
+            print(f"[ERROR] No se encontró ring_id")
             dispatcher.utter_message(
-                text="No tengo información del anillo actual."
+                text="No tengo información del anillo actual. Por favor, intenta cargar el anillo nuevamente."
             )
             return []
 
         try:
             async with aiohttp.ClientSession() as session:
-                # Obtener la estructura base del anillo
                 endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
                 print(f"[DEBUG] GET {endpoint}")
 
                 async with session.get(endpoint) as response:
                     if response.status < 200 or response.status >= 300:
+                        print(f"[ERROR] Status code: {response.status}")
                         dispatcher.utter_message(
                             text="No pude cargar la información del anillo."
                         )
@@ -1312,12 +1313,27 @@ class ActionAskEngasteId(Action):
 
             base_structure = ring_data.get("baseStructure", {})
             
-            # Obtener el perfil actual
+            # ✅ MEJORADO: Obtener perfil actual con más robustez
             current_profile_id = tracker.get_slot('profile_id')
+            
+            if not current_profile_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_profile_id = metadata.get('profile_id')
+            
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
                 profile_obj = first_profile.get('profile', {})
                 current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+
+            print(f"[DEBUG] Profile ID: {current_profile_id}")
+
+            if not current_profile_id:
+                print(f"[ERROR] No se encontró profile_id")
+                dispatcher.utter_message(
+                    text="No pude identificar el perfil actual del anillo."
+                )
+                return []
 
             # Buscar el perfil específico
             target_profile = None
@@ -1330,13 +1346,15 @@ class ActionAskEngasteId(Action):
                     break
 
             if not target_profile:
+                print(f"[ERROR] No se encontró el perfil con ID: {current_profile_id}")
                 dispatcher.utter_message(
                     text="No pude encontrar el perfil actual del anillo."
                 )
                 return []
 
-            # Obtener la variante actual
+            # ✅ MEJORADO: Obtener variante actual con más robustez
             current_variant_id = tracker.get_slot('variante_id')
+            
             if not current_variant_id:
                 latest_message = tracker.latest_message
                 metadata = latest_message.get('metadata', {})
@@ -1345,6 +1363,15 @@ class ActionAskEngasteId(Action):
             if not current_variant_id and target_profile.get("variants"):
                 current_variant_id = target_profile["variants"][0].get('_id', '')
 
+            print(f"[DEBUG] Variant ID: {current_variant_id}")
+
+            if not current_variant_id:
+                print(f"[ERROR] No se encontró variant_id")
+                dispatcher.utter_message(
+                    text="No pude identificar la variante actual del anillo."
+                )
+                return []
+
             variant = None
             for v in target_profile.get("variants", []):
                 if v.get('_id') == current_variant_id:
@@ -1352,6 +1379,7 @@ class ActionAskEngasteId(Action):
                     break
 
             if not variant:
+                print(f"[ERROR] No se encontró la variante con ID: {current_variant_id}")
                 dispatcher.utter_message(
                     text="No pude encontrar la variante actual del anillo."
                 )
@@ -1361,6 +1389,7 @@ class ActionAskEngasteId(Action):
             settings_info = variant.get("settingsInfo", [])
             
             if not settings_info:
+                print(f"[ERROR] No hay settings_info en la variante")
                 dispatcher.utter_message(
                     text="Esta variante no tiene configuración de engastes."
                 )
@@ -1378,11 +1407,14 @@ class ActionAskEngasteId(Action):
             if position_index >= len(settings_info):
                 position_index = 0
 
+            print(f"[DEBUG] Usando posición de gema: {position_index}")
+
             # Obtener los engastes compatibles para esta posición
             setting_info = settings_info[position_index]
             compatible_settings = setting_info.get("compatibleSettings", [])
 
             if not compatible_settings:
+                print(f"[ERROR] No hay compatibleSettings en la posición {position_index}")
                 dispatcher.utter_message(
                     text="No hay engastes compatibles para esta posición."
                 )
@@ -1399,6 +1431,13 @@ class ActionAskEngasteId(Action):
 
             print(f"[DEBUG] Engastes compatibles IDs: {compatible_setting_ids}")
 
+            if not compatible_setting_ids:
+                print(f"[ERROR] No se extrajeron IDs de engastes compatibles")
+                dispatcher.utter_message(
+                    text="No encontré engastes compatibles."
+                )
+                return []
+
             # Obtener todos los engastes del catálogo
             settings_endpoint = f"{api_url}/api/settings"
             print(f"[DEBUG] GET {settings_endpoint}")
@@ -1406,6 +1445,7 @@ class ActionAskEngasteId(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(settings_endpoint) as response:
                     if response.status != 200:
+                        print(f"[ERROR] Status al obtener settings: {response.status}")
                         dispatcher.utter_message(
                             text="No pude cargar los engastes disponibles."
                         )
@@ -1413,6 +1453,8 @@ class ActionAskEngasteId(Action):
 
                     data = await response.json()
                     all_settings = data.get('settings', [])
+
+            print(f"[DEBUG] Total de engastes en catálogo: {len(all_settings)}")
 
             # Filtrar solo los engastes compatibles
             buttons = []
@@ -1431,18 +1473,28 @@ class ActionAskEngasteId(Action):
                     })
 
             if not buttons:
+                print(f"[ERROR] No se generaron botones de engastes")
                 dispatcher.utter_message(
                     text="No encontré engastes compatibles disponibles."
                 )
                 return []
+
+            print(f"[DEBUG] Total de botones generados: {len(buttons)}")
 
             dispatcher.utter_message(
                 text="Selecciona el engaste que deseas aplicar:",
                 buttons=buttons
             )
 
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Error de conexión: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error de conexión con el servidor."
+            )
         except Exception as e:
-            print(f"[ERROR] General: {e}")
+            print(f"[ERROR] Error general: {e}")
             import traceback
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
@@ -2058,11 +2110,7 @@ class ActionChangeGarrasTypeEngaste(Action):
             }
         )
 
-        # Limpiar los slots después de usarlos
-        return [
-            SlotSet("tipo_garras_id", None),
-            SlotSet("gem_position_for_claw_type", None)
-        ]
+        return []
     
 
 
@@ -2564,6 +2612,11 @@ class ActionAskNextEditOption(Action):
             # Siempre disponibles
             buttons.append({
                 "title": "Cambiar base",
+                "payload": '/StartFlow(modificar_base_del_anillo)'
+            })
+
+            buttons.append({
+                "title": "Cambiar variante",
                 "payload": '/StartFlow(modificar_variante_del_anillo)'
             })
             
@@ -2587,6 +2640,16 @@ class ActionAskNextEditOption(Action):
                 buttons.append({
                     "title": "Cambiar engaste",
                     "payload": '/StartFlow(modificar_engaste_del_anillo)'
+                })
+
+                buttons.append({
+                    "title": "Cambiar número de garras",
+                    "payload": '/StartFlow(modificar_numero_de_garras_del_engaste_del_anillo)'
+                })
+
+                buttons.append({
+                    "title": "Cambiar tipo de garras",
+                    "payload": '/StartFlow(modificar_tipo_de_garras_del_engaste_del_anillo)'
                 })
             
             # Siempre disponible
@@ -2613,7 +2676,7 @@ class ActionAskNextEditOption(Action):
                 text="Error al cargar las opciones de edición."
             )
 
-        # ✅ Limpiar TODOS los slots de edición aquí
+        # Limpiar TODOS los slots de edición aquí
         return [
             SlotSet("variante_id", None),
             SlotSet("profile_id", None),
@@ -2633,3 +2696,167 @@ class ActionAskNextEditOption(Action):
             SlotSet("gem_position_for_claw_number", None),
             SlotSet("gem_position_for_claw_type", None)
         ]
+    
+# =========================
+# MOSTRAR OPCIONES DE EDICIÓN DISPONIBLES DINÁMICAMENTE
+# =========================
+class ActionAskEditOption(Action):
+    def name(self) -> Text:
+        return "action_ask_edit_option"
+
+    async def run(self, dispatcher, tracker, domain):
+        api_url = os.getenv("API_URL", "https://louv.ovh")
+        
+        current_ring_id = tracker.get_slot('ring_id')
+        if not current_ring_id:
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_ring_id = metadata.get('ring_id')
+
+        print(f"[DEBUG] Ring ID para opciones de edición: {current_ring_id}")
+
+        if not current_ring_id:
+            dispatcher.utter_message(
+                text="No tengo información del anillo actual."
+            )
+            return []
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                print(f"[DEBUG] GET {endpoint}")
+
+                async with session.get(endpoint) as response:
+                    if response.status < 200 or response.status >= 300:
+                        dispatcher.utter_message(
+                            text="No pude cargar la información del anillo."
+                        )
+                        return []
+
+                    ring_data = await response.json()
+
+            base_structure = ring_data.get("baseStructure", {})
+            
+            # Obtener el perfil actual
+            current_profile_id = tracker.get_slot('profile_id')
+            if not current_profile_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_profile_id = metadata.get('profile_id')
+            
+            if not current_profile_id and base_structure.get("profiles"):
+                first_profile = base_structure["profiles"][0]
+                profile_obj = first_profile.get('profile', {})
+                current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+
+            # Buscar el perfil específico
+            target_profile = None
+            for profile_data in base_structure.get("profiles", []):
+                profile_obj = profile_data.get('profile', {})
+                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                
+                if profile_id == current_profile_id:
+                    target_profile = profile_data
+                    break
+
+            if not target_profile:
+                dispatcher.utter_message(
+                    text="No pude encontrar el perfil actual del anillo."
+                )
+                return []
+
+            # Obtener la variante actual
+            current_variant_id = tracker.get_slot('variante_id')
+            if not current_variant_id:
+                latest_message = tracker.latest_message
+                metadata = latest_message.get('metadata', {})
+                current_variant_id = metadata.get('variant_id')
+
+            if not current_variant_id and target_profile.get("variants"):
+                current_variant_id = target_profile["variants"][0].get('_id', '')
+
+            variant = None
+            for v in target_profile.get("variants", []):
+                if v.get('_id') == current_variant_id:
+                    variant = v
+                    break
+
+            if not variant:
+                dispatcher.utter_message(
+                    text="No pude encontrar la variante actual del anillo."
+                )
+                return []
+
+            # Verificar si la variante tiene settings (gemas)
+            settings_info = variant.get("settingsInfo", [])
+            has_gems = len(settings_info) > 0
+
+            print(f"[DEBUG] Variante tiene gemas: {has_gems}")
+            print(f"[DEBUG] Nº de gemas: {len(settings_info)}")
+
+            # Crear botones base (siempre disponibles)
+            buttons = [
+                {
+                    "title": "Perfil",
+                    "payload": "Quiero modificar el perfil de mi anillo."
+                },
+                {
+                    "title": "Variante",
+                    "payload": "Quiero modificar la variante de mi anillo."
+                },
+                {
+                    "title": "Material",
+                    "payload": "Quiero modificar el material de mi anillo."
+                },
+                {
+                    "title": "Caja",
+                    "payload": "Quiero modificar el empaquetado de mi anillo."
+                }
+            ]
+
+            # Añadir opciones relacionadas con gemas solo si la variante las permite
+            if has_gems:
+                gem_buttons = [
+                    {
+                        "title": "Gema",
+                        "payload": "Quiero modificar la gema de mi anillo."
+                    },
+                    {
+                        "title": "Forma de la gema",
+                        "payload": "Quiero modificar la forma de la gema de mi anillo."
+                    },
+                    {
+                        "title": "Engaste",
+                        "payload": "Quiero modificar el engaste de mi anillo."
+                    },
+                    {
+                        "title": "Garras del engaste",
+                        "payload": "Quiero modificar las garras del engaste de mi anillo."
+                    }
+                ]
+                buttons.extend(gem_buttons)
+
+            dispatcher.utter_message(
+                text="¿Qué parte de su anillo desea modificar? Puede seleccionar uno de los botones o escribirlo manualmente.",
+                buttons=buttons,
+                metadata={"rephrase": False}
+            )
+
+            # Limpiar slots de ediciones anteriores
+            return [
+                SlotSet("variante_id", None),
+                SlotSet("gem_position", None),
+                SlotSet("gem_position_for_cut", None),
+                SlotSet("gem_position_for_setting", None),
+                SlotSet("gem_position_for_claw_number", None),
+                SlotSet("gem_position_for_claw_type", None)
+            ]
+
+        except Exception as e:
+            print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error al verificar las opciones de edición disponibles."
+            )
+            return []

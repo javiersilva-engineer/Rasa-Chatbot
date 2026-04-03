@@ -317,6 +317,7 @@ actions:
   - action_change_box_inner_color
 
   - action_ask_next_edit_option
+  - action_ask_edit_option
 
 # ------------------------------------------------------------
 
@@ -1851,17 +1852,29 @@ responses:
   utter_ask_ring_type:
     - text: "¿Qué tipo de anillo quieres ver?"
 
-  utter_editar_anillo:
-    - text: "¿Qué parte de su anillo desea modificar? Puede seleccionar uno de los botones o escribirlo manualmente."
-      buttons:
-        - title: "Base"
-          payload: "Quiero modificar la base de mi anillo."
-        - title: "Gema"
-          payload: "Quiero modificar la gema de mi anillo."
-        - title: "Material"
-          payload: "Quiero modificar el material de mi anillo."
-      metadata:
-        rephrase: false
+  # utter_editar_anillo:
+  #   - text: "¿Qué parte de su anillo desea modificar? Puede seleccionar uno de los botones o escribirlo manualmente."
+  #     buttons:
+  #       - title: "Base"
+  #         payload: "Quiero modificar la base de mi anillo."
+  #       - title: "Perfil"
+  #         payload: "Quiero modificar el perfil de mi anillo."
+  #       - title: "Variante"
+  #         payload: "Quiero modificar la variante de mi anillo."
+  #       - title: "Material"
+  #         payload: "Quiero modificar el material de mi anillo."
+  #       - title: "Gema"
+  #         payload: "Quiero modificar la gema de mi anillo."
+  #       - title: "Forma de la gema"
+  #         payload: "Quiero modificar la forma de lagema de mi anillo."
+  #       - title: "Engaste"
+  #         payload: "Quiero modificar el engaste de mi anillo."
+  #       - title: "Garras del engaste"
+  #         payload: "Quiero modificar las garras del engaste de mi anillo."
+  #       - title: "Caja"
+  #         payload: "Quiero modificar el empaquetado de mi anillo."
+  #     metadata:
+  #       rephrase: false
 
   utter_editar_base_anillo:
     - text: "¿Qué base desea? Puede seleccionar uno de los botones o escribirlo manualmente."
@@ -1872,6 +1885,10 @@ responses:
           payload: "Quiero la base ondulado."
         - title: "Bypass"
           payload: "Quiero la base bypass."
+        - title: "Aurora"
+          payload: "Quiero la base aurora."
+        - title: "Vínculo"
+          payload: "Quiero la base vinculo."
       metadata:
         rephrase: false
 
