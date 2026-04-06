@@ -297,7 +297,6 @@ actions:
   - action_ask_pureza_id
   - action_change_pureza_material
 
-  # - action_ask_gem_position
   - action_reset_gema_slots
   - action_ask_gema_id
   - action_change_gema
@@ -307,7 +306,8 @@ actions:
   - action_change_forma_gema
 
 
-  - action_ask_gem_position_for_setting
+  - action_reset_engaste_slots
+  # - action_ask_gem_position_for_setting
   - action_ask_engaste_id
   - action_change_engaste
 
@@ -1967,5 +1967,17 @@ responses:
           payload: "Quiero cambiar la gema central, posición 1"
         - title: "Gema derecha"
           payload: "Quiero cambiar la gema derecha, posición 2"
+      metadata:
+        rephrase: false
+
+  utter_ask_gem_position_for_setting:
+    - text: "¿A qué gema deseas cambiarle el engaste?"
+      buttons:
+        - title: "Gema izquierda"
+          payload: "Quiero cambiar el engaste de la gema izquierda, posición 0"
+        - title: "Gema central"
+          payload: "Quiero cambiar el engaste de la gema central, posición 1"
+        - title: "Gema derecha"
+          payload: "Quiero cambiar el engaste de la gema derecha, posición 2"
       metadata:
         rephrase: false
