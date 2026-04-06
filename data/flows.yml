@@ -2180,18 +2180,41 @@ flows:
       "Quiero modificar el tipo de garras del engaste de mi anillo", "Quiero cambiar el tipo de garras",
       "Quiero cambiar el tipo de garras del engaste de mi diseño en el editor 3D"
     name: Editar tipo de garras del engaste de anillo en editor 3D
+    persisted_slots: []
     steps:
-      - action: action_ask_gem_position_for_claw_type
-      - collect: gem_position_for_claw_type
-        ask_before_filling: true
-        description: "La posición de la gema cuyo tipo de garras del engaste se desea modificar (0, 1 o 2)"
-      - action: action_ask_tipo_garras_id
-      - collect: tipo_garras_id
-        ask_before_filling: true
+      - action: action_reset_claw_type_slots
+      
+      - action: action_verify_claw_types_available
+        next:
+          - if: not slots.has_claw_types
+            then:
+              - action: utter_no_claw_types_available
+                next: END
+          - if: slots.gem_count == 3
+            then: collect_position
+          - else: ask_tipo_garras
+      
+      - id: collect_position
+        collect: gem_position_for_claw_type
         description: |
-          El ID del tipo de garras que el usuario desea aplicar al engaste.
-          Ejemplos: Simple, Doble
+          La posición de la gema cuyo tipo de garras se desea modificar.
+          El usuario debe seleccionar una de estas opciones exactas:
+          - "0" para la gema izquierda
+          - "1" para la gema central
+          - "2" para la gema derecha
+          Cualquier respuesta que contenga "0", "1", o "2" es válida para llenar este slot.
+        next: ask_tipo_garras
+      
+      - id: ask_tipo_garras
+        action: action_ask_tipo_garras_id
+      
+      - collect: tipo_garras_id
+        description: |
+          El ID del tipo de garras que el usuario desea aplicar. El usuario puede mencionar
+          el tipo como "Simple", "Doble", etc.
+      
       - action: action_change_garras_type_engaste
+      
       - action: action_ask_next_edit_option
 
   modificar_empaquetado_del_anillo:

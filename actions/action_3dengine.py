@@ -1702,11 +1702,29 @@ class ActionChangeGarrasEngaste(Action):
 
 
 # =========================
-# VERIFICAR Y SELECCIONAR POSICIÓN DE GEMA PARA TIPO DE GARRAS
+# RESETEAR SLOTS DE TIPO DE GARRAS
 # =========================
-class ActionAskGemPositionForClawType(Action):
+class ActionResetClawTypeSlots(Action):
     def name(self) -> Text:
-        return "action_ask_gem_position_for_claw_type"
+        return "action_reset_claw_type_slots"
+
+    async def run(self, dispatcher, tracker, domain):
+        print("[DEBUG] Limpiando slots de tipo de garras al inicio del flow")
+        
+        return [
+            SlotSet("gem_position_for_claw_type", None),
+            SlotSet("tipo_garras_id", None),
+            SlotSet("has_claw_types", None),
+            SlotSet("gem_count", None)
+        ]
+
+
+# =========================
+# VERIFICAR TIPOS DE GARRAS DISPONIBLES
+# =========================
+class ActionVerifyClawTypesAvailable(Action):
+    def name(self) -> Text:
+        return "action_verify_claw_types_available"
 
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
@@ -1717,13 +1735,13 @@ class ActionAskGemPositionForClawType(Action):
             metadata = latest_message.get('metadata', {})
             current_ring_id = metadata.get('ring_id')
 
-        print(f"[DEBUG] Ring ID para tipo de garras: {current_ring_id}")
+        print(f"[DEBUG] Ring ID para verificar tipos de garras: {current_ring_id}")
 
         if not current_ring_id:
-            dispatcher.utter_message(
-                text="No tengo información del anillo actual."
-            )
-            return []
+            return [
+                SlotSet("has_claw_types", False),
+                SlotSet("gem_count", 0)
+            ]
 
         try:
             async with aiohttp.ClientSession() as session:
@@ -1732,16 +1750,16 @@ class ActionAskGemPositionForClawType(Action):
 
                 async with session.get(endpoint) as response:
                     if response.status < 200 or response.status >= 300:
-                        dispatcher.utter_message(
-                            text="No pude cargar la información del anillo."
-                        )
-                        return []
+                        return [
+                            SlotSet("has_claw_types", False),
+                            SlotSet("gem_count", 0)
+                        ]
 
                     ring_data = await response.json()
 
             base_structure = ring_data.get("baseStructure", {})
             
-            # Obtener el perfil y variante actuales
+            # Obtener el perfil actual
             current_profile_id = tracker.get_slot('profile_id')
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
@@ -1759,10 +1777,10 @@ class ActionAskGemPositionForClawType(Action):
                     break
 
             if not target_profile:
-                dispatcher.utter_message(
-                    text="No pude encontrar el perfil actual del anillo."
-                )
-                return []
+                return [
+                    SlotSet("has_claw_types", False),
+                    SlotSet("gem_count", 0)
+                ]
 
             # Obtener la variante actual
             current_variant_id = tracker.get_slot('variante_id')
@@ -1781,10 +1799,10 @@ class ActionAskGemPositionForClawType(Action):
                     break
 
             if not variant:
-                dispatcher.utter_message(
-                    text="No pude encontrar la variante actual del anillo."
-                )
-                return []
+                return [
+                    SlotSet("has_claw_types", False),
+                    SlotSet("gem_count", 0)
+                ]
 
             # Verificar si la variante tiene settings (gemas)
             settings_info = variant.get("settingsInfo", [])
@@ -1792,37 +1810,88 @@ class ActionAskGemPositionForClawType(Action):
             print(f"[DEBUG] Nº settings en variante: {len(settings_info)}")
 
             if not settings_info:
-                dispatcher.utter_message(
-                    text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
-                )
-                return []
-
-            # Si hay exactamente 3 settings, preguntar cuál modificar
-            if len(settings_info) == 3:
-                buttons = [
-                    {"title": "Gema izquierda", "payload": 'SetSlot("gem_position_for_claw_type", "0")'},
-                    {"title": "Gema central", "payload": 'SetSlot("gem_position_for_claw_type", "1")'},
-                    {"title": "Gema derecha", "payload": 'SetSlot("gem_position_for_claw_type", "2")'}
+                return [
+                    SlotSet("has_claw_types", False),
+                    SlotSet("gem_count", 0)
                 ]
-                
-                dispatcher.utter_message(
-                    text="¿A qué gema deseas cambiarle el tipo de garras?",
-                    buttons=buttons
-                )
-                
-                return []
-            else:
-                # Si solo hay 1 gema, establecer posición 0 automáticamente
-                return [SlotSet("gem_position_for_claw_type", "0")]
+
+            # Verificar que hay tipos de garras disponibles
+            latest_message = tracker.latest_message
+            metadata = latest_message.get('metadata', {})
+            current_setting_id = metadata.get('setting_id')
+            current_claw_number_id = metadata.get('claw_number_id')
+            current_cut_id = metadata.get('cut_id')
+
+            if not current_setting_id:
+                return [
+                    SlotSet("has_claw_types", False),
+                    SlotSet("gem_count", len(settings_info))
+                ]
+
+            # Obtener todos los engastes
+            settings_endpoint = f"{api_url}/api/settings"
+            async with aiohttp.ClientSession() as session:
+                async with session.get(settings_endpoint) as response:
+                    if response.status != 200:
+                        return [
+                            SlotSet("has_claw_types", False),
+                            SlotSet("gem_count", len(settings_info))
+                        ]
+                    data = await response.json()
+                    all_settings = data.get('settings', [])
+
+            # Buscar el engaste actual
+            current_setting = next((s for s in all_settings if s.get('_id') == current_setting_id), None)
+            
+            if not current_setting:
+                return [
+                    SlotSet("has_claw_types", False),
+                    SlotSet("gem_count", len(settings_info))
+                ]
+
+            # Buscar el clawNumber específico
+            claw_number_obj = None
+            for cn in current_setting.get('clawNumber', []):
+                if cn.get('_id') == current_claw_number_id:
+                    claw_number_obj = cn
+                    break
+            
+            if not claw_number_obj:
+                claw_number_obj = current_setting.get('clawNumber', [{}])[0]
+
+            # Buscar el cut específico
+            compatible_cut_obj = None
+            for cc in claw_number_obj.get('compatibleCuts', []):
+                cut_obj = cc.get('cut')
+                cut_id = cut_obj if isinstance(cut_obj, str) else cut_obj.get('_id')
+                if cut_id == current_cut_id:
+                    compatible_cut_obj = cc
+                    break
+            
+            if not compatible_cut_obj:
+                compatible_cut_obj = claw_number_obj.get('compatibleCuts', [{}])[0]
+
+            # Obtener los tipos de garras disponibles
+            claw_types = compatible_cut_obj.get('clawType', [])
+
+            has_claw_types = len(claw_types) > 0
+
+            print(f"[DEBUG] Has claw types: {has_claw_types}")
+            print(f"[DEBUG] Gem count: {len(settings_info)}")
+
+            return [
+                SlotSet("has_claw_types", has_claw_types),
+                SlotSet("gem_count", len(settings_info))
+            ]
 
         except Exception as e:
             print(f"[ERROR] General: {e}")
             import traceback
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
-            dispatcher.utter_message(
-                text="Error al verificar la configuración del anillo."
-            )
-            return []
+            return [
+                SlotSet("has_claw_types", False),
+                SlotSet("gem_count", 0)
+            ]
 
 
 # =========================
@@ -1837,47 +1906,35 @@ class ActionAskTipoGarrasId(Action):
 
         gem_position = tracker.get_slot('gem_position_for_claw_type')
         
-        # Obtener datos desde metadata
+        if gem_position is None:
+            print("[DEBUG] No hay gem_position_for_claw_type, asumiendo posición 0")
+            gem_position = "0"
+
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         current_setting_id = metadata.get('setting_id')
-        current_claw_number_id = metadata.get('claw_number_id')  # ← NUEVO
-        current_cut_id = metadata.get('cut_id')  # ← NUEVO
-        
-        print(f"[DEBUG] Setting ID: {current_setting_id}")
-        print(f"[DEBUG] Claw Number ID: {current_claw_number_id}")
-        print(f"[DEBUG] Cut ID: {current_cut_id}")
-        print(f"[DEBUG] Gem position: {gem_position}")
+        current_claw_number_id = metadata.get('claw_number_id')
+        current_cut_id = metadata.get('cut_id')
 
         if not current_setting_id:
-            dispatcher.utter_message(
-                text="No pude identificar el engaste actual."
-            )
+            dispatcher.utter_message(text="No pude identificar el engaste actual.")
             return []
 
         try:
-            # Obtener todos los engastes
             settings_endpoint = f"{api_url}/api/settings"
             async with aiohttp.ClientSession() as session:
                 async with session.get(settings_endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="No pude cargar los engastes disponibles."
-                        )
+                        dispatcher.utter_message(text="No pude cargar los engastes disponibles.")
                         return []
                     data = await response.json()
                     all_settings = data.get('settings', [])
 
-            # Buscar el engaste actual
             current_setting = next((s for s in all_settings if s.get('_id') == current_setting_id), None)
-            
             if not current_setting:
-                dispatcher.utter_message(
-                    text="No pude encontrar el engaste actual."
-                )
+                dispatcher.utter_message(text="No pude encontrar el engaste actual.")
                 return []
 
-            # Buscar el clawNumber específico
             claw_number_obj = None
             for cn in current_setting.get('clawNumber', []):
                 if cn.get('_id') == current_claw_number_id:
@@ -1885,10 +1942,8 @@ class ActionAskTipoGarrasId(Action):
                     break
             
             if not claw_number_obj:
-                # Si no se encuentra, usar el primero
                 claw_number_obj = current_setting.get('clawNumber', [{}])[0]
 
-            # Buscar el cut específico dentro del clawNumber
             compatible_cut_obj = None
             for cc in claw_number_obj.get('compatibleCuts', []):
                 cut_obj = cc.get('cut')
@@ -1898,19 +1953,14 @@ class ActionAskTipoGarrasId(Action):
                     break
             
             if not compatible_cut_obj:
-                # Si no se encuentra, usar el primero
                 compatible_cut_obj = claw_number_obj.get('compatibleCuts', [{}])[0]
 
-            # Obtener los tipos de garras disponibles
             claw_types = compatible_cut_obj.get('clawType', [])
 
             if not claw_types:
-                dispatcher.utter_message(
-                    text="No hay tipos de garras disponibles para esta configuración."
-                )
+                dispatcher.utter_message(text="No hay tipos de garras disponibles.")
                 return []
 
-            # Crear botones
             buttons = []
             for claw_type in claw_types:
                 claw_type_id = claw_type.get('_id', '')
@@ -1921,25 +1971,18 @@ class ActionAskTipoGarrasId(Action):
                     "payload": f'SetSlot("tipo_garras_id", "{claw_type_id}")'
                 })
 
-            if not buttons:
-                dispatcher.utter_message(
-                    text="No encontré tipos de garras disponibles."
-                )
-                return []
-
             dispatcher.utter_message(
-                text=f"Selecciona el tipo de garras para el engaste {current_setting.get('name', '')}:",
+                text="Selecciona el tipo de garras que deseas aplicar:",
                 buttons=buttons
             )
 
         except Exception as e:
             print(f"[ERROR] {e}")
-            import traceback
-            print(f"[ERROR] Traceback: {traceback.format_exc()}")
-            dispatcher.utter_message(
-                text="Error interno en el servidor."
-            )
+            dispatcher.utter_message(text="Error interno en el servidor.")
 
+        if tracker.get_slot('gem_position_for_claw_type') is None:
+            return [SlotSet("gem_position_for_claw_type", "0")]
+        
         return []
 
 
@@ -1954,21 +1997,17 @@ class ActionChangeGarrasTypeEngaste(Action):
         tipo_garras_id = tracker.get_slot('tipo_garras_id')
         gem_position = tracker.get_slot('gem_position_for_claw_type')
 
-        print(f"[DEBUG] tipo_garras_id recibido: {tipo_garras_id}")
-        print(f"[DEBUG] gem_position recibido: {gem_position}")
-
         if not tipo_garras_id:
-            dispatcher.utter_message(
-                text="No pude identificar el tipo de garras seleccionado."
-            )
+            dispatcher.utter_message(text="No pude identificar el tipo de garras seleccionado.")
             return []
 
-        # Convertir a int de manera segura
+        if gem_position is None:
+            gem_position = "0"
+
         try:
-            position_int = int(gem_position) if gem_position is not None else 0
+            position_int = int(gem_position)
         except (ValueError, TypeError):
             position_int = 0
-            print(f"[WARNING] No se pudo convertir gem_position '{gem_position}' a int, usando 0")
 
         dispatcher.utter_message(
             text="Tipo de garras cambiado correctamente.",
@@ -1979,6 +2018,7 @@ class ActionChangeGarrasTypeEngaste(Action):
             }
         )
 
+        # NO limpiar slots aquí - se limpian en action_ask_next_edit_option
         return []
     
 

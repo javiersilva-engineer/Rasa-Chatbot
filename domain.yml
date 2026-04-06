@@ -253,6 +253,11 @@ slots:
     mappings:
       - type: custom
 
+  has_claw_types:
+    type: bool
+    mappings:
+      - type: custom
+
 
 
 
@@ -307,7 +312,6 @@ actions:
 
 
   - action_reset_engaste_slots
-  # - action_ask_gem_position_for_setting
   - action_ask_engaste_id
   - action_change_engaste
 
@@ -315,7 +319,8 @@ actions:
   - action_ask_numero_garras_id
   - action_change_garras_engaste
 
-  - action_ask_gem_position_for_claw_type    
+  - action_reset_claw_type_slots
+  - action_verify_claw_types_available   
   - action_ask_tipo_garras_id                
   - action_change_garras_type_engaste
 
@@ -1981,3 +1986,18 @@ responses:
           payload: "Quiero cambiar el engaste de la gema derecha, posición 2"
       metadata:
         rephrase: false
+
+  utter_ask_gem_position_for_claw_type:
+    - text: "¿A qué gema deseas cambiarle el tipo de garras?"
+      buttons:
+        - title: "Gema izquierda"
+          payload: "Quiero cambiar el tipo de garras de la gema izquierda, posición 0"
+        - title: "Gema central"
+          payload: "Quiero cambiar el tipo de garras de la gema central, posición 1"
+        - title: "Gema derecha"
+          payload: "Quiero cambiar el tipo de garras de la gema derecha, posición 2"
+      metadata:
+        rephrase: false
+
+  utter_no_claw_types_available:
+    - text: "No hay tipos de garras disponibles para esta configuración del anillo."
