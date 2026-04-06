@@ -185,6 +185,7 @@ slots:
     type: text
     mappings:
       - type: from_llm
+    influence_conversation: false
         # conditions:
         #   - active_loop: null
   
@@ -240,7 +241,15 @@ slots:
     mappings:
       - type: from_llm
 
-
+  has_gems:
+    type: bool
+    mappings:
+      - type: custom
+  
+  gem_count:
+    type: float
+    mappings:
+      - type: custom
 
 
 
@@ -290,7 +299,9 @@ actions:
   - action_ask_gema_id
   - action_change_gema
 
-  - action_ask_gem_position_for_cut
+  - action_verify_gems_available
+  # - action_check_gem_count
+  # - action_ask_gem_position_for_cut
   - action_ask_forma_gema_id
   - action_change_forma_gema
 
@@ -1928,3 +1939,18 @@ responses:
   
   # utter_ask_engaste_id:
   #   - text: "Selecciona el engaste que deseas aplicar:"
+
+  utter_no_gems_available:
+    - text: "Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+
+  utter_ask_gem_position_for_cut:
+    - text: "¿A qué gema deseas cambiarle la forma?"
+      buttons:
+        - title: "Gema izquierda"
+          payload: "Quiero cambiar la gema izquierda, posición 0"
+        - title: "Gema central"
+          payload: "Quiero cambiar la gema central, posición 1"
+        - title: "Gema derecha"
+          payload: "Quiero cambiar la gema derecha, posición 2"
+      metadata:
+        rephrase: false

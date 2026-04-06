@@ -917,24 +917,24 @@ class ActionChangeGema(Action):
 # =========================
 # PREGUNTAR POSICIÓN DE GEMA PARA FORMA
 # =========================
-class ActionAskGemPositionForCut(Action):
-    def name(self) -> Text:
-        return "action_ask_gem_position_for_cut"
+# class ActionAskGemPositionForCut(Action):
+#     def name(self) -> Text:
+#         return "action_ask_gem_position_for_cut"
 
-    async def run(self, dispatcher, tracker, domain):
-        # Simplemente pregunta qué gema modificar, sin validar variantes
-        buttons = [
-            {"title": "Gema izquierda", "payload": 'SetSlot("gem_position_for_cut", "0")'},
-            {"title": "Gema central", "payload": 'SetSlot("gem_position_for_cut", "1")'},
-            {"title": "Gema derecha", "payload": 'SetSlot("gem_position_for_cut", "2")'}
-        ]
+#     async def run(self, dispatcher, tracker, domain):
+#         # Simplemente pregunta qué gema modificar, sin validar variantes
+#         buttons = [
+#             {"title": "Gema izquierda", "payload": 'SetSlot("gem_position_for_cut", "0")'},
+#             {"title": "Gema central", "payload": 'SetSlot("gem_position_for_cut", "1")'},
+#             {"title": "Gema derecha", "payload": 'SetSlot("gem_position_for_cut", "2")'}
+#         ]
         
-        dispatcher.utter_message(
-            text="¿A qué gema deseas cambiarle la forma?",
-            buttons=buttons
-        )
+#         dispatcher.utter_message(
+#             text="¿A qué gema deseas cambiarle la forma?",
+#             buttons=buttons
+#         )
         
-        return []
+#         return []
 
 
 # =========================
@@ -1012,7 +1012,6 @@ class ActionChangeFormaGema(Action):
 
         print(f"[DEBUG] forma_gema_id recibido: {forma_gema_id}")
         print(f"[DEBUG] gem_position recibido: {gem_position}")
-        print(f"[DEBUG] TODOS LOS SLOTS: {tracker.current_slot_values()}")
 
         if not forma_gema_id:
             dispatcher.utter_message(
@@ -1020,7 +1019,7 @@ class ActionChangeFormaGema(Action):
             )
             return []
 
-        # ✅ Convertir a int de manera segura
+        # Convertir a int de manera segura
         try:
             position_int = int(gem_position) if gem_position is not None else 0
         except (ValueError, TypeError):
@@ -1036,13 +1035,19 @@ class ActionChangeFormaGema(Action):
             }
         )
 
-        # Limpiar los slots después de usarlos
+        # Limpiar SOLO los slots relacionados con esta operación específica
         return [
             SlotSet("forma_gema_id", None),
-            SlotSet("gem_position_for_cut", None),
-            SlotSet("has_gems", None),
-            SlotSet("gem_count", None)
+            SlotSet("gem_position_for_cut", None)
         ]
+    
+# class ActionCheckGemCount(Action):
+#     def name(self) -> Text:
+#         return "action_check_gem_count"
+
+#     async def run(self, dispatcher, tracker, domain):
+#         # Esta acción no hace nada, solo permite evaluar la condición en next
+#         return []
 
 class ActionVerifyGemsAvailable(Action):
     def name(self) -> Text:
@@ -2694,7 +2699,9 @@ class ActionAskNextEditOption(Action):
             SlotSet("gem_position_for_cut", None),
             SlotSet("gem_position_for_setting", None),
             SlotSet("gem_position_for_claw_number", None),
-            SlotSet("gem_position_for_claw_type", None)
+            SlotSet("gem_position_for_claw_type", None),
+            SlotSet("has_gems", None),
+            SlotSet("gem_count", None)
         ]
     
 # =========================

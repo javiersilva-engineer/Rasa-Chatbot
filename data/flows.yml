@@ -1952,9 +1952,9 @@ flows:
 
   modificar_variante_del_anillo:
     description: |
-        El usuario desea modificar la variante de la base de su anillo, hace consultas como
-        "Quiero modificar la variante de la base de mi anillo", "Quiero cambiar la variante de mi anillo",
-        "Quiero cambiar la variante de mi diseño en el editor 3D", "Quiero cambiar la variante"
+      El usuario desea modificar la variante de la base de su anillo, hace consultas como
+      "Quiero modificar la variante de la base de mi anillo", "Quiero cambiar la variante de mi anillo",
+      "Quiero cambiar la variante de mi diseño en el editor 3D", "Quiero cambiar la variante"
     name: Editar variante de anillo en editor 3D
     steps:
       - action: action_ask_variante_id
@@ -2014,14 +2014,14 @@ flows:
     name: Editar gema de anillo en editor 3D
     steps:
       - set_slots:
-        - gem_position: null
+          - gem_position: null
       - action: action_ask_gem_position
       - collect: gem_position
         description: |
           La posición de la gema que el usuario desea modificar.
           Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
       - set_slots:
-        - gema_id: null
+          - gema_id: null
       - action: action_ask_gema_id
       - collect: gema_id
         description: El ID de la gema que el usuario desea aplicar
@@ -2034,23 +2034,64 @@ flows:
       "Quiero modificar la forma de la gema de mi anillo", "Quiero cambiar la forma de la gema",
       "Quiero cambiar la forma de la gema de mi diseño en el editor 3D"
     name: Editar forma de gema de anillo en editor 3D
+    persisted_slots: []
     steps:
-      - collect: gem_position_for_cut
+      - action: action_verify_gems_available
+        next:
+          - if: not slots.has_gems
+            then:
+              - action: utter_no_gems_available
+                next: END
+          - if: slots.gem_count == 3
+            then: collect_position
+          - else: ask_forma
+      
+      - id: collect_position
+        collect: gem_position_for_cut
         description: |
           La posición de la gema cuya forma el usuario desea modificar.
-          Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
-        ask_before_filling: true
-      - action: action_ask_forma_gema_id
-
-  cambiar_forma_gema:
-    description: |
-      El usuario especifica el nombre de la forma de la gema que quiere aplicar a su anillo, hace consultas como "Brillante",
-      "Oval clásico", "Oval East-West", "Princesa", "Marquesa", "Pera", "Esmeralda", "Quiero la forma marquesa", "Aplica la forma pera", "Pon la forma de gema esmeralda"
-    steps:
+          El usuario debe seleccionar una de estas opciones exactas:
+          - "0" para la gema izquierda
+          - "1" para la gema central  
+          - "2" para la gema derecha
+          Cualquier respuesta que contenga "0", "1", o "2" es válida para llenar este slot.
+        next: ask_forma
+      
+      - id: ask_forma
+        action: action_ask_forma_gema_id
+      
       - collect: forma_gema_id
-        description: El nombre de la forma de gema que el usuario desea aplicar
-        ask_before_filling: true
+        description: |
+          El nombre de la forma de gema que el usuario desea aplicar, hace consultas como 
+          "Brillante", "Oval clásico", "Oval East-West", "Princesa", "Marquesa", "Pera", "Esmeralda"
+      
       - action: action_change_forma_gema
+      
+      - action: action_ask_next_edit_option
+
+  # modificar_forma_de_la_gema_del_anillo:
+  #   description: |
+  #     El usuario desea modificar la forma de la gema de su anillo, hace consultas como
+  #     "Quiero modificar la forma de la gema de mi anillo", "Quiero cambiar la forma de la gema",
+  #     "Quiero cambiar la forma de la gema de mi diseño en el editor 3D"
+  #   name: Editar forma de gema de anillo en editor 3D
+  #   steps:
+  #     - collect: gem_position_for_cut
+  #       description: |
+  #         La posición de la gema cuya forma el usuario desea modificar.
+  #         Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
+  #       ask_before_filling: true
+  #     - action: action_ask_forma_gema_id
+
+  # cambiar_forma_gema:
+  #   description: |
+  #     El usuario especifica el nombre de la forma de la gema que quiere aplicar a su anillo, hace consultas como "Brillante",
+  #     "Oval clásico", "Oval East-West", "Princesa", "Marquesa", "Pera", "Esmeralda", "Quiero la forma marquesa", "Aplica la forma pera", "Pon la forma de gema esmeralda"
+  #   steps:
+  #     - collect: forma_gema_id
+  #       description: El nombre de la forma de gema que el usuario desea aplicar
+  #       ask_before_filling: true
+  #     - action: action_change_forma_gema
 
   # modificar_tamano_de_la_gema_del_anillo:
   #   description: |
@@ -2080,7 +2121,6 @@ flows:
   #   steps:
   #   # HACER UN ACTION DIRECTAMENTE
   #     - action: utter_editar_origen_gema
-
 
   modificar_engaste_del_anillo:
     description: |
