@@ -1035,11 +1035,7 @@ class ActionChangeFormaGema(Action):
             }
         )
 
-        # Limpiar SOLO los slots relacionados con esta operación específica
-        return [
-            SlotSet("forma_gema_id", None),
-            SlotSet("gem_position_for_cut", None)
-        ]
+        return []
     
 # class ActionCheckGemCount(Action):
 #     def name(self) -> Text:
@@ -2867,3 +2863,18 @@ class ActionAskEditOption(Action):
                 text="Error al verificar las opciones de edición disponibles."
             )
             return []
+        
+class ActionResetFormaGemaSlots(Action):
+    def name(self) -> Text:
+        return "action_reset_forma_gema_slots"
+
+    async def run(self, dispatcher, tracker, domain):
+        print("[DEBUG] Limpiando slots de forma de gema al inicio del flow")
+        
+        # Limpiar TODOS los slots relacionados con este flow
+        return [
+            SlotSet("gem_position_for_cut", None),
+            SlotSet("forma_gema_id", None),
+            SlotSet("has_gems", None),
+            SlotSet("gem_count", None)
+        ]

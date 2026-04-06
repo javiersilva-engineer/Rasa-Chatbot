@@ -2036,6 +2036,8 @@ flows:
     name: Editar forma de gema de anillo en editor 3D
     persisted_slots: []
     steps:
+      - action: action_reset_forma_gema_slots
+      
       - action: action_verify_gems_available
         next:
           - if: not slots.has_gems
