@@ -720,6 +720,10 @@ class ActionAskGemaId(Action):
                         gem_id = gemstone.get('_id', '')
                         gem_name = gemstone.get('name', 'Sin nombre')
 
+                        if not gem_name or gem_name == 'None' or gem_name.strip() == '':
+                            print(f"[DEBUG] Omitiendo gema sin nombre válido: ID={gem_id}")
+                            continue
+
                         print(f"[DEBUG] Añadiendo botón gema: {gem_name} ({gem_id})")
 
                         buttons.append({
@@ -2036,73 +2040,59 @@ class ActionAskBoxShapeId(Action):
         api_url = os.getenv("API_URL", "https://louv.ovh")
         
         try:
-            # Obtener todas las formas de cajas disponibles
-            boxes_endpoint = f"{api_url}/api/box"
-            print(f"[DEBUG] GET {boxes_endpoint}")
-            
             async with aiohttp.ClientSession() as session:
-                async with session.get(boxes_endpoint) as response:
-                    print(f"[DEBUG] Status code: {response.status}")
-                    
+                endpoint = f"{api_url}/api/box"
+                print(f"[DEBUG] GET {endpoint}")
+                
+                async with session.get(endpoint) as response:
                     if response.status != 200:
-                        # Intentar leer el contenido del error
                         error_text = await response.text()
-                        print(f"[ERROR] Response body: {error_text}")
-                        
+                        print(f"[ERROR] Response: {error_text}")
                         dispatcher.utter_message(
-                            text="No pude cargar las opciones de empaquetado disponibles."
+                            text="No pude cargar las opciones de empaquetado."
                         )
                         return []
                     
                     data = await response.json()
-                    print(f"[DEBUG] Response data: {data}")
-                    
                     all_boxes = data.get('boxes', [])
-                    print(f"[DEBUG] Número de cajas encontradas: {len(all_boxes)}")
+                    print(f"[DEBUG] Cajas encontradas: {len(all_boxes)}")
 
-            if not all_boxes:
+            # ✅ Filtrar cajas sin nombre válido
+            valid_boxes = [
+                box for box in all_boxes 
+                if box.get('name') and box.get('name').strip() and box.get('name') != 'None'
+            ]
+
+            if not valid_boxes:
                 dispatcher.utter_message(
-                    text="No hay opciones de empaquetado disponibles en este momento."
+                    text="No hay opciones de empaquetado disponibles."
                 )
                 return []
 
-            # Crear botones con las opciones de empaquetado
+            # ✅ Crear botones con payload correcto
             buttons = []
-            for box in all_boxes:
+            for box in valid_boxes:
                 box_id = box.get('_id', '')
-                box_name = box.get('name', 'Sin nombre')
+                box_name = box.get('name', '')
                 
                 print(f"[DEBUG] Caja: {box_name} - ID: {box_id}")
                 
                 buttons.append({
                     "title": box_name,
-                    "payload": f'SetSlot("box_shape_id", "{box_id}")'
+                    "payload": f'/SetSlots(box_shape_id={box_id})'  # ✅ Sin comillas
                 })
 
-            if not buttons:
-                dispatcher.utter_message(
-                    text="No encontré opciones de empaquetado disponibles."
-                )
-                return []
-
-            print(f"[DEBUG] Enviando {len(buttons)} botones al usuario")
-            
             dispatcher.utter_message(
                 text="Selecciona el tipo de empaquetado que deseas:",
                 buttons=buttons
             )
 
-        except aiohttp.ClientError as e:
-            print(f"[ERROR] Error de conexión: {e}")
-            dispatcher.utter_message(
-                text="Error de conexión al cargar las opciones de empaquetado."
-            )
         except Exception as e:
-            print(f"[ERROR] Error general: {e}")
+            print(f"[ERROR] {e}")
             import traceback
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
-                text="Error interno al cargar las opciones de empaquetado."
+                text="Error al cargar las opciones de empaquetado."
             )
 
         return []
@@ -2127,16 +2117,17 @@ class ActionChangeBoxShape(Action):
             return []
 
         dispatcher.utter_message(
-            text="Empaquetado cambiado correctamente.",
+            text="Empaquetado seleccionado correctamente.",
             custom={
                 "type": "change_box_shape",
                 "box_shape_id": box_shape_id
             }
         )
 
-        # NO limpiar el slot, mantenerlo para futuras acciones
-        # return [SlotSet("box_shape_id", None)]  # ← ELIMINAR ESTA LÍNEA
-        return []  # ← Devolver lista vacía para mantener el slot
+        # El slot ya está establecido por el paso collect
+        return []
+    
+
     
 
 
@@ -2151,92 +2142,75 @@ class ActionAskBoxOuterColorId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
         
-        # Obtener el box_shape_id del slot
         box_shape_id = tracker.get_slot('box_shape_id')
         
-        # Si no está en el slot, intentar obtenerlo desde metadata
         if not box_shape_id:
             latest_message = tracker.latest_message
             metadata = latest_message.get('metadata', {})
             box_shape_id = metadata.get('box_shape_id')
         
-        print(f"[DEBUG] box_shape_id para material exterior: {box_shape_id}")
+        print(f"[DEBUG] box_shape_id: {box_shape_id}")
         
-        # Verificar que hay una caja seleccionada
         if not box_shape_id:
             dispatcher.utter_message(
-                text="Primero debes seleccionar un tipo de empaquetado antes de cambiar su material exterior."
+                text="Primero debes seleccionar un tipo de empaquetado."
             )
             return []
         
         try:
-            # Obtener los materiales exteriores de la caja específica
-            outer_materials_endpoint = f"{api_url}/api/box/{box_shape_id}/outerMaterials"
-            print(f"[DEBUG] GET {outer_materials_endpoint}")
-            
             async with aiohttp.ClientSession() as session:
-                async with session.get(outer_materials_endpoint) as response:
-                    print(f"[DEBUG] Status code: {response.status}")
-                    
+                endpoint = f"{api_url}/api/box/{box_shape_id}/outerMaterials"
+                print(f"[DEBUG] GET {endpoint}")
+                
+                async with session.get(endpoint) as response:
                     if response.status != 200:
                         error_text = await response.text()
-                        print(f"[ERROR] Response body: {error_text}")
-                        
+                        print(f"[ERROR] Response: {error_text}")
                         dispatcher.utter_message(
-                            text="No pude cargar las opciones de material exterior para este empaquetado."
+                            text="No pude cargar los materiales exteriores."
                         )
                         return []
                     
                     data = await response.json()
-                    print(f"[DEBUG] Response data: {data}")
-                    
-                    # Ajusta según la estructura de tu API
-                    all_outer_materials = data.get('outerMaterials', [])
-                    print(f"[DEBUG] Número de materiales exteriores encontrados: {len(all_outer_materials)}")
+                    all_materials = data.get('outerMaterials', [])
+                    print(f"[DEBUG] Materiales exteriores: {len(all_materials)}")
 
-            if not all_outer_materials:
+            # Filtrar materiales sin nombre válido
+            valid_materials = [
+                mat for mat in all_materials 
+                if mat.get('name') and mat.get('name').strip() and mat.get('name') != 'None'
+            ]
+
+            if not valid_materials:
                 dispatcher.utter_message(
-                    text="No hay opciones de material exterior disponibles para este empaquetado."
+                    text="No hay materiales exteriores disponibles para este empaquetado."
                 )
                 return []
 
-            # Crear botones con las opciones de material exterior
+            # Crear botones con payload correcto
             buttons = []
-            for material in all_outer_materials:
+            for material in valid_materials:
                 material_id = material.get('_id', '')
-                material_name = material.get('name', 'Sin nombre')
+                material_name = material.get('name', '')
                 
-                print(f"[DEBUG] Material exterior: {material_name} - ID: {material_id}")
+                print(f"[DEBUG] Material: {material_name} - ID: {material_id}")
                 
                 buttons.append({
                     "title": material_name,
-                    "payload": f'SetSlot("box_outer_color_id", "{material_id}")'
+                    "payload": f'/SetSlots(box_outer_color_id={material_id})'
                 })
 
-            if not buttons:
-                dispatcher.utter_message(
-                    text="No encontré opciones de material exterior disponibles."
-                )
-                return []
-
-            print(f"[DEBUG] Enviando {len(buttons)} botones al usuario")
-            
             dispatcher.utter_message(
-                text="Selecciona el material exterior que deseas para el empaquetado:",
+                text="Selecciona el material exterior que deseas:",
                 buttons=buttons
             )
 
-        except aiohttp.ClientError as e:
-            print(f"[ERROR] Error de conexión: {e}")
-            dispatcher.utter_message(
-                text="Error de conexión al cargar las opciones de material exterior."
-            )
         except Exception as e:
-            print(f"[ERROR] Error general: {e}")
+            print(f"[ERROR] {e}")
             import traceback
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
-                text="Error interno al cargar las opciones de material exterior."
+                text="Error al cargar los materiales exteriores."
             )
 
         return []
@@ -2263,15 +2237,16 @@ class ActionChangeBoxOuterColor(Action):
             return []
 
         dispatcher.utter_message(
-            text="Material exterior del empaquetado cambiado correctamente.",
+            text="Material exterior cambiado correctamente.",
             custom={
                 "type": "change_box_outer_color",
                 "box_outer_color_id": box_outer_color_id
             }
         )
 
-        # Limpiar solo el slot del material exterior, mantener el box_shape_id
-        return [SlotSet("box_outer_color_id", None)]
+        return []
+
+
     
 
 
@@ -2308,12 +2283,12 @@ class ActionAskBoxInnerColorId(Action):
             return []
         
         try:
-            # Obtener los materiales interiores de la caja específica
-            inner_materials_endpoint = f"{api_url}/api/box/{box_shape_id}/innerMaterials"
-            print(f"[DEBUG] GET {inner_materials_endpoint}")
-            
             async with aiohttp.ClientSession() as session:
-                async with session.get(inner_materials_endpoint) as response:
+                # Obtener los materiales interiores de la caja específica
+                endpoint = f"{api_url}/api/box/{box_shape_id}/innerMaterials"
+                print(f"[DEBUG] GET {endpoint}")
+                
+                async with session.get(endpoint) as response:
                     print(f"[DEBUG] Status code: {response.status}")
                     
                     if response.status != 200:
@@ -2328,27 +2303,34 @@ class ActionAskBoxInnerColorId(Action):
                     data = await response.json()
                     print(f"[DEBUG] Response data: {data}")
                     
-                    # Ajusta según la estructura de tu API
                     all_inner_materials = data.get('innerMaterials', [])
-                    print(f"[DEBUG] Número de materiales interiores encontrados: {len(all_inner_materials)}")
+                    print(f"[DEBUG] Número de materiales interiores totales: {len(all_inner_materials)}")
 
-            if not all_inner_materials:
+            # Filtrar materiales sin nombre válido
+            valid_materials = [
+                mat for mat in all_inner_materials 
+                if mat.get('name') and mat.get('name').strip() and mat.get('name') != 'None'
+            ]
+            
+            print(f"[DEBUG] Número de materiales interiores válidos: {len(valid_materials)}")
+
+            if not valid_materials:
                 dispatcher.utter_message(
                     text="No hay opciones de material interior disponibles para este empaquetado."
                 )
                 return []
 
-            # Crear botones con las opciones de material interior
+            # Crear botones con payload correcto
             buttons = []
-            for material in all_inner_materials:
+            for material in valid_materials:
                 material_id = material.get('_id', '')
-                material_name = material.get('name', 'Sin nombre')
+                material_name = material.get('name', '')
                 
                 print(f"[DEBUG] Material interior: {material_name} - ID: {material_id}")
                 
                 buttons.append({
                     "title": material_name,
-                    "payload": f'SetSlot("box_inner_color_id", "{material_id}")'
+                    "payload": f'/SetSlots(box_inner_color_id={material_id})'
                 })
 
             if not buttons:
@@ -2390,9 +2372,11 @@ class ActionChangeBoxInnerColor(Action):
     async def run(self, dispatcher, tracker, domain):
         box_inner_color_id = tracker.get_slot('box_inner_color_id')
         box_shape_id = tracker.get_slot('box_shape_id')
+        box_outer_color_id = tracker.get_slot('box_outer_color_id')
 
         print(f"[DEBUG] box_inner_color_id recibido: {box_inner_color_id}")
         print(f"[DEBUG] box_shape_id actual: {box_shape_id}")
+        print(f"[DEBUG] box_outer_color_id actual: {box_outer_color_id}")
 
         if not box_inner_color_id:
             dispatcher.utter_message(
@@ -2401,15 +2385,31 @@ class ActionChangeBoxInnerColor(Action):
             return []
 
         dispatcher.utter_message(
-            text="Material interior del empaquetado cambiado correctamente.",
+            text="Empaquetado completo actualizado correctamente.",
             custom={
-                "type": "change_box_inner_color",
+                "type": "change_box_complete",
+                "box_shape_id": box_shape_id,
+                "box_outer_color_id": box_outer_color_id,
                 "box_inner_color_id": box_inner_color_id
             }
         )
 
-        # Limpiar solo el slot del material interior, mantener el box_shape_id
-        return [SlotSet("box_inner_color_id", None)]
+        return []
+    
+# =========================
+# RESET SLOTS DE EMPAQUETADO
+# =========================
+class ActionResetBoxSlots(Action):
+    def name(self) -> Text:
+        return "action_reset_box_slots"
+
+    async def run(self, dispatcher, tracker, domain):
+        print("[DEBUG] Reseteando slots de empaquetado")
+        return [
+            SlotSet("box_shape_id", None),
+            SlotSet("box_outer_color_id", None),
+            SlotSet("box_inner_color_id", None)
+        ]
     
 
 
@@ -2456,7 +2456,7 @@ class ActionAskNextEditOption(Action):
 
             base_structure = ring_data.get("baseStructure", {})
             
-            # ✅ Obtener el perfil actual - PRIMERO del slot, luego de metadata
+            # Obtener el perfil actual - PRIMERO del slot, luego de metadata
             current_profile_id = tracker.get_slot('profile_id')
             
             if not current_profile_id:
@@ -2485,7 +2485,7 @@ class ActionAskNextEditOption(Action):
                 )
                 return []
 
-            # ✅ Obtener la variante actual - PRIMERO del slot, luego de metadata
+            # Obtener la variante actual - PRIMERO del slot, luego de metadata
             current_variant_id = tracker.get_slot('variante_id')
             
             if not current_variant_id:
@@ -2551,10 +2551,10 @@ class ActionAskNextEditOption(Action):
                     "payload": '/StartFlow(modificar_engaste_del_anillo)'
                 })
 
-                buttons.append({
-                    "title": "Cambiar número de garras",
-                    "payload": '/StartFlow(modificar_numero_de_garras_del_engaste_del_anillo)'
-                })
+                # buttons.append({
+                #     "title": "Cambiar número de garras",
+                #     "payload": '/StartFlow(modificar_numero_de_garras_del_engaste_del_anillo)'
+                # })
 
                 buttons.append({
                     "title": "Cambiar tipo de garras",
@@ -2569,7 +2569,7 @@ class ActionAskNextEditOption(Action):
             
             buttons.append({
                 "title": "No, gracias",
-                "payload": '/SetSlots(change_option="finalizar")'
+                "payload": '/inform{"change_option":"finalizar"}'
             })
 
             dispatcher.utter_message(
@@ -2719,10 +2719,7 @@ class ActionAskEditOption(Action):
                     "title": "Material",
                     "payload": "Quiero modificar el material de mi anillo."
                 },
-                {
-                    "title": "Caja",
-                    "payload": "Quiero modificar el empaquetado de mi anillo."
-                }
+
             ]
 
             # Añadir opciones relacionadas con gemas solo si la variante las permite
@@ -2746,6 +2743,16 @@ class ActionAskEditOption(Action):
                     }
                 ]
                 buttons.extend(gem_buttons)
+
+            buttons.append({
+                "title": "Cambiar empaquetado",
+                "payload": '/StartFlow(modificar_empaquetado_del_anillo)'
+            })
+            
+            buttons.append({
+                "title": "Nada, gracias",
+                "payload": '/inform{"change_option":"finalizar"}'
+            })
 
             dispatcher.utter_message(
                 text="¿Qué parte de su anillo desea modificar? Puede seleccionar uno de los botones o escribirlo manualmente.",

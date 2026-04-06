@@ -324,12 +324,11 @@ actions:
   - action_ask_tipo_garras_id                
   - action_change_garras_type_engaste
 
+  - action_reset_box_slots
   - action_ask_box_shape_id
   - action_change_box_shape
-
   - action_ask_box_outer_color_id
   - action_change_box_outer_color
-
   - action_ask_box_inner_color_id
   - action_change_box_inner_color
 
@@ -2001,3 +2000,6 @@ responses:
 
   utter_no_claw_types_available:
     - text: "No hay tipos de garras disponibles para esta configuración del anillo."
+
+  utter_no_mas_cambios:
+    - text: "Perfecto, si puedo hacer algo más por usted estaré encantada de ayudarle."
