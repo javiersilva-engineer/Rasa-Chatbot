@@ -2010,22 +2010,45 @@ flows:
 
   modificar_gema_del_anillo:
     description: |
-      El usuario desea modificar la gema de su anillo
+      El usuario desea modificar la gema de su anillo, hace consultas como
+      "Quiero modificar la gema de mi anillo", "Quiero cambiar la gema",
+      "Quiero poner otra gema en mi anillo"
     name: Editar gema de anillo en editor 3D
+    persisted_slots: []
     steps:
-      - set_slots:
-          - gem_position: null
-      - action: action_ask_gem_position
-      - collect: gem_position
+      - action: action_reset_gema_slots
+      
+      - action: action_verify_gems_available
+        next:
+          - if: not slots.has_gems
+            then:
+              - action: utter_no_gems_available
+                next: END
+          - if: slots.gem_count == 3
+            then: collect_position
+          - else: ask_gema
+      
+      - id: collect_position
+        collect: gem_position
         description: |
           La posición de la gema que el usuario desea modificar.
-          Valores posibles: "0" (gema izquierda), "1" (gema central), "2" (gema derecha)
-      - set_slots:
-          - gema_id: null
-      - action: action_ask_gema_id
+          El usuario debe seleccionar una de estas opciones exactas:
+          - "0" para la gema izquierda
+          - "1" para la gema central
+          - "2" para la gema derecha
+          Cualquier respuesta que contenga "0", "1", o "2" es válida para llenar este slot.
+        next: ask_gema
+      
+      - id: ask_gema
+        action: action_ask_gema_id
+      
       - collect: gema_id
-        description: El ID de la gema que el usuario desea aplicar
+        description: |
+          El ID de la gema que el usuario desea aplicar. El usuario puede mencionar el nombre
+          de la gema como "Diamante", "Rubí", "Esmeralda", "Zafiro", etc.
+      
       - action: action_change_gema
+      
       - action: action_ask_next_edit_option
 
   modificar_forma_de_la_gema_del_anillo:

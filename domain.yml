@@ -170,11 +170,13 @@ slots:
     type: text
     mappings:
       - type: from_llm
+    influence_conversation: false
   
   gem_position:
     type: text
     mappings:
       - type: from_llm
+    influence_conversation: false
   
   has_multiple_gems:
     type: bool
@@ -295,13 +297,12 @@ actions:
   - action_ask_pureza_id
   - action_change_pureza_material
 
-  - action_ask_gem_position
+  # - action_ask_gem_position
+  - action_reset_gema_slots
   - action_ask_gema_id
   - action_change_gema
 
   - action_verify_gems_available
-  # - action_check_gem_count
-  # - action_ask_gem_position_for_cut
   - action_ask_forma_gema_id
   - action_change_forma_gema
 
@@ -1947,6 +1948,18 @@ responses:
 
   utter_ask_gem_position_for_cut:
     - text: "¿A qué gema deseas cambiarle la forma?"
+      buttons:
+        - title: "Gema izquierda"
+          payload: "Quiero cambiar la gema izquierda, posición 0"
+        - title: "Gema central"
+          payload: "Quiero cambiar la gema central, posición 1"
+        - title: "Gema derecha"
+          payload: "Quiero cambiar la gema derecha, posición 2"
+      metadata:
+        rephrase: false
+
+  utter_ask_gem_position:
+    - text: "¿Qué gema deseas modificar?"
       buttons:
         - title: "Gema izquierda"
           payload: "Quiero cambiar la gema izquierda, posición 0"
