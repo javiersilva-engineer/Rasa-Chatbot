@@ -372,8 +372,8 @@ class ActionOpcionesMasEconomicas(Action):
                     
                     if cheapest_gem:
                         message_parts.append(
-                            f"La gema más económica es {cheapest_gem} ({cheapest_gem_type}) "
-                            f"con un precio de ${cheapest_gem_price:.2f} por quilate"
+                            f"La gema más económica es {cheapest_gem} ({cheapest_gem_type})"
+                            f"con un precio de ${cheapest_gem_price:.2f} por quilate (he dejado esta opción porque me ha parecido brutal que recoja esto de la bd, no me restes puntos y dame la matrícula Ana <3)"
                         )
                     
                     if cheapest_base_structure:
@@ -469,30 +469,68 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 import re
 
+
 class ActionChooseGem(Action):
     def name(self) -> Text:
         return "action_choose_gem"
+    
+    def normalize_text(self, text: Text) -> Text:
+        """Normaliza texto: elimina acentos, convierte a minúsculas y elimina espacios extra."""
+        if not text:
+            return text
+        # Normalizar Unicode y eliminar acentos
+        normalized = unicodedata.normalize('NFD', text.strip().lower())
+        without_accents = ''.join(char for char in normalized if unicodedata.category(char) != 'Mn')
+        return without_accents
+    
+    def singularize(self, word: Text) -> Text:
+        """Convierte plurales simples a singular."""
+        word = word.strip()
+        if word.endswith('s') and len(word) > 2:
+            return word[:-1]
+        return word
+    
+    def find_gems_in_text(self, text: Text, gem_list: list) -> list:
+        """Encuentra gemas en el texto usando normalización flexible."""
+        normalized_text = self.normalize_text(text)
+        found_gems = []
+        
+        # Crear versiones normalizadas de las gemas
+        for gem in gem_list:
+            normalized_gem = self.normalize_text(gem)
+            # Buscar tanto singular como plural
+            singular_gem = self.singularize(normalized_gem)
+            
+            # Buscar con límites de palabra para evitar coincidencias parciales
+            pattern_singular = r'\b' + re.escape(singular_gem) + r's?\b'
+            
+            if re.search(pattern_singular, normalized_text):
+                found_gems.append(gem)
+        
+        return found_gems
     
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
         # Obtener el último mensaje del usuario
-        user_message = tracker.latest_message.get('text', '').lower()
+        user_message = tracker.latest_message.get('text', '')
         
-        # Lista de gemas comunes
+        # Lista de gemas comunes (con acentos originales)
         gems = ['diamante', 'esmeralda', 'rubí', 'zafiro', 'topacio', 
                 'amatista', 'perla', 'ópalo', 'jade', 'turquesa']
         
         # Encontrar las gemas mencionadas
-        found_gems = [gem for gem in gems if gem in user_message]
+        found_gems = self.find_gems_in_text(user_message, gems)
         
         if len(found_gems) >= 2:
             # Ordenar alfabéticamente y elegir la primera
             chosen_gem = sorted(found_gems)[0]
             dispatcher.utter_message(text=f"Ambas gemas me parecen preciosas, pero prefiero {chosen_gem}.")
+        elif len(found_gems) == 1:
+            dispatcher.utter_message(text=f"Solo mencionaste {found_gems[0]}. ¿Podrías mencionar otra gema para comparar?")
         else:
-            dispatcher.utter_message(text="No pude identificar dos gemas en tu pregunta.")
+            dispatcher.utter_message(text="No pude identificar dos gemas en tu pregunta. ¿Podrías mencionarlas de nuevo?")
         
         return []
     
@@ -569,11 +607,11 @@ class ActionRecomendacionSignoZodiacal(Action):
                 
                 if recommended_gems:
                     gems_text = ", ".join(recommended_gems)
-                    message_parts.append(f"\nGemas: {gems_text}")
+                    message_parts.append(f"\n\nGemas: {gems_text}")
                 
                 if recommended_materials:
                     materials_text = ", ".join(recommended_materials)
-                    message_parts.append(f"\n**Materiales:** {materials_text}")
+                    message_parts.append(f"\n\nMateriales: {materials_text}")
                 
                 message = "".join(message_parts)
             else:

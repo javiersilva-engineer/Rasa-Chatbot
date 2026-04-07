@@ -1078,14 +1078,16 @@ responses:
         rephrase: false
 
   utter_versiones_artificiales:
-    - text: "Algunas gemas tienen versiones artificiales o sintéticas, pero otras, por su rareza o estructura, solo se encuentran de forma natural. Por ejemplo, diamantes y zafiros tienen versiones sintéticas, pero gemas como el alexandrita natural son muy difíciles de reproducir artificialmente."
+    - text: "Algunas gemas tienen versiones artificiales o sintéticas, pero otras, por su rareza o estructura, solo se encuentran de forma natural. Por ejemplo, diamantes y zafiros tienen versiones sintéticas, pero gemas como la alejandrita natural son muy difíciles de reproducir artificialmente."
       metadata:
         rephrase: false
 
   utter_tipos_piedras:
     - text: |
         Piedra preciosa: rara, valiosa y duradera (ej. diamante, rubí, zafiro).
+        
         Piedra semipreciosa: menos rara y más económica (ej. amatista, citrino).
+        
         Gema de nacimiento: piedra asociada a un mes concreto, puede ser preciosa o semipreciosa."
       metadata:
         rephrase: false
@@ -1309,11 +1311,11 @@ responses:
   #     metadata:
   #       rephrase: false
 
-  # utter_macizo:
-  #   - text: |
-  #       Todos los materiales que usamos para fabricar los anillos que vendemos son macizos.
-  #     metadata:
-  #       rephrase: false
+  utter_macizo:
+    - text: |
+        Todos los materiales que usamos para fabricar los anillos que vendemos son macizos.
+      metadata:
+        rephrase: false
 
   utter_desgaste:
     - text: |
@@ -1412,7 +1414,7 @@ responses:
 
   utter_pedido_asegurado:
     - text: |
-        Todas las consultas relacionadas con el envío de su pedido deberá comunicarlas a través del correo louv.spain@gmail.com..
+        Todas las consultas relacionadas con el envío de su pedido deberá comunicarlas a través del correo louv.spain@gmail.com.
       metadata:
         rephrase: false
 
@@ -1450,9 +1452,12 @@ responses:
   utter_anillo_sortija_alianza:
     - text: |
         Esta es la definición de un anillo, una sortija y una alianza:
-        - Anillo: término general para cualquier joya circular que se lleva en el dedo.
-        - Sortija: tipo de anillo más elaborado o decorativo, normalmente con una o varias gemas.
-        - Alianza: anillo sencillo y liso, tradicionalmente usado como símbolo de compromiso o matrimonio.
+        
+        Anillo: término general para cualquier joya circular que se lleva en el dedo.
+        
+        Sortija: tipo de anillo más elaborado o decorativo, normalmente con una o varias gemas.
+        
+        Alianza: anillo sencillo y liso, tradicionalmente usado como símbolo de compromiso o matrimonio.
       metadata:
         rephrase: false
 
@@ -1516,9 +1521,12 @@ responses:
   utter_piedra_central_lateral_decorativa:
     - text: |
         Aquí le explico lo que es una piedra central, una piedra lateral y una piedra decorativa:
-        - Piedra central: la gema principal del anillo, foco de atención.
-        - Piedras laterales o complementarias: gemas más pequeñas que acompañan y realzan la piedra central.
-        - Piedras decorativas o de acento: pequeñas piedras adicionales que aportan brillo o detalle, sin ser protagonistas.
+        
+        Piedra central: la gema principal del anillo, foco de atención.
+        
+        Piedras laterales o complementarias: gemas más pequeñas que acompañan y realzan la piedra central.
+        
+        Piedras decorativas o de acento: pequeñas piedras adicionales que aportan brillo o detalle, sin ser protagonistas.
       metadata:
         rephrase: false
 
@@ -1531,10 +1539,14 @@ responses:
   utter_perfil:
     - text: |
         El perfil es la forma que tiene el aro del anillo visto de lado. Los tipos más comunes son:
-        - Redondo: aro completamente curvado, cómodo y clásico.
-        - Plano: aro con superficie plana, moderno y elegante.
-        - Cuadrado o biselado: bordes angulares, estilizado y contemporáneo.
-        - Doble o combinado: mezcla de formas para diseño especial.
+        
+        Redondo: aro completamente curvado, cómodo y clásico.
+        
+        Plano: aro con superficie plana, moderno y elegante.
+        
+        Cuadrado o biselado: bordes angulares, estilizado y contemporáneo.
+        
+        Doble o combinado: mezcla de formas para diseño especial.
       metadata:
         rephrase: false
 
@@ -1571,9 +1583,12 @@ responses:
   utter_faceta:
     - text: |
         Una faceta es cada una de las superficies planas pulidas de una gema que reflejan la luz. Se clasifican en:
-        - Facetas de corona: en la parte superior de la gema.
-        - Facetas de pabellón: en la parte inferior de la gema.
-        - Facetas de cintura o filetín: alrededor del borde que separa corona y pabellón.
+        
+        Facetas de corona: en la parte superior de la gema.
+        
+        Facetas de pabellón: en la parte inferior de la gema.
+        
+        Facetas de cintura o filetín: alrededor del borde que separa corona y pabellón.
       metadata:
         rephrase: false
 
@@ -1593,8 +1608,10 @@ responses:
   utter_diametro:
     - text: |
         El diámetro es la medida de un extremo al otro de la gema o anillo, pasando por el centro.
-        - En gemas: se mide de un borde al opuesto, generalmente en milímetros.      
-        - En anillos: se mide el diámetro interior del aro para determinar la talla.
+        
+        En gemas: se mide de un borde al opuesto, generalmente en milímetros.      
+        
+        En anillos: se mide el diámetro interior del aro para determinar la talla.
       metadata:
         rephrase: false
 
@@ -1639,11 +1656,11 @@ responses:
       metadata:
         rephrase: false
 
-  # utter_anillo_diario:
-  #   - text: |
-  #       Llevar el anillo de compromiso todos los días es común para simbolizar el compromiso. Eso sí, conviene retirarlo al hacer tareas que puedan dañarlo para mantenerlo en perfecto estado.
-  #     metadata:
-  #       rephrase: false
+  utter_anillo_diario:
+    - text: |
+        Llevar el anillo de compromiso todos los días es común para simbolizar el compromiso. Eso sí, conviene retirarlo al hacer tareas que puedan dañarlo para mantenerlo en perfecto estado.
+      metadata:
+        rephrase: false
 
   # utter_rechazo_matrimonio:
   #   - text: |

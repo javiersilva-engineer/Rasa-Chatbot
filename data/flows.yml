@@ -978,7 +978,7 @@ flows:
   piedra_preciosa_semipreciosa_de_nacimiento:
     description: |
       El usuario quiere saber la diferencia entre una piedra preciosa, un a piedra semiprciosa y una piedra de nacimiento
-      hace preguntas como "Qué diferencia hay entre una piedra preciosa, una semipreciosa y una de nacimiento?",
+      hace preguntas como "¿Qué diferencia hay entre una piedra preciosa, una semipreciosa y una de nacimiento?",
       "¿Qué es una piedra de nacimiento?", "¿Una gema preciosa no es lo mismo que una semipreciosa?",
       "Qué tipo de piedras existen?"
     steps:
@@ -1224,12 +1224,12 @@ flows:
   #   steps:
   #     - action: utter_precio_platino
 
-  # materiales_macizos:
-  #   description: |
-  #     El usuario quiere saber si los materiales que se usan para fabricar los anillos son macizos, hace preguntas como
-  #     "¿Las piezas son de material macizo?", "¿El X que se utiliza es macizo?", "Si compro un anillo de X ¿es macizo?"
-  #   steps:
-  #     - action: utter_macizo
+  materiales_macizos:
+    description: |
+      El usuario quiere saber si los materiales que se usan para fabricar los anillos son macizos, hace preguntas como
+      "¿Las piezas son de material macizo?", "¿El X que se utiliza es macizo?", "Si compro un anillo de X ¿es macizo?"
+    steps:
+      - action: utter_macizo
 
   desgaste_material:
     description: |
@@ -1380,7 +1380,7 @@ flows:
     description: |
       El usuario quiere saber qué es un anillo, una sortija, una alianza o quiere saber la diferencia que existe entre cada uno,
       hace consultas como "¿Qué es una sortija?", "¿Qué es un anillo?", "¿Qué es una alianza?",
-      "¿Qué diferencia hay entre un anillo, una alianza y una sortija?"
+      "¿Qué diferencia hay entre un anillo, una alianza y una sortija?", "¿Qué es un anillo?"
     steps:
       - action: utter_anillo_sortija_alianza
 
@@ -1415,7 +1415,8 @@ flows:
 
   diferencia_entre_engarce_y_engaste:
     description: |
-      El usuario quiere saber qué diferencia hay entre un engarde y un engaste, hace preguntas como
+      El usuario quiere saber qué es un engarce o qué es un engaste, o quiere saber la 
+      diferencia hay entre un engarde y un engaste, hace preguntas como
       "¿Qué diferencia hay entre un engarce y un engaste?", "¿Qué es un engarce?", "¿Qué es un engaste?"
     steps:
       - action: utter_engarce_engaste
@@ -1578,6 +1579,14 @@ flows:
       "¿Qué puedo hacer para conservar mi anillo lo mejor posible?", "¿Cómo puedo cuidar mi anillo de compromiso?"
     steps:
       - action: utter_cuidar_anillo
+
+  llevar_anillo_siempre_puesto:
+    description: |
+      El usuario quiere saber si debe llevar puesto su anillo de compromiso siempre, hace consultas como
+      "¿Debería llevar el anillo puesto todos los días?", "¿Puedo quitarme el anillo de compromido?",
+      "¿Debo llevar mi anillo siempre?""
+    steps:
+      - action: utter_anillo_diario
 
 
 
