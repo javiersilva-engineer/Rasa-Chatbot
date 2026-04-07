@@ -109,7 +109,7 @@ flows:
   saludar:
     description: |
       El usuario saluda al asistente con expresiones como "hola", "buenos días", 
-      "buenas tardes", "qué tal"
+      "buenas tardes", "qué tal", "buenas", "saludos"
     steps:
       - action: utter_saludo
 
@@ -125,7 +125,9 @@ flows:
   preguntar_nombre:
     description: |
       El usuario pregunta por el nombre del asistente, como "¿Cómo te llamas?", 
-      "¿Cuál es tu nombre?", "¿Quién eres?"
+      "¿Cuál es tu nombre?", "¿Quién eres?".
+      NO PREGUNTA "¿Cuál es mi nombre?" NI "¿Cómo me llamo?" NI "¿Quién soy?" NI "¿Sabes cuál es mi nombre" NI NINGUNA VARIACIÓN DE PREGUNTAS
+      DONDE EL USUARIO PREGUNTE POR SU PROPIO NOMBRE.
     steps:
       - action: utter_nombre
 
@@ -2292,3 +2294,20 @@ flows:
     steps:
       - action: utter_no_mas_cambios
         next: END
+
+
+
+
+
+
+
+
+
+
+  change_language:
+    name: "Cambiar idioma"
+    description: "Inicia este flow cuando el usuario solicite explícitamente cambiar el idioma de la conversación, por ejemplo diciendo 'quiero que me hables en inglés' o 'cambia a inglés' o 'habla en inglés'"
+    steps:
+      - collect: requested_language
+      - action: action_change_language
+      - action: utter_language_changed

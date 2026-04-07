@@ -46,6 +46,7 @@ action_endpoint:
 # incluso cuando tenían rephrase: false en metadata
 nlg:
   type: rephrase
+  rephrase_all: true
   llm:
     model_group: groq_llama
   summarize_history: False

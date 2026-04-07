@@ -1,5 +1,7 @@
 recipe: default.v1
 language: es
+additional_languages:
+  - en
 assistant_id: similar-flow
 pipeline:
   - name: SearchReadyLLMCommandGenerator

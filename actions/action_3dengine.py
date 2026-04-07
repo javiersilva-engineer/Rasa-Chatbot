@@ -2584,15 +2584,15 @@ class ActionAskEditOption(Action):
             # Crear botones base (siempre disponibles)
             buttons = [
                 {
-                    "title": "Perfil",
+                    "title": "Cambiar perfil",
                     "payload": "Quiero modificar el perfil de mi anillo."
                 },
                 {
-                    "title": "Variante",
+                    "title": "Cambiar variante",
                     "payload": "Quiero modificar la variante de mi anillo."
                 },
                 {
-                    "title": "Material",
+                    "title": "Cambiar material",
                     "payload": "Quiero modificar el material de mi anillo."
                 },
 
@@ -2602,19 +2602,19 @@ class ActionAskEditOption(Action):
             if has_gems:
                 gem_buttons = [
                     {
-                        "title": "Gema",
+                        "title": "Cambiar gema",
                         "payload": "Quiero modificar la gema de mi anillo."
                     },
                     {
-                        "title": "Forma de la gema",
+                        "title": "Cambiar forma de la gema",
                         "payload": "Quiero modificar la forma de la gema de mi anillo."
                     },
                     {
-                        "title": "Engaste",
+                        "title": "Cambiar engaste",
                         "payload": "Quiero modificar el engaste de mi anillo."
                     },
                     {
-                        "title": "Garras del engaste",
+                        "title": "Cambiar garras del engaste",
                         "payload": "Quiero modificar las garras del engaste de mi anillo."
                     }
                 ]
