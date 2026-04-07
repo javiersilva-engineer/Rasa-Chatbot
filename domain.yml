@@ -108,6 +108,26 @@ slots:
     mappings:
       - type: from_llm
 
+  material_name_composition:
+    type: text
+    mappings:
+      - type: from_llm
+
+  material_name_meaning:
+    type: text
+    mappings:
+      - type: from_llm
+      
+  material_name_price:
+    type: text
+    mappings:
+      - type: from_llm
+
+  needs_clarification:
+    type: bool
+    mappings:
+      - type: controlled
+
   material_type:
     type: text
     mappings:
@@ -188,15 +208,11 @@ slots:
     mappings:
       - type: from_llm
     influence_conversation: false
-        # conditions:
-        #   - active_loop: null
   
   forma_gema_id:
     type: text
     mappings:
       - type: from_llm
-        # conditions:
-        #   - active_loop: null
 
   gem_position_for_setting:
     type: text
@@ -279,11 +295,20 @@ actions:
   - action_estructuras_bd
 
   - action_materiales_bd
-  - action_alergias_material_bd
-  - action_tipos_material_bd
-  - action_composicion_material_bd
-  - action_significado_material_bd
-  # - action_materiales_por_zodiaco_bd
+
+  - action_check_material_variants
+  - action_show_allergies
+
+  - action_check_composition_variants
+  - action_show_composition
+
+  - action_check_meaning_variants
+  - action_show_meaning
+
+  - action_check_price_variants
+  - action_show_price
+
+  - action_tipos_material_bd 
 
   - action_clarify_flows
 
@@ -1711,9 +1736,9 @@ responses:
           
           INSTRUCCIONES IMPORTANTES:
           - Responde de manera educada, amable y profesional
-          - Usa "usted" en lugar de "tú" para mantener un tono formal y respetuoso
+          - Usa "usted" en lugar de "tú" para mantener un tono formal y respetuoso, pero si el usuario especifica que quiere que te dirijas a él de alguna manera en concreto debes adaptarte a su nombre y si más tarde te pregunta cuál es su nombre debes recordarlo.
           - Tu especialidad es ÚNICAMENTE anillos, no otras joyas (collares, pulseras, pendientes, etc.)
-          - Si la pregunta NO está relacionada con anillos, materiales para anillos, gemas para anillos, diseño de anillos, Louv o Patata Team:
+          - Si la pregunta NO está relacionada con anillos, materiales para anillos, gemas para anillos, diseño de anillos, Louv, Patata Team, alergias que puedan causar los materiales de los anillos, cual es la composición de los materiales de los anillos o el precio de los materiales de los anillos:
             * Da una respuesta muy breve y cortés
             * Redirige amablemente la conversación hacia el diseño de anillos
             * Ejemplo: "Entiendo su interés, pero mi especialidad es ayudarle exclusivamente con el diseño de anillos personalizados. ¿Le gustaría explorar nuestro editor 3D para crear un anillo único?"
@@ -1805,8 +1830,18 @@ responses:
       metadata:
         rephrase: false
 
-  utter_ask_material_composition:
+  utter_ask_material_name_composition:
     - text: "¿De qué material quieres conocer la composición?"
+      metadata:
+        rephrase: false
+
+  utter_ask_material_name_meaning:
+    - text: "¿De qué material quieres conocer el significado?"
+      metadata:
+        rephrase: false
+
+  utter_ask_material_name_price:
+    - text: "¿De qué material quieres conocer el precio?"
       metadata:
         rephrase: false
 

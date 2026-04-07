@@ -1847,12 +1847,23 @@ flows:
     description: |
       El usuario quiere saber si un material específico causa alergias o contiene alérgenos,
       hace preguntas como "¿El oro da alergia?", "¿La plata causa alergias?",
-      "¿Qué alérgenos tiene el platino?", "¿Soy alérgico al acero?".
+      "¿Qué alérgenos tiene el platino?", "¿Soy alérgico al acero?", "¿El oro blanco causa alergias?",
+      "¿Qué alergias causa el oro amarillo?", "¿El oro rosa da alergia?"
     name: Alergias de materiales
     steps:
       - collect: material_name
         description: "El nombre del material del que el usuario quiere saber si causa alergias"
-      - action: action_alergias_material_bd
+      - action: action_check_material_variants
+        next:
+          - if: slots.needs_clarification
+            then:
+              - collect: material_name
+                description: "Tipo específico de material seleccionado por el usuario"
+                ask_before_filling: true
+                next: show_allergies
+          - else: show_allergies
+      - action: action_show_allergies
+        id: show_allergies
 
   tipos_de_material:
     description: |
@@ -1870,12 +1881,22 @@ flows:
       El usuario quiere saber la composición o de qué está hecho un material específico,
       hace preguntas como "¿De qué está hecho el oro 18K?", "¿Cuál es la composición de la plata 925?",
       "¿Qué contiene el platino?", "¿Qué lleva el oro blanco?", "De qué está compuesto el platino?"
-      "¿Con qué se mezcla el oro amarillo?".
+      "¿Con qué se mezcla el oro amarillo?", "¿De qué está compuesto el oro?".
     name: Composición de material
     steps:
-      - collect: material_name
+      - collect: material_name_composition
         description: "El nombre específico del material del que el usuario quiere conocer la composición"
-      - action: action_composicion_material_bd
+      - action: action_check_composition_variants
+        next:
+          - if: slots.needs_clarification
+            then:
+              - collect: material_name_composition
+                description: "Tipo específico de material seleccionado por el usuario"
+                ask_before_filling: true
+                next: show_composition
+          - else: show_composition
+      - action: action_show_composition
+        id: show_composition
 
   significado_material:
     description: |
@@ -1884,20 +1905,40 @@ flows:
       "¿Cuál es el significado del platino?", "¿Qué representa el oro blanco?".
     name: Significado de material
     steps:
-      - collect: material_name
+      - collect: material_name_meaning
         description: "El nombre del material del que el usuario quiere conocer el significado o simbolismo"
-      - action: action_significado_material_bd
+      - action: action_check_meaning_variants
+        next:
+          - if: slots.needs_clarification
+            then:
+              - collect: material_name_meaning
+                description: "Tipo específico de material seleccionado por el usuario"
+                ask_before_filling: true
+                next: show_meaning
+          - else: show_meaning
+      - action: action_show_meaning
+        id: show_meaning
 
-  # materiales_por_zodiaco:
-  #   description: |
-  #     El usuario quiere saber qué materiales son recomendados para un signo zodiacal específico,
-  #     hace preguntas como "¿Qué material me recomiendas para Tauro?", "¿Qué metal es bueno para Leo?",
-  #     "¿Cuál es el mejor material para Escorpio?", "Materiales para Aries".
-  #   name: Materiales por signo zodiacal
-  #   steps:
-  #     - collect: zodiac_sign
-  #       description: "El signo zodiacal para el cual el usuario quiere conocer los materiales recomendados"
-  #     - action: action_materiales_por_zodiaco_bd
+  precio_material:
+    description: |
+      El usuario quiere saber el precio de un material específico, hace preguntas como "¿Cuánto cuesta el oro?", "¿Cuál es el precio del platino?",
+      "¿Cuánto vale el platino?", "¿Qué precio tiene el platino?", "¿Cuánto vale el gramo de oro rosa?", "¿Cuál es el precio del oro?", 
+      "¿Cuánto cuesta un gramo de oro?".
+    name: Precio de material
+    steps:
+      - collect: material_name_price
+        description: "El nombre del material del que el usuario quiere conocer el precio"
+      - action: action_check_price_variants
+        next:
+          - if: slots.needs_clarification
+            then:
+              - collect: material_name_price
+                description: "Tipo específico de material seleccionado por el usuario"
+                ask_before_filling: true
+                next: show_price
+          - else: show_price
+      - action: action_show_price
+        id: show_price
 
   # FLOWS INTERACCIÓN CON MOTOR 3D ---------------------------------------------------------------------------
 
