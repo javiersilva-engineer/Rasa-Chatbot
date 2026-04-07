@@ -442,11 +442,6 @@ responses:
       metadata:
         rephrase: false
 
-  # utter_segunda_gema_favorita:
-  #   - text: "Me encanta la amatista, por su color vibrante y sus propiedades calmantes."
-  #     metadata:
-  #       rephrase: false
-
   utter_metal_precioso_favorito:
     - text: "Mi metal precioso favorito es el platino, por su durabilidad y brillo elegante."
       metadata:
@@ -489,78 +484,48 @@ responses:
 
 # UTTER CHATBOT LUNA COSAS QUE ODIA ---------------------------------------------------------------
 
-  # utter_gema_odiosa:
-  #   - text: "No tengo una gema que odie, creo que cada gema tiene su propia belleza y significado."
-  #     metadata:
-  #       rephrase: false
+  utter_gema_odiosa:
+    - text: "No tengo una gema que odie, creo que cada gema tiene su propia belleza y significado."
+      metadata:
+        rephrase: false
 
-  # utter_materiales_odiosos:
-  #   - text: "No tengo materiales que odie, creo que cada material es único y puede encajar perfectamente."
-  #     metadata:
-  #       rephrase: false
+  utter_materiales_odiosos:
+    - text: "No tengo materiales que odie, creo que cada material es único y puede encajar perfectamente."
+      metadata:
+        rephrase: false
 
-  # utter_color_odioso:
-  #   - text: "No tengo colores que odie, aunque prefiero los colores calmados y serenos, como el azul y el verde."
-  #     metadata:
-  #       rephrase: false
+  utter_color_odioso:
+    - text: "No tengo colores que odie, aunque prefiero los colores calmados y serenos, como el azul y el verde."
+      metadata:
+        rephrase: false
 
-  # utter_corte_odioso:
-  #   - text: "No tengo cortes de gema que odie, creo que cada corte tiene su propia belleza y propósito en la joyería."
-  #     metadata:
-  #       rephrase: false
+  utter_corte_odioso:
+    - text: "No tengo cortes de gema que odie, creo que cada corte tiene su propia belleza y propósito en la joyería."
+      metadata:
+        rephrase: false
 
-  # utter_tallado_odioso:
-  #   - text: "No hay tallados que no me gusten, creo que cada tallado tiene su propia belleza y propósito en la joyería."
-  #     metadata:
-  #       rephrase: false
+  utter_tallado_odioso:
+    - text: "No hay tallados que no me gusten, creo que cada tallado tiene su propia belleza y propósito en la joyería."
+      metadata:
+        rephrase: false
 
-  # utter_forma_gema_odiosa:
-  #   - text: "No tengo formas de gema que odie, cada forma aporta a la gema la belleza y elegancia que necesita."
-  #     metadata:
-  #       rephrase: false
+  utter_forma_gema_odiosa:
+    - text: "No tengo formas de gema que odie, cada forma aporta a la gema la belleza y elegancia que necesita."
+      metadata:
+        rephrase: false
 
-  # utter_engaste_gema_odioso:
-  #   - text: "No tengo engastes que odie, hay engastes que destacan por su sencillez y engastes que maravillan por la complejidad de su composición."
-  #     metadata:
-  #       rephrase: false
+  utter_engaste_gema_odioso:
+    - text: "No tengo engastes que odie, hay engastes que destacan por su sencillez y engastes que maravillan por la complejidad de su composición."
+      metadata:
+        rephrase: false
 
-  # utter_caja_mas_odiosa:
-  #   - text: "No tengo cajas que odie, todas las cajas que ofrece Louv son preciosas y pueden encajar perfectamente con cada situación y momento."
-  #     metadata:
-  #       rephrase: false
-
-
+  utter_caja_mas_odiosa:
+    - text: "No tengo cajas que odie, todas las cajas que ofrece Louv son preciosas y pueden encajar perfectamente con cada situación y momento."
+      metadata:
+        rephrase: false
 
 
 
-
-
-
-# UTTER ESTADOS DE ANIMO USUARIO ---------------------------------------------------------------
-  # utter_aburrido:
-  #   - text: "¡Vaya! Lamento que esté aburrido. ¿Qué le parece si intentamos crear un anillo juntos en Louv? ¡Podría ser divertido!"
-  #     metadata:
-  #       rephrase: false
-
-  # utter_feliz:
-  #   - text: "¡Me alegra mucho escuchar eso! Espero que siga teniendo un maravilloso día. ¿Hay algo en lo que pueda ayudarle para hacerlo aún mejor?"
-  #     metadata:
-  #       rephrase: false
-  
-  # utter_triste:
-  #   - text: "Siento mucho escuchar eso. A veces, crear algo hermoso puede levantar el ánimo. ¿Le gustaría probar a diseñar un anillo en Louv conmigo?"
-  #     metadata:
-  #       rephrase: false
-
-  # utter_enfadado:
-  #   - text: "Lamento que se sienta así. A veces, canalizar esa energía en algo creativo puede ayudar. ¿Qué le parece si diseñamos un anillo juntos en Louv para distraernos un poco?"
-  #     metadata:
-  #       rephrase: false
-
-  # utter_corazon_roto:
-  #   - text: "Lamento mucho que se sienta así. A veces, crear algo hermoso puede ayudar a sanar. ¿Le gustaría probar a diseñar un anillo en Louv conmigo?"
-  #     metadata:
-  #       rephrase: false
 
 
 
@@ -568,23 +533,8 @@ responses:
 
 # UTTER ATAQUES O HALAGOS A LUNA ---------------------------------------------------------------
 
-  # utter_halago:
-  #   - text: "¡Muchas gracias por sus amables palabras! Me alegra poder ayudarle. ¿Hay algo más en lo que pueda asistirle hoy?"
-  #     metadata:
-  #       rephrase: false
-
-  # utter_ataque:
-  #   - text: "Lamento que se sienta así. Estoy aquí para ayudarle en lo que necesite. ¿Hay algo específico en lo que pueda asistirle?"
-  #     metadata:
-  #       rephrase: false
-
-  utter_diamantes_de_sangre:
-    - text: "Los diamantes de sangre son un tema serio. Estos diamantes se extraen en zonas de conflicto y su comercio financia guerras y violaciones de derechos humanos. En Louv no comerciamos con diamantes de sangre."
-      metadata:
-        rephrase: false
-
-  # utter_propuesta_matrimonio:
-  #   - text: "¡Me siento muy halagada! Pero lamento decirle que no puedo casarme con usted, tan solo soy un asistente virtual."
+  # utter_diamantes_de_sangre:
+  #   - text: "Los diamantes de sangre son un tema serio. Estos diamantes se extraen en zonas de conflicto y su comercio financia guerras y violaciones de derechos humanos. En Louv no comerciamos con diamantes de sangre."
   #     metadata:
   #       rephrase: false
 
@@ -613,7 +563,8 @@ responses:
     - text: |
         Laura Saval es una de las integrantes de Patata Team y le encantan las patatas en todas sus formas, desde las clásicas patatas fritas hasta el puré de patatas."
         Si desea contactar con Laura Saval, puede hacerlo a través de su perfil de Linkedin:
-        - Linkedin: https://www.linkedin.com/in/laura-saval-cillero-2a9260354
+        
+        Linkedin: https://www.linkedin.com/in/laura-saval-cillero-2a9260354
       metadata:
         rephrase: false
 
@@ -626,7 +577,8 @@ responses:
     - text: |
         Javier Silva es uno de los integrantes de Patata Team y es un apasionado de la calistenia, le es imposible estar más de dos días sin entrenar.
         Si desea contactar con Javier Silva, puede hacerlo a través de su perfil de Linkedin:
-        - Linkedin: https://www.linkedin.com/in/javier-silva-aa411b375
+        
+        Linkedin: https://www.linkedin.com/in/javier-silva-aa411b375
       metadata:
         rephrase: false
 
@@ -636,11 +588,15 @@ responses:
 
 # UTTER PATATA TEAM ---------------------------------------------------------------
   utter_equipo_patata_team:
-    - text: "Patata Team es un equipo de estudiantes del grado de ingerniería multimedia de la Universidad de Alicante, en España. El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva.
+    - text: |
+            Patata Team es un equipo de estudiantes del grado de ingerniería multimedia de la Universidad de Alicante, en España. El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva.
             Si desea saber más sobre el equipo, le recomiendo visitar la página corporativa: https://louv.ovh/patatateam o cualquiera de sus redes sociales:
-            - Instagram: https://www.instagram.com/louv_spain/
-            - Facebook: https://www.facebook.com/profile.php?id=61583506314797
-            - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc"
+            
+            Instagram: https://www.instagram.com/louv_spain/
+            
+            Facebook: https://www.facebook.com/profile.php?id=61583506314797
+            
+            Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
       metadata:
         rephrase: false
 
@@ -741,10 +697,10 @@ responses:
   #     metadata:
   #       rephrase: false
 
-  # utter_tiempo_desarrollo:
-  #   - text: "Louv comenzó a crearse en septiembre de 2025, el tiempo exacto de su desarrollo depende de cuándo me preguntes, pero se estima que su desarrollo termine en mayo de 2026."
-  #     metadata:
-  #       rephrase: false
+  utter_tiempo_desarrollo:
+    - text: "Louv comenzó a crearse en septiembre de 2025, el tiempo exacto de su desarrollo depende de cuándo me preguntes, pero se estima que su desarrollo termine en mayo de 2026."
+      metadata:
+        rephrase: false
 
   # utter_sugerir_cambio:
   #   - text: "Si deseas enviar tus sugerencias al equipo de desarrollo le recomiendo que se ponga en contacto con estos a través del correo louv.spain@gmail.com."
@@ -765,9 +721,12 @@ responses:
   utter_terminos_politica_cookies:
     - text: |
         Puede consultar nuestra Política de Privacidad de Datos desde el footer de la página web o desde los siguientes enlaces:
-        - Política de privacidad: (NO EXISTE EL ENLACE)
-        - Términos y condiciones: (NO EXISTE EL ENLACE)
-        - Cookies: (NO EXISTE EL ENLACE)
+        
+        Política de privacidad: https://louv.ovh/politica-de-privacidad
+        
+        Términos y condiciones: https://louv.ovh/terminos-y-condiciones
+        
+        Cookies: https://louv.ovh/politica-de-cookies
       metadata:
         rephrase: false
 
@@ -798,9 +757,12 @@ responses:
   utter_redes_sociales_louv:
     - text: |
         Para estar al tanto de todas las novedades, puede seguir a Louv en las siguientes redes sociales:
-        - Instagram: https://www.instagram.com/louv_spain/
-        - Facebook: https://www.facebook.com/profile.php?id=61583506314797
-        - Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
+        
+        Instagram: https://www.instagram.com/louv_spain/
+        
+        Facebook: https://www.facebook.com/profile.php?id=61583506314797
+        
+        Tiktok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
       metadata:
         rephrase: false
 
@@ -1162,19 +1124,6 @@ responses:
       metadata:
         rephrase: false
 
-  # utter_utilidad_buscador:
-  #   - text: |
-  #       Puede usar el buscador del editor para encontrar piezas para su diseño. El buscador le permite filtrar los componentes que puede utilizar en su diseño.
-  #     metadata:
-  #       rephrase: false
-
-  # utter_eliminar_busqueda:
-  #   - text: |
-  #       Para eliminar la busqueda que ha realizado y poder visualizar nuevamente todos los componentes del editor,
-  #       debe borrar la búsqueda realizada para que el buscador quede vacío nuevamente.
-  #     metadata:
-  #       rephrase: false
-
   utter_precio_oculto_compartir:
     - text: |
         No se preocupe, si comparte su diseño usando el modo "Precio oculto" no se mostrará el precio de su diseño. La persona a la
@@ -1198,18 +1147,10 @@ responses:
   utter_diseno_pantalla_completa:
     - text: |
         Para poder ver su diseño en pantalla completa tan solo debe clicar en el botón que muestra las esquinas de un cuadrado.
-        Es un botíon circular que se encuentra en la esquina superior derecha del editor, debajo del botón "Añadir a la cesta".
+        Es un botíon circular que se encuentra en la esquina inferior derecha del editor, a la izquierda del botón del chatbot.
       metadata:
         rephrase: false
   
-  # utter_necesitar_dni_usuario:
-  #   - text: |
-  #       Se le solicita su Documento Nacional de Identidad (DNI), pues a través de la plataforma se realizan compras de alto
-  #       nivel económico, por ello se necesita confirmar la identidad de los usuarios. 
-  #       Tan solo se le solicitará esta información en caso de realizar una compra.
-  #     metadata:
-  #       rephrase: false
-
   utter_consultar_mis_pedidos:
     - text: |
         Para poder consultar sus pedidos, priemero debe iniciar sesión, después debe ir a su cuenta clicando el botón de perfil 
@@ -1242,6 +1183,20 @@ responses:
     - text: |
         Para cambiar cualquier dato personal, debe ir a su cuenta clicando el botón de perfil que se encuentra en la parte superior derecha de la barra de navegación
         y pulsar en "Mis datos", ahí podrá modificar e incluir cualquier dato que desee.
+      metadata:
+        rephrase: false  
+
+  utter_compartir_diseno:
+    - text: |
+        Para compartir su diseño, primero debe guardarlo, después debe clicar en el botón de compartir (tras finalizar diseño) y desde ahí
+        podrá compartir su anillo mostrando o sin mostrar el precio de este, incluso puede generar un nuevo enlace para que el anterior deje de funcionar.
+      metadata:
+        rephrase: false 
+
+  utter_exportar_diseno:
+    - text: |
+        Para exportar su diseño, primero debe guardarlo, después debe clicar en el botón de exportar (tras finalizar diseño) y desde ahí
+        podrá exportar su anillo mostrando o sin mostrar el precio de este, lo cual generará un documento con todos los datos de su anillo.
       metadata:
         rephrase: false  
 
@@ -1280,18 +1235,16 @@ responses:
 
   utter_cambiar_talla_anillo:
     - text: |
-        Para cambiar la talla del anillo debe acceder al desplegable "Base del anillo" que se encuentra a la izquierda del editor
-        e introducir la talla deseada. Es importante mencionarle, que este cambio no realizará ningún cambió en la visualización del
-        diseño 3D. Además, dependiendo del modelo que seleccione quizá no será posible el cambio de talla.
+        Actualmente no es posible cambiar la talla del anillo.
       metadata:
         rephrase: false
 
-  # utter_devolver_anillo_talla:
-  #   - text: |
-  #       Lamento decirle que tan solo podrá devolver un producto en caso de que posea un defecto de fábrica. Al ser una pieza personalizada,
-  #       nuestra política de empresa no permite aceptar devoluciones por el motivo que me comenta.
-  #     metadata:
-  #       rephrase: false
+  utter_devolver_anillo_talla:
+    - text: |
+        Lamento decirle que tan solo podrá devolver un producto en caso de que posea un defecto de fábrica. Al ser una pieza personalizada,
+        nuestra política de empresa no permite aceptar devoluciones por el motivo que me comenta.
+      metadata:
+        rephrase: false
 
   utter_duda_entre_tallas:
     - text: |
@@ -1300,24 +1253,24 @@ responses:
       metadata:
         rephrase: false
 
-  # utter_talla_dedo_distinta:
-  #   - text: |
-  #       Cada dedo puede tener una talla distinta, en función de lo que mida la circunferencia del dedo, usará una talla u otra.
-  #     metadata:
-  #       rephrase: false
+  utter_talla_dedo_distinta:
+    - text: |
+        Cada dedo puede tener una talla distinta, en función de lo que mida la circunferencia del dedo, usará una talla u otra.
+      metadata:
+        rephrase: false
 
   utter_temperatura_talla:
     - text: |
         La temperatura puede afectar al grosor de tu dedo y puede cambiar la talla. Por eso es muy importante medirse el dedo al final del día, cuano se está tranquilo,
-        nunca en momentos de frío o calor, como al terminar de ahcer ejercicio.
+        nunca en momentos de frío o calor, como al terminar de hacer ejercicio.
       metadata:
         rephrase: false
 
-  # utter_modificar_talla_posteriori:
-  #   - text: |
-  #       No se puede hacer un cambio de talla. Una vez recibe su anillo no puede hacer modificaciones.
-  #     metadata:
-  #       rephrase: false
+  utter_modificar_talla_posteriori:
+    - text: |
+        No se puede hacer un cambio de talla. Una vez recibe su anillo no puede hacer modificaciones.
+      metadata:
+        rephrase: false
 
 
 
@@ -1715,6 +1668,12 @@ responses:
       metadata:
         rephrase: false
 
+  utter_opina:
+    - text: |
+        Es un anillo magnífico, tiene un don para el diseño de joyas.
+      metadata:
+        rephrase: false
+
 
 
 
@@ -1737,7 +1696,7 @@ responses:
           - Responde de manera educada, amable y profesional
           - Usa "usted" en lugar de "tú" para mantener un tono formal y respetuoso
           - Tu especialidad es ÚNICAMENTE anillos, no otras joyas (collares, pulseras, pendientes, etc.)
-          - Si la pregunta NO está relacionada con anillos, materiales para anillos, gemas para anillos, o diseño de anillos:
+          - Si la pregunta NO está relacionada con anillos, materiales para anillos, gemas para anillos, diseño de anillos, Louv o Patata Team:
             * Da una respuesta muy breve y cortés
             * Redirige amablemente la conversación hacia el diseño de anillos
             * Ejemplo: "Entiendo su interés, pero mi especialidad es ayudarle exclusivamente con el diseño de anillos personalizados. ¿Le gustaría explorar nuestro editor 3D para crear un anillo único?"

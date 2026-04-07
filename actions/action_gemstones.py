@@ -6,6 +6,7 @@ from rasa_sdk.events import SlotSet
 import aiohttp
 from dotenv import load_dotenv
 from urllib.parse import quote
+import unicodedata
 
 load_dotenv()
 
@@ -30,7 +31,11 @@ class ActionGemasDB(Action):
                     if response.status == 200:
                         response_data = await response.json()
                         gemstones_array = response_data.get("gemstones", [])
-                        gemstone_names = [gem["name"] for gem in gemstones_array if "name" in gem]
+                        # Filtra las gemas que tienen nombre y que no sean "None"
+                        gemstone_names = [
+                            gem["name"] for gem in gemstones_array 
+                            if "name" in gem and gem["name"] is not None and gem["name"] != "None"
+                        ]
                         
                         if gemstone_names:
                             gemstone_list = ", ".join(gemstone_names)
@@ -46,7 +51,7 @@ class ActionGemasDB(Action):
                     "payload": "/start_flow{\"flow_id\": \"que_materiales_teneis\"}"
                 },
                 {
-                    "title": "¿Qué formas tenéis?",
+                    "title": "¿Qué formas de anillo tenéis?",
                     "payload": "/start_flow{\"flow_id\": \"que_formas_teneis\"}"
                 },
                 {
@@ -102,7 +107,7 @@ class ActionGemaConcretaDB(Action):
                         gemstones_array = response_data.get("gemstones", [])
                         
                         if gemstones_array and len(gemstones_array) > 0:
-                            message = f"Sí, trabajamos con {gem_name}. ¿Te gustaría saber más sobre esta gema?"
+                            message = f"Sí, trabajamos con {gem_name}."
                         else:
                             message = f"Lo siento, no trabajamos con {gem_name} en nuestra tienda."
                     elif response.status == 404:
@@ -176,10 +181,27 @@ class ActionGemaMasResistenteBD(Action):
         
         return []
     
+import unicodedata
+
 class ActionGemaMasResistenteEntreDosDB(Action):
     
     def name(self) -> Text:
         return "action_gema_mas_resistente_entre_dos_bd"
+    
+    def normalize_gem_name(self, gem_name: Text) -> Text:
+        """Normaliza el nombre de la gema: elimina acentos y convierte a minúsculas."""
+        if not gem_name:
+            return gem_name
+        normalized = unicodedata.normalize('NFD', gem_name.strip().lower())
+        return ''.join(char for char in normalized if unicodedata.category(char) != 'Mn')
+    
+    def find_gem_by_normalized_name(self, gems_list: list, target_name: Text) -> dict:
+        """Busca una gema en la lista comparando nombres normalizados."""
+        normalized_target = self.normalize_gem_name(target_name)
+        for gem in gems_list:
+            if "name" in gem and self.normalize_gem_name(gem["name"]) == normalized_target:
+                return gem
+        return None
     
     async def run(
         self,
@@ -189,7 +211,6 @@ class ActionGemaMasResistenteEntreDosDB(Action):
     ) -> List[Dict[Text, Any]]:
         
         try:
-            # Obtener los nombres de las dos gemas desde los slots
             gem_name_1 = tracker.get_slot("gem_name")
             gem_name_2 = tracker.get_slot("gem_name_2")
             
@@ -200,41 +221,33 @@ class ActionGemaMasResistenteEntreDosDB(Action):
                 return []
             
             api_url = os.getenv("API_URL")
-            
-            # Consultar la primera gema
-            encoded_gem_name_1 = quote(gem_name_1)
-            endpoint_1 = f"{api_url}/api/gemstones?name={encoded_gem_name_1}"
-            
-            # Consultar la segunda gema
-            encoded_gem_name_2 = quote(gem_name_2)
-            endpoint_2 = f"{api_url}/api/gemstones?name={encoded_gem_name_2}"
+            # Consultar TODAS las gemas
+            endpoint = f"{api_url}/api/gemstones"
             
             async with aiohttp.ClientSession() as session:
-                # Hacer ambas peticiones
-                response_1 = await session.get(endpoint_1)
-                response_2 = await session.get(endpoint_2)
+                response = await session.get(endpoint)
                 
-                if response_1.status == 200 and response_2.status == 200:
-                    data_1 = await response_1.json()
-                    data_2 = await response_2.json()
+                if response.status == 200:
+                    data = await response.json()
+                    all_gems = data.get("gemstones", [])
                     
-                    gems_1 = data_1.get("gemstones", [])
-                    gems_2 = data_2.get("gemstones", [])
+                    # Buscar las gemas por nombre normalizado
+                    gem_1 = self.find_gem_by_normalized_name(all_gems, gem_name_1)
+                    gem_2 = self.find_gem_by_normalized_name(all_gems, gem_name_2)
                     
-                    # Verificar que ambas gemas existen y tienen hardness
-                    if not gems_1 or len(gems_1) == 0:
+                    if not gem_1:
                         message = f"Lo siento, no encontré información sobre {gem_name_1}."
-                    elif not gems_2 or len(gems_2) == 0:
+                    elif not gem_2:
                         message = f"Lo siento, no encontré información sobre {gem_name_2}."
-                    elif "hardness" not in gems_1[0] or gems_1[0]["hardness"] is None:
+                    elif "hardness" not in gem_1 or gem_1["hardness"] is None:
                         message = f"Lo siento, no tengo información sobre la dureza de {gem_name_1}."
-                    elif "hardness" not in gems_2[0] or gems_2[0]["hardness"] is None:
+                    elif "hardness" not in gem_2 or gem_2["hardness"] is None:
                         message = f"Lo siento, no tengo información sobre la dureza de {gem_name_2}."
                     else:
-                        hardness_1 = gems_1[0]["hardness"]
-                        hardness_2 = gems_2[0]["hardness"]
-                        name_1 = gems_1[0]["name"]
-                        name_2 = gems_2[0]["name"]
+                        hardness_1 = gem_1["hardness"]
+                        hardness_2 = gem_2["hardness"]
+                        name_1 = gem_1["name"]
+                        name_2 = gem_2["name"]
                         
                         if hardness_1 > hardness_2:
                             message = (

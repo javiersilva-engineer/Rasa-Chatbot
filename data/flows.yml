@@ -37,7 +37,9 @@ flows:
   # Sobrescribe pattern_search para que no genere respuesta ---------------------------------------------------------------
   pattern_search:
     description: |
-      Patrón de búsqueda que redirige a chitchat solo si no hay otro flow activo en el stack. Si hay un flow activo, termina sin generar respuesta para evitar activar chitchat.
+      Patrón de búsqueda que redirige a chitchat solo si no hay otro flow activo en el stack. 
+      Si hay un flow activo, termina sin generar respuesta para evitar activar chitchat. 
+      No debe activarse el patrón chitchat si existe un flow capaz de responder a la consulta del usuario.
     name: pattern search
     steps:
       - noop: true
@@ -173,21 +175,13 @@ flows:
     steps:
       - action: utter_gema_favorita
 
-  # segunda_gema_que_mas_gusta_luna:
-  #   description: |
-  #     El usuario pregunta sobre la segunda gema que más le gusta al asistente, como
-  #     "¿Cuál es la segunda gema que más te gusta?", "¿Tienes otra gema favorita?",
-  #     "¿Qué otra gema te gusta?"
-  #   steps:
-  #     - action: utter_segunda_gema_favorita
-
-  # gema_odiosa_luna:
-  #   description: |
-  #     El usuario pregunta sobre la gema que menos le gusta al asistente, como
-  #     "¿Cuál es la gema que menos te gusta?", "¿Tienes una gema que no te guste?",
-  #     "¿Qué gema odias?"
-  #   steps:
-  #     - action: utter_gema_odiosa
+  gema_odiosa_luna:
+    description: |
+      El usuario pregunta sobre la gema que menos le gusta al asistente, como
+      "¿Cuál es la gema que menos te gusta?", "¿Tienes una gema que no te guste?",
+      "¿Qué gema odias?"
+    steps:
+      - action: utter_gema_odiosa
 
   metal_precioso_material_favorito_luna:
     description: |
@@ -197,13 +191,13 @@ flows:
     steps:
       - action: utter_metal_precioso_favorito
 
-  # luna_odia_materiales:
-  #   description: |
-  #     El usuario pregunta sobre los materiales que menos le gustan al asistente, como
-  #     "¿Qué materiales odias?", "¿Tienes algún material que no te guste?",
-  #     "¿Cuál es el material que menos te gusta?"
-  #   steps:
-  #     - action: utter_materiales_odiosos
+  luna_odia_materiales:
+    description: |
+      El usuario pregunta sobre los materiales que menos le gustan al asistente, como
+      "¿Qué materiales odias?", "¿Tienes algún material que no te guste?",
+      "¿Cuál es el material que menos te gusta?"
+    steps:
+      - action: utter_materiales_odiosos
 
   color_favorito_luna:
     description: |
@@ -213,13 +207,13 @@ flows:
     steps:
       - action: utter_color_favorito
 
-  # color_odioso_luna:
-  #   description: |
-  #     El usuario pregunta sobre el color que menos le gusta al asistente, como
-  #     "¿Cuál es el color que menos te gusta?", "¿Tienes un color que no te guste?",
-  #     "¿Qué color odias?"
-  #   steps:
-  #     - action: utter_color_odioso
+  color_odioso_luna:
+    description: |
+      El usuario pregunta sobre el color que menos le gusta al asistente, como
+      "¿Cuál es el color que menos te gusta?", "¿Tienes un color que no te guste?",
+      "¿Qué color odias?"
+    steps:
+      - action: utter_color_odioso
 
   corte_favorito_luna:
     description: |
@@ -230,14 +224,14 @@ flows:
     steps:
       - action: utter_corte_favorito
 
-  # corte_odioso_luna:
-  #   description: |
-  #     El usuario pregunta sobre el corte de gema que menos le gusta al asistente, como
-  #     "¿Cuál es el corte de gema que menos te gusta?", "¿Tienes un corte que no te guste?",
-  #     "¿Qué corte de gema odias?", "¿Cuál es el corte que menos te gusta?", "¿Tienes algún corte que odies?",
-  #     "¿Existe un corte que sea el peor de todos?"
-  #   steps:
-  #     - action: utter_corte_odioso
+  corte_odioso_luna:
+    description: |
+      El usuario pregunta sobre el corte de gema que menos le gusta al asistente, como
+      "¿Cuál es el corte de gema que menos te gusta?", "¿Tienes un corte que no te guste?",
+      "¿Qué corte de gema odias?", "¿Cuál es el corte que menos te gusta?", "¿Tienes algún corte que odies?",
+      "¿Existe un corte que sea el peor de todos?"
+    steps:
+      - action: utter_corte_odioso
 
   tallado_favorito_luna:
     description: |
@@ -248,14 +242,14 @@ flows:
     steps:
       - action: utter_tallado_favorito
 
-  # tallado_odioso_luna:
-  #   description: |
-  #     El usuario pregunta sobre el tallado de gema que menos le gusta al asistente, como
-  #     "¿Cuál es el tallado de gema que menos te gusta?", "¿Tienes un tallado que no te guste?",
-  #     "¿Qué tallado de gema odias?", "¿Cuál es el tallado que menos te gusta?", "¿Tienes algún tallado que odies?",
-  #     "¿Existe un tallado que sea el peor de todos?"
-  #   steps:
-  #     - action: utter_tallado_odioso
+  tallado_odioso_luna:
+    description: |
+      El usuario pregunta sobre el tallado de gema que menos le gusta al asistente, como
+      "¿Cuál es el tallado de gema que menos te gusta?", "¿Tienes un tallado que no te guste?",
+      "¿Qué tallado de gema odias?", "¿Cuál es el tallado que menos te gusta?", "¿Tienes algún tallado que odies?",
+      "¿Existe un tallado que sea el peor de todos?"
+    steps:
+      - action: utter_tallado_odioso
 
   forma_gema_favorita_luna:
     description: |
@@ -265,13 +259,13 @@ flows:
     steps:
       - action: utter_forma_gema_favorita
 
-  # forma_gema_odiosa_luna:
-  #   description: |
-  #     El usuario pregunta sobre la forma de gema que menos le gusta al asistente, como
-  #     "¿Cuál es la forma de gema que menos te gusta?", "¿Tienes una forma que no te guste?",
-  #     "¿Qué forma de gema odias?"
-  #   steps:
-  #     - action: utter_forma_gema_odiosa
+  forma_gema_odiosa_luna:
+    description: |
+      El usuario pregunta sobre la forma de gema que menos le gusta al asistente, como
+      "¿Cuál es la forma de gema que menos te gusta?", "¿Tienes una forma que no te guste?",
+      "¿Qué forma de gema odias?"
+    steps:
+      - action: utter_forma_gema_odiosa
 
   caja_favorita_luna:
     description: |
@@ -281,13 +275,13 @@ flows:
     steps:
       - action: utter_caja_favorita
 
-  # caja_mas_odiosa_luna:
-  #   description: |
-  #     El usuario pregunta sobre la caja de gema que menos le gusta al asistente, como
-  #     "¿Cuál es la caja de gema que menos te gusta?", "¿Tienes una caja que no te guste?",
-  #     "¿Qué caja de gema odias?"
-  #   steps:
-  #     - action: utter_caja_mas_odiosa
+  caja_mas_odiosa_luna:
+    description: |
+      El usuario pregunta sobre la caja de gema que menos le gusta al asistente, como
+      "¿Cuál es la caja de gema que menos te gusta?", "¿Tienes una caja que no te guste?",
+      "¿Qué caja de gema odias?"
+    steps:
+      - action: utter_caja_mas_odiosa
 
   engaste_gema_favorito_luna:
     description: |
@@ -297,13 +291,13 @@ flows:
     steps:
       - action: utter_engaste_gema_favorito
 
-  # engaste_gema_odioso_luna:
-  #   description: |
-  #     El usuario pregunta sobre el engaste de gema que menos le gusta al asistente, como
-  #     "¿Cuál es el engaste de gema que menos te gusta?", "¿Tienes un engaste que no te guste?",
-  #     "¿Qué engaste de gema odias?"
-  #   steps:
-  #     - action: utter_engaste_gema_odioso
+  engaste_gema_odioso_luna:
+    description: |
+      El usuario pregunta sobre el engaste de gema que menos le gusta al asistente, como
+      "¿Cuál es el engaste de gema que menos te gusta?", "¿Tienes un engaste que no te guste?",
+      "¿Qué engaste de gema odias?"
+    steps:
+      - action: utter_engaste_gema_odioso
 
   choose_gem:
     description:
@@ -567,12 +561,13 @@ flows:
   #   steps:
   #     - action: utter_idea_louv_abp
 
-  # tiempo_desarrollo:
-  #   description: |
-  #     El usuario pregunta cuánto tiempo lleva en desarrollo el proyecto ABP Louv, quiere saber el tiempo empleado en la creación de Louv,
-  #     hace preguntas como "¿Cuánto tiempo lleva Louv en desarrollo?", "¿Desde cuando se está desarrollando Louv?", "¿Cuánto tiempo se ha empleado en el desarrollo de esta web?"
-  #   steps:
-  #     - action: utter_tiempo_desarrollo
+  tiempo_desarrollo:
+    description: |
+      El usuario pregunta cuánto tiempo lleva en desarrollo el proyecto ABP Louv, quiere saber el tiempo empleado en la creación de Louv,
+      hace preguntas como "¿Cuánto tiempo lleva Louv en desarrollo?", "¿Desde cuando se está desarrollando Louv?", "¿Cuánto tiempo se ha empleado en el desarrollo de esta web?",
+      ¿Cuánto tiempo lleva en desarrollo Louv?
+    steps:
+      - action: utter_tiempo_desarrollo
 
   # sugerir_cambios:
   #   description: |
@@ -599,7 +594,7 @@ flows:
     description: |
       El usuario quiere saber dónde puede consultar la política de privacidad de louv, los términos y condiciones o las cookies de la misma página.
       Realiza pregunatas como "¿Dónde puedo consultar la política de privacidad?", "¿Dónde puedo ver los términos y condiciones?",
-      "¿Cómo puedo saber las cookies que usa la página Louv?"
+      "¿Cómo puedo saber las cookies que usa la página Louv?", ¿Cómo se protegen mis datos?
     steps:
       - action: utter_terminos_politica_cookies
 
@@ -1015,22 +1010,6 @@ flows:
     steps:
       - action: utter_mover_camara_editor_3d
 
-  # utilidad_buscador:
-  #   description: |
-  #     El usuario quiere saber para qué puede usar el buscador del editor, hace preguuntas como
-  #     "¿Para qué sirve el buscador del editor?", "¿Qué puedo buscar cuando uso el buscador?",
-  #     "¿Qué utilidad tiene el buscador del editor?"
-  #   steps:
-  #     - action: utter_utilidad_buscador
-
-  # eliminar_busqueda:
-  #   description: |
-  #     El usuario pregunta cómo puede eliminar lo que ha introducido en el buscador, o cómo puede eliminar
-  #     la búsqueda o filtro que ha realizado, hace preguntas como "¿Cómo puedo eliminar lo que he buscado?",
-  #     "¿Hay alguna manera de eliminar el filtro de los componentes?", "¿Quiero que se vuelvan a mostrar todos los componentes, ¿qué hago?"
-  #   steps:
-  #     - action: utter_eliminar_busqueda
-
   ocultar_precio_diseno_al_compartir:
     description: |
       El usuario pregunta si de verdad no se mostrará el precio al compartir un diseño usando el modo de ocultar precio,
@@ -1061,13 +1040,6 @@ flows:
       "Quiero ver mi diseño en pantalla completa."
     steps:
       - action: utter_diseno_pantalla_completa
-
-  # necesitar_dni_usuario:
-  #   description: |
-  #     El usuario quiere saber por qué necesitamos su DNI (Documento Nacional de Identidad), hace preguntas como
-  #     "¿Para qué necesitáis mi DNI?", "¿Es necesario que os dé mi DNI?", "¿Por qué queréis saber mi DNI?"
-  #   steps:
-  #     - action: utter_necesitar_dni_usuario
 
   consultar_mis_pedidos:
     description: |
@@ -1108,6 +1080,29 @@ flows:
       "¿Es posible cambiar mi correo electrónico?", "¿Cómo puedo cambiar mis datos personales?".
     steps:
       - action: utter_cambiar_dato_personal
+
+  compartir_diseno:
+    description: |
+      El usuario quiere compartir su diseño pero no sabe cómo hacerlo, hace consultas como
+      "¿Cómo puedo compartir mi diseño?", "¿Puedo compartir mi diseño?",
+      "Quiero compartir el anillo que he hecho.", "Quiero enseñarle a mis amigos el anillo que he creado ¿cómo lo hago?",
+      "Quiero compartir mi diseño sin el precio.", "¿Cómo comparto mi anillo sin mostrar lo que cuesta?",
+      "Quiero generar un nuevo enlace.", "¿Es posible generar un enlace para compartir mi diseño?"
+    steps:
+      - action: utter_compartir_diseno
+
+  exportar_diseno:
+    description: |
+      El usuario quiere exportar su diseño pero no sabe cómo hacerlo, hace consultas como
+      "¿Cómo puedo exportar mi diseño?", "¿Puedo exportar mi diseño?",
+      "Quiero exportar el anillo que he hecho.", "Quiero enseñarle a mis amigos el anillo que he creado ¿cómo lo hago?",
+      "Quiero exportar mi diseño sin el precio.", "¿Cómo exporto mi anillo sin mostrar lo que cuesta?",
+      "¿Puedo descargar un PDF de mi diseño?", "Quiero descargar un documento del anillo que he creado sin el precio."
+    steps:
+      - action: utter_exportar_diseno
+
+
+
 
   # FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
 
@@ -1157,13 +1152,13 @@ flows:
     steps:
       - action: utter_cambiar_talla_anillo
 
-  # devolver_anillo_talla_equivocada:
-  #   description: |
-  #     El usuario pregunta si puede devolver un anillo si el que recibe le queda grande o pequeño, hace pregunats como
-  #     "¿Puedo devolver un anillo si me queda pequeño?", "El anillo me queda grande, ¿puedo devolverlo?",
-  #     "Quiero devolver mi anillo porque no es de mi talla."
-  #   steps:
-  #     - action: utter_devolver_anillo_talla
+  devolver_anillo_talla_equivocada:
+    description: |
+      El usuario pregunta si puede devolver un anillo si el que recibe le queda grande o pequeño, hace pregunats como
+      "¿Puedo devolver un anillo si me queda pequeño?", "El anillo me queda grande, ¿puedo devolverlo?",
+      "Quiero devolver mi anillo porque no es de mi talla."
+    steps:
+      - action: utter_devolver_anillo_talla
 
   usuario_duda_entre_dos_tallas:
     description: |
@@ -1173,12 +1168,12 @@ flows:
     steps:
       - action: utter_duda_entre_tallas
 
-  # pregunta_si_cada_dedo_tiene_su_propia_talla:
-  #   description: |
-  #     El usuario tiene curiosidad por saber si es cierto que cada dedo tiene una talla distintas, hace preguntas como
-  #     "¿De verdad existe una talla para cada dedo?", "¿Cada dedo tiene una talla diferente?", "¿Todos los dedos usan la misma talla de anillo?"
-  #   steps:
-  #     - action: utter_talla_dedo_distinta
+  pregunta_si_cada_dedo_tiene_su_propia_talla:
+    description: |
+      El usuario tiene curiosidad por saber si es cierto que cada dedo tiene una talla distintas, hace preguntas como
+      "¿De verdad existe una talla para cada dedo?", "¿Cada dedo tiene una talla diferente?", "¿Todos los dedos usan la misma talla de anillo?"
+    steps:
+      - action: utter_talla_dedo_distinta
 
   la_temperatura_afecta_a_la_talla:
     description: |
@@ -1188,14 +1183,14 @@ flows:
     steps:
       - action: utter_temperatura_talla
 
-  # ajustar_talla_anillo:
-  #   description: |
-  #     El usuario pregunta si se puede hacer un ajuste de talla una vez recibido el anillo, es decir, quiere
-  #     saber si puede modificar la talla del anillo tras comprarlo, hace preguntas como
-  #     "¿Hacéis modificaciones de talla?", "Si el anillo no me está bien, ¿podéis modificarlo?",
-  #     "El anillo que he recibido no me está bien, ¿puedo modificarlo?"
-  #   steps:
-  #     - action: utter_modificar_talla_posteriori
+  ajustar_talla_anillo:
+    description: |
+      El usuario pregunta si se puede hacer un ajuste de talla una vez recibido el anillo, es decir, quiere
+      saber si puede modificar la talla del anillo tras comprarlo, hace preguntas como
+      "¿Hacéis modificaciones de talla?", "Si el anillo no me está bien, ¿podéis modificarlo?",
+      "El anillo que he recibido no me está bien, ¿puedo modificarlo?"
+    steps:
+      - action: utter_modificar_talla_posteriori
 
   # FLOWS INFORMACIÓN SOBRE MATERIALES ------------------------------------------------------------------
 
@@ -1584,23 +1579,18 @@ flows:
     steps:
       - action: utter_cuidar_anillo
 
-  # cuanto_tiempo_llevar_puesto_anillo_de_compromiso:
-  #   description: |
-  #     El usuario quiere saber si es bueno llevar su anillo de compromiso puesto todos los días o cada cuanto
-  #     tiempo es recomendable llevarlo puesto, hace preguntas como "¿Debería llevar el anillo puesto todos los días?",
-  #     "¿Es recomendable llevar el anillo a diario?", "¿Me recomiendas llevar mi anillo de compromiso puesto todos los días?"
-  #   steps:
-  #     - action: utter_anillo_diario
 
-  # quien_se_queda_el_anillo_si_rechaza_propuesta_de_matrimonio:
-  #   description: |
-  #     El usuario quiere saber qué ocurre con el anillo de compromiso si se rechaza la propuesta de matrimonio,
-  #     hace consultas como "¿Quién se queda el anillo si rechazan mi propuesta de matrimonio?",
-  #     "Si me rechazan, ¿qué pasa con el anillo de compromiso?", "¿Debo quedarme el anillo de compromiso si me rechazan?"
-  #   steps:
-  #     - action: utter_rechazo_matrimonio
+
 
   # FLOWS AYUDA SOBRE DISEÑOS ---------------------------------------------------------------------------------------------------------------
+
+  opina_sobre_el_diseno:
+    description: |
+      El usuario quiere saber la opinión del chatbo sobre el diseño que ha creado, hace consultas como
+      "¿Qué opinas de mi diseño?", "¿Cómo ves el anillo que he creado?", "¿Te gusta el diseño que he hecho?",
+      "Opina sobre el anillo que he diseñado.", "¿Qué piensas de mi anillo?"
+    steps:
+      - action: utter_opina
 
   hacer_grabados_en_los_anillos:
     description: |
