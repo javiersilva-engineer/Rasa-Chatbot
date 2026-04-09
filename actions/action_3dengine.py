@@ -82,20 +82,26 @@ load_dotenv()
 
 
 # =========================
-# PREGUNTAR POR BASE
+# MOSTRAR BASES
 # =========================
+
 class ActionAskBaseId(Action):
+
     def name(self) -> Text:
         return "action_ask_base_id"
 
     async def run(
-        self, 
-        dispatcher: CollectingDispatcher, 
-        tracker: Tracker, 
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
         domain: Dict[Text, Any]
     ) -> List[Dict[Text, Any]]:
-        
+
         api_url = os.getenv("API_URL", "https://louv.ovh")
+
+        print("=" * 50)
+        print("[DEBUG] INICIO ActionAskBaseId")
+        print("=" * 50)
 
         try:
             async with aiohttp.ClientSession() as session:
@@ -103,6 +109,8 @@ class ActionAskBaseId(Action):
                 print(f"[DEBUG] GET {endpoint}")
 
                 async with session.get(endpoint) as response:
+                    print(f"[DEBUG] Response status: {response.status}")
+
                     if response.status != 200:
                         dispatcher.utter_message(
                             text="No pude cargar las bases disponibles."
@@ -112,7 +120,7 @@ class ActionAskBaseId(Action):
                     data = await response.json()
                     base_structures = data.get('baseStructures', [])
 
-                    print(f"[DEBUG] Nº bases: {len(base_structures)}")
+                    print(f"[DEBUG] Nº bases encontradas: {len(base_structures)}")
 
                     if not base_structures:
                         dispatcher.utter_message(
@@ -121,6 +129,7 @@ class ActionAskBaseId(Action):
                         return []
 
                     buttons = []
+
                     for base in base_structures:
                         base_id = base.get('_id', '')
                         base_name = base.get('name', 'Sin nombre')
@@ -145,9 +154,16 @@ class ActionAskBaseId(Action):
 
         except Exception as e:
             print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+
             dispatcher.utter_message(
                 text="Error interno en el servidor."
             )
+
+        print("=" * 50)
+        print("[DEBUG] FIN ActionAskBaseId")
+        print("=" * 50)
 
         return []
 
@@ -155,27 +171,34 @@ class ActionAskBaseId(Action):
 # =========================
 # CAMBIAR BASE
 # =========================
+
 class ActionChangeBase(Action):
+
     def name(self) -> Text:
         return "action_change_base"
 
     async def run(
-        self, 
-        dispatcher: CollectingDispatcher, 
-        tracker: Tracker, 
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
         domain: Dict[Text, Any]
     ) -> List[Dict[Text, Any]]:
-        
+
         base_id = tracker.get_slot('base_id')
 
-        print(f"[DEBUG] base_id recibido en action_change_base: {base_id}")
+        print("=" * 50)
+        print("[DEBUG] INICIO ActionChangeBase")
+        print("=" * 50)
+        print(f"[DEBUG] base_id recibido: {base_id}")
 
         if not base_id:
+            print("[DEBUG] ERROR: No se recibió base_id")
             dispatcher.utter_message(
                 text="No pude identificar la base seleccionada."
             )
             return []
 
+        # Enviar mensaje al frontend
         dispatcher.utter_message(
             text="Base seleccionada correctamente.",
             custom={
@@ -184,32 +207,39 @@ class ActionChangeBase(Action):
             }
         )
 
-        # Limpiar el slot de base_id después de usarlo
-        return [SlotSet("base_id", None)]
+        print(f"[DEBUG] Actualizando slots:")
+        print(f"[DEBUG] - ring_id = {base_id}")
+        print(f"[DEBUG] - profile_id = None (reseteado)")
+        print(f"[DEBUG] - base_id = None (limpiado)")
+
+        print("=" * 50)
+        print("[DEBUG] FIN ActionChangeBase")
+        print("=" * 50)
+
+        # 👇 CRÍTICO: Actualizar ring_id, resetear profile_id, limpiar base_id
+        return [
+            SlotSet("ring_id", base_id),      # ✅ Actualizar ring_id
+            SlotSet("profile_id", None),     # ✅ Resetear profile_id
+            SlotSet("base_id", None)         # ✅ Limpiar base_id
+        ]
 
 
 
 
-# =========================
-# MOSTRAR PERFILES
-# =========================
+import traceback
+
 class ActionAskProfileId(Action):
     def name(self) -> Text:
         return "action_ask_profile_id"
 
     async def run(self, dispatcher, tracker, domain):
-
         api_url = os.getenv("API_URL", "https://louv.ovh")
         current_ring_id = tracker.get_slot('ring_id')
-
-        print(f"[DEBUG] Ring ID: {current_ring_id}")
 
         if not current_ring_id:
             latest_message = tracker.latest_message
             metadata = latest_message.get('metadata', {})
             current_ring_id = metadata.get('ring_id')
-
-        print(f"[DEBUG] Ring ID: {current_ring_id}")
         
         if not current_ring_id:
             dispatcher.utter_message(
@@ -220,26 +250,18 @@ class ActionAskProfileId(Action):
         try:
             async with aiohttp.ClientSession() as session:
                 endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
-                print(f"[DEBUG] GET {endpoint}")
-
+                
                 async with session.get(endpoint) as response:
-                    print(f"[DEBUG] Status: {response.status}")
-
                     if response.status < 200 or response.status >= 300:
-                        text = await response.text()
-                        print(f"[DEBUG] Response text: {text}")
                         dispatcher.utter_message(
                             text="Lo siento, no pude cargar los perfiles disponibles."
                         )
                         return []
 
                     ring_data = await response.json()
-                    print(f"[DEBUG] JSON recibido OK")
 
             base_structure = ring_data.get("baseStructure", {})
             profiles = base_structure.get("profiles", [])
-
-            print(f"[DEBUG] Nº perfiles: {len(profiles)}")
 
             if not profiles:
                 dispatcher.utter_message(
@@ -247,37 +269,56 @@ class ActionAskProfileId(Action):
                 )
                 return []
 
+            # 👇 CAMBIO CRÍTICO: Extraer el _id del objeto profile
+            unique_profile_ids = set()
+            for profile_config in profiles:
+                profile_obj = profile_config.get('profile')
+                
+                # Si profile es un diccionario, extraer el _id
+                if isinstance(profile_obj, dict):
+                    profile_id = profile_obj.get('_id')
+                # Si profile es un string, usarlo directamente
+                elif isinstance(profile_obj, str):
+                    profile_id = profile_obj
+                else:
+                    continue
+                
+                if profile_id:
+                    unique_profile_ids.add(profile_id)
+
+            print(f"[DEBUG] Perfiles únicos encontrados: {len(unique_profile_ids)}")
+
+            # Obtener información de cada perfil único
             buttons = []
-
             async with aiohttp.ClientSession() as session:
-                for profile_data in profiles:
-                    profile_obj = profile_data.get('profile', {})
-                    print(f"[DEBUG] profile_obj: {profile_obj}")
-
-                    if isinstance(profile_obj, str):
-                        profile_id = profile_obj
-                        profile_name = "Perfil"
-
+                for profile_id in unique_profile_ids:
+                    # Primero intentar obtener el nombre del objeto profile si ya lo tenemos
+                    profile_name = None
+                    for profile_config in profiles:
+                        profile_obj = profile_config.get('profile')
+                        if isinstance(profile_obj, dict) and profile_obj.get('_id') == profile_id:
+                            profile_name = profile_obj.get('name', 'Sin nombre')
+                            break
+                    
+                    # Si no encontramos el nombre, hacer petición a la API
+                    if not profile_name:
                         profile_endpoint = f"{api_url}/api/profiles/{profile_id}"
-                        print(f"[DEBUG] GET profile {profile_endpoint}")
-
                         async with session.get(profile_endpoint) as res:
-                            print(f"[DEBUG] profile status: {res.status}")
-
                             if res.status == 200:
                                 data = await res.json()
                                 profile_name = data.get('name', 'Sin nombre')
-                    else:
-                        profile_id = profile_obj.get('_id', '')
-                        profile_name = profile_obj.get('name', 'Sin nombre')
+                    
+                    if profile_name:
+                        buttons.append({
+                            "title": profile_name,
+                            "payload": f'SetSlot("profile_id", "{profile_id}")'
+                        })
 
-                    print(f"[DEBUG] Añadiendo botón: {profile_name} ({profile_id})")
-
-                    # 👇 CAMBIO IMPORTANTE: usar SetSlot en lugar de intent
-                    buttons.append({
-                        "title": profile_name,
-                        "payload": f'SetSlot("profile_id", "{profile_id}")'
-                    })
+            if not buttons:
+                dispatcher.utter_message(
+                    text="No se pudieron cargar los perfiles."
+                )
+                return []
 
             dispatcher.utter_message(
                 text="Selecciona el perfil que deseas aplicar:",
@@ -292,6 +333,8 @@ class ActionAskProfileId(Action):
 
         except Exception as e:
             print(f"[ERROR] General: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
                 text="Error interno en el servidor."
             )
@@ -2408,13 +2451,26 @@ class ActionAskNextEditOption(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
         
-        current_ring_id = tracker.get_slot('ring_id')
-        if not current_ring_id:
-            latest_message = tracker.latest_message
-            metadata = latest_message.get('metadata', {})
-            current_ring_id = metadata.get('ring_id')
+        # ✅ CAMBIO 1: Obtener metadatos PRIMERO (son los más actualizados)
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        
+        # Ring ID
+        current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
+        
+        # Profile ID - SIEMPRE desde metadata primero
+        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        
+        # Variant ID - SIEMPRE desde metadata primero
+        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
 
-        print(f"[DEBUG] Ring ID para opciones: {current_ring_id}")
+        print(f"[DEBUG] Ring ID: {current_ring_id}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
+        print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (final): {current_profile_id}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
+        print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (final): {current_variant_id}")
 
         if not current_ring_id:
             dispatcher.utter_message(
@@ -2438,18 +2494,12 @@ class ActionAskNextEditOption(Action):
 
             base_structure = ring_data.get("baseStructure", {})
             
-            # Obtener el perfil actual - PRIMERO del slot, luego de metadata
-            current_profile_id = tracker.get_slot('profile_id')
-            
-            if not current_profile_id:
-                latest_message = tracker.latest_message
-                metadata = latest_message.get('metadata', {})
-                current_profile_id = metadata.get('profile_id')
-            
+            # ✅ CAMBIO 2: Si no hay profile_id, usar el primero disponible
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
                 profile_obj = first_profile.get('profile', {})
                 current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                print(f"[DEBUG] Usando primer perfil disponible: {current_profile_id}")
 
             # Buscar el perfil específico
             target_profile = None
@@ -2462,22 +2512,24 @@ class ActionAskNextEditOption(Action):
                     break
 
             if not target_profile:
+                print(f"[ERROR] No se encontró perfil con ID: {current_profile_id}")
+                print(f"[DEBUG] Perfiles disponibles:")
+                for profile_data in base_structure.get("profiles", []):
+                    profile_obj = profile_data.get('profile', {})
+                    profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                    print(f"  - {profile_id}")
+                
                 dispatcher.utter_message(
                     text="No pude encontrar el perfil actual del anillo."
                 )
                 return []
 
-            # Obtener la variante actual - PRIMERO del slot, luego de metadata
-            current_variant_id = tracker.get_slot('variante_id')
-            
-            if not current_variant_id:
-                latest_message = tracker.latest_message
-                metadata = latest_message.get('metadata', {})
-                current_variant_id = metadata.get('variant_id')
-
+            # ✅ CAMBIO 3: Si no hay variant_id, usar la primera variante del perfil
             if not current_variant_id and target_profile.get("variants"):
                 current_variant_id = target_profile["variants"][0].get('_id', '')
+                print(f"[DEBUG] Usando primera variante disponible: {current_variant_id}")
 
+            # Buscar la variante específica
             variant = None
             for v in target_profile.get("variants", []):
                 if v.get('_id') == current_variant_id:
@@ -2485,6 +2537,11 @@ class ActionAskNextEditOption(Action):
                     break
 
             if not variant:
+                print(f"[ERROR] No se encontró variante con ID: {current_variant_id}")
+                print(f"[DEBUG] Variantes disponibles en perfil {current_profile_id}:")
+                for v in target_profile.get("variants", []):
+                    print(f"  - {v.get('_id')} ({v.get('name')})")
+                
                 dispatcher.utter_message(
                     text="No pude encontrar la variante actual del anillo."
                 )
@@ -2494,6 +2551,7 @@ class ActionAskNextEditOption(Action):
             settings_info = variant.get("settingsInfo", [])
             has_gems = len(settings_info) > 0
             
+            print(f"[DEBUG] Variante encontrada: {variant.get('name')}")
             print(f"[DEBUG] Variante tiene gemas: {has_gems}")
             print(f"[DEBUG] Número de settings: {len(settings_info)}")
 
@@ -2537,11 +2595,6 @@ class ActionAskNextEditOption(Action):
                     "title": "Cambiar engaste",
                     "payload": '/StartFlow(modificar_engaste_del_anillo)'
                 })
-
-                # buttons.append({
-                #     "title": "Cambiar número de garras",
-                #     "payload": '/StartFlow(modificar_numero_de_garras_del_engaste_del_anillo)'
-                # })
 
                 buttons.append({
                     "title": "Cambiar tipo de garras",
