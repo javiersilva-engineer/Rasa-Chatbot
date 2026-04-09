@@ -282,6 +282,12 @@ slots:
     mappings:
       - type: from_llm
 
+  base_id:
+    type: text
+    mappings:
+      - type: from_llm
+    # influence_conversation: false
+
 
 
 
@@ -322,7 +328,10 @@ actions:
 
 # ACTIONS DEL MOTOR 3D ----------------------------------------
 
-  - action_show_ring
+  # - action_show_ring
+
+  - action_ask_base_id
+  - action_change_base
 
   - action_ask_profile_id
   - action_change_profile
@@ -2203,23 +2212,23 @@ responses:
       metadata:
         rephrase: false
 
-  utter_editar_base_anillo:
-    - text: "¿Qué base desea? Puede seleccionar uno de los botones o escribirlo manualmente."
-      translation:
-        en: "What base would you like? You can select one of the buttons or write it manually."
-      buttons:
-        - title: "Clásico"
-          payload: "Quiero la base clásico."
-        - title: "Ondulado"
-          payload: "Quiero la base ondulado."
-        - title: "Bypass"
-          payload: "Quiero la base bypass."
-        - title: "Aurora"
-          payload: "Quiero la base aurora."
-        - title: "Vínculo"
-          payload: "Quiero la base vinculo."
-      metadata:
-        rephrase: false
+  # utter_editar_base_anillo:
+  #   - text: "¿Qué base desea? Puede seleccionar uno de los botones o escribirlo manualmente."
+  #     translation:
+  #       en: "What base would you like? You can select one of the buttons or write it manually."
+  #     buttons:
+  #       - title: "Clásico"
+  #         payload: "Quiero la base clásico."
+  #       - title: "Ondulado"
+  #         payload: "Quiero la base ondulado."
+  #       - title: "Bypass"
+  #         payload: "Quiero la base bypass."
+  #       - title: "Aurora"
+  #         payload: "Quiero la base aurora."
+  #       - title: "Vínculo"
+  #         payload: "Quiero la base vinculo."
+  #     metadata:
+  #       rephrase: false
 
   utter_editar_gema_anillo:
     - text: "¿Qué gema desea? Puede seleccionar uno de los botones o escribirlo manualmente."

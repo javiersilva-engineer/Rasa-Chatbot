@@ -1,5 +1,5 @@
 import os
-from typing import Text
+from typing import Text, Dict, Any, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
@@ -12,74 +12,180 @@ load_dotenv()
 # =========================
 # MOSTRAR ANILLO
 # =========================
-class ActionShowRing(Action):
+# class ActionShowRing(Action):
+#     def name(self) -> Text:
+#         return "action_show_ring"
+
+#     async def run(self, dispatcher, tracker, domain):
+#         ring_type = tracker.get_slot('ring_type')
+
+#         if not ring_type:
+#             dispatcher.utter_message(
+#                 text="No pude identificar qué anillo quieres ver. ¿Podrías especificarlo?"
+#             )
+#             return []
+
+#         api_url = os.getenv("API_URL", "https://louv.ovh")
+
+#         try:
+#             async with aiohttp.ClientSession() as session:
+#                 # ← Obtener todas las estructuras base
+#                 endpoint = f"{api_url}/api/baseStructures"
+#                 print(f"[DEBUG] GET {endpoint}")
+
+#                 async with session.get(endpoint) as response:
+#                     if response.status != 200:
+#                         dispatcher.utter_message(
+#                             text="No pude cargar los anillos disponibles."
+#                         )
+#                         return []
+
+#                     data = await response.json()
+#                     base_structures = data.get('baseStructures', [])
+
+#                     # ← Normalizar y buscar coincidencia
+#                     normalized_ring_type = ring_type.lower().strip()
+                    
+#                     matching_ring = None
+#                     for structure in base_structures:
+#                         structure_name = structure.get('name', '').lower().strip()
+#                         if structure_name == normalized_ring_type:
+#                             matching_ring = structure
+#                             break
+
+#                     if not matching_ring:
+#                         dispatcher.utter_message(
+#                             text=f"No encontré un anillo llamado '{ring_type}'."
+#                         )
+#                         return []
+
+#                     ring_id = matching_ring.get('_id')
+#                     print(f"[DEBUG] Ring ID encontrado: {ring_id}")
+
+#                     dispatcher.utter_message(
+#                         text=f"Mostrando el anillo {ring_type}",
+#                         custom={
+#                             "type": "show_ring",
+#                             "ring_type": ring_type,
+#                             "ring_id": ring_id
+#                         }
+#                     )
+
+#                     return [SlotSet("ring_id", ring_id)]
+
+#         except Exception as e:
+#             print(f"[ERROR] {e}")
+#             dispatcher.utter_message(
+#                 text="Error al buscar el anillo."
+#             )
+#             return []
+
+
+# =========================
+# PREGUNTAR POR BASE
+# =========================
+class ActionAskBaseId(Action):
     def name(self) -> Text:
-        return "action_show_ring"
+        return "action_ask_base_id"
 
-    async def run(self, dispatcher, tracker, domain):
-        ring_type = tracker.get_slot('ring_type')
-
-        if not ring_type:
-            dispatcher.utter_message(
-                text="No pude identificar qué anillo quieres ver. ¿Podrías especificarlo?"
-            )
-            return []
-
+    async def run(
+        self, 
+        dispatcher: CollectingDispatcher, 
+        tracker: Tracker, 
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
         try:
             async with aiohttp.ClientSession() as session:
-                # ← Obtener todas las estructuras base
                 endpoint = f"{api_url}/api/baseStructures"
                 print(f"[DEBUG] GET {endpoint}")
 
                 async with session.get(endpoint) as response:
                     if response.status != 200:
                         dispatcher.utter_message(
-                            text="No pude cargar los anillos disponibles."
+                            text="No pude cargar las bases disponibles."
                         )
                         return []
 
                     data = await response.json()
                     base_structures = data.get('baseStructures', [])
 
-                    # ← Normalizar y buscar coincidencia
-                    normalized_ring_type = ring_type.lower().strip()
-                    
-                    matching_ring = None
-                    for structure in base_structures:
-                        structure_name = structure.get('name', '').lower().strip()
-                        if structure_name == normalized_ring_type:
-                            matching_ring = structure
-                            break
+                    print(f"[DEBUG] Nº bases: {len(base_structures)}")
 
-                    if not matching_ring:
+                    if not base_structures:
                         dispatcher.utter_message(
-                            text=f"No encontré un anillo llamado '{ring_type}'."
+                            text="No hay bases disponibles."
                         )
                         return []
 
-                    ring_id = matching_ring.get('_id')
-                    print(f"[DEBUG] Ring ID encontrado: {ring_id}")
+                    buttons = []
+                    for base in base_structures:
+                        base_id = base.get('_id', '')
+                        base_name = base.get('name', 'Sin nombre')
+
+                        print(f"[DEBUG] Añadiendo botón base: {base_name} ({base_id})")
+
+                        buttons.append({
+                            "title": base_name,
+                            "payload": f'SetSlot("base_id", "{base_id}")'
+                        })
 
                     dispatcher.utter_message(
-                        text=f"Mostrando el anillo {ring_type}",
-                        custom={
-                            "type": "show_ring",
-                            "ring_type": ring_type,
-                            "ring_id": ring_id
-                        }
+                        text="Selecciona la base que deseas aplicar:",
+                        buttons=buttons
                     )
 
-                    return [SlotSet("ring_id", ring_id)]
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Conexión: {e}")
+            dispatcher.utter_message(
+                text="Error de conexión con el servidor."
+            )
 
         except Exception as e:
-            print(f"[ERROR] {e}")
+            print(f"[ERROR] General: {e}")
             dispatcher.utter_message(
-                text="Error al buscar el anillo."
+                text="Error interno en el servidor."
+            )
+
+        return []
+
+
+# =========================
+# CAMBIAR BASE
+# =========================
+class ActionChangeBase(Action):
+    def name(self) -> Text:
+        return "action_change_base"
+
+    async def run(
+        self, 
+        dispatcher: CollectingDispatcher, 
+        tracker: Tracker, 
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        
+        base_id = tracker.get_slot('base_id')
+
+        print(f"[DEBUG] base_id recibido en action_change_base: {base_id}")
+
+        if not base_id:
+            dispatcher.utter_message(
+                text="No pude identificar la base seleccionada."
             )
             return []
 
+        dispatcher.utter_message(
+            text="Base seleccionada correctamente.",
+            custom={
+                "type": "change_base",
+                "base_id": base_id
+            }
+        )
+
+        # Limpiar el slot de base_id después de usarlo
+        return [SlotSet("base_id", None)]
 
 
 
@@ -2401,6 +2507,11 @@ class ActionAskNextEditOption(Action):
             })
 
             buttons.append({
+                "title": "Cambiar perfil",
+                "payload": '/StartFlow(modificar_perfil_del_anillo)'
+            })
+
+            buttons.append({
                 "title": "Cambiar variante",
                 "payload": '/StartFlow(modificar_variante_del_anillo)'
             })
@@ -2583,6 +2694,10 @@ class ActionAskEditOption(Action):
 
             # Crear botones base (siempre disponibles)
             buttons = [
+                {
+                    "title": "Cambiar base",
+                    "payload": "Quiero modificar la base de mi anillo."
+                },
                 {
                     "title": "Cambiar perfil",
                     "payload": "Quiero modificar el perfil de mi anillo."

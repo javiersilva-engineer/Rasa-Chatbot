@@ -1944,20 +1944,20 @@ flows:
 
   # FLOWS INTERACCIÓN CON MOTOR 3D ---------------------------------------------------------------------------
 
-  show_ring:
-    description: |
-      El usuario quiere ver un anillo específico en el editor 3D. 
-      Hace consultas como "Quiero ver el anillo clásico en el editor 3D", 
-      "Muéstrame el anillo ondulado en el editor", "Quiero ver el anillo moderno",
-      "Carga el anillo vintage en el editor 3D", "Abre el anillo solitario en el editor", "Quiero la base clásica"
-      "Quiero la base ondulada", "Quiero la base bypass".
-      El usuario menciona explícitamente que quiere VER o MOSTRAR un tipo específico de anillo.
-    steps:
-      - collect: ring_type
-        description: |
-          El tipo de anillo que el usuario quiere ver (clásico, moderno, vintage, 
-          ondulado, solitario, etc.)
-      - action: action_show_ring
+  # show_ring:
+  #   description: |
+  #     El usuario quiere ver un anillo específico en el editor 3D. 
+  #     Hace consultas como "Quiero ver el anillo clásico en el editor 3D", 
+  #     "Muéstrame el anillo ondulado en el editor", "Quiero ver el anillo moderno",
+  #     "Carga el anillo vintage en el editor 3D", "Abre el anillo solitario en el editor", "Quiero la base clásica"
+  #     "Quiero la base ondulada", "Quiero la base bypass".
+  #     El usuario menciona explícitamente que quiere VER o MOSTRAR un tipo específico de anillo.
+  #   steps:
+  #     - collect: ring_type
+  #       description: |
+  #         El tipo de anillo que el usuario quiere ver (clásico, moderno, vintage, 
+  #         ondulado, solitario, etc.)
+  #     - action: action_show_ring
 
   editar_anillo:
     description: |
@@ -1975,7 +1975,20 @@ flows:
       "Quiero cambiar la base de mi diseño en el editor 3D"
     name: Editar base de anillo en editor 3D
     steps:
-      - action: utter_editar_base_anillo
+      - action: action_ask_base_id
+      - collect: base_id
+        description: El nombre de la base que el usuario desea aplicar, hace consultas como "Clásico", "Ondulado", "Bypass", "Aurora", "Vínculo"
+      - action: action_change_base
+      - action: action_ask_next_edit_option
+
+  # modificar_base_del_anillo:
+  #   description: |
+  #     El usuario desea modificar la base de su anillo, hace consultas como
+  #     "Quiero modificar la base de mi anillo", "Quiero cambiar la base",
+  #     "Quiero cambiar la base de mi diseño en el editor 3D"
+  #   name: Editar base de anillo en editor 3D
+  #   steps:
+  #     - action: utter_editar_base_anillo
 
   modificar_perfil_del_anillo:
     description: |
@@ -2017,25 +2030,6 @@ flows:
         description: El nombre del material que el usuario desea aplicar, hace consultas como "Oro amarillo", "Oro rosa", "Oro blanco", "Platino"
       - action: action_change_material
       - link: modificar_pureza_del_material_del_anillo
-
-  # modificar_material_del_anillo:
-  #   description: |
-  #     El usuario desea modificar el material de su anillo, hace consultas como
-  #     "Quiero modificar el material de mi anillo", "Quiero cambiar el material",
-  #     "Quiero cambiar el material de mi diseño en el editor 3D"
-  #   name: Editar material de anillo en editor 3D
-  #   steps:
-  #     - action: action_ask_material_id
-
-  # cambiar_material:
-  #   description: |
-  #     El usuario especifica el nombre del material que quiere aplicar a su anillo, hace consultas como "Oro amarillo",
-  #     "Oro rosa", "Oro blanco", "Platino", "Aplica el material oro blanco", "Pon el material platino"
-  #   steps:
-  #     - collect: material_id
-  #       description: El nombre del material que el usuario desea aplicar
-  #     - action: action_change_material
-  #     - link: modificar_pureza_del_material_del_anillo
 
   modificar_pureza_del_material_del_anillo:
     description: |
