@@ -10,78 +10,6 @@ load_dotenv()
 
 
 # =========================
-# MOSTRAR ANILLO
-# =========================
-# class ActionShowRing(Action):
-#     def name(self) -> Text:
-#         return "action_show_ring"
-
-#     async def run(self, dispatcher, tracker, domain):
-#         ring_type = tracker.get_slot('ring_type')
-
-#         if not ring_type:
-#             dispatcher.utter_message(
-#                 text="No pude identificar qué anillo quieres ver. ¿Podrías especificarlo?"
-#             )
-#             return []
-
-#         api_url = os.getenv("API_URL", "https://louv.ovh")
-
-#         try:
-#             async with aiohttp.ClientSession() as session:
-#                 # ← Obtener todas las estructuras base
-#                 endpoint = f"{api_url}/api/baseStructures"
-#                 print(f"[DEBUG] GET {endpoint}")
-
-#                 async with session.get(endpoint) as response:
-#                     if response.status != 200:
-#                         dispatcher.utter_message(
-#                             text="No pude cargar los anillos disponibles."
-#                         )
-#                         return []
-
-#                     data = await response.json()
-#                     base_structures = data.get('baseStructures', [])
-
-#                     # ← Normalizar y buscar coincidencia
-#                     normalized_ring_type = ring_type.lower().strip()
-                    
-#                     matching_ring = None
-#                     for structure in base_structures:
-#                         structure_name = structure.get('name', '').lower().strip()
-#                         if structure_name == normalized_ring_type:
-#                             matching_ring = structure
-#                             break
-
-#                     if not matching_ring:
-#                         dispatcher.utter_message(
-#                             text=f"No encontré un anillo llamado '{ring_type}'."
-#                         )
-#                         return []
-
-#                     ring_id = matching_ring.get('_id')
-#                     print(f"[DEBUG] Ring ID encontrado: {ring_id}")
-
-#                     dispatcher.utter_message(
-#                         text=f"Mostrando el anillo {ring_type}",
-#                         custom={
-#                             "type": "show_ring",
-#                             "ring_type": ring_type,
-#                             "ring_id": ring_id
-#                         }
-#                     )
-
-#                     return [SlotSet("ring_id", ring_id)]
-
-#         except Exception as e:
-#             print(f"[ERROR] {e}")
-#             dispatcher.utter_message(
-#                 text="Error al buscar el anillo."
-#             )
-#             return []
-
-
-# =========================
 # MOSTRAR BASES
 # =========================
 
@@ -352,7 +280,7 @@ class ActionChangeProfile(Action):
     async def run(self, dispatcher, tracker, domain):
         profile_id = tracker.get_slot('profile_id')
 
-        print(f"[DEBUG] profile_id recibido en action_change_profile: {profile_id}")
+        print(f"[DEBUG] profile_id recibido: {profile_id}")
 
         if not profile_id:
             dispatcher.utter_message(
@@ -368,8 +296,8 @@ class ActionChangeProfile(Action):
             }
         )
 
-        # Limpiar el slot después de usarlo
-        return [SlotSet("profile_id", None)]
+        # NO limpiar aquí - se limpiará en action_ask_next_edit_option
+        return []
 
 
 
@@ -387,9 +315,27 @@ class ActionAskVarianteId(Action):
 
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
-        current_ring_id = tracker.get_slot('ring_id')
+        
+        # ✅ CAMBIO 1: Obtener metadatos PRIMERO (son los más actualizados)
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        
+        # Ring ID
+        current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
+        
+        # Profile ID - SIEMPRE desde metadata primero
+        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        
+        # Variant ID - SIEMPRE desde metadata primero
+        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
 
-        print(f"[DEBUG] Ring ID para variantes: {current_ring_id}")
+        print(f"[DEBUG] Ring ID: {current_ring_id}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
+        print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (final): {current_profile_id}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
+        print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (final): {current_variant_id}")
 
         if not current_ring_id:
             latest_message = tracker.latest_message
@@ -831,16 +777,85 @@ class ActionAskGemaId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
-        # Obtener la posición de gema (puede ser None si solo hay 1 gema)
+        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        
+        # ✅ PASO 2: Priorizar metadata sobre slots para IDs críticos
+        current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
+        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
+        
+        # Obtener gem_position del slot (este es específico del flujo actual)
         gem_position = tracker.get_slot('gem_position')
         
-        print(f"[DEBUG] Posición de gema: {gem_position}")
+        # ✅ PASO 3: Logging detallado para debugging
+        print("=" * 60)
+        print("[DEBUG] ActionAskGemaId - Información de entrada")
+        print("=" * 60)
+        print(f"[DEBUG] Ring ID (metadata): {metadata.get('ring_id')}")
+        print(f"[DEBUG] Ring ID (slot): {tracker.get_slot('ring_id')}")
+        print(f"[DEBUG] Ring ID (final): {current_ring_id}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
+        print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (final): {current_profile_id}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
+        print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (final): {current_variant_id}")
+        print(f"[DEBUG] Gem position (slot): {gem_position}")
+        print("=" * 60)
         
         # Si gem_position es None, establecer posición 0 por defecto (1 gema)
         if gem_position is None:
             print("[DEBUG] No hay gem_position, asumiendo posición 0 (1 gema)")
             gem_position = "0"
 
+        # ✅ PASO 4: Validación opcional - verificar que la variante tiene gemas
+        # (Esto es útil para dar feedback más específico al usuario)
+        if current_ring_id and current_profile_id and current_variant_id:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                    print(f"[DEBUG] Verificando variante: GET {endpoint}")
+                    
+                    async with session.get(endpoint) as response:
+                        if response.status == 200:
+                            ring_data = await response.json()
+                            base_structure = ring_data.get("baseStructure", {})
+                            
+                            # Buscar perfil actual
+                            target_profile = None
+                            for profile_data in base_structure.get("profiles", []):
+                                profile_obj = profile_data.get('profile', {})
+                                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                                
+                                if profile_id == current_profile_id:
+                                    target_profile = profile_data
+                                    break
+                            
+                            if target_profile:
+                                # Buscar variante actual
+                                variant = None
+                                for v in target_profile.get("variants", []):
+                                    if v.get('_id') == current_variant_id:
+                                        variant = v
+                                        break
+                                
+                                if variant:
+                                    settings_info = variant.get("settingsInfo", [])
+                                    if not settings_info:
+                                        print(f"[WARNING] Variante {current_variant_id} no tiene settings")
+                                        dispatcher.utter_message(
+                                            text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+                                        )
+                                        return []
+                                    
+                                    print(f"[DEBUG] Variante tiene {len(settings_info)} posiciones de gemas")
+            except Exception as e:
+                print(f"[WARNING] No se pudo verificar la variante: {e}")
+                # Continuar de todas formas, el error no es crítico
+
+        # ✅ PASO 5: Obtener catálogo de gemas
         try:
             async with aiohttp.ClientSession() as session:
                 endpoint = f"{api_url}/api/gemstones"
@@ -848,6 +863,7 @@ class ActionAskGemaId(Action):
 
                 async with session.get(endpoint) as response:
                     if response.status != 200:
+                        print(f"[ERROR] Status code: {response.status}")
                         dispatcher.utter_message(
                             text="No pude cargar las gemas disponibles."
                         )
@@ -856,7 +872,7 @@ class ActionAskGemaId(Action):
                     data = await response.json()
                     gemstones = data.get('gemstones', [])
 
-                    print(f"[DEBUG] Nº gemas: {len(gemstones)}")
+                    print(f"[DEBUG] Nº gemas en catálogo: {len(gemstones)}")
 
                     if not gemstones:
                         dispatcher.utter_message(
@@ -864,11 +880,13 @@ class ActionAskGemaId(Action):
                         )
                         return []
 
+                    # ✅ PASO 6: Filtrar gemas válidas y crear botones
                     buttons = []
                     for gemstone in gemstones:
                         gem_id = gemstone.get('_id', '')
                         gem_name = gemstone.get('name', 'Sin nombre')
 
+                        # Filtrar gemas sin nombre válido
                         if not gem_name or gem_name == 'None' or gem_name.strip() == '':
                             print(f"[DEBUG] Omitiendo gema sin nombre válido: ID={gem_id}")
                             continue
@@ -880,26 +898,38 @@ class ActionAskGemaId(Action):
                             "payload": f'SetSlot("gema_id", "{gem_id}")'
                         })
 
+                    if not buttons:
+                        print(f"[ERROR] No se generaron botones de gemas")
+                        dispatcher.utter_message(
+                            text="No encontré gemas válidas disponibles."
+                        )
+                        return []
+
+                    print(f"[DEBUG] Total de botones generados: {len(buttons)}")
+                    print("=" * 60)
+
                     dispatcher.utter_message(
                         text="Selecciona la gema que deseas aplicar:",
                         buttons=buttons
                     )
 
         except aiohttp.ClientError as e:
-            print(f"[ERROR] Conexión: {e}")
+            print(f"[ERROR] Error de conexión: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
                 text="Error de conexión con el servidor."
             )
 
         except Exception as e:
-            print(f"[ERROR] General: {e}")
+            print(f"[ERROR] Error general: {e}")
             import traceback
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
                 text="Error interno en el servidor."
             )
 
-        # Si no había gem_position, establecerlo ahora para ActionChangeGema
+        # ✅ PASO 7: Establecer gem_position si no existe
         if tracker.get_slot('gem_position') is None:
             return [SlotSet("gem_position", "0")]
         
@@ -970,10 +1000,94 @@ class ActionAskFormaGemaId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
+        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        
+        # ✅ PASO 2: Priorizar metadata sobre slots para IDs críticos
+        current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
+        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
+        
+        # Obtener gem_position_for_cut del slot (específico del flujo actual)
         gem_position = tracker.get_slot('gem_position_for_cut')
         
-        print(f"[DEBUG] Posición de gema para cambiar forma: {gem_position}")
+        # ✅ PASO 3: Logging detallado para debugging
+        print("=" * 60)
+        print("[DEBUG] ActionAskFormaGemaId - Información de entrada")
+        print("=" * 60)
+        print(f"[DEBUG] Ring ID (metadata): {metadata.get('ring_id')}")
+        print(f"[DEBUG] Ring ID (slot): {tracker.get_slot('ring_id')}")
+        print(f"[DEBUG] Ring ID (final): {current_ring_id}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
+        print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (final): {current_profile_id}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
+        print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (final): {current_variant_id}")
+        print(f"[DEBUG] Gem position for cut (slot): {gem_position}")
+        print("=" * 60)
 
+        # Si gem_position es None, establecer posición 0 por defecto
+        if gem_position is None:
+            print("[DEBUG] No hay gem_position_for_cut, asumiendo posición 0 (1 gema)")
+            gem_position = "0"
+
+        # ✅ PASO 4: Validación opcional - verificar que la variante tiene gemas
+        if current_ring_id and current_profile_id and current_variant_id:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                    print(f"[DEBUG] Verificando variante: GET {endpoint}")
+                    
+                    async with session.get(endpoint) as response:
+                        if response.status == 200:
+                            ring_data = await response.json()
+                            base_structure = ring_data.get("baseStructure", {})
+                            
+                            # Buscar perfil actual
+                            target_profile = None
+                            for profile_data in base_structure.get("profiles", []):
+                                profile_obj = profile_data.get('profile', {})
+                                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                                
+                                if profile_id == current_profile_id:
+                                    target_profile = profile_data
+                                    break
+                            
+                            if target_profile:
+                                # Buscar variante actual
+                                variant = None
+                                for v in target_profile.get("variants", []):
+                                    if v.get('_id') == current_variant_id:
+                                        variant = v
+                                        break
+                                
+                                if variant:
+                                    settings_info = variant.get("settingsInfo", [])
+                                    if not settings_info:
+                                        print(f"[WARNING] Variante {current_variant_id} no tiene settings")
+                                        dispatcher.utter_message(
+                                            text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+                                        )
+                                        return []
+                                    
+                                    print(f"[DEBUG] Variante tiene {len(settings_info)} posiciones de gemas")
+                                    
+                                    # Verificar que la posición solicitada existe
+                                    try:
+                                        position_index = int(gem_position)
+                                        if position_index >= len(settings_info):
+                                            print(f"[WARNING] Posición {position_index} >= {len(settings_info)}, usando 0")
+                                            gem_position = "0"
+                                    except (ValueError, TypeError):
+                                        print(f"[WARNING] gem_position '{gem_position}' no es válido, usando 0")
+                                        gem_position = "0"
+            except Exception as e:
+                print(f"[WARNING] No se pudo verificar la variante: {e}")
+                # Continuar de todas formas, el error no es crítico
+
+        # ✅ PASO 5: Obtener catálogo de formas de gema (cuts)
         try:
             async with aiohttp.ClientSession() as session:
                 endpoint = f"{api_url}/api/cuts"
@@ -981,6 +1095,7 @@ class ActionAskFormaGemaId(Action):
 
                 async with session.get(endpoint) as response:
                     if response.status != 200:
+                        print(f"[ERROR] Status code: {response.status}")
                         dispatcher.utter_message(
                             text="No pude cargar las formas de gema disponibles."
                         )
@@ -989,36 +1104,67 @@ class ActionAskFormaGemaId(Action):
                     data = await response.json()
                     cuts = data.get('cuts', [])
 
+                    print(f"[DEBUG] Nº formas de gema en catálogo: {len(cuts)}")
+
                     if not cuts:
                         dispatcher.utter_message(
                             text="No hay formas de gema disponibles."
                         )
                         return []
 
+                    # ✅ PASO 6: Crear botones con formas de gema
                     buttons = []
                     for cut in cuts:
                         cut_id = cut.get('_id', '')
                         cut_name = cut.get('name', 'Sin nombre')
 
-                        # ✅ CORRECCIÓN: Usar SetSlot en lugar de intent
+                        # Filtrar cuts sin nombre válido
+                        if not cut_name or cut_name == 'None' or cut_name.strip() == '':
+                            print(f"[DEBUG] Omitiendo forma sin nombre válido: ID={cut_id}")
+                            continue
+
+                        print(f"[DEBUG] Añadiendo botón forma: {cut_name} ({cut_id})")
+
                         buttons.append({
                             "title": cut_name,
                             "payload": f'SetSlot("forma_gema_id", "{cut_id}")'
                         })
+
+                    if not buttons:
+                        print(f"[ERROR] No se generaron botones de formas de gema")
+                        dispatcher.utter_message(
+                            text="No encontré formas de gema válidas disponibles."
+                        )
+                        return []
+
+                    print(f"[DEBUG] Total de botones generados: {len(buttons)}")
+                    print("=" * 60)
 
                     dispatcher.utter_message(
                         text="Selecciona la forma de gema que deseas aplicar:",
                         buttons=buttons
                     )
 
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Error de conexión: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error de conexión con el servidor."
+            )
+
         except Exception as e:
-            print(f"[ERROR] General: {e}")
+            print(f"[ERROR] Error general: {e}")
             import traceback
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
                 text="Error interno en el servidor."
             )
 
+        # ✅ PASO 7: Establecer gem_position_for_cut si no existe
+        if tracker.get_slot('gem_position_for_cut') is None:
+            return [SlotSet("gem_position_for_cut", "0")]
+        
         return []
 
 
@@ -1178,30 +1324,47 @@ class ActionAskEngasteId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
+        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        
+        # ✅ PASO 2: Priorizar metadata sobre slots
+        current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
+        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
         gem_position = tracker.get_slot('gem_position_for_setting')
-        current_ring_id = tracker.get_slot('ring_id')
         
-        if not current_ring_id:
-            latest_message = tracker.latest_message
-            metadata = latest_message.get('metadata', {})
-            current_ring_id = metadata.get('ring_id')
-        
-        print(f"[DEBUG] Ring ID: {current_ring_id}")
-        print(f"[DEBUG] Posición de gema para cambiar engaste: {gem_position}")
+        # ✅ PASO 3: Logging detallado para debugging
+        print("=" * 60)
+        print("[DEBUG] ActionAskEngasteId - Información de entrada")
+        print("=" * 60)
+        print(f"[DEBUG] Ring ID (metadata): {metadata.get('ring_id')}")
+        print(f"[DEBUG] Ring ID (slot): {tracker.get_slot('ring_id')}")
+        print(f"[DEBUG] Ring ID (final): {current_ring_id}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
+        print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (final): {current_profile_id}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
+        print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (final): {current_variant_id}")
+        print(f"[DEBUG] Gem position (slot): {gem_position}")
+        print("=" * 60)
 
-        # Si gem_position es None, establecer posición 0 por defecto (1 gema)
+        # Si gem_position es None, establecer posición 0 por defecto
         if gem_position is None:
             print("[DEBUG] No hay gem_position_for_setting, asumiendo posición 0 (1 gema)")
             gem_position = "0"
 
+        # Validación de ring_id
         if not current_ring_id:
-            print(f"[ERROR] No se encontró ring_id")
+            print(f"[ERROR] No se encontró ring_id en metadata ni en slots")
             dispatcher.utter_message(
                 text="No tengo información del anillo actual. Por favor, intenta cargar el anillo nuevamente."
             )
             return []
 
         try:
+            # Obtener estructura base del anillo
             async with aiohttp.ClientSession() as session:
                 endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
                 print(f"[DEBUG] GET {endpoint}")
@@ -1217,20 +1380,14 @@ class ActionAskEngasteId(Action):
                     ring_data = await response.json()
 
             base_structure = ring_data.get("baseStructure", {})
+            print(f"[DEBUG] Base structure cargada: {base_structure.get('name', 'N/A')}")
             
-            current_profile_id = tracker.get_slot('profile_id')
-            
-            if not current_profile_id:
-                latest_message = tracker.latest_message
-                metadata = latest_message.get('metadata', {})
-                current_profile_id = metadata.get('profile_id')
-            
+            # ✅ Si no hay profile_id, usar el primero disponible como fallback
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
                 profile_obj = first_profile.get('profile', {})
                 current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
-
-            print(f"[DEBUG] Profile ID: {current_profile_id}")
+                print(f"[DEBUG] Usando primer perfil disponible como fallback: {current_profile_id}")
 
             if not current_profile_id:
                 print(f"[ERROR] No se encontró profile_id")
@@ -1239,6 +1396,7 @@ class ActionAskEngasteId(Action):
                 )
                 return []
 
+            # Buscar el perfil específico
             target_profile = None
             for profile_data in base_structure.get("profiles", []):
                 profile_obj = profile_data.get('profile', {})
@@ -1246,26 +1404,26 @@ class ActionAskEngasteId(Action):
                 
                 if profile_id == current_profile_id:
                     target_profile = profile_data
+                    print(f"[DEBUG] ✅ Perfil encontrado: {profile_id}")
                     break
 
             if not target_profile:
                 print(f"[ERROR] No se encontró el perfil con ID: {current_profile_id}")
+                print(f"[DEBUG] Perfiles disponibles:")
+                for profile_data in base_structure.get("profiles", []):
+                    profile_obj = profile_data.get('profile', {})
+                    profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                    print(f"  - {profile_id}")
+                
                 dispatcher.utter_message(
                     text="No pude encontrar el perfil actual del anillo."
                 )
                 return []
 
-            current_variant_id = tracker.get_slot('variante_id')
-            
-            if not current_variant_id:
-                latest_message = tracker.latest_message
-                metadata = latest_message.get('metadata', {})
-                current_variant_id = metadata.get('variant_id')
-
+            # ✅ Si no hay variant_id, usar la primera variante como fallback
             if not current_variant_id and target_profile.get("variants"):
                 current_variant_id = target_profile["variants"][0].get('_id', '')
-
-            print(f"[DEBUG] Variant ID: {current_variant_id}")
+                print(f"[DEBUG] Usando primera variante disponible como fallback: {current_variant_id}")
 
             if not current_variant_id:
                 print(f"[ERROR] No se encontró variant_id")
@@ -1274,19 +1432,26 @@ class ActionAskEngasteId(Action):
                 )
                 return []
 
+            # Buscar la variante específica
             variant = None
             for v in target_profile.get("variants", []):
                 if v.get('_id') == current_variant_id:
                     variant = v
+                    print(f"[DEBUG] ✅ Variante encontrada: {v.get('name', 'N/A')} ({current_variant_id})")
                     break
 
             if not variant:
                 print(f"[ERROR] No se encontró la variante con ID: {current_variant_id}")
+                print(f"[DEBUG] Variantes disponibles en perfil {current_profile_id}:")
+                for v in target_profile.get("variants", []):
+                    print(f"  - {v.get('_id')} ({v.get('name', 'N/A')})")
+                
                 dispatcher.utter_message(
                     text="No pude encontrar la variante actual del anillo."
                 )
                 return []
 
+            # Verificar settings_info
             settings_info = variant.get("settingsInfo", [])
             
             if not settings_info:
@@ -1296,18 +1461,22 @@ class ActionAskEngasteId(Action):
                 )
                 return []
 
+            # Determinar índice de posición
             position_index = 0
             if gem_position is not None:
                 try:
                     position_index = int(gem_position)
                 except (ValueError, TypeError):
                     position_index = 0
+                    print(f"[WARNING] No se pudo convertir gem_position '{gem_position}' a int, usando 0")
 
             if position_index >= len(settings_info):
+                print(f"[WARNING] position_index {position_index} >= len(settings_info) {len(settings_info)}, usando 0")
                 position_index = 0
 
             print(f"[DEBUG] Usando posición de gema: {position_index}")
 
+            # Obtener engastes compatibles
             setting_info = settings_info[position_index]
             compatible_settings = setting_info.get("compatibleSettings", [])
 
@@ -1318,6 +1487,7 @@ class ActionAskEngasteId(Action):
                 )
                 return []
 
+            # Extraer IDs de engastes compatibles
             compatible_setting_ids = set()
             for comp_setting in compatible_settings:
                 setting_obj = comp_setting.get('setting')
@@ -1335,6 +1505,7 @@ class ActionAskEngasteId(Action):
                 )
                 return []
 
+            # Obtener catálogo completo de engastes
             settings_endpoint = f"{api_url}/api/settings"
             print(f"[DEBUG] GET {settings_endpoint}")
 
@@ -1352,6 +1523,7 @@ class ActionAskEngasteId(Action):
 
             print(f"[DEBUG] Total de engastes en catálogo: {len(all_settings)}")
 
+            # Crear botones con engastes compatibles
             buttons = []
             for setting in all_settings:
                 setting_id = setting.get('_id', '')
@@ -1374,6 +1546,7 @@ class ActionAskEngasteId(Action):
                 return []
 
             print(f"[DEBUG] Total de botones generados: {len(buttons)}")
+            print("=" * 60)
 
             dispatcher.utter_message(
                 text="Selecciona el engaste que deseas aplicar:",
@@ -1395,7 +1568,7 @@ class ActionAskEngasteId(Action):
                 text="Error interno en el servidor."
             )
 
-        # Si no había gem_position_for_setting, establecerlo ahora para ActionChangeEngaste
+        # Si no había gem_position_for_setting, establecerlo ahora
         if tracker.get_slot('gem_position_for_setting') is None:
             return [SlotSet("gem_position_for_setting", "0")]
         
@@ -1577,30 +1750,52 @@ class ActionAskNumeroGarrasId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
-        gem_position = tracker.get_slot('gem_position_for_claw_number')
-        current_ring_id = tracker.get_slot('ring_id')
-        
-        if not current_ring_id:
-            latest_message = tracker.latest_message
-            metadata = latest_message.get('metadata', {})
-            current_ring_id = metadata.get('ring_id')
-        
-        # ← NUEVO: Obtener el setting_id desde metadata
+        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
-        current_setting_id = metadata.get('setting_id')
         
-        print(f"[DEBUG] Ring ID: {current_ring_id}")
-        print(f"[DEBUG] Setting ID actual: {current_setting_id}")
-        print(f"[DEBUG] Posición de gema para cambiar número de garras: {gem_position}")
+        # ✅ PASO 2: Priorizar metadata sobre slots
+        current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
+        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
+        current_setting_id = metadata.get('setting_id') or tracker.get_slot('engaste_id')
+        gem_position = tracker.get_slot('gem_position_for_claw_number')
+        
+        # ✅ PASO 3: Logging detallado para debugging
+        print("=" * 60)
+        print("[DEBUG] ActionAskNumeroGarrasId - Información de entrada")
+        print("=" * 60)
+        print(f"[DEBUG] Ring ID (metadata): {metadata.get('ring_id')}")
+        print(f"[DEBUG] Ring ID (slot): {tracker.get_slot('ring_id')}")
+        print(f"[DEBUG] Ring ID (final): {current_ring_id}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
+        print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (final): {current_profile_id}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
+        print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (final): {current_variant_id}")
+        print(f"[DEBUG] Setting ID (metadata): {metadata.get('setting_id')}")
+        print(f"[DEBUG] Setting ID (slot): {tracker.get_slot('engaste_id')}")
+        print(f"[DEBUG] Setting ID (final): {current_setting_id}")
+        print(f"[DEBUG] Gem position (slot): {gem_position}")
+        print("=" * 60)
 
+        # Si gem_position es None, establecer posición 0 por defecto
+        if gem_position is None:
+            print("[DEBUG] No hay gem_position_for_claw_number, asumiendo posición 0 (1 gema)")
+            gem_position = "0"
+
+        # Validación de ring_id
         if not current_ring_id:
+            print(f"[ERROR] No se encontró ring_id en metadata ni en slots")
             dispatcher.utter_message(
-                text="No tengo información del anillo actual."
+                text="No tengo información del anillo actual. Por favor, intenta cargar el anillo nuevamente."
             )
             return []
 
+        # Validación de setting_id
         if not current_setting_id:
+            print(f"[ERROR] No se encontró setting_id en metadata ni en slots")
             dispatcher.utter_message(
                 text="No pude identificar el engaste actual."
             )
@@ -1613,7 +1808,8 @@ class ActionAskNumeroGarrasId(Action):
 
             async with aiohttp.ClientSession() as session:
                 async with session.get(settings_endpoint) as response:
-                    if response.status != 200:
+                    if response.status < 200 or response.status >= 300:
+                        print(f"[ERROR] Status code: {response.status}")
                         dispatcher.utter_message(
                             text="No pude cargar los engastes disponibles."
                         )
@@ -1622,25 +1818,32 @@ class ActionAskNumeroGarrasId(Action):
                     data = await response.json()
                     all_settings = data.get('settings', [])
 
-            # Buscar el engaste actual en el catálogo usando el setting_id del metadata
+            print(f"[DEBUG] Total de engastes en catálogo: {len(all_settings)}")
+
+            # Buscar el engaste actual en el catálogo usando el setting_id
             current_setting = None
             for setting in all_settings:
                 if setting.get('_id', '') == current_setting_id:
                     current_setting = setting
+                    print(f"[DEBUG] ✅ Engaste encontrado: {setting.get('name', 'Sin nombre')} ({current_setting_id})")
                     break
 
             if not current_setting:
+                print(f"[ERROR] No se encontró el engaste con ID: {current_setting_id}")
+                print(f"[DEBUG] Engastes disponibles en catálogo:")
+                for setting in all_settings[:5]:  # Mostrar solo los primeros 5 para no saturar logs
+                    print(f"  - {setting.get('_id')} ({setting.get('name', 'N/A')})")
+                
                 dispatcher.utter_message(
                     text="No pude encontrar el engaste actual en el catálogo."
                 )
                 return []
 
-            print(f"[DEBUG] Engaste encontrado: {current_setting.get('name', 'Sin nombre')}")
-
             # Obtener los números de garras disponibles para este engaste
             claw_numbers = current_setting.get('clawNumber', [])
 
             if not claw_numbers:
+                print(f"[ERROR] No hay clawNumber en el engaste {current_setting_id}")
                 dispatcher.utter_message(
                     text="Este engaste no tiene opciones de número de garras disponibles."
                 )
@@ -1662,24 +1865,39 @@ class ActionAskNumeroGarrasId(Action):
                 })
 
             if not buttons:
+                print(f"[ERROR] No se generaron botones de números de garras")
                 dispatcher.utter_message(
                     text="No encontré opciones de número de garras disponibles para este engaste."
                 )
                 return []
+
+            print(f"[DEBUG] Total de botones generados: {len(buttons)}")
+            print("=" * 60)
 
             dispatcher.utter_message(
                 text=f"Selecciona el número de garras que deseas aplicar al engaste {current_setting.get('name', '')}:",
                 buttons=buttons
             )
 
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Error de conexión: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error de conexión con el servidor."
+            )
         except Exception as e:
-            print(f"[ERROR] General: {e}")
+            print(f"[ERROR] Error general: {e}")
             import traceback
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
                 text="Error interno en el servidor."
             )
 
+        # Si no había gem_position_for_claw_number, establecerlo ahora
+        if tracker.get_slot('gem_position_for_claw_number') is None:
+            return [SlotSet("gem_position_for_claw_number", "0")]
+        
         return []
 
 
@@ -1933,82 +2151,230 @@ class ActionAskTipoGarrasId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
+        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        
+        # ✅ PASO 2: Priorizar metadata sobre slots para IDs críticos
+        current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
+        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
+        current_setting_id = metadata.get('setting_id')
+        current_claw_number_id = metadata.get('claw_number_id')
+        current_cut_id = metadata.get('cut_id')
+        
+        # Obtener gem_position_for_claw_type del slot (específico del flujo actual)
         gem_position = tracker.get_slot('gem_position_for_claw_type')
         
+        # ✅ PASO 3: Logging detallado para debugging
+        print("=" * 60)
+        print("[DEBUG] ActionAskTipoGarrasId - Información de entrada")
+        print("=" * 60)
+        print(f"[DEBUG] Ring ID (metadata): {metadata.get('ring_id')}")
+        print(f"[DEBUG] Ring ID (slot): {tracker.get_slot('ring_id')}")
+        print(f"[DEBUG] Ring ID (final): {current_ring_id}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
+        print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (final): {current_profile_id}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
+        print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (final): {current_variant_id}")
+        print(f"[DEBUG] Setting ID (metadata): {current_setting_id}")
+        print(f"[DEBUG] Claw Number ID (metadata): {current_claw_number_id}")
+        print(f"[DEBUG] Cut ID (metadata): {current_cut_id}")
+        print(f"[DEBUG] Gem position for claw type (slot): {gem_position}")
+        print("=" * 60)
+        
+        # Si gem_position es None, establecer posición 0 por defecto
         if gem_position is None:
             print("[DEBUG] No hay gem_position_for_claw_type, asumiendo posición 0")
             gem_position = "0"
 
-        latest_message = tracker.latest_message
-        metadata = latest_message.get('metadata', {})
-        current_setting_id = metadata.get('setting_id')
-        current_claw_number_id = metadata.get('claw_number_id')
-        current_cut_id = metadata.get('cut_id')
-
+        # ✅ PASO 4: Validación de engaste actual
         if not current_setting_id:
+            print("[ERROR] No se encontró setting_id en metadata")
             dispatcher.utter_message(text="No pude identificar el engaste actual.")
             return []
 
+        # ✅ PASO 5: Validación opcional - verificar que la variante tiene gemas
+        if current_ring_id and current_profile_id and current_variant_id:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
+                    print(f"[DEBUG] Verificando variante: GET {endpoint}")
+                    
+                    async with session.get(endpoint) as response:
+                        if response.status == 200:
+                            ring_data = await response.json()
+                            base_structure = ring_data.get("baseStructure", {})
+                            
+                            # Buscar perfil actual
+                            target_profile = None
+                            for profile_data in base_structure.get("profiles", []):
+                                profile_obj = profile_data.get('profile', {})
+                                profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                                
+                                if profile_id == current_profile_id:
+                                    target_profile = profile_data
+                                    break
+                            
+                            if target_profile:
+                                # Buscar variante actual
+                                variant = None
+                                for v in target_profile.get("variants", []):
+                                    if v.get('_id') == current_variant_id:
+                                        variant = v
+                                        break
+                                
+                                if variant:
+                                    settings_info = variant.get("settingsInfo", [])
+                                    if not settings_info:
+                                        print(f"[WARNING] Variante {current_variant_id} no tiene settings")
+                                        dispatcher.utter_message(
+                                            text="Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
+                                        )
+                                        return []
+                                    
+                                    print(f"[DEBUG] Variante tiene {len(settings_info)} posiciones de gemas")
+                                    
+                                    # Verificar que la posición solicitada existe
+                                    try:
+                                        position_index = int(gem_position)
+                                        if position_index >= len(settings_info):
+                                            print(f"[WARNING] Posición {position_index} >= {len(settings_info)}, usando 0")
+                                            gem_position = "0"
+                                    except (ValueError, TypeError):
+                                        print(f"[WARNING] gem_position '{gem_position}' no es válido, usando 0")
+                                        gem_position = "0"
+            except Exception as e:
+                print(f"[WARNING] No se pudo verificar la variante: {e}")
+                # Continuar de todas formas, el error no es crítico
+
+        # ✅ PASO 6: Obtener catálogo de engastes
         try:
             settings_endpoint = f"{api_url}/api/settings"
+            print(f"[DEBUG] GET {settings_endpoint}")
+            
             async with aiohttp.ClientSession() as session:
                 async with session.get(settings_endpoint) as response:
                     if response.status != 200:
+                        print(f"[ERROR] Status code: {response.status}")
                         dispatcher.utter_message(text="No pude cargar los engastes disponibles.")
                         return []
+                    
                     data = await response.json()
                     all_settings = data.get('settings', [])
 
+            print(f"[DEBUG] Total de engastes en catálogo: {len(all_settings)}")
+
+            # ✅ PASO 7: Buscar el engaste actual
             current_setting = next((s for s in all_settings if s.get('_id') == current_setting_id), None)
+            
             if not current_setting:
+                print(f"[ERROR] No se encontró engaste con ID: {current_setting_id}")
+                print(f"[DEBUG] Engastes disponibles: {[s.get('_id') for s in all_settings[:5]]}...")
                 dispatcher.utter_message(text="No pude encontrar el engaste actual.")
                 return []
 
+            print(f"[DEBUG] Engaste encontrado: {current_setting.get('name', 'N/A')}")
+
+            # ✅ PASO 8: Buscar el número de garras actual
             claw_number_obj = None
             for cn in current_setting.get('clawNumber', []):
                 if cn.get('_id') == current_claw_number_id:
                     claw_number_obj = cn
+                    print(f"[DEBUG] ✅ Número de garras encontrado: {cn.get('name', 'N/A')}")
                     break
             
+            # Fallback al primer clawNumber si no se encuentra el específico
             if not claw_number_obj:
-                claw_number_obj = current_setting.get('clawNumber', [{}])[0]
+                claw_numbers = current_setting.get('clawNumber', [])
+                if claw_numbers:
+                    claw_number_obj = claw_numbers[0]
+                    print(f"[DEBUG] Usando primer número de garras como fallback: {claw_number_obj.get('name', 'N/A')}")
+                else:
+                    print(f"[ERROR] Engaste no tiene clawNumber disponibles")
+                    dispatcher.utter_message(text="Este engaste no tiene opciones de número de garras.")
+                    return []
 
+            # ✅ PASO 9: Buscar el cut compatible actual
             compatible_cut_obj = None
             for cc in claw_number_obj.get('compatibleCuts', []):
                 cut_obj = cc.get('cut')
                 cut_id = cut_obj if isinstance(cut_obj, str) else cut_obj.get('_id')
+                
                 if cut_id == current_cut_id:
                     compatible_cut_obj = cc
+                    print(f"[DEBUG] ✅ Cut compatible encontrado: {cut_id}")
                     break
             
+            # Fallback al primer compatibleCut si no se encuentra el específico
             if not compatible_cut_obj:
-                compatible_cut_obj = claw_number_obj.get('compatibleCuts', [{}])[0]
+                compatible_cuts = claw_number_obj.get('compatibleCuts', [])
+                if compatible_cuts:
+                    compatible_cut_obj = compatible_cuts[0]
+                    cut_obj = compatible_cut_obj.get('cut')
+                    cut_id = cut_obj if isinstance(cut_obj, str) else cut_obj.get('_id')
+                    print(f"[DEBUG] Usando primer cut compatible como fallback: {cut_id}")
+                else:
+                    print(f"[ERROR] Número de garras no tiene compatibleCuts disponibles")
+                    dispatcher.utter_message(text="Este número de garras no tiene formas de gema compatibles.")
+                    return []
 
+            # ✅ PASO 10: Obtener tipos de garras disponibles
             claw_types = compatible_cut_obj.get('clawType', [])
 
+            print(f"[DEBUG] Tipos de garras disponibles: {len(claw_types)}")
+
             if not claw_types:
-                dispatcher.utter_message(text="No hay tipos de garras disponibles.")
+                print(f"[ERROR] No hay clawType en el cut compatible")
+                dispatcher.utter_message(text="No hay tipos de garras disponibles para esta configuración.")
                 return []
 
+            # ✅ PASO 11: Crear botones con tipos de garras
             buttons = []
             for claw_type in claw_types:
                 claw_type_id = claw_type.get('_id', '')
                 claw_type_name = claw_type.get('name', 'Sin nombre')
+                
+                # Filtrar tipos sin nombre válido
+                if not claw_type_name or claw_type_name == 'None' or claw_type_name.strip() == '':
+                    print(f"[DEBUG] Omitiendo tipo de garras sin nombre válido: ID={claw_type_id}")
+                    continue
+                
+                print(f"[DEBUG] Añadiendo botón tipo de garras: {claw_type_name} ({claw_type_id})")
                 
                 buttons.append({
                     "title": claw_type_name,
                     "payload": f'SetSlot("tipo_garras_id", "{claw_type_id}")'
                 })
 
+            if not buttons:
+                print(f"[ERROR] No se generaron botones de tipos de garras")
+                dispatcher.utter_message(text="No encontré tipos de garras válidos disponibles.")
+                return []
+
+            print(f"[DEBUG] Total de botones generados: {len(buttons)}")
+            print("=" * 60)
+
             dispatcher.utter_message(
                 text="Selecciona el tipo de garras que deseas aplicar:",
                 buttons=buttons
             )
 
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Error de conexión: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(text="Error de conexión con el servidor.")
+            
         except Exception as e:
-            print(f"[ERROR] {e}")
+            print(f"[ERROR] Error general: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(text="Error interno en el servidor.")
 
+        # ✅ PASO 12: Establecer gem_position_for_claw_type si no existe
         if tracker.get_slot('gem_position_for_claw_type') is None:
             return [SlotSet("gem_position_for_claw_type", "0")]
         
@@ -2451,25 +2817,25 @@ class ActionAskNextEditOption(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
         
-        # ✅ CAMBIO 1: Obtener metadatos PRIMERO (son los más actualizados)
+        # ✅ Priorizar slots sobre metadata para cambios recientes
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
-        # Ring ID
+        # Ring ID - metadata tiene prioridad (no cambia durante la sesión)
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         
-        # Profile ID - SIEMPRE desde metadata primero
-        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        # Profile ID - slot tiene prioridad (puede cambiar durante edición)
+        current_profile_id = tracker.get_slot('profile_id') or metadata.get('profile_id')
         
-        # Variant ID - SIEMPRE desde metadata primero
-        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
+        # Variant ID - slot tiene prioridad (puede cambiar durante edición)
+        current_variant_id = tracker.get_slot('variante_id') or metadata.get('variant_id')
 
         print(f"[DEBUG] Ring ID: {current_ring_id}")
-        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
         print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
         print(f"[DEBUG] Profile ID (final): {current_profile_id}")
-        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
         print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
         print(f"[DEBUG] Variant ID (final): {current_variant_id}")
 
         if not current_ring_id:
@@ -2494,7 +2860,7 @@ class ActionAskNextEditOption(Action):
 
             base_structure = ring_data.get("baseStructure", {})
             
-            # ✅ CAMBIO 2: Si no hay profile_id, usar el primero disponible
+            # ✅ Si no hay profile_id, usar el primero disponible
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
                 profile_obj = first_profile.get('profile', {})
@@ -2524,7 +2890,7 @@ class ActionAskNextEditOption(Action):
                 )
                 return []
 
-            # ✅ CAMBIO 3: Si no hay variant_id, usar la primera variante del perfil
+            # ✅ Si no hay variant_id, usar la primera variante del perfil
             if not current_variant_id and target_profile.get("variants"):
                 current_variant_id = target_profile["variants"][0].get('_id', '')
                 print(f"[DEBUG] Usando primera variante disponible: {current_variant_id}")
@@ -2547,13 +2913,14 @@ class ActionAskNextEditOption(Action):
                 )
                 return []
 
-            # Verificar si la variante tiene settings (gemas)
+            # ✅ Verificar si la variante tiene settings (gemas)
             settings_info = variant.get("settingsInfo", [])
             has_gems = len(settings_info) > 0
+            gem_count = len(settings_info)
             
             print(f"[DEBUG] Variante encontrada: {variant.get('name')}")
             print(f"[DEBUG] Variante tiene gemas: {has_gems}")
-            print(f"[DEBUG] Número de settings: {len(settings_info)}")
+            print(f"[DEBUG] Número de settings: {gem_count}")
 
             # Construir lista de botones dinámicamente
             buttons = []
@@ -2625,10 +2992,13 @@ class ActionAskNextEditOption(Action):
                 text="Error al cargar las opciones de edición."
             )
 
-        # Limpiar TODOS los slots de edición aquí
+        # ✅ CORRECCIÓN CRÍTICA: NO borrar ring_id, profile_id, ni variante_id
+        # Solo limpiar slots de edición específicos
         return [
-            SlotSet("variante_id", None),
-            SlotSet("profile_id", None),
+            # ✅ Actualizar estado de gemas ANTES de limpiar otros slots
+            SlotSet("has_gems", has_gems),
+            SlotSet("gem_count", gem_count),
+            # Limpiar solo slots de edición
             SlotSet("material_id", None),
             SlotSet("pureza_id", None),
             SlotSet("gema_id", None),
@@ -2644,8 +3014,6 @@ class ActionAskNextEditOption(Action):
             SlotSet("gem_position_for_setting", None),
             SlotSet("gem_position_for_claw_number", None),
             SlotSet("gem_position_for_claw_type", None),
-            SlotSet("has_gems", None),
-            SlotSet("gem_count", None)
         ]
     
 # =========================
@@ -2658,27 +3026,47 @@ class ActionAskEditOption(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
         
-        current_ring_id = tracker.get_slot('ring_id')
-        if not current_ring_id:
-            latest_message = tracker.latest_message
-            metadata = latest_message.get('metadata', {})
-            current_ring_id = metadata.get('ring_id')
+        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        latest_message = tracker.latest_message
+        metadata = latest_message.get('metadata', {})
+        
+        # ✅ PASO 2: Priorizar metadata sobre slots
+        current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
+        current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
+        current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
+        
+        # ✅ PASO 3: Logging detallado para debugging
+        print("=" * 60)
+        print("[DEBUG] ActionAskEditOption - Información de entrada")
+        print("=" * 60)
+        print(f"[DEBUG] Ring ID (metadata): {metadata.get('ring_id')}")
+        print(f"[DEBUG] Ring ID (slot): {tracker.get_slot('ring_id')}")
+        print(f"[DEBUG] Ring ID (final): {current_ring_id}")
+        print(f"[DEBUG] Profile ID (metadata): {metadata.get('profile_id')}")
+        print(f"[DEBUG] Profile ID (slot): {tracker.get_slot('profile_id')}")
+        print(f"[DEBUG] Profile ID (final): {current_profile_id}")
+        print(f"[DEBUG] Variant ID (metadata): {metadata.get('variant_id')}")
+        print(f"[DEBUG] Variant ID (slot): {tracker.get_slot('variante_id')}")
+        print(f"[DEBUG] Variant ID (final): {current_variant_id}")
+        print("=" * 60)
 
-        print(f"[DEBUG] Ring ID para opciones de edición: {current_ring_id}")
-
+        # Validación de ring_id
         if not current_ring_id:
+            print(f"[ERROR] No se encontró ring_id en metadata ni en slots")
             dispatcher.utter_message(
-                text="No tengo información del anillo actual."
+                text="No tengo información del anillo actual. Por favor, intenta cargar el anillo nuevamente."
             )
             return []
 
         try:
+            # Obtener estructura base del anillo
             async with aiohttp.ClientSession() as session:
                 endpoint = f"{api_url}/api/baseStructures/{current_ring_id}"
                 print(f"[DEBUG] GET {endpoint}")
 
                 async with session.get(endpoint) as response:
                     if response.status < 200 or response.status >= 300:
+                        print(f"[ERROR] Status code: {response.status}")
                         dispatcher.utter_message(
                             text="No pude cargar la información del anillo."
                         )
@@ -2687,18 +3075,21 @@ class ActionAskEditOption(Action):
                     ring_data = await response.json()
 
             base_structure = ring_data.get("baseStructure", {})
+            print(f"[DEBUG] Base structure cargada: {base_structure.get('name', 'N/A')}")
             
-            # Obtener el perfil actual
-            current_profile_id = tracker.get_slot('profile_id')
-            if not current_profile_id:
-                latest_message = tracker.latest_message
-                metadata = latest_message.get('metadata', {})
-                current_profile_id = metadata.get('profile_id')
-            
+            # ✅ Si no hay profile_id, usar el primero disponible como fallback
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
                 profile_obj = first_profile.get('profile', {})
                 current_profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                print(f"[DEBUG] Usando primer perfil disponible como fallback: {current_profile_id}")
+
+            if not current_profile_id:
+                print(f"[ERROR] No se encontró profile_id")
+                dispatcher.utter_message(
+                    text="No pude identificar el perfil actual del anillo."
+                )
+                return []
 
             # Buscar el perfil específico
             target_profile = None
@@ -2708,31 +3099,48 @@ class ActionAskEditOption(Action):
                 
                 if profile_id == current_profile_id:
                     target_profile = profile_data
+                    print(f"[DEBUG] ✅ Perfil encontrado: {profile_id}")
                     break
 
             if not target_profile:
+                print(f"[ERROR] No se encontró el perfil con ID: {current_profile_id}")
+                print(f"[DEBUG] Perfiles disponibles:")
+                for profile_data in base_structure.get("profiles", []):
+                    profile_obj = profile_data.get('profile', {})
+                    profile_id = profile_obj if isinstance(profile_obj, str) else profile_obj.get('_id', '')
+                    print(f"  - {profile_id}")
+                
                 dispatcher.utter_message(
                     text="No pude encontrar el perfil actual del anillo."
                 )
                 return []
 
-            # Obtener la variante actual
-            current_variant_id = tracker.get_slot('variante_id')
-            if not current_variant_id:
-                latest_message = tracker.latest_message
-                metadata = latest_message.get('metadata', {})
-                current_variant_id = metadata.get('variant_id')
-
+            # ✅ Si no hay variant_id, usar la primera variante como fallback
             if not current_variant_id and target_profile.get("variants"):
                 current_variant_id = target_profile["variants"][0].get('_id', '')
+                print(f"[DEBUG] Usando primera variante disponible como fallback: {current_variant_id}")
 
+            if not current_variant_id:
+                print(f"[ERROR] No se encontró variant_id")
+                dispatcher.utter_message(
+                    text="No pude identificar la variante actual del anillo."
+                )
+                return []
+
+            # Buscar la variante específica
             variant = None
             for v in target_profile.get("variants", []):
                 if v.get('_id') == current_variant_id:
                     variant = v
+                    print(f"[DEBUG] ✅ Variante encontrada: {v.get('name', 'N/A')} ({current_variant_id})")
                     break
 
             if not variant:
+                print(f"[ERROR] No se encontró la variante con ID: {current_variant_id}")
+                print(f"[DEBUG] Variantes disponibles en perfil {current_profile_id}:")
+                for v in target_profile.get("variants", []):
+                    print(f"  - {v.get('_id')} ({v.get('name', 'N/A')})")
+                
                 dispatcher.utter_message(
                     text="No pude encontrar la variante actual del anillo."
                 )
@@ -2763,7 +3171,6 @@ class ActionAskEditOption(Action):
                     "title": "Cambiar material",
                     "payload": "Quiero modificar el material de mi anillo."
                 },
-
             ]
 
             # Añadir opciones relacionadas con gemas solo si la variante las permite
@@ -2787,6 +3194,7 @@ class ActionAskEditOption(Action):
                     }
                 ]
                 buttons.extend(gem_buttons)
+                print(f"[DEBUG] Añadidos {len(gem_buttons)} botones relacionados con gemas")
 
             buttons.append({
                 "title": "Cambiar empaquetado",
@@ -2797,6 +3205,9 @@ class ActionAskEditOption(Action):
                 "title": "Nada, gracias",
                 "payload": '/inform{"change_option":"finalizar"}'
             })
+
+            print(f"[DEBUG] Total de botones generados: {len(buttons)}")
+            print("=" * 60)
 
             dispatcher.utter_message(
                 text="¿Qué parte de su anillo desea modificar? Puede seleccionar uno de los botones o escribirlo manualmente.",
@@ -2814,14 +3225,22 @@ class ActionAskEditOption(Action):
                 SlotSet("gem_position_for_claw_type", None)
             ]
 
+        except aiohttp.ClientError as e:
+            print(f"[ERROR] Error de conexión: {e}")
+            import traceback
+            print(f"[ERROR] Traceback: {traceback.format_exc()}")
+            dispatcher.utter_message(
+                text="Error de conexión con el servidor."
+            )
         except Exception as e:
-            print(f"[ERROR] General: {e}")
+            print(f"[ERROR] Error general: {e}")
             import traceback
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(
                 text="Error al verificar las opciones de edición disponibles."
             )
-            return []
+
+        return []
         
 class ActionResetFormaGemaSlots(Action):
     def name(self) -> Text:

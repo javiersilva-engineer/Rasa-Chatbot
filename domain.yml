@@ -324,7 +324,7 @@ actions:
 
   - action_tipos_material_bd 
 
-  - action_clarify_flows
+  # - action_clarify_flows
 
 # ACTIONS DEL MOTOR 3D ----------------------------------------
 
@@ -2181,12 +2181,12 @@ responses:
 
 
 # UTTER DUDA DOS FLOWS ------------------------------------------------------------------------
-  utter_clarify_flows:
-    - text: "Puedo ayudarte, pero necesito más información. ¿Cuál de estas opciones prefieres?"
-      translation:
-        en: "I can help you, but I need more information. Which of these options do you prefer?"
-      metadata:
-        rephrase: false
+  # utter_clarify_flows:
+  #   - text: "Puedo ayudarte, pero necesito más información. ¿Cuál de estas opciones prefieres?"
+  #     translation:
+  #       en: "I can help you, but I need more information. Which of these options do you prefer?"
+  #     metadata:
+  #       rephrase: false
   
   utter_clarification_options_rasa:
     - text: ""
