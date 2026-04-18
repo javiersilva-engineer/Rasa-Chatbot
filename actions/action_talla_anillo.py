@@ -12,7 +12,7 @@ class ActionDarTallaSegunMedida(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        # Tabla de conversión: talla española -> circunferencia en mm
+        # Tabla de conversión
         tallas_espanolas = {
             1: 40.0, 2: 41.0, 3: 42.0, 4: 43.0, 5: 44.0,
             6: 45.0, 7: 46.0, 8: 47.0, 9: 48.0, 10: 49.0,

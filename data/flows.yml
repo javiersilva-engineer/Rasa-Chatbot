@@ -1,40 +1,37 @@
 # ORDEN DE FLOWS EN ESTE ARCHIVO ---------------------------------------------------------------
 
-# LOS FLOWS RELACIONADOS CON EL EDITOR 3D, EL DISENO, ASÍ COMO RECOMENDACIONES AL USUARIO SE LLEVARÁN A CABO
-# CUANDO ESTÉ LA BASE DE LA PÁGINA WEB COMPLETA Y LA CONEXIÓN CON LA BASE DE DATOS REALIZADA
-
 # 1. FLOWS PARA SOBRESCRIBIR OTROS FLOWS PREDEFINIDOS EN RASA QUE DAN MULTIPLES RESPUESTAS
 # 2. FLOWS SALUDOS Y DESPEDIDAS
 # 3. FLOWS SOBRE LUNA
 # 4. FLOWS SOBRE PREFERENCIAS GEMAS Y MATERIALES LUNA
-# 5. FLOWS SOBRE HALAGOS Y ATAQUES
-# 6. FLOWS SOBRE ESTADO ANIMO USUARIO
-# 7. FLOWS SOBRE INTEGRANTES PATATA TEAM
-# 8. FLOWS SOBRE PATATA TEAM
-# 9. FLOWS SOBRE LOUV
-# 10. FLOWS SOBRE LA UNIVERSIDAD DE ALICANTE
-# 11. FLOWS SOBRE GEMAS DEL ZODIACO
-# 12. FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO
-# 13. FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO
-# 14. DATOS SOBRE GEMAS
-# 15. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA
-# 16. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS
-# 17. FLOWS INFORMACIÓN SOBRE MATERIALES
-# 18. FLOWS SOBRE PRECIOS Y PAGOS
-# 19. FLOWS DUDAS SOBRE ENVIOS
-# 20. FLOWS SOBRE TERMINOLOGIA ESPECIFICA
-# 21. FLOWS SOBRE BODAS
-# 22. FLOWS AYUDA SOBRE DISEÑO
-# 23. FLOW PARA TEMÁTICAS NO DEFINIDAS
-# 24. FLOW DAR TALLA USUARIO SEGÚN MEDIDA
-# 25. DUDA ENTRE DOS FLOWS
-
-# 26. FLOWS BASE DE DATOS GEMAS
-# 27. FLOWS BASE DE DATOS ESTRUCTURA BASE
-# 27. FLOWS BASE DE DATOS MATERIALES
+# 5. FLOWS SOBRE INTEGRANTES PATATA TEAM
+# 6. FLOWS SOBRE PATATA TEAM
+# 7. FLOWS SOBRE LOUV
+# 8. FLOWS SOBRE LA UNIVERSIDAD DE ALICANTE
+# 9. FLOWS SOBRE GEMAS DEL ZODIACO
+# 10. FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO
+# 11. FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO
+# 12. DATOS SOBRE GEMAS
+# 13. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA
+# 14. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS
+# 15. FLOWS INFORMACIÓN SOBRE MATERIALES
+# 16. FLOWS SOBRE PRECIOS Y PAGOS
+# 17. FLOWS DUDAS SOBRE ENVIOS
+# 18. FLOWS SOBRE TERMINOLOGIA ESPECIFICA
+# 19. FLOWS SOBRE BODAS
+# 20. FLOWS AYUDA SOBRE DISEÑO
+# 21. FLOW PARA TEMÁTICAS NO DEFINIDAS
+# 22. FLOW DAR TALLA USUARIO SEGÚN MEDIDA
+# 23. FLOWS BASE DE DATOS GEMAS
+# 24. FLOWS BASE DE DATOS ESTRUCTURA BASE
+# 26. FLOWS INTERACCIÓN CON MOTOR 3D
+# 27. FLOW PARA CAMBIO DE IDIOMA
 
 flows:
-  # Sobrescribe pattern_search para que no genere respuesta ---------------------------------------------------------------
+
+# 1. FLOWS PARA SOBRESCRIBIR OTROS FLOWS PREDEFINIDOS EN RASA QUE DAN MULTIPLES RESPUESTAS
+  
+  # Sobrescribe pattern_search
   pattern_search:
     description: |
       Patrón de búsqueda que redirige a chitchat solo si no hay otro flow activo en el stack. 
@@ -52,7 +49,7 @@ flows:
       - id: link_to_chitchat
         link: pattern_chitchat
 
-  # Sobrescribe pattern_completed para que no genere respuesta ---------------------------------------------------------------
+  # Sobrescribe pattern_completed para que no genere respuesta
   pattern_completed:
     description: |
       Patrón que se ejecuta después de completar un flujo
@@ -104,7 +101,16 @@ flows:
                 next: END
           - else: END
 
-  # FLOWS SALUDOS Y DESPEDIDAS ---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+  # 2. FLOWS SALUDOS Y DESPEDIDAS ---------------------------------------------------------------
 
   saludar:
     description: |
@@ -120,7 +126,16 @@ flows:
     steps:
       - action: utter_despedida
 
-  # FLOWS SOBRE LUNA ---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+  # 3. FLOWS SOBRE LUNA ---------------------------------------------------------------
 
   preguntar_nombre:
     description: |
@@ -167,7 +182,16 @@ flows:
     steps:
       - action: utter_talla_anillo
 
-  # FLOWS SOBRE PREFERENCIAS GEMAS Y MATERIALES LUNA ---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+  # 4. FLOWS SOBRE PREFERENCIAS GEMAS Y MATERIALES LUNA ---------------------------------------------------------------
 
   gema_favorita_luna:
     description: |
@@ -309,77 +333,16 @@ flows:
     steps:
       - action: action_choose_gem
 
-  # FLOWS SOBRE HALAGOS Y ATAQUES ---------------------------------------------------------------
 
-  # halagar_luna:
-  #   description: |
-  #     El usuario hace un halago al asistente con frases como "Eres muy inteligente",
-  #     "Me encanta hablar contigo", "Eres muy amable". Nunca le propone matrimonio, ni le dice si se quiere casar con él/ella.
-  #   steps:
-  #     - action: utter_halago
 
-  # atacar_luna:
-  #   description: |
-  #     El usuario hace un ataque o comentario negativo al asistente con frases como
-  #     "Eres tonto", "No me gusta hablar contigo", "Eres aburrido". No le llama asesina en ningún momento.
-  #   steps:
-  #     - action: utter_ataque
 
-  # diamantes_de_sangre:
-  #   description: |
-  #     El usuario pregunta ataca al chatbot por comerciar con diamantes de sangre,
-  #     con frases como "¿Por qué vendes diamantes de sangre?", "¿No te importa la gente que sufre por los diamantes?",
-  #     "Los diamantes de sangre son horribles", "Eres una asesina", "¿Cómo se te ocurre vender diamanrtes de sangre?",
-  #     "¿Comercias con diamantes de sangre?"
-  #   steps:
-  #     - action: utter_diamantes_de_sangre
 
-  # propuesta_de_matrimonio_luna:
-  #   description: |
-  #     El usuario propone matrimonio al asistente con frases como
-  #     "¿Quieres casarte conmigo?", "Te quiero pedir que te cases conmigo",
-  #     "¿Te casarías conmigo?"
-  #   steps:
-  #     - action: utter_propuesta_matrimonio
 
-  # corazon_roto_usuario:
-  #   description: |
-  #     El usuario expresa que tiene el corazón roto con frases como
-  #     "Tengo el corazón roto", "Estoy destrozado", "Me siento muy triste por amor", "No puedo vivir sin ti"
-  #   steps:
-  #     - action: utter_corazon_roto
 
-  # FLOWS SOBRE ESTADO ANIMO USUARIO ---------------------------------------------------------------
 
-  # usuario_aburrido:
-  #   description: |
-  #     El usuario expresa que está aburrido con frases como "estoy aburrido",
-  #     "me aburro", "qué aburrimiento"
-  #   steps:
-  #     - action: utter_aburrido
 
-  # usuario_feliz:
-  #   description: |
-  #     El usuario expresa felicidad con frases como "estoy feliz", "estoy contento",
-  #     "qué alegría"
-  #   steps:
-  #     - action: utter_feliz
 
-  # usuario_triste:
-  #   description: |
-  #     El usuario expresa tristeza con frases como "estoy triste", "me siento mal",
-  #     "estoy deprimido"
-  #   steps:
-  #     - action: utter_triste
-
-  # usuario_enfadado:
-  #   description: |
-  #     El usuario expresa enfado con frases como "estoy enfadado", "estoy molesto",
-  #     "me enoja"
-  #   steps:
-  #     - action: utter_enfadado
-
-  # FLOWS SOBRE INTEGRANTES PATATA TEAM ---------------------------------------------------------------
+  # 5. FLOWS SOBRE INTEGRANTES PATATA TEAM ---------------------------------------------------------------
 
   pablo_hernandez:
     description: |
@@ -425,14 +388,16 @@ flows:
     steps:
       - action: utter_javier_silva
 
-  # FLOWS SOBRE PATATA TEAM ---------------------------------------------------------------
 
-  # preguntar_equipo:
-  #   description: |
-  #     El usuario pregunta sobre el equipo Patata Team, como "¿Quién es Patata Team?",
-  #     "¿Quiénes forman el equipo?"
-  #   steps:
-  #     - action: utter_equipo
+
+
+
+
+
+
+
+
+  # 6. FLOWS SOBRE PATATA TEAM ---------------------------------------------------------------
 
   preguntar_equipo_patata_team:
     description: |
@@ -448,83 +413,16 @@ flows:
     steps:
       - action: utter_equipo_patata_team
 
-  # preguntar_nombre_patata:
-  #   description: |
-  #     El usuario pregunta por qué se llama Patata Team, como "¿Por qué Patata Team?",
-  #     "¿De dónde viene el nombre?"
-  #   steps:
-  #     - action: utter_patata
 
-  # lugar_origen_patata_team:
-  #   description: |
-  #     El usuario pregunta sobre el lugar de origen del equipo Patata Team, como
-  #     "¿De dónde es Patata Team?", "¿Dónde se formó Patata Team?",
-  #     "¿Dónde está Patata Team?"
-  #   steps:
-  #     - action: utter_lugar_origen_patata_team
 
-  # informacion_patata_team:
-  #   description: |
-  #     El usuario quiere saber cómo puede obtener más información sobre el equipo Patata Team, hace preguntas como
-  #     "¿Cómo puedo saber más información sobre Patata Team?", "Háblame de Patata Team",
-  #     "¿Dónde puedo encontrar información de Patata Team?"
-  #   steps:
-  #     - action: utter_informacion_patata_team
 
-  # proyectos_patata_team:
-  #   description: |
-  #     El usuario quiere saber qué proyectos ha realizado el equipo Patata Team, hace preguntas como
-  #     "¿Qué proyectos ha hecho Patata Team?", "¿Cuáles son los proyectos de Patata Team?",
-  #     "Háblame de los proyectos de Patata Team"
-  #   steps:
-  #     - action: utter_proyectos_patata_team
 
-  # estudios_patata_team:
-  #   description: |
-  #     El usuario pregunta sobre los estudios académicos del equipo Patata Team, como
-  #     "¿Qué estudios tienen los miembros de Patata Team?", "¿Dónde estudiaron los integrantes de Patata Team?",
-  #     "¿Qué formación académica tiene Patata Team?"
-  #   steps:
-  #     - action: utter_estudios_patata_team
 
-  # redes_sociales_patata_team:
-  #   description: |
-  #     El usuario pregunta por las redes sociales de Patata Team, quiere saber dónde puede seguir a Patata Team en redes sociales,
-  #     hace preguntas como "¿Dónde puedo seguir a Patata Team en redes sociales?", "¿Tiene Patata Team redes sociales?",
-  #     "¿Puedo seguir a Patata Team en Instagram/Facebook/Tiktok?"
-  #   steps:
-  #     - action: utter_redes_sociales_patata_team
 
-  # actualizaciones_blog:
-  #   description: |
-  #     El usuario pregunta cómo puede estar al tanto de las actualizaciones del blog de Patata Team,
-  #     hace preguntas como "¿Cómo puedo saber cuándo hay una nueva entrada en el blog de Patata Team?",
-  #     "¿Dónde puedo ver las actualizaciones del blog de Patata Team?", "¿Cada cuánto tiempo se actualiza el blog?"
-  #   steps:
-  #     - action: utter_actualizaciones_blog
 
-  # poner_en_contacto_con_el_equipo:
-  #   description: |
-  #     El usuario quiere saber cómo puede contactar con el equipo Patata Team, hace consultas como "¿Cómo puedo contactar con el equipo?",
-  #     "Quiero hablar con Patata Team", "¿Hay alguna forma de hablar con el equipo?"
-  #   steps:
-  #     - action: utter_contactar_equipo
 
-  # como_se_protegen_los_datos_de_los_usuarios:
-  #   description: |
-  #     El usuario pregunta qué hace Louv para proteger los datos de los usuarios, hace consultas como "¿Cómo se protegen mis datos?",
-  #     "¿Qué hace Louv para proteger mis datos?", "¿Se están protegiendo los datos de los usuarios?"
-  #   steps:
-  #     - action: utter_proteger_datos
 
-  # sugerencia_publicaion_del_usuario:
-  #   description: |
-  #     El usuario sugiere subir contenido al blog sobre un tema en concreto, hace consultas como "¿Podéis subir un post sobre X?",
-  #     "Me gustaría leer una publicación sobre X.", "Sugiero que la siguiente publicación sea sobre X."
-  #   steps:
-  #     - action: utter_sugerencia_publicacion
-
-  # FLOWS SOBRE LOUV ---------------------------------------------------------------
+  # 7. FLOWS SOBRE LOUV ---------------------------------------------------------------
 
   preguntar_nombre_louv:
     description: |
@@ -542,27 +440,6 @@ flows:
     steps:
       - action: utter_proyecto_louv_abp
 
-  # preguntar_proyecto_louv:
-  #   description: |
-  #     El usuario pregunta sobre el proyecto Louv, como "¿Qué es Louv?",
-  #     "¿Para qué sirve Louv?", "Háblame de Louv"
-  #   steps:
-  #     - action: utter_proyecto_louv
-
-  # louv_abp_real:
-  #   description: |
-  #     El usuario pregunta si el proyecto ABP Louv es real, cómo "¿Louv es un proyecto real?",
-  #     "¿Louv tiene una funcionalidad real?"
-  #   steps:
-  #     - action: utter_louv_real
-
-  # idea_proyecto_abp:
-  #   description: |
-  #     El usuario quiere saber cómo surgió la idea de crear Louv, hace preguntas como "¿Cómo se ocurrió la idea de crear Louv?",
-  #     "¿Por qué decidisteis crear Louv?", "¿De dónde sale la idea de crear Louv?"
-  #   steps:
-  #     - action: utter_idea_louv_abp
-
   tiempo_desarrollo:
     description: |
       El usuario pregunta cuánto tiempo lleva en desarrollo el proyecto ABP Louv, quiere saber el tiempo empleado en la creación de Louv,
@@ -571,26 +448,12 @@ flows:
     steps:
       - action: utter_tiempo_desarrollo
 
-  # sugerir_cambios:
-  #   description: |
-  #     El usuario da una idea de cómo mejorar Louv o la web, o expresa su deseo de querer sugerir cambios para mejorar, según su criterio la funcionalidad
-  #     de la web Louv, realiza consultas como "Me gustaría proponer un cambio en la web", "¿Cómo puedo sugerir mejoras/ cambios en la web?"
-  #   steps:
-  #     - action: utter_sugerir_cambio
-
   que_es_abp:
     description: |
       El usuario pregunta sobre qué es un ABP, quiere saber en qué consiste un ABP, realiza preguntas como "¿Qué es un ABP?", "¿En qué consiste un ABP",
       "No sé qué significa ABP."
     steps:
       - action: utter_explicar_abp
-
-  # confiar_en_louv:
-  #   description: |
-  #     El usuario quiere saber por qué debería elegir Louv antes de otras plataformas, hace preguntas como "¿Qué diferencia a Louv de otras marcas?",
-  #     "¿Por qué debería de confiar en Louv?", "¿Qué hace a Louv especial?"
-  #   steps:
-  #     - action: utter_louv_unico
 
   politica_cookies_condiciones:
     description: |
@@ -618,49 +481,16 @@ flows:
     steps:
       - action: utter_redes_sociales_louv
 
-  # instagram_louv:
-  #   description: |
-  #     El usuario pregunta por el Instagram de Louv, quiere saber cuál es el perfil oficial de Louv en Instagram,
-  #     hace preguntas como "¿Cuál es el Instagram de Louv?", "¿Dónde está Louv en Instagram?",
-  #     "¿Puedo seguir a Louv en Instagram?"
-  #   steps:
-  #     - action: utter_instagram_louv
 
-  # facebook_louv:
-  #   description: |
-  #     El usuario pregunta por el Facebook de Louv, quiere saber cuál es el perfil oficial de Louv en Facebook,
-  #     hace preguntas como "¿Cuál es el Facebook de Louv?", "¿Dónde está Louv en Facebook?",
-  #     "¿Puedo seguir a Louv en Facebook?"
-  #   steps:
-  #     - action: utter_facebook_louv
 
-  # tiktok_louv:
-  #   description: |
-  #     El usuario pregunta por el TikTok de Louv, quiere saber cuál es el perfil oficial de Louv en TikTok,
-  #     hace preguntas como "¿Cuál es el TikTok de Louv?", "¿Dónde está Louv en TikTok?",
-  #     "¿Puedo seguir a Louv en TikTok?"
-  #   steps:
-  #     - action: utter_tiktok_louv
 
-  # funcionalidades_futuras_louv:
-  #   description: |
-  #     El usuario pregunta por las funcionalidades futuras que tendrá Louv, quiere saber qué nuevas funcionalidades se añadirán a Louv,
-  #     hace preguntas como "¿Qué funcionalidades nuevas tendrá Louv?", "¿Qué nuevas características tendrá Louv en el futuro?",
-  #     "¿Hay alguna funcionalidad futura planeada para Louv?", "¿Tendrá Louv nuevas funcionalidades próximamente?" "¿Se tiene previsto añadir nuevas funcionalidades a Louv?"
-  #   steps:
-  #     - action: utter_funcionalidades_futuras_louv
 
-  # FLOWS SOBRE LA UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
 
-  # ubicacion_universidad:
-  #   description: |
-  #     El usuario pregunta sobre la ubicación de la Universidad de Alicante (UA), realiza preguntas como "¿Dónde está la Universidad de Alicante?",
-  #     "Dónde está la universidad de alicante?", "Dónde está ubicada la UA?", "Dónde está la ua?",
-  #     "¿Puedes decirme donde se encuentra la UA?", "¿Cómo puedo llegar a la Universidad de Alicante?"
-  #   steps:
-  #     - action: utter_ubicacion_universidad
 
-  # SE PODRÍA INTENTAR QUE CADA VEZ QUE SE ACTIVE ESTE FLOW LA RESPUESTA CAMBIASE DANDO DISTINTOS DATOS
+
+
+
+  # 8. FLOWS SOBRE LA UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
 
   que_es_universidad_alicante:
     description: |
@@ -668,13 +498,6 @@ flows:
       "¿Puedes darme información sobre la Universidad de Alicante?", "Dime algo sobre la Universidad de Alicante"
     steps:
       - action: utter_universidad_alicante
-
-  # ciudad_alicante:
-  #   description: |
-  #     El usuario pregunta dónde está Alicante, quiere saber la ubicación de esta ciudad, hace preguntas como "¿Dónde está Alicante?",
-  #     "¿A qué país pertenece Alicante?", "¿Alicante es una ciudad?"
-  #   steps:
-  #     - action: utter_ciudad_alicante
 
   informacion_grado_ingenieria_multimedia:
     description: |
@@ -686,7 +509,16 @@ flows:
     steps:
       - action: utter_informacion_grado_multimedia
 
-  # FLOWS SOBRE GEMAS DEL ZODIACO ---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+  # 9. FLOWS SOBRE GEMAS DEL ZODIACO ---------------------------------------------------------------
 
   consultar_gema_zodiacal:
     description: |
@@ -752,7 +584,16 @@ flows:
               - action: utter_signo_no_reconocido
                 next: END
 
-  # FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO ---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+  # 10. FLOW SOBRE AYUDA CON GEMAS DEL ZODIACO ---------------------------------------------------------------
 
   preguntar_gema_zodiaco:
     description: |
@@ -772,7 +613,16 @@ flows:
     steps:
       - action: utter_signo_nacimiento
 
-  #FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO ---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 11. FLOW SOBRE USUARIO Y SU SIGNO ZODIACAL SEGÚN FECHA NACIMIENTO ---------------------------------------------------------------
 
   determinar_signo_por_fecha:
     description: |
@@ -842,7 +692,16 @@ flows:
               - action: utter_fecha_invalida
                 next: END
 
-  # DATOS SOBRE GEMAS ---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+  # 12. DATOS SOBRE GEMAS ---------------------------------------------------------------
 
   escala_de_mohs:
     description: |
@@ -871,22 +730,6 @@ flows:
       "¿Qué hacéis para comprobar de dónde vienen vuestras gemas?"
     steps:
       - action: utter_diamantes_de_sangre_y_kimberley
-
-  # sistema_certificacion_proceso_kimberley:
-  #   description: |
-  #     El usuario pregunta sobre el sistema de certificación y el proceso de Kimberley, quiere saber en qué consiste este sistema,
-  #     hace preguntas como "¿Qué es el proceso de Kimberley?", "¿En qué consiste el sistema de certificación de Kimberley?",
-  #     "¿Por qué es importante el proceso de Kimberley? "
-  #   steps:
-  #     - action: utter_sistema_certificacion_kimberley
-
-  # saber_origen_de_nuestras_gemas:
-  #   description: |
-  #     El usuario pregunta cómo sabemos de donde proceden las gemas que adquirimos, hace preguntas como
-  #     "¿Cómo sabéis de dónde proceden vuestras gemas?", ¿"Cómo trazáis el origen de vuestras gemas?",
-  #     "¿Qué hacéis para comprobar de dónde vienen vuestras gemas?
-  #   steps:
-  #     - action: utter_sistema_certificacion_kimberley
 
   certicificacion_gia:
     description: |
@@ -920,22 +763,6 @@ flows:
       "¿Son buenas las gemas de laboratorio?", "¿Son más baratas las gemas de laboratorio?"
     steps:
       - action: utter_gema_de_laboratorio_y_distinguir_gema_natural_sintetica
-
-  # gema_de_laboratorio:
-  #   description: |
-  #     El usuario pregunta sobre las gemas de laboratorio, quiere entender qué son y cómo se diferencian de las gemas naturales,
-  #     hace preguntas como "¿Qué es una gema de laboratorio?", "¿Cómo se diferencia una gema de laboratorio de una natural?",
-  #     "¿Son buenas las gemas de laboratorio?", "¿Son más baratas las gemas de laboratorio?"
-  #   steps:
-  #     - action: utter_gema_de_laboratorio
-
-  # distinguir_gema_natural_sintetica:
-  #   description: |
-  #     El usuario pregunta cómo distinguir una gema natural de una sintética, quiere saber qué características permiten diferenciarlas,
-  #     hace preguntas como "¿Cómo puedo distinguir una gema natural de una sintética?", "¿Qué diferencias hay entre una gema natural y una sintética?",
-  #     "¿Cómo sé si una gema es natural o sintética?"
-  #   steps:
-  #     - action: utter_distinguir_gema_natural_sintetica
 
   explicacion_aleacion:
     description: |
@@ -986,7 +813,16 @@ flows:
     steps:
       - action: utter_tipos_piedras
 
-  # FLOWS NAVEGACION POR LOUV ---------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 13. FLOWS SOBRE NAVEGACION DE LA PLATAFORMA ---------------------------------------------------------
 
   rotar_objeto:
     description: |
@@ -1106,7 +942,7 @@ flows:
 
 
 
-  # FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
+# 14. FLOWS INFORMACIÓN SOBRE TALLAS DE ANILLOS --------------------------------------------------------------------
 
   talla_anillo_editor:
     description: |
@@ -1127,22 +963,6 @@ flows:
       "¿Qué tamaños disponeis?", "¿Qué tallas usáis?"
     steps:
       - action: utter_sistemas_tallas_existen_y_tallas_trabajan
-
-  # sistemas_de_tallas_que_existen:
-  #   description: |
-  #     El usuario está interesado en saber qué sistemas de tallas existen para medir la circunferencia de los anillos,
-  #     hace preguntas como "¿Qué sistemas de tallas existen?", "¿Cómo se miden las tallas de los anillos?",
-  #     "¿Existen más sitemas de medidas de tallas además del español?"
-  #   steps:
-  #     - action: utter_sistemas_tallas_existen
-
-  # tallas_de_anillo_con_la_que_se_trabajan:
-  #   description: |
-  #     El usuario quiere saber con qué tallas se trabaja en nuestra web Louv, hace preguntas como
-  #     "¿Con qué tallas trabajáis?", "¿Qué rango de tallas ofrecéis?", "¿Puedo hacer un anillo talla X?",
-  #     "¿Qué tamaños disponeis?", "¿Qué tallas usáis?"
-  #   steps:
-  #     - action: utter_talla_de_anillo_trabajo
 
   cambiar_talla_del_anillo:
     description: |
@@ -1194,7 +1014,16 @@ flows:
     steps:
       - action: utter_modificar_talla_posteriori
 
-  # FLOWS INFORMACIÓN SOBRE MATERIALES ------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+ # 15. FLOWS INFORMACIÓN SOBRE MATERIALES ------------------------------------------------------------------
 
   diferencia_oro_18k_y_14k:
     description: |
@@ -1211,20 +1040,6 @@ flows:
       "¿Solo existe un tipo de platino?"
     steps:
       - action: utter_clases_platino
-
-  # precio_del_oro:
-  #   description: |
-  #     El usuario quiere saber cuál es el precio del oro, hace preguntas como "¿Cuál es el precio del oro?",
-  #     "¿Cuánto cuesta un gramo de oro?", "¿Cuánto vale el oro?"
-  #   steps:
-  #     - action: utter_precio_oro
-
-  # precio_del_platino:
-  #   description: |
-  #     El usuario quiere saber cuál es el precio del platino, hace preguntas como "¿Cuál es el precio del platino?",
-  #     "¿Cuánto cuesta un gramo de platino?", "¿Cuánto vale el platino?"
-  #   steps:
-  #     - action: utter_precio_platino
 
   materiales_macizos:
     description: |
@@ -1247,7 +1062,16 @@ flows:
     steps:
       - action: utter_recomendar_material
 
-  # FLOWS SOBRE PRECIOS Y PAGOS ------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 16. FLOWS SOBRE PRECIOS Y PAGOS ------------------------------------------------------------------------------
 
   precio_del_editor_es_definitivo:
     description: |
@@ -1298,7 +1122,16 @@ flows:
     steps:
       - action: utter_regalo_por_compra
 
-  # FLOWS DUDAS SOBRE ENVIOS --------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 17. FLOWS DUDAS SOBRE ENVIOS --------------------------------------------------------------------------------
 
   empresa_que_envia_los_pedidos:
     description: |
@@ -1307,30 +1140,6 @@ flows:
       "¿Quién se encarga de traerme lo que compro?"
     steps:
       - action: utter_empresa_pedidos
-
-  # perdida_de_paquete_de_envio:
-  #   description: |
-  #     El usuario quiere saber qué ocurre con su pedido en caso de que ocurra alguna incidencia durante el envío de este,
-  #     hace preguntas como "¿Qué pasa si se pierde mi pedido?", "Si mi pedido se pierde, ¿qué debo hacer?",
-  #     "¿Qué puedo hacer si se pierde mi pedido durante su envío?", "Ha habido un error con la ubicación de envío"
-  #   steps:
-  #     - action: utter_pedido_perdido
-
-  # mudanza_tras_un_pedido:
-  #   description: |
-  #     El usuario comenta que ha realizado un pedido pero ha tenido que mudarse, por lo que el pedido llegará
-  #     a una ubicación incorrecta, hace consultas como "¿Si me mudo ¿qué pasa con mi compra?",
-  #     "He realizado un pedido pero he tenido que mudarme.", "Si hago un pedido y me mudo antes de que me lo entreguen ¿qué puedo hacer?"
-  #   steps:
-  #     - action: utter_pedido_mudanza
-
-  # que_ocurre_si_roban_el_pedido:
-  #   description: |
-  #     El usuario pregunta qué ocurre en caso de que el pedido que ha realizado sea robado, hace preguntas como
-  #     "¿Qué ocurre si han robado mi paquete?", "He realizado una compra pero ha sido robada durante su envío.",
-  #     "Han robado mi pedido, ¿qué puedo hacer?"
-  #   steps:
-  #     - action: utter_pedido_perdido
 
   tiempo_que_tarda_en_llegar_un_pedido:
     description: |
@@ -1376,7 +1185,16 @@ flows:
     steps:
       - action: utter_incidenciass_pedido_devoluciones
 
-  # FLOWS SOBRE TERMINOLOGIA ESPECIFICA -----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 18. FLOWS SOBRE TERMINOLOGIA ESPECIFICA -----------------------------------------------------------------------
 
   diferencia_un_anillo_una_sortija_o_una_alianza:
     description: |
@@ -1539,7 +1357,16 @@ flows:
     steps:
       - action: utter_diametro
 
-  # FLOWS SOBRE BODAS --------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 19. FLOWS SOBRE BODAS --------------------------------------------------------------------------------------
 
   precio_anillo_de_compromiso:
     description:
@@ -1593,7 +1420,13 @@ flows:
 
 
 
-  # FLOWS AYUDA SOBRE DISEÑOS ---------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+# 20. FLOWS AYUDA SOBRE DISEÑO ---------------------------------------------------------------------------------------------------------------
 
   opina_sobre_el_diseno:
     description: |
@@ -1610,7 +1443,16 @@ flows:
     steps:
       - action: utter_grabados
 
-  # FLOW PARA TEMÁTICAS NO DEFINIDAS -------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 21. FLOW PARA TEMÁTICAS NO DEFINIDAS -------------------------------------------------------------------------------------------------------------
 
   pattern_cannot_handle:
     description: Conversation repair flow for addressing failed command generation scenarios
@@ -1643,7 +1485,16 @@ flows:
     steps:
       - action: utter_free_chitchat_response
 
-  # FLOW DAR TALLA USUARIO SEGÚN MEDIDA ----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 22. FLOW DAR TALLA USUARIO SEGÚN MEDIDA ----------------------------------------------------------------------
 
   no_se_la_talla_de_mi_dedo:
     description: |
@@ -1664,75 +1515,16 @@ flows:
     steps:
       - action: action_dar_talla_segun_medida
 
-  # dar_talla_usuario_segun_medida:
-  #   description: |
-  #     Este flow convierte medidas de circunferencia de dedo a tallas de anillo españolas.
 
-  #     Se activa cuando el usuario proporciona ÚNICAMENTE una medida numérica con unidad, sin más contexto.
 
-  #     Ejemplos que DEBEN activar este flow:
-  #     - "48mm"
-  #     - "52 mm"
-  #     - "6,5cm"
-  #     - "6.5 cm"
-  #     - "48 milímetros"
-  #     - "5.2 centímetros"
-  #     - "Mi dedo mide 52mm"
-  #     - "Tengo 6,5 cm"
-  #     - "¿Qué talla es 48mm?"
-  #     - "Mi dedo mide X mm, ¿qué talla es esa?"
-  #     - "Mi dedo mide X cm, ¿qué talla de anillo es esa?"
-  #     - "¿Qué talla de anillo corresponde a X mm?"
-  #     - "¿Qué talla de anillo corresponde a X cm?"
-  #     - "X cm"
-  #     - "X mm"
-  #     - "X centímetros"
-  #     - "X milímetros"
-  #     - "Xcm"
-  #     - "Xmm"
 
-  #     NO se activa si el usuario:
-  #     - Pregunta cómo medir su dedo
-  #     - Dice que no sabe su talla
-  #     - Pide ayuda para encontrar su talla sin dar una medida
 
-  #     El sistema responde con la talla española correspondiente (1-36).
-  #   steps:
-  #     - action: action_dar_talla_segun_medida
 
-  # dar_talla_usuario_segun_medida:
-  #   description: |
-  #     Este flow convierte medidas de circunferencia de dedo a tallas de anillo españolas.
 
-  #     Se activa cuando el usuario proporciona una medida numérica con unidad (mm, cm, milímetros, centímetros).
 
-  #     Ejemplos que DEBEN activar este flow:
-  #     - "48mm"
-  #     - "49mm"
-  #     - "52 mm"
-  #     - "6,5cm"
-  #     - "Mi dedo mide 52mm"
-  #     - "¿Qué talla es 48mm?"
 
-  #     El sistema responde con la talla española correspondiente (1-36).
-  #   steps:
-  #     - collect: medida_circunferencia
-  #       description: |
-  #         La medida de la circunferencia del dedo del usuario en milímetros (mm) o centímetros (cm).
-  #         Ejemplos: "48mm", "5,2cm", "52 milímetros", "6.5 centímetros".
-  #       ask_before_filling: false
-  #     - action: action_dar_talla_segun_medida
 
-  # DUDA ENTRE DOS FLOWS ---------------------------------------------------------------------------------------
-
-  pattern_clarification:
-    description: Conversation repair flow for handling ambiguous requests that could match multiple flows
-    name: pattern clarification
-    steps:
-      - action: action_clarify_flows
-      - action: utter_clarification_options_rasa
-
-  # FLOWS BASE DE DATOS GEMAS -----------------------------------------------------------------------------------------
+# 23. FLOWS BASE DE DATOS GEMAS -----------------------------------------------------------------------------------------
 
   que_gemas_teneis:
     description: |
@@ -1805,17 +1597,6 @@ flows:
         description: "El nombre exacto de la gema de la que el usuario quiere conocer el significado"
       - action: action_significado_gema_bd
 
-  # cortes_recomendados_para_gemas:
-  #   description: |
-  #     El usuario quiere saber qué corte se recomienda para una gema en concreto, hace preguntas como
-  #     "¿Qué corte es mejor para un diamante?", "¿Qué corte me recomiendas para un zafiro?",
-  #     "¿Cuál es el mejor corte para una esmeralda?", "¿Qué corte es ideal para un rubí?".
-  #   name: Cortes recomendados para gemas
-  #   steps:
-  #     - collect: gem_name
-  #       description: "El nombre exacto de la gema para la que el usuario quiere conocer los cortes recomendados"
-  #     - action: action_cortes_recomendados_gema_bd
-
   recomendacion_signo_zodiacal:
     description: |
       El usuario quiere saber qué tipo de gema o material se recomienda para un signo zodiacal específico,
@@ -1826,7 +1607,17 @@ flows:
         description: El signo zodiacal del usuario (aries, tauro, géminis, cáncer, leo, virgo, libra, escorpio, sagitario, capricornio, acuario, piscis)
       - action: action_recomendacion_signo_zodiacal
 
-  # FLOWS BASE DE DATOS ESTRUCTURA BASE -----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 24. FLOWS BASE DE DATOS ESTRUCTURA BASE -----------------------------------------------------------------------------------------
+  
   que_formas_teneis:
     description: |
       El usuario quiere saber qué tipos de formas o estructuras tenemos disponibles en nuestra tienda, hace preguntas como
@@ -1835,7 +1626,16 @@ flows:
     steps:
       - action: action_estructuras_bd
 
-  # FLOWS BASE DE DATOS MATERIALES -----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# 25. FLOWS BASE DE DATOS MATERIALES -----------------------------------------------------------------------------------------
 
   que_materiales_teneis:
     description: |
@@ -1942,7 +1742,16 @@ flows:
       - action: action_show_price
         id: show_price
 
-  # FLOWS INTERACCIÓN CON MOTOR 3D ---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+  # 26. FLOWS INTERACCIÓN CON MOTOR 3D ---------------------------------------------------------------------------
 
   # show_ring:
   #   description: |
@@ -1980,15 +1789,6 @@ flows:
         description: El nombre de la base que el usuario desea aplicar, hace consultas como "Clásico", "Ondulado", "Bypass", "Aurora", "Vínculo"
       - action: action_change_base
       - action: action_ask_next_edit_option
-
-  # modificar_base_del_anillo:
-  #   description: |
-  #     El usuario desea modificar la base de su anillo, hace consultas como
-  #     "Quiero modificar la base de mi anillo", "Quiero cambiar la base",
-  #     "Quiero cambiar la base de mi diseño en el editor 3D"
-  #   name: Editar base de anillo en editor 3D
-  #   steps:
-  #     - action: utter_editar_base_anillo
 
   modificar_perfil_del_anillo:
     description: |
@@ -2298,6 +2098,7 @@ flows:
 
 
 
+# 27. FLOW PARA CAMBIO DE IDIOMA
   change_language:
     name: "Cambiar idioma"
     description: "Inicia este flow cuando el usuario solicite explícitamente cambiar el idioma de la conversación, por ejemplo diciendo 'quiero que me hables en inglés' o 'cambia a inglés' o 'habla en inglés'"

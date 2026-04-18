@@ -6,42 +6,36 @@ version: "3.1"
 # 1. UTTERS PARA CUANDO NO EXISTE RESPUESTA O NO ENTIENDE AL USUARIO
 # 2. UTTERS SALUDOS Y DESPEDIDAS
 # 3. UTTERS SOBRE LUNA
-# 4. UTTERS SOBRE PREFERENCIAS GEMAS Y MATERIALES LUNA
+# 4. UTTERS SOBRE COSAS QUE LE GUSTAN A LUNA
 # 5. UTTERS SOBRE COSAS QUE ODIA LUNA
-# 6. UTTERS SOBRE ESTADO ANIMO USUARIO
-# 7. UTTERS SOBRE HALAGOS Y ATAQUES
-# 8. UTTERS SOBRE INTEGRANTES PATATA TEAM
-# 9. UTTERS SOBRE PATATA TEAM
-# 10. UTTERS SOBRE LOUV
-# 11. UTTERS SOBRE REDES SOCIALES
-# 12. UTTERS SOBRE LA UNIVERSIDAD DE ALICANTE
-# 13. UTTERS SOBRE GEMAS DEL ZODIACO
-# 14. UTTERS SOBRE AYUDA CON GEMAS DEL ZODIACO
-# 15. UTTERS DATOS SOBRE GEMAS
-# 16. UTTERS SOBRE NAVEGACION DE LA PLATAFORMA
-# 17. UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS
-# 18. UTTERS SOBRE MATERIALES
-# 19. UTTERS SOBRE PRECIOS Y PAGOS
-# 20. UTTERS DUDAS SOBRE ENVIOS
-# 21. UTTERS SOBRE TERMINOLOGIA ESPECIFICA
-# 22. UTTERS SOBRE BODAS
-# 23. UTTERS SOBRE AYUDA DE DISEÑOS
-
-# 24. UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE
-
-# 25. UTTER BASE DE DATOS GEMAS
-# 26. UTTER BASE DE DATOS MATERIALES
-# 27. UTTER DUDA ENTRE DOS FLOWS
-
+# 6. UTTERS SOBRE INTEGRANTES PATATA TEAM
+# 7. UTTERS SOBRE PATATA TEAM
+# 8. UTTERS SOBRE LOUV
+# 9. UTTERS SOBRE REDES SOCIALES
+# 10. UTTERS SOBRE LA UNIVERSIDAD DE ALICANTE
+# 11. UTTERS SOBRE GEMAS DEL ZODIACO
+# 12. UTTERS SOBRE AYUDA CON GEMAS DEL ZODIACO
+# 13. UTTERS DATOS SOBRE GEMAS
+# 14. UTTERS SOBRE NAVEGACION DE LA PLATAFORMA
+# 15. UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS
+# 16. UTTERS SOBRE MATERIALES
+# 17. UTTERS SOBRE PRECIOS Y PAGOS
+# 18. UTTERS DUDAS SOBRE ENVIOS
+# 19. UTTERS SOBRE TERMINOLOGIA ESPECIFICA
+# 20. UTTERS SOBRE BODAS
+# 21. UTTERS SOBRE AYUDA DE DISEÑOS
+# 22. UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE
+# 23. UTTER SABER TALLA ANILLO
+# 24. UTTER BASE DE DATOS GEMAS
+# 25. UTTER BASE DE DATOS MATERIALES
+# 26. UTTERS INTERACCION CON MOTOR 3D
+# 27. UTTER CAMBIAR IDIOMA CHATBOT
 
 
 
 # ------------------------------------- FALLOS DEL CHATBOT ------------------------------------------------------------------------------------------------
 
-# TALLADO EN PAVÉ NO ES UN TALLADO QUE EXISTA: LINEA  161
 
-
-# LAS RESPUESTAS QUE QUIERAN MOSTRARSE POR LINEAS DEBERÁN MODIFICARSE, PUES NO SE MUESTRAN CORRECTAMENTE
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -80,8 +74,6 @@ slots:
     mappings:
       - type: from_llm
 
-
-
   talla_anillo:
     type: float
     mappings:
@@ -91,7 +83,6 @@ slots:
     type: text
     mappings:
       - type: controlled
-
 
   gem_name:
     type: text
@@ -138,9 +129,6 @@ slots:
     influence_conversation: false
     mappings:
       - type: from_llm
-
-
-
 
   interrupted_flow_to_continue:
     type: text
@@ -286,13 +274,12 @@ slots:
     type: text
     mappings:
       - type: from_llm
-    # influence_conversation: false
 
 
 
 
 
-
+# DECLARACIÓN DE ACCIONES ---------------------------------------------------------------------------------------------
 actions:
   - action_determinar_signo_zodiacal
 
@@ -324,11 +311,7 @@ actions:
 
   - action_tipos_material_bd 
 
-  # - action_clarify_flows
-
-# ACTIONS DEL MOTOR 3D ----------------------------------------
-
-  # - action_show_ring
+# ACTIONS DEL MOTOR 3D ---------------------------------------------------------------------------------------------
 
   - action_ask_base_id
   - action_change_base
@@ -379,7 +362,7 @@ actions:
 
   - action_reset_forma_gema_slots
 
-# ------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------
 
   - action_recomendacion_signo_zodiacal
 
@@ -393,7 +376,7 @@ actions:
 
 responses:
 
-# UTTER SIN RESPUESTA ---------------------------------------------------------------
+# 1. UTTERS PARA CUANDO NO EXISTE RESPUESTA O NO ENTIENDE AL USUARIO ------------------------------------------------------------------------------------------------
   utter_llm_fallback:
     - text: "No entendí su mensaje, ¿puede reformularlo?"
       translation:
@@ -442,7 +425,7 @@ responses:
 
 
 
-# UTTER SALUDO Y DESPEDIDA ---------------------------------------------------------------
+# 2. UTTERS SALUDOS Y DESPEDIDAS ---------------------------------------------------------------
   utter_saludo:
     - text: "¡Hola! ¿En qué puedo ayudarle hoy?"
       translation:
@@ -461,7 +444,7 @@ responses:
 
 
 
-# UTTER CHATBOT LUNA INFORMACIÓN PERSONAL ---------------------------------------------------------------
+# 3. UTTERS SOBRE LUNA ---------------------------------------------------------------
   utter_nombre:
     - text: "Mi nombre es Luna, un nombre que refleja la delicadeza y el brillo de los anillos."
       translation:
@@ -508,7 +491,7 @@ responses:
 
 
 
-# UTTER CHATBOT LUNA COSAS FAVORITAS ---------------------------------------------------------------
+# 4. UTTERS SOBRE COSAS QUE LE GUSTAN A LUNA ---------------------------------------------------------------
 
   utter_gema_favorita:
     - text: "Mi gema favorita es el zafiro, por su belleza y elegancia atemporal."
@@ -571,7 +554,7 @@ responses:
 
 
 
-# UTTER CHATBOT LUNA COSAS QUE ODIA ---------------------------------------------------------------
+# 5. UTTERS SOBRE COSAS QUE ODIA LUNA ---------------------------------------------------------------
 
   utter_gema_odiosa:
     - text: "No tengo una gema que odie, creo que cada gema tiene su propia belleza y significado."
@@ -642,7 +625,7 @@ responses:
 
 
 
-# UTTER INTEGRANTES PATATA TEAM ---------------------------------------------------------------
+# 6. UTTERS SOBRE INTEGRANTES PATATA TEAM ---------------------------------------------------------------
 
   utter_pablo_hernandez:
     - text: "Pablo Hernández es uno de los integrantes de Patata Team y siempre ha sido un fiel seguidor del anime, además le encanta jugar videojuegos."
@@ -706,7 +689,7 @@ responses:
 
 
 
-# UTTER PATATA TEAM ---------------------------------------------------------------
+# 7. UTTERS SOBRE PATATA TEAM ---------------------------------------------------------------
   utter_equipo_patata_team:
     - text: |
             Patata Team es un equipo de estudiantes del grado de ingerniería multimedia de la Universidad de Alicante, en España. El equipo Patata Team está compuesto por Pablo Hernández, Sara Marquina, Darío Pérez, Laura Saval, Belén Sempere y Javier Silva.
@@ -734,7 +717,7 @@ responses:
 
 
 
-# UTTER ABP LOUV ---------------------------------------------------------------
+# 8. UTTERS SOBRE LOUV ---------------------------------------------------------------
 
   utter_proyecto_louv_abp:
     - text: "Louv es un proyecto ABP (Aprendizaje Basado en Proyectos) creado por Patata Team. Al ser un ABP no es un proyecto real y surgió como resultado detrás de un proceso de brainstorming,
@@ -805,7 +788,7 @@ responses:
 
 
 
-# UTTER REDES SOCIALES LOUV ---------------------------------------------------------------
+# 9. UTTERS SOBRE REDES SOCIALES ---------------------------------------------------------------
 
   utter_redes_sociales_louv:
     - text: |
@@ -833,7 +816,7 @@ responses:
 
 
 
-# UTTER UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
+# 10. UTTERS SOBRE LA UNIVERSIDAD DE ALICANTE ---------------------------------------------------------------
 
   utter_universidad_alicante:
     - text: "La Universidad de Alicante es el centro de estudio desde el que se creó Louv, el mismo sitio donde se fundó el equipo  
@@ -870,7 +853,7 @@ responses:
 
 
 
-# UTTER GEMAS SIGNOS ZODIACO ---------------------------------------------------------------
+# 11. UTTERS SOBRE GEMAS DEL ZODIACO ---------------------------------------------------------------
   
   utter_capricornio_diamante:
     - text: "La gema que corresponde al signo de Capricornio es el diamante. Pues es duro y brillante como la ambición; refleja fuerza interior y determinación inquebrantable."
@@ -960,7 +943,7 @@ responses:
 
 
 
-# UTTER AYUDA USUARIO GEMA ZODIACO ---------------------------------------------------------------
+# 12. UTTERS SOBRE AYUDA CON GEMAS DEL ZODIACO ---------------------------------------------------------------
 
   utter_ask_signo_zodiacal:
     - text: "¿Cuál es su signo zodiacal? Puede seleccionar uno de los botones o escribirlo manualmente."
@@ -1103,7 +1086,7 @@ responses:
 
 
 
-# UTTER DATOS SOBRE GEMAS ---------------------------------------------------------------
+# 13. UTTERS DATOS SOBRE GEMAS ---------------------------------------------------------------
 
   utter_escala_de_mohs:
     - text: "La escala de Mohs es una escala de dureza relativa que clasifica los minerales según su capacidad para resistir la abrasión. Va del 1 al 10, siendo el talco el más blando (1) y el diamante el más duro (10)."
@@ -1212,20 +1195,12 @@ responses:
 
 
 
-# UTTER DATOS SOBRE MATERIALES ---------------------------------------------------------------
-
-  utter_explicacion_aleacion:
-    - text: "Una aleación es una mezcla de dos o más elementos, donde al menos uno de ellos es un metal. En joyería, las aleaciones se utilizan para mejorar las propiedades del metal base, como su dureza, durabilidad y resistencia a la corrosión."
-      translation:
-        en: "An alloy is a mixture of two or more elements, where at least one of them is a metal. In jewelry, alloys are used to improve the properties of the base metal, such as its hardness, durability and resistance to corrosion."
-      metadata:
-        rephrase: false
 
 
 
 
 
-# UTTER NAVEGACION POR LOUV -----------------------------------------------------------------
+# 14. UTTERS SOBRE NAVEGACION DE LA PLATAFORMA -----------------------------------------------------------------
 
   utter_rotar_anillo_editor_3d:
     - text: |
@@ -1369,7 +1344,7 @@ responses:
 
 
 
-# UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS --------------------------------------------------------------
+# 15. UTTERS INFORMACIÓN SOBRE TALLAS ANILLOS --------------------------------------------------------------
 
   utter_talla_anillo_editor:
     - text: |
@@ -1457,7 +1432,14 @@ responses:
 
 
 
-# UTTERS SOBRE MATERIALES --------------------------------------------------------------------------------
+# 16. UTTERS SOBRE MATERIALES --------------------------------------------------------------------------------
+
+  utter_explicacion_aleacion:
+    - text: "Una aleación es una mezcla de dos o más elementos, donde al menos uno de ellos es un metal. En joyería, las aleaciones se utilizan para mejorar las propiedades del metal base, como su dureza, durabilidad y resistencia a la corrosión."
+      translation:
+        en: "An alloy is a mixture of two or more elements, where at least one of them is a metal. In jewelry, alloys are used to improve the properties of the base metal, such as its hardness, durability and resistance to corrosion."
+      metadata:
+        rephrase: false
 
   utter_oro_18_14:
     - text: |
@@ -1512,7 +1494,7 @@ responses:
 
 
 
-# UTTERS SOBRE PRECIOS Y PAGOS ---------------------------------------------------------------------------
+# 17. UTTERS SOBRE PRECIOS Y PAGOS ---------------------------------------------------------------------------
 
   utter_precio_editor:
     - text: |
@@ -1577,7 +1559,7 @@ responses:
 
 
 
-# UTTERS DUDAS SOBRE ENVIOS ------------------------------------------------------------------------------
+# 18. UTTERS DUDAS SOBRE ENVIOS ------------------------------------------------------------------------------
 
   utter_empresa_pedidos:
     - text: |
@@ -1646,7 +1628,7 @@ responses:
 
 
 
-# UTTERS SOBRE TERMINOLOGÍA ESPECÍFICA ---------------------------------------------------------------------
+# 19. UTTERS SOBRE TERMINOLOGIA ESPECIFICA ---------------------------------------------------------------------
 
   utter_anillo_sortija_alianza:
     - text: |
@@ -1923,7 +1905,7 @@ responses:
 
 
 
-# UTTERS SOBRE BODAS -------------------------------------------------------------------------------------
+# 20. UTTERS SOBRE BODAS -------------------------------------------------------------------------------------
 
   utter_precio_anillo_compromiso:
     - text: |
@@ -1987,7 +1969,7 @@ responses:
 
 
 
-# UTTER SOBRE AYUDA CON DISEÑOS -------------------------------------------------------------------------------------------------------------
+# 21. UTTERS SOBRE AYUDA DE DISEÑOS -------------------------------------------------------------------------------------------------------------
 
   utter_grabados:
     - text: |
@@ -2016,7 +1998,7 @@ responses:
 
 
 
-# UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE -----------------------------------------------------------------------------------------------
+# 22. UTTER PARA TEMÁTICAS NO DEFINIDAS ANTERIORMENTE -----------------------------------------------------------------------------------------------
 
   utter_free_chitchat_response:
     - text: "Disculpe, no puedo responder a eso en este momento."
@@ -2060,7 +2042,7 @@ responses:
 
 
 
-# UTTER SABER TALLA ANILLO ---------------------------------------------------------------------------------------
+# 23. UTTER SABER TALLA ANILLO ---------------------------------------------------------------------------------------
 
   utter_no_se_talla_dedo:
     - text: |
@@ -2088,7 +2070,7 @@ responses:
 
 
 
-# UTTER BASE DE DATOS GEMAS ------------------------------------------------------------------------
+# 24. UTTER BASE DE DATOS GEMAS ------------------------------------------------------------------------
   utter_ask_gem_name:
     - text: "¿Qué gema estás buscando?"
       translation:
@@ -2126,7 +2108,7 @@ responses:
 
 
 
-# UTTER BASE DE DATOS MATERIALES ------------------------------------------------------------------------
+# 25. UTTER BASE DE DATOS MATERIALES ------------------------------------------------------------------------
   utter_ask_material_name:
     - text: "¿De qué material quieres saber si causa alergias?"
       translation:
@@ -2188,12 +2170,12 @@ responses:
   #     metadata:
   #       rephrase: false
   
-  utter_clarification_options_rasa:
-    - text: ""
-      translation:
-        en: ""
-      metadata:
-        rephrase: false
+  # utter_clarification_options_rasa:
+  #   - text: ""
+  #     translation:
+  #       en: ""
+  #     metadata:
+  #       rephrase: false
 
 
 
@@ -2203,7 +2185,7 @@ responses:
 
 
 
-# UTTERS INTERACCION CON MOTOR 3D --------------------------------------------------------------
+# 26. UTTERS INTERACCION CON MOTOR 3D --------------------------------------------------------------
 
   utter_ask_ring_type:
     - text: "¿Qué tipo de anillo quieres ver?"
@@ -2342,7 +2324,7 @@ responses:
 
 
 
-
+# 27. UTTER CAMBIAR IDIOMA CHATBOT ------------------------------------------------
 
   utter_ask_requested_language:
     - text: "¿En qué idioma prefiere que le hable? (español/inglés)"

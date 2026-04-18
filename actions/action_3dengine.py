@@ -5,13 +5,14 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import aiohttp
 from dotenv import load_dotenv
+import traceback
+import json
 
 load_dotenv()
 
 
-# =========================
-# MOSTRAR BASES
-# =========================
+
+# MOSTRAR BASES ---------------------------------------------------------------------------------------
 
 class ActionAskBaseId(Action):
 
@@ -96,9 +97,8 @@ class ActionAskBaseId(Action):
         return []
 
 
-# =========================
-# CAMBIAR BASE
-# =========================
+# CAMBIAR BASE --------------------------------------------------------------------------------------
+
 
 class ActionChangeBase(Action):
 
@@ -154,7 +154,13 @@ class ActionChangeBase(Action):
 
 
 
-import traceback
+
+
+
+
+
+
+# MOSTRAR PERFILES ---------------------------------------------------------------------------------
 
 class ActionAskProfileId(Action):
     def name(self) -> Text:
@@ -197,7 +203,7 @@ class ActionAskProfileId(Action):
                 )
                 return []
 
-            # 👇 CAMBIO CRÍTICO: Extraer el _id del objeto profile
+            # Extraer el _id del objeto profile
             unique_profile_ids = set()
             for profile_config in profiles:
                 profile_obj = profile_config.get('profile')
@@ -270,9 +276,8 @@ class ActionAskProfileId(Action):
         return [SlotSet("ring_id", current_ring_id)]
 
 
-# =========================
-# CAMBIAR PERFIL
-# =========================
+# CAMBIAR PERFIL --------------------------------------------------------------------------------------------
+
 class ActionChangeProfile(Action):
     def name(self) -> Text:
         return "action_change_profile"
@@ -296,19 +301,19 @@ class ActionChangeProfile(Action):
             }
         )
 
-        # NO limpiar aquí - se limpiará en action_ask_next_edit_option
         return []
 
 
 
 
 
-# =========================
-# MOSTRAR VARIANTES
-# =========================
-# =========================
-# MOSTRAR VARIANTES
-# =========================
+
+
+
+
+
+# MOSTRAR VARIANTES -----------------------------------------------------------------------------------
+
 class ActionAskVarianteId(Action):
     def name(self) -> Text:
         return "action_ask_variante_id"
@@ -316,17 +321,17 @@ class ActionAskVarianteId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
         
-        # ✅ CAMBIO 1: Obtener metadatos PRIMERO (son los más actualizados)
+        # Obtener metadatos primero
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
         # Ring ID
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         
-        # Profile ID - SIEMPRE desde metadata primero
+        # Profile ID
         current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
         
-        # Variant ID - SIEMPRE desde metadata primero
+        # Variant ID
         current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
 
         print(f"[DEBUG] Ring ID: {current_ring_id}")
@@ -369,8 +374,7 @@ class ActionAskVarianteId(Action):
                     ring_data = await response.json()
                     print(f"[DEBUG] JSON recibido OK")
                     
-                    # ✅ AÑADIR: Imprimir el JSON completo
-                    import json
+                    # Imprimir el JSON completo
                     print(f"[DEBUG] JSON COMPLETO:\n{json.dumps(ring_data, indent=2)}")
 
             base_structure = ring_data.get("baseStructure", {})
@@ -404,7 +408,7 @@ class ActionAskVarianteId(Action):
                 
                 if profile_id == current_profile_id:
                     target_profile = profile_data
-                    print(f"[DEBUG] ✅ Perfil encontrado!")
+                    print(f"[DEBUG] Perfil encontrado!")
                     break
 
             if not target_profile:
@@ -415,14 +419,13 @@ class ActionAskVarianteId(Action):
                 )
                 return []
 
-            # ✅ AÑADIR: Imprimir el perfil completo
-            import json
+            # Imprimir el perfil completo
             print(f"[DEBUG] PERFIL COMPLETO:\n{json.dumps(target_profile, indent=2, default=str)}")
 
             variants = target_profile.get("variants", [])
             print(f"[DEBUG] Nº variantes encontradas: {len(variants)}")
             
-            # ✅ AÑADIR: Imprimir cada variante en detalle
+            # Imprimir cada variante en detalle
             for idx, variant in enumerate(variants):
                 print(f"[DEBUG] Variante {idx}:")
                 print(f"  - _id: {variant.get('_id', 'NO TIENE _id')}")
@@ -493,9 +496,8 @@ class ActionAskVarianteId(Action):
         return [SlotSet("ring_id", current_ring_id)]
 
 
-# =========================
-# CAMBIAR VARIANTE
-# =========================
+# CAMBIAR VARIANTE ---------------------------------------------------------------------------------------
+
 class ActionChangeVariante(Action):
     def name(self) -> Text:
         return "action_change_variante"
@@ -519,16 +521,19 @@ class ActionChangeVariante(Action):
             }
         )
 
-        # NO limpiar el slot aquí - se limpiará después de action_ask_next_edit_option
         return []
 
 
 
 
 
-# =========================
-# MOSTRAR MATERIALES
-# =========================
+
+
+
+
+
+# MOSTRAR MATERIALES ----------------------------------------------------------------------
+
 class ActionAskMaterialId(Action):
     def name(self) -> Text:
         return "action_ask_material_id"
@@ -591,9 +596,8 @@ class ActionAskMaterialId(Action):
         return []
 
 
-# =========================
-# CAMBIAR MATERIAL
-# =========================
+# CAMBIAR MATERIAL ---------------------------------------------------------------------------------
+
 class ActionChangeMaterial(Action):
     def name(self) -> Text:
         return "action_change_material"
@@ -626,9 +630,16 @@ class ActionChangeMaterial(Action):
         return events
 
 
-# =========================
-# MOSTRAR PUREZAS (VERSIÓN CORREGIDA)
-# =========================
+
+
+
+
+
+
+
+
+# MOSTRAR PUREZAS ------------------------------------------------------------------------------
+
 class ActionAskPurezaId(Action):
     def name(self) -> Text:
         return "action_ask_pureza_id"
@@ -728,9 +739,8 @@ class ActionAskPurezaId(Action):
         return []
 
 
-# =========================
-# CAMBIAR PUREZA
-# =========================
+# CAMBIAR PUREZA -------------------------------------------------------------------------------
+
 class ActionChangePurezaMaterial(Action):
     def name(self) -> Text:
         return "action_change_pureza_material"
@@ -767,9 +777,13 @@ class ActionChangePurezaMaterial(Action):
 
 
 
-# =========================
-# MOSTRAR GEMAS
-# =========================
+
+
+
+
+
+# MOSTRAR GEMAS ------------------------------------------------------------------------------------------
+
 class ActionAskGemaId(Action):
     def name(self) -> Text:
         return "action_ask_gema_id"
@@ -777,19 +791,19 @@ class ActionAskGemaId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
-        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        # Obtener metadatos PRIMERO 
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
-        # ✅ PASO 2: Priorizar metadata sobre slots para IDs críticos
+        # Priorizar metadata sobre slots para IDs críticos
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
         current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
         
-        # Obtener gem_position del slot (este es específico del flujo actual)
+        # Obtener gem_position del slot
         gem_position = tracker.get_slot('gem_position')
         
-        # ✅ PASO 3: Logging detallado para debugging
+        # Logging detallado
         print("=" * 60)
         print("[DEBUG] ActionAskGemaId - Información de entrada")
         print("=" * 60)
@@ -810,8 +824,7 @@ class ActionAskGemaId(Action):
             print("[DEBUG] No hay gem_position, asumiendo posición 0 (1 gema)")
             gem_position = "0"
 
-        # ✅ PASO 4: Validación opcional - verificar que la variante tiene gemas
-        # (Esto es útil para dar feedback más específico al usuario)
+        # Validación para verificar que la variante tiene gemas
         if current_ring_id and current_profile_id and current_variant_id:
             try:
                 async with aiohttp.ClientSession() as session:
@@ -853,9 +866,8 @@ class ActionAskGemaId(Action):
                                     print(f"[DEBUG] Variante tiene {len(settings_info)} posiciones de gemas")
             except Exception as e:
                 print(f"[WARNING] No se pudo verificar la variante: {e}")
-                # Continuar de todas formas, el error no es crítico
 
-        # ✅ PASO 5: Obtener catálogo de gemas
+        # Obtener catálogo de gemas
         try:
             async with aiohttp.ClientSession() as session:
                 endpoint = f"{api_url}/api/gemstones"
@@ -880,7 +892,7 @@ class ActionAskGemaId(Action):
                         )
                         return []
 
-                    # ✅ PASO 6: Filtrar gemas válidas y crear botones
+                    # Filtrar gemas válidas y crear botones
                     buttons = []
                     for gemstone in gemstones:
                         gem_id = gemstone.get('_id', '')
@@ -929,16 +941,15 @@ class ActionAskGemaId(Action):
                 text="Error interno en el servidor."
             )
 
-        # ✅ PASO 7: Establecer gem_position si no existe
+        # Establecer gem_position si no existe
         if tracker.get_slot('gem_position') is None:
             return [SlotSet("gem_position", "0")]
         
         return []
 
 
-# =========================
 # CAMBIAR GEMA
-# =========================
+
 class ActionChangeGema(Action):
     def name(self) -> Text:
         return "action_change_gema"
@@ -968,9 +979,19 @@ class ActionChangeGema(Action):
             }
         )
 
-        # NO limpiar los slots aquí - se limpiarán en action_ask_next_edit_option
         return []
     
+
+
+
+
+
+
+
+
+    
+#  RESETEAR TODOS LOS SLOTS RELACIONADOS CON GEMAS --------------------------------------------
+
 class ActionResetGemaSlots(Action):
     def name(self) -> Text:
         return "action_reset_gema_slots"
@@ -990,9 +1011,12 @@ class ActionResetGemaSlots(Action):
 
 
 
-# =========================
-# MOSTRAR FORMAS DE GEMA (CUTS)
-# =========================
+
+
+
+
+# MOSTRAR FORMAS DE GEMA ------------------------------------------------------------------------------- 
+
 class ActionAskFormaGemaId(Action):
     def name(self) -> Text:
         return "action_ask_forma_gema_id"
@@ -1000,19 +1024,19 @@ class ActionAskFormaGemaId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
-        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        # Obtener metadatos PRIMERO
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
-        # ✅ PASO 2: Priorizar metadata sobre slots para IDs críticos
+        # Priorizar metadata sobre slots para IDs críticos
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
         current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
         
-        # Obtener gem_position_for_cut del slot (específico del flujo actual)
+        # Obtener gem_position_for_cut del slot 
         gem_position = tracker.get_slot('gem_position_for_cut')
         
-        # ✅ PASO 3: Logging detallado para debugging
+        # Logging detallado
         print("=" * 60)
         print("[DEBUG] ActionAskFormaGemaId - Información de entrada")
         print("=" * 60)
@@ -1033,7 +1057,7 @@ class ActionAskFormaGemaId(Action):
             print("[DEBUG] No hay gem_position_for_cut, asumiendo posición 0 (1 gema)")
             gem_position = "0"
 
-        # ✅ PASO 4: Validación opcional - verificar que la variante tiene gemas
+        # Validación para verificar que la variante tiene gemas
         if current_ring_id and current_profile_id and current_variant_id:
             try:
                 async with aiohttp.ClientSession() as session:
@@ -1087,7 +1111,7 @@ class ActionAskFormaGemaId(Action):
                 print(f"[WARNING] No se pudo verificar la variante: {e}")
                 # Continuar de todas formas, el error no es crítico
 
-        # ✅ PASO 5: Obtener catálogo de formas de gema (cuts)
+        # Obtener catálogo de formas de gema
         try:
             async with aiohttp.ClientSession() as session:
                 endpoint = f"{api_url}/api/cuts"
@@ -1112,7 +1136,7 @@ class ActionAskFormaGemaId(Action):
                         )
                         return []
 
-                    # ✅ PASO 6: Crear botones con formas de gema
+                    # Crear botones con formas de gema
                     buttons = []
                     for cut in cuts:
                         cut_id = cut.get('_id', '')
@@ -1161,16 +1185,15 @@ class ActionAskFormaGemaId(Action):
                 text="Error interno en el servidor."
             )
 
-        # ✅ PASO 7: Establecer gem_position_for_cut si no existe
+        # Establecer gem_position_for_cut si no existe
         if tracker.get_slot('gem_position_for_cut') is None:
             return [SlotSet("gem_position_for_cut", "0")]
         
         return []
 
 
-# =========================
-# CAMBIAR FORMA DE GEMA
-# =========================
+# CAMBIAR FORMA DE GEMA ---------------------------------------------------------------
+
 class ActionChangeFormaGema(Action):
     def name(self) -> Text:
         return "action_change_forma_gema"
@@ -1206,13 +1229,16 @@ class ActionChangeFormaGema(Action):
 
         return []
     
-# class ActionCheckGemCount(Action):
-#     def name(self) -> Text:
-#         return "action_check_gem_count"
 
-#     async def run(self, dispatcher, tracker, domain):
-#         # Esta acción no hace nada, solo permite evaluar la condición en next
-#         return []
+
+
+
+
+
+
+
+
+#  VERIFICAR QUE LA VARIANTE ACEPTA GEMAS ----------------------------------------------------------
 
 class ActionVerifyGemsAvailable(Action):
     def name(self) -> Text:
@@ -1314,9 +1340,13 @@ class ActionVerifyGemsAvailable(Action):
 
 
 
-# =========================
-# MOSTRAR ENGASTES COMPATIBLES
-# =========================
+
+
+
+
+
+# MOSTRAR ENGASTES COMPATIBLES ----------------------------------------------------------------------
+
 class ActionAskEngasteId(Action):
     def name(self) -> Text:
         return "action_ask_engaste_id"
@@ -1324,17 +1354,17 @@ class ActionAskEngasteId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
-        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        # Obtener metadatos PRIMERO
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
-        # ✅ PASO 2: Priorizar metadata sobre slots
+        # Priorizar metadata sobre slots
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
         current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
         gem_position = tracker.get_slot('gem_position_for_setting')
         
-        # ✅ PASO 3: Logging detallado para debugging
+        # Logging detallado para debugging
         print("=" * 60)
         print("[DEBUG] ActionAskEngasteId - Información de entrada")
         print("=" * 60)
@@ -1382,7 +1412,7 @@ class ActionAskEngasteId(Action):
             base_structure = ring_data.get("baseStructure", {})
             print(f"[DEBUG] Base structure cargada: {base_structure.get('name', 'N/A')}")
             
-            # ✅ Si no hay profile_id, usar el primero disponible como fallback
+            # Si no hay profile_id, usar el primero disponible como fallback
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
                 profile_obj = first_profile.get('profile', {})
@@ -1404,7 +1434,7 @@ class ActionAskEngasteId(Action):
                 
                 if profile_id == current_profile_id:
                     target_profile = profile_data
-                    print(f"[DEBUG] ✅ Perfil encontrado: {profile_id}")
+                    print(f"[DEBUG] Perfil encontrado: {profile_id}")
                     break
 
             if not target_profile:
@@ -1420,7 +1450,7 @@ class ActionAskEngasteId(Action):
                 )
                 return []
 
-            # ✅ Si no hay variant_id, usar la primera variante como fallback
+            # Si no hay variant_id, usar la primera variante como fallback
             if not current_variant_id and target_profile.get("variants"):
                 current_variant_id = target_profile["variants"][0].get('_id', '')
                 print(f"[DEBUG] Usando primera variante disponible como fallback: {current_variant_id}")
@@ -1437,7 +1467,7 @@ class ActionAskEngasteId(Action):
             for v in target_profile.get("variants", []):
                 if v.get('_id') == current_variant_id:
                     variant = v
-                    print(f"[DEBUG] ✅ Variante encontrada: {v.get('name', 'N/A')} ({current_variant_id})")
+                    print(f"[DEBUG] Variante encontrada: {v.get('name', 'N/A')} ({current_variant_id})")
                     break
 
             if not variant:
@@ -1568,16 +1598,15 @@ class ActionAskEngasteId(Action):
                 text="Error interno en el servidor."
             )
 
-        # Si no había gem_position_for_setting, establecerlo ahora
+        # Si no había gem_position_for_setting
         if tracker.get_slot('gem_position_for_setting') is None:
             return [SlotSet("gem_position_for_setting", "0")]
         
         return []
 
 
-# =========================
-# CAMBIAR ENGASTE
-# =========================
+# CAMBIAR ENGASTE ---------------------------------------------------------------------------------
+
 class ActionChangeEngaste(Action):
     def name(self) -> Text:
         return "action_change_engaste"
@@ -1619,9 +1648,11 @@ class ActionChangeEngaste(Action):
 
 
 
-# =========================
-# VERIFICAR Y SELECCIONAR POSICIÓN DE GEMA PARA NÚMERO DE GARRAS
-# =========================
+
+
+
+# VERIFICAR Y SELECCIONAR POSICIÓN DE GEMA PARA NÚMERO DE GARRAS ------------------------------------------
+
 class ActionAskGemPositionForClawNumber(Action):
     def name(self) -> Text:
         return "action_ask_gem_position_for_claw_number"
@@ -1743,6 +1774,8 @@ class ActionAskGemPositionForClawNumber(Action):
             return []
 
 
+# MOSTRAR NÚMERO DE GEMAS ------------------------------------------------------------------------
+#  
 class ActionAskNumeroGarrasId(Action):
     def name(self) -> Text:
         return "action_ask_numero_garras_id"
@@ -1750,18 +1783,18 @@ class ActionAskNumeroGarrasId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
-        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        # Obtener metadatos PRIMERO (siempre más actualizados)
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
-        # ✅ PASO 2: Priorizar metadata sobre slots
+        # Priorizar metadata sobre slots
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
         current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
         current_setting_id = metadata.get('setting_id') or tracker.get_slot('engaste_id')
         gem_position = tracker.get_slot('gem_position_for_claw_number')
         
-        # ✅ PASO 3: Logging detallado para debugging
+        # Logging detallado
         print("=" * 60)
         print("[DEBUG] ActionAskNumeroGarrasId - Información de entrada")
         print("=" * 60)
@@ -1825,7 +1858,7 @@ class ActionAskNumeroGarrasId(Action):
             for setting in all_settings:
                 if setting.get('_id', '') == current_setting_id:
                     current_setting = setting
-                    print(f"[DEBUG] ✅ Engaste encontrado: {setting.get('name', 'Sin nombre')} ({current_setting_id})")
+                    print(f"[DEBUG] Engaste encontrado: {setting.get('name', 'Sin nombre')} ({current_setting_id})")
                     break
 
             if not current_setting:
@@ -1901,9 +1934,8 @@ class ActionAskNumeroGarrasId(Action):
         return []
 
 
-# =========================
-# CAMBIAR NÚMERO DE GARRAS
-# =========================
+# CAMBIAR NÚMERO DE GARRAS ---------------------------------------------------------------
+
 class ActionChangeGarrasEngaste(Action):
     def name(self) -> Text:
         return "action_change_garras_engaste"
@@ -1937,7 +1969,6 @@ class ActionChangeGarrasEngaste(Action):
             }
         )
 
-        # Limpiar los slots después de usarlos
         return [
             SlotSet("numero_garras_id", None),
             SlotSet("gem_position_for_claw_number", None)
@@ -1948,9 +1979,12 @@ class ActionChangeGarrasEngaste(Action):
 
 
 
-# =========================
-# RESETEAR SLOTS DE TIPO DE GARRAS
-# =========================
+
+
+
+
+# RESETEAR SLOTS DE TIPO DE GARRAS -----------------------------------------------------------------
+
 class ActionResetClawTypeSlots(Action):
     def name(self) -> Text:
         return "action_reset_claw_type_slots"
@@ -1966,9 +2000,8 @@ class ActionResetClawTypeSlots(Action):
         ]
 
 
-# =========================
-# VERIFICAR TIPOS DE GARRAS DISPONIBLES
-# =========================
+# VERIFICAR TIPOS DE GARRAS DISPONIBLES ------------------------------------------------------
+
 class ActionVerifyClawTypesAvailable(Action):
     def name(self) -> Text:
         return "action_verify_claw_types_available"
@@ -2141,9 +2174,8 @@ class ActionVerifyClawTypesAvailable(Action):
             ]
 
 
-# =========================
-# MOSTRAR TIPOS DE GARRAS COMPATIBLES SEGÚN EL ENGASTE Y NÚMERO DE GARRAS ACTUAL
-# =========================
+# MOSTRAR TIPOS DE GARRAS COMPATIBLES SEGÚN EL ENGASTE Y NÚMERO DE GARRAS ACTUAL -----------------------------
+
 class ActionAskTipoGarrasId(Action):
     def name(self) -> Text:
         return "action_ask_tipo_garras_id"
@@ -2151,11 +2183,11 @@ class ActionAskTipoGarrasId(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
 
-        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        # Obtener metadatos PRIMERO
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
-        # ✅ PASO 2: Priorizar metadata sobre slots para IDs críticos
+        # Priorizar metadata sobre slots para IDs críticos
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
         current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
@@ -2163,10 +2195,10 @@ class ActionAskTipoGarrasId(Action):
         current_claw_number_id = metadata.get('claw_number_id')
         current_cut_id = metadata.get('cut_id')
         
-        # Obtener gem_position_for_claw_type del slot (específico del flujo actual)
+        # Obtener gem_position_for_claw_type del slot
         gem_position = tracker.get_slot('gem_position_for_claw_type')
         
-        # ✅ PASO 3: Logging detallado para debugging
+        # Logging detallado
         print("=" * 60)
         print("[DEBUG] ActionAskTipoGarrasId - Información de entrada")
         print("=" * 60)
@@ -2190,13 +2222,13 @@ class ActionAskTipoGarrasId(Action):
             print("[DEBUG] No hay gem_position_for_claw_type, asumiendo posición 0")
             gem_position = "0"
 
-        # ✅ PASO 4: Validación de engaste actual
+        # Validación de engaste actual
         if not current_setting_id:
             print("[ERROR] No se encontró setting_id en metadata")
             dispatcher.utter_message(text="No pude identificar el engaste actual.")
             return []
 
-        # ✅ PASO 5: Validación opcional - verificar que la variante tiene gemas
+        # Validación para verificar que la variante tiene gemas
         if current_ring_id and current_profile_id and current_variant_id:
             try:
                 async with aiohttp.ClientSession() as session:
@@ -2250,7 +2282,7 @@ class ActionAskTipoGarrasId(Action):
                 print(f"[WARNING] No se pudo verificar la variante: {e}")
                 # Continuar de todas formas, el error no es crítico
 
-        # ✅ PASO 6: Obtener catálogo de engastes
+        # Obtener catálogo de engastes
         try:
             settings_endpoint = f"{api_url}/api/settings"
             print(f"[DEBUG] GET {settings_endpoint}")
@@ -2267,7 +2299,7 @@ class ActionAskTipoGarrasId(Action):
 
             print(f"[DEBUG] Total de engastes en catálogo: {len(all_settings)}")
 
-            # ✅ PASO 7: Buscar el engaste actual
+            # Buscar el engaste actual
             current_setting = next((s for s in all_settings if s.get('_id') == current_setting_id), None)
             
             if not current_setting:
@@ -2278,12 +2310,12 @@ class ActionAskTipoGarrasId(Action):
 
             print(f"[DEBUG] Engaste encontrado: {current_setting.get('name', 'N/A')}")
 
-            # ✅ PASO 8: Buscar el número de garras actual
+            # Buscar el número de garras actual
             claw_number_obj = None
             for cn in current_setting.get('clawNumber', []):
                 if cn.get('_id') == current_claw_number_id:
                     claw_number_obj = cn
-                    print(f"[DEBUG] ✅ Número de garras encontrado: {cn.get('name', 'N/A')}")
+                    print(f"[DEBUG] Número de garras encontrado: {cn.get('name', 'N/A')}")
                     break
             
             # Fallback al primer clawNumber si no se encuentra el específico
@@ -2297,7 +2329,7 @@ class ActionAskTipoGarrasId(Action):
                     dispatcher.utter_message(text="Este engaste no tiene opciones de número de garras.")
                     return []
 
-            # ✅ PASO 9: Buscar el cut compatible actual
+            # Buscar el cut compatible actual
             compatible_cut_obj = None
             for cc in claw_number_obj.get('compatibleCuts', []):
                 cut_obj = cc.get('cut')
@@ -2305,7 +2337,7 @@ class ActionAskTipoGarrasId(Action):
                 
                 if cut_id == current_cut_id:
                     compatible_cut_obj = cc
-                    print(f"[DEBUG] ✅ Cut compatible encontrado: {cut_id}")
+                    print(f"[DEBUG] Cut compatible encontrado: {cut_id}")
                     break
             
             # Fallback al primer compatibleCut si no se encuentra el específico
@@ -2321,7 +2353,7 @@ class ActionAskTipoGarrasId(Action):
                     dispatcher.utter_message(text="Este número de garras no tiene formas de gema compatibles.")
                     return []
 
-            # ✅ PASO 10: Obtener tipos de garras disponibles
+            # Obtener tipos de garras disponibles
             claw_types = compatible_cut_obj.get('clawType', [])
 
             print(f"[DEBUG] Tipos de garras disponibles: {len(claw_types)}")
@@ -2331,7 +2363,7 @@ class ActionAskTipoGarrasId(Action):
                 dispatcher.utter_message(text="No hay tipos de garras disponibles para esta configuración.")
                 return []
 
-            # ✅ PASO 11: Crear botones con tipos de garras
+            # Crear botones con tipos de garras
             buttons = []
             for claw_type in claw_types:
                 claw_type_id = claw_type.get('_id', '')
@@ -2374,16 +2406,15 @@ class ActionAskTipoGarrasId(Action):
             print(f"[ERROR] Traceback: {traceback.format_exc()}")
             dispatcher.utter_message(text="Error interno en el servidor.")
 
-        # ✅ PASO 12: Establecer gem_position_for_claw_type si no existe
+        # Establecer gem_position_for_claw_type
         if tracker.get_slot('gem_position_for_claw_type') is None:
             return [SlotSet("gem_position_for_claw_type", "0")]
         
         return []
 
 
-# =========================
-# CAMBIAR TIPO DE GARRAS
-# =========================
+# CAMBIAR TIPO DE GARRAS --------------------------------------------------------------------
+
 class ActionChangeGarrasTypeEngaste(Action):
     def name(self) -> Text:
         return "action_change_garras_type_engaste"
@@ -2413,16 +2444,19 @@ class ActionChangeGarrasTypeEngaste(Action):
             }
         )
 
-        # NO limpiar slots aquí - se limpian en action_ask_next_edit_option
         return []
     
 
 
 
 
-# =========================
-# MOSTRAR OPCIONES DE EMPAQUETADO
-# =========================
+
+
+
+
+
+# MOSTRAR OPCIONES DE EMPAQUETADO -----------------------------------------------------------------
+
 class ActionAskBoxShapeId(Action):
     def name(self) -> Text:
         return "action_ask_box_shape_id"
@@ -2448,7 +2482,7 @@ class ActionAskBoxShapeId(Action):
                     all_boxes = data.get('boxes', [])
                     print(f"[DEBUG] Cajas encontradas: {len(all_boxes)}")
 
-            # ✅ Filtrar cajas sin nombre válido
+            # Filtrar cajas sin nombre válido
             valid_boxes = [
                 box for box in all_boxes 
                 if box.get('name') and box.get('name').strip() and box.get('name') != 'None'
@@ -2460,7 +2494,7 @@ class ActionAskBoxShapeId(Action):
                 )
                 return []
 
-            # ✅ Crear botones con payload correcto
+            # Crear botones con payload correcto
             buttons = []
             for box in valid_boxes:
                 box_id = box.get('_id', '')
@@ -2470,7 +2504,7 @@ class ActionAskBoxShapeId(Action):
                 
                 buttons.append({
                     "title": box_name,
-                    "payload": f'/SetSlots(box_shape_id={box_id})'  # ✅ Sin comillas
+                    "payload": f'/SetSlots(box_shape_id={box_id})'
                 })
 
             dispatcher.utter_message(
@@ -2489,9 +2523,8 @@ class ActionAskBoxShapeId(Action):
         return []
 
 
-# =========================
-# CAMBIAR EMPAQUETADO
-# =========================
+# CAMBIAR EMPAQUETADO -----------------------------------------------------------------
+
 class ActionChangeBoxShape(Action):
     def name(self) -> Text:
         return "action_change_box_shape"
@@ -2515,7 +2548,6 @@ class ActionChangeBoxShape(Action):
             }
         )
 
-        # El slot ya está establecido por el paso collect
         return []
     
 
@@ -2523,9 +2555,12 @@ class ActionChangeBoxShape(Action):
 
 
 
-# =========================
-# MOSTRAR OPCIONES DE MATERIAL EXTERIOR
-# =========================
+
+
+
+
+# MOSTRAR OPCIONES DE MATERIAL EXTERIOR ----------------------------------------------------------
+
 class ActionAskBoxOuterColorId(Action):
     def name(self) -> Text:
         return "action_ask_box_outer_color_id"
@@ -2607,9 +2642,8 @@ class ActionAskBoxOuterColorId(Action):
         return []
 
 
-# =========================
-# CAMBIAR MATERIAL EXTERIOR DEL EMPAQUETADO
-# =========================
+# CAMBIAR MATERIAL EXTERIOR DEL EMPAQUETADO ---------------------------------------------------
+
 class ActionChangeBoxOuterColor(Action):
     def name(self) -> Text:
         return "action_change_box_outer_color"
@@ -2645,9 +2679,9 @@ class ActionChangeBoxOuterColor(Action):
 
 
 
-# =========================
-# MOSTRAR OPCIONES DE MATERIAL INTERIOR
-# =========================
+
+# MOSTRAR OPCIONES DE MATERIAL INTERIOR ----------------------------------------------------
+
 class ActionAskBoxInnerColorId(Action):
     def name(self) -> Text:
         return "action_ask_box_inner_color_id"
@@ -2753,9 +2787,8 @@ class ActionAskBoxInnerColorId(Action):
         return []
 
 
-# =========================
-# CAMBIAR MATERIAL INTERIOR DEL EMPAQUETADO
-# =========================
+# CAMBIAR MATERIAL INTERIOR DEL EMPAQUETADO -----------------------------------------------
+
 class ActionChangeBoxInnerColor(Action):
     def name(self) -> Text:
         return "action_change_box_inner_color"
@@ -2787,9 +2820,9 @@ class ActionChangeBoxInnerColor(Action):
 
         return []
     
-# =========================
-# RESET SLOTS DE EMPAQUETADO
-# =========================
+
+# RESET SLOTS DE EMPAQUETADO ------------------------------------------------------------
+
 class ActionResetBoxSlots(Action):
     def name(self) -> Text:
         return "action_reset_box_slots"
@@ -2807,9 +2840,12 @@ class ActionResetBoxSlots(Action):
 
 
 
-# =========================
-# PREGUNTAR SIGUIENTE OPCIÓN DE EDICIÓN (DINÁMICA)
-# =========================
+
+
+
+
+# PREGUNTAR SIGUIENTE OPCIÓN DE EDICIÓN ---------------------------------------------------------
+
 class ActionAskNextEditOption(Action):
     def name(self) -> Text:
         return "action_ask_next_edit_option"
@@ -2817,17 +2853,17 @@ class ActionAskNextEditOption(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
         
-        # ✅ Priorizar slots sobre metadata para cambios recientes
+        # Priorizar slots sobre metadata para cambios recientes
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
-        # Ring ID - metadata tiene prioridad (no cambia durante la sesión)
+        # Ring ID
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         
-        # Profile ID - slot tiene prioridad (puede cambiar durante edición)
+        # Profile ID
         current_profile_id = tracker.get_slot('profile_id') or metadata.get('profile_id')
         
-        # Variant ID - slot tiene prioridad (puede cambiar durante edición)
+        # Variant ID
         current_variant_id = tracker.get_slot('variante_id') or metadata.get('variant_id')
 
         print(f"[DEBUG] Ring ID: {current_ring_id}")
@@ -2860,7 +2896,7 @@ class ActionAskNextEditOption(Action):
 
             base_structure = ring_data.get("baseStructure", {})
             
-            # ✅ Si no hay profile_id, usar el primero disponible
+            # Si no hay profile_id, usar el primero disponible
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
                 profile_obj = first_profile.get('profile', {})
@@ -2890,7 +2926,7 @@ class ActionAskNextEditOption(Action):
                 )
                 return []
 
-            # ✅ Si no hay variant_id, usar la primera variante del perfil
+            # Si no hay variant_id, usar la primera variante del perfil
             if not current_variant_id and target_profile.get("variants"):
                 current_variant_id = target_profile["variants"][0].get('_id', '')
                 print(f"[DEBUG] Usando primera variante disponible: {current_variant_id}")
@@ -2913,7 +2949,7 @@ class ActionAskNextEditOption(Action):
                 )
                 return []
 
-            # ✅ Verificar si la variante tiene settings (gemas)
+            # Verificar si la variante tiene settings (gemas)
             settings_info = variant.get("settingsInfo", [])
             has_gems = len(settings_info) > 0
             gem_count = len(settings_info)
@@ -2968,7 +3004,6 @@ class ActionAskNextEditOption(Action):
                     "payload": '/StartFlow(modificar_tipo_de_garras_del_engaste_del_anillo)'
                 })
             
-            # Siempre disponible
             buttons.append({
                 "title": "Cambiar empaquetado",
                 "payload": '/StartFlow(modificar_empaquetado_del_anillo)'
@@ -2992,13 +3027,11 @@ class ActionAskNextEditOption(Action):
                 text="Error al cargar las opciones de edición."
             )
 
-        # ✅ CORRECCIÓN CRÍTICA: NO borrar ring_id, profile_id, ni variante_id
-        # Solo limpiar slots de edición específicos
         return [
-            # ✅ Actualizar estado de gemas ANTES de limpiar otros slots
+            #  Actualizar estado de gemas ANTES de limpiar otros slots
             SlotSet("has_gems", has_gems),
             SlotSet("gem_count", gem_count),
-            # Limpiar solo slots de edición
+
             SlotSet("material_id", None),
             SlotSet("pureza_id", None),
             SlotSet("gema_id", None),
@@ -3016,9 +3049,9 @@ class ActionAskNextEditOption(Action):
             SlotSet("gem_position_for_claw_type", None),
         ]
     
-# =========================
-# MOSTRAR OPCIONES DE EDICIÓN DISPONIBLES DINÁMICAMENTE
-# =========================
+
+# MOSTRAR OPCIONES DE EDICIÓN DISPONIBLES -----------------------------------------------
+
 class ActionAskEditOption(Action):
     def name(self) -> Text:
         return "action_ask_edit_option"
@@ -3026,16 +3059,16 @@ class ActionAskEditOption(Action):
     async def run(self, dispatcher, tracker, domain):
         api_url = os.getenv("API_URL", "https://louv.ovh")
         
-        # ✅ PASO 1: Obtener metadatos PRIMERO (siempre más actualizados)
+        # Obtener metadatos PRIMERO
         latest_message = tracker.latest_message
         metadata = latest_message.get('metadata', {})
         
-        # ✅ PASO 2: Priorizar metadata sobre slots
+        # Priorizar metadata sobre slots
         current_ring_id = metadata.get('ring_id') or tracker.get_slot('ring_id')
         current_profile_id = metadata.get('profile_id') or tracker.get_slot('profile_id')
         current_variant_id = metadata.get('variant_id') or tracker.get_slot('variante_id')
         
-        # ✅ PASO 3: Logging detallado para debugging
+        # Logging detallado
         print("=" * 60)
         print("[DEBUG] ActionAskEditOption - Información de entrada")
         print("=" * 60)
@@ -3077,7 +3110,7 @@ class ActionAskEditOption(Action):
             base_structure = ring_data.get("baseStructure", {})
             print(f"[DEBUG] Base structure cargada: {base_structure.get('name', 'N/A')}")
             
-            # ✅ Si no hay profile_id, usar el primero disponible como fallback
+            # Si no hay profile_id, usar el primero disponible como fallback
             if not current_profile_id and base_structure.get("profiles"):
                 first_profile = base_structure["profiles"][0]
                 profile_obj = first_profile.get('profile', {})
@@ -3099,7 +3132,7 @@ class ActionAskEditOption(Action):
                 
                 if profile_id == current_profile_id:
                     target_profile = profile_data
-                    print(f"[DEBUG] ✅ Perfil encontrado: {profile_id}")
+                    print(f"[DEBUG] Perfil encontrado: {profile_id}")
                     break
 
             if not target_profile:
@@ -3115,7 +3148,7 @@ class ActionAskEditOption(Action):
                 )
                 return []
 
-            # ✅ Si no hay variant_id, usar la primera variante como fallback
+            # Si no hay variant_id, usar la primera variante como fallback
             if not current_variant_id and target_profile.get("variants"):
                 current_variant_id = target_profile["variants"][0].get('_id', '')
                 print(f"[DEBUG] Usando primera variante disponible como fallback: {current_variant_id}")
@@ -3132,7 +3165,7 @@ class ActionAskEditOption(Action):
             for v in target_profile.get("variants", []):
                 if v.get('_id') == current_variant_id:
                     variant = v
-                    print(f"[DEBUG] ✅ Variante encontrada: {v.get('name', 'N/A')} ({current_variant_id})")
+                    print(f"[DEBUG] Variante encontrada: {v.get('name', 'N/A')} ({current_variant_id})")
                     break
 
             if not variant:
@@ -3146,14 +3179,14 @@ class ActionAskEditOption(Action):
                 )
                 return []
 
-            # Verificar si la variante tiene settings (gemas)
+            # Verificar si la variante tiene GEMAS
             settings_info = variant.get("settingsInfo", [])
             has_gems = len(settings_info) > 0
 
             print(f"[DEBUG] Variante tiene gemas: {has_gems}")
             print(f"[DEBUG] Nº de gemas: {len(settings_info)}")
 
-            # Crear botones base (siempre disponibles)
+            # Crear botones base
             buttons = [
                 {
                     "title": "Cambiar base",

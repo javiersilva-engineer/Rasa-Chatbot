@@ -30,7 +30,6 @@ class ActionEstructurasBD(Action):
                         response_data = await response.json()
                         
                         # Extraer el array de estructuras desde la clave correspondiente
-                        # Ajusta el nombre de la clave según lo que devuelva tu API
                         structures_array = response_data.get("baseStructures", [])
                         
                         # Extraer los nombres de las estructuras
