@@ -144,11 +144,11 @@ class ActionChangeBase(Action):
         print("[DEBUG] FIN ActionChangeBase")
         print("=" * 50)
 
-        # 👇 CRÍTICO: Actualizar ring_id, resetear profile_id, limpiar base_id
+        # CRÍTICO: Actualizar ring_id, resetear profile_id, limpiar base_id
         return [
-            SlotSet("ring_id", base_id),      # ✅ Actualizar ring_id
-            SlotSet("profile_id", None),     # ✅ Resetear profile_id
-            SlotSet("base_id", None)         # ✅ Limpiar base_id
+            SlotSet("ring_id", base_id),     
+            SlotSet("profile_id", None),     
+            SlotSet("base_id", None)         
         ]
 
 

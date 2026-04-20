@@ -17,14 +17,13 @@ class ActionDeterminarSignoZodiacal(Action):
         if not fecha_str:
             return [SlotSet("signo_zodiacal", None)]
         
-        # Convertir a minúsculas para facilitar el parsing
+        # Convertir a minúsculas
         fecha_str = fecha_str.lower().strip()
         
         try:
             dia, mes = self.extraer_fecha(fecha_str)
             
             if dia and mes:
-                # Determinar el signo zodiacal
                 signo = self.obtener_signo(dia, mes)
                 return [SlotSet("signo_zodiacal", signo)]
             else:
@@ -36,7 +35,7 @@ class ActionDeterminarSignoZodiacal(Action):
     def extraer_fecha(self, fecha_str: Text) -> tuple:
         """Extrae día y mes de diferentes formatos de fecha"""
         
-        # Diccionario de meses en español
+        # Diccionario de meses
         meses = {
             'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4,
             'mayo': 5, 'junio': 6, 'julio': 7, 'agosto': 8,
