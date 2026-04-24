@@ -2053,35 +2053,35 @@ flows:
       
       - action: action_ask_next_edit_option
 
-  modificar_empaquetado_del_anillo:
-    description: |
-      El usuario desea modificar el empaquetado completo de su anillo, 
-      incluyendo el tipo de caja, material exterior y material interior.
-    name: Editar empaquetado completo del anillo en editor 3D
-    steps:
-      # Resetear slots al inicio
-      - action: action_reset_box_slots
+  # modificar_empaquetado_del_anillo:
+  #   description: |
+  #     El usuario desea modificar el empaquetado completo de su anillo, 
+  #     incluyendo el tipo de caja, material exterior y material interior.
+  #   name: Editar empaquetado completo del anillo en editor 3D
+  #   steps:
+  #     # Resetear slots al inicio
+  #     - action: action_reset_box_slots
       
-      # Paso 1: Seleccionar tipo de caja
-      - collect: box_shape_id
-        description: "El ID del tipo de empaquetado que el usuario desea aplicar al anillo"
-        utter: action_ask_box_shape_id
-      - action: action_change_box_shape
+  #     # Paso 1: Seleccionar tipo de caja
+  #     - collect: box_shape_id
+  #       description: "El ID del tipo de empaquetado que el usuario desea aplicar al anillo"
+  #       utter: action_ask_box_shape_id
+  #     - action: action_change_box_shape
       
-      # Paso 2: Seleccionar material exterior
-      - collect: box_outer_color_id
-        description: "El ID del material exterior que el usuario desea aplicar al empaquetado"
-        utter: action_ask_box_outer_color_id
-      - action: action_change_box_outer_color
+  #     # Paso 2: Seleccionar material exterior
+  #     - collect: box_outer_color_id
+  #       description: "El ID del material exterior que el usuario desea aplicar al empaquetado"
+  #       utter: action_ask_box_outer_color_id
+  #     - action: action_change_box_outer_color
       
-      # Paso 3: Seleccionar material interior
-      - collect: box_inner_color_id
-        description: "El ID del material interior que el usuario desea aplicar al empaquetado"
-        utter: action_ask_box_inner_color_id
-      - action: action_change_box_inner_color
+  #     # Paso 3: Seleccionar material interior
+  #     - collect: box_inner_color_id
+  #       description: "El ID del material interior que el usuario desea aplicar al empaquetado"
+  #       utter: action_ask_box_inner_color_id
+  #     - action: action_change_box_inner_color
       
-      # Paso 4: Preguntar siguiente opción
-      - action: action_ask_next_edit_option
+  #     # Paso 4: Preguntar siguiente opción
+  #     - action: action_ask_next_edit_option
 
   finalizar_edicion:
     description: Finaliza el proceso de edición del anillo
