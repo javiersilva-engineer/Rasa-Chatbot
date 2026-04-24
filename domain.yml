@@ -403,21 +403,21 @@ responses:
       translation:
         en: "Sorry, I didn't understand that."
 
-  utter_ask_interrupted_flow_to_continue:
-    - text: "¿Cuál de estos flujos te gustaría continuar: {{context.interrupted_flow_options}}?"
-      translation:
-        en: "Which of these flows would you like to continue: {{context.interrupted_flow_options}}?"
-      metadata:
-        rephrase: True
-        template: jinja
+  # utter_ask_interrupted_flow_to_continue:
+  #   - text: "¿Cuál de estos flujos te gustaría continuar: {{context.interrupted_flow_options}}?"
+  #     translation:
+  #       en: "Which of these flows would you like to continue: {{context.interrupted_flow_options}}?"
+  #     metadata:
+  #       rephrase: True
+  #       template: jinja
   
-  utter_ask_continue_interrupted_flow_confirmation:
-    - text: "¿Te gustaría continuar con {{context.interrupted_flow_options}}?"
-      translation:
-        en: "Would you like to continue with {{context.interrupted_flow_options}}?"
-      metadata:
-        rephrase: True
-        template: jinja
+  # utter_ask_continue_interrupted_flow_confirmation:
+  #   - text: "¿Te gustaría continuar con {{context.interrupted_flow_options}}?"
+  #     translation:
+  #       en: "Would you like to continue with {{context.interrupted_flow_options}}?"
+  #     metadata:
+  #       rephrase: True
+  #       template: jinja
 
 
 
