@@ -1,3 +1,15 @@
+import os
+from typing import Text, Dict, Any, List
+from rasa_sdk import Action, Tracker
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet
+import aiohttp
+from dotenv import load_dotenv
+import traceback
+import json
+
+load_dotenv()
+
 class ActionEstructurasBD(Action):
     
     def name(self) -> Text:
