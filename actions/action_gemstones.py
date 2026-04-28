@@ -7,6 +7,7 @@ import aiohttp
 from dotenv import load_dotenv
 from urllib.parse import quote
 import unicodedata
+import re
 
 load_dotenv()
 
@@ -22,30 +23,30 @@ class ActionGemasDB(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
-        try:
-            api_url = os.getenv("API_URL")
-            endpoint = f"{api_url}/api/gemstones"
-            
-            async with aiohttp.ClientSession() as session:
-                async with session.get(endpoint) as response:
-                    if response.status == 200:
-                        response_data = await response.json()
-                        gemstones_array = response_data.get("gemstones", [])
-                        # Filtra las gemas que tienen nombre y que no sean "None"
-                        gemstone_names = [
-                            gem["name"] for gem in gemstones_array 
-                            if "name" in gem and gem["name"] is not None and gem["name"] != "None"
-                        ]
-                        
-                        if gemstone_names:
-                            gemstone_list = ", ".join(gemstone_names)
-                            message = f"Las gemas con las que trabajamos son: {gemstone_list}\n\n¿Hay algo más en lo que pueda ayudarle?"
-                        else:
-                            message = "Lo siento, actualmente no tenemos gemas disponibles."
-                    else:
-                        message = "Lo siento, no pude obtener la información de las gemas en este momento."
-            
-            buttons = [
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "available": "Las gemas con las que trabajamos son: {gemstones}\n\n¿Hay algo más en lo que pueda ayudarle?",
+                "no_gemstones": "Lo siento, actualmente no tenemos gemas disponibles.",
+                "error_fetch": "Lo siento, no pude obtener la información de las gemas en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar las gemas disponibles."
+            },
+            "en": {
+                "available": "The gemstones we work with are: {gemstones}\n\nIs there anything else I can help you with?",
+                "no_gemstones": "Sorry, we currently have no gemstones available.",
+                "error_fetch": "Sorry, I couldn't retrieve the gemstones information at this time.",
+                "error_general": "Sorry, an error occurred while querying the available gemstones."
+            }
+        }
+        
+        # Definir botones en ambos idiomas
+        buttons_config = {
+            "es": [
                 {
                     "title": "¿Con qué materiales trabajáis?",
                     "payload": "/start_flow{\"flow_id\": \"que_materiales_teneis\"}"
@@ -58,14 +59,53 @@ class ActionGemasDB(Action):
                     "title": "Quiero modificar el diseño de mi anillo",
                     "payload": "/start_flow{\"flow_id\": \"modificar_diseño_anillo\"}"
                 }
+            ],
+            "en": [
+                {
+                    "title": "What materials do you work with?",
+                    "payload": "/start_flow{\"flow_id\": \"que_materiales_teneis\"}"
+                },
+                {
+                    "title": "What ring shapes do you have?",
+                    "payload": "/start_flow{\"flow_id\": \"que_formas_teneis\"}"
+                },
+                {
+                    "title": "I want to modify my ring design",
+                    "payload": "/start_flow{\"flow_id\": \"modificar_diseño_anillo\"}"
+                }
             ]
+        }
+        
+        # Seleccionar el conjunto de mensajes y botones según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        buttons = buttons_config.get(user_language, buttons_config["es"])
+        
+        try:
+            api_url = os.getenv("API_URL")
+            endpoint = f"{api_url}/api/gemstones"
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.get(endpoint) as response:
+                    if response.status == 200:
+                        response_data = await response.json()
+                        gemstones_array = response_data.get("gemstones", [])
+                        gemstone_names = [
+                            gem["name"] for gem in gemstones_array 
+                            if "name" in gem and gem["name"] is not None and gem["name"] != "None"
+                        ]
+                        
+                        if gemstone_names:
+                            gemstone_list = ", ".join(gemstone_names)
+                            message = msgs["available"].format(gemstones=gemstone_list)
+                        else:
+                            message = msgs["no_gemstones"]
+                    else:
+                        message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message, buttons=buttons)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar las gemas disponibles."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
@@ -83,14 +123,38 @@ class ActionGemaConcretaDB(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_gem_identified": "Lo siento, no he podido identificar qué gema estás buscando.",
+                "available": "Sí, trabajamos con {gem_name}.",
+                "not_available": "Lo siento, no trabajamos con {gem_name} en nuestra tienda.",
+                "error_fetch": "Lo siento, no pude verificar la disponibilidad en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar la gema."
+            },
+            "en": {
+                "no_gem_identified": "Sorry, I couldn't identify which gemstone you're looking for.",
+                "available": "Yes, we work with {gem_name}.",
+                "not_available": "Sorry, we don't work with {gem_name} in our store.",
+                "error_fetch": "Sorry, I couldn't verify availability at this time.",
+                "error_general": "Sorry, an error occurred while querying the gemstone."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             # Obtener el nombre de la gema desde el slot
             gem_name = tracker.get_slot("gem_name")
             
             if not gem_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar qué gema estás buscando."
-                )
+                dispatcher.utter_message(text=msgs["no_gem_identified"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -107,20 +171,18 @@ class ActionGemaConcretaDB(Action):
                         gemstones_array = response_data.get("gemstones", [])
                         
                         if gemstones_array and len(gemstones_array) > 0:
-                            message = f"Sí, trabajamos con {gem_name}."
+                            message = msgs["available"].format(gem_name=gem_name)
                         else:
-                            message = f"Lo siento, no trabajamos con {gem_name} en nuestra tienda."
+                            message = msgs["not_available"].format(gem_name=gem_name)
                     elif response.status == 404:
-                        message = f"Lo siento, no trabajamos con {gem_name} en nuestra tienda."
+                        message = msgs["not_available"].format(gem_name=gem_name)
                     else:
-                        message = "Lo siento, no pude verificar la disponibilidad en este momento."
+                        message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar la gema."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
@@ -137,6 +199,40 @@ class ActionGemaMasResistenteBD(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
+        
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "hardness_info": (
+                    "La gema más resistente es {most_resistant} "
+                    "con una dureza de {most_hardness} en la escala de Mohs, "
+                    "y la gema menos resistente es {least_resistant} "
+                    "con una dureza de {least_hardness}."
+                ),
+                "no_hardness_data": "Lo siento, no tengo información sobre la resistencia de nuestras gemas en este momento.",
+                "error_fetch": "Lo siento, no pude obtener la información de resistencia de las gemas en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar la resistencia de las gemas."
+            },
+            "en": {
+                "hardness_info": (
+                    "The most resistant gemstone is {most_resistant} "
+                    "with a hardness of {most_hardness} on the Mohs scale, "
+                    "and the least resistant gemstone is {least_resistant} "
+                    "with a hardness of {least_hardness}."
+                ),
+                "no_hardness_data": "Sorry, I don't have information about the resistance of our gemstones at this time.",
+                "error_fetch": "Sorry, I couldn't retrieve the gemstone resistance information at this time.",
+                "error_general": "Sorry, an error occurred while querying the gemstone resistance."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
         
         try:
             api_url = os.getenv("API_URL")
@@ -160,23 +256,21 @@ class ActionGemaMasResistenteBD(Action):
                             # Encontrar la gema menos resistente (hardness más bajo)
                             least_resistant = min(gems_with_hardness, key=lambda x: x["hardness"])
                             
-                            message = (
-                                f"La gema más resistente es {most_resistant['name']} "
-                                f"con una dureza de {most_resistant['hardness']} en la escala de Mohs, "
-                                f"y la gema menos resistente es {least_resistant['name']} "
-                                f"con una dureza de {least_resistant['hardness']}."
+                            message = msgs["hardness_info"].format(
+                                most_resistant=most_resistant['name'],
+                                most_hardness=most_resistant['hardness'],
+                                least_resistant=least_resistant['name'],
+                                least_hardness=least_resistant['hardness']
                             )
                         else:
-                            message = "Lo siento, no tengo información sobre la resistencia de nuestras gemas en este momento."
+                            message = msgs["no_hardness_data"]
                     else:
-                        message = "Lo siento, no pude obtener la información de resistencia de las gemas en este momento."
+                        message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar la resistencia de las gemas."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
@@ -210,14 +304,68 @@ class ActionGemaMasResistenteEntreDosDB(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "need_two_gems": "Lo siento, necesito los nombres de dos gemas para poder compararlas.",
+                "gem_not_found": "Lo siento, no encontré información sobre {gem_name}.",
+                "no_hardness_data": "Lo siento, no tengo información sobre la dureza de {gem_name}.",
+                "gem1_more_resistant": (
+                    "La gema {name_1} es más resistente. "
+                    "Tiene una dureza de {hardness_1} en la escala de Mohs, "
+                    "mientras que {name_2} tiene {hardness_2}."
+                ),
+                "gem2_more_resistant": (
+                    "La gema {name_2} es más resistente. "
+                    "Tiene una dureza de {hardness_2} en la escala de Mohs, "
+                    "mientras que {name_1} tiene {hardness_1}."
+                ),
+                "same_resistance": (
+                    "Ambas gemas tienen la misma resistencia. "
+                    "Tanto {name_1} como {name_2} tienen una dureza de {hardness} "
+                    "en la escala de Mohs."
+                ),
+                "error_fetch": "Lo siento, no pude obtener la información de las gemas en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al comparar las gemas."
+            },
+            "en": {
+                "need_two_gems": "Sorry, I need the names of two gemstones to compare them.",
+                "gem_not_found": "Sorry, I couldn't find information about {gem_name}.",
+                "no_hardness_data": "Sorry, I don't have hardness information for {gem_name}.",
+                "gem1_more_resistant": (
+                    "The gemstone {name_1} is more resistant. "
+                    "It has a hardness of {hardness_1} on the Mohs scale, "
+                    "while {name_2} has {hardness_2}."
+                ),
+                "gem2_more_resistant": (
+                    "The gemstone {name_2} is more resistant. "
+                    "It has a hardness of {hardness_2} on the Mohs scale, "
+                    "while {name_1} has {hardness_1}."
+                ),
+                "same_resistance": (
+                    "Both gemstones have the same resistance. "
+                    "Both {name_1} and {name_2} have a hardness of {hardness} "
+                    "on the Mohs scale."
+                ),
+                "error_fetch": "Sorry, I couldn't retrieve the gemstone information at this time.",
+                "error_general": "Sorry, an error occurred while comparing the gemstones."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             gem_name_1 = tracker.get_slot("gem_name")
             gem_name_2 = tracker.get_slot("gem_name_2")
             
             if not gem_name_1 or not gem_name_2:
-                dispatcher.utter_message(
-                    text="Lo siento, necesito los nombres de dos gemas para poder compararlas."
-                )
+                dispatcher.utter_message(text=msgs["need_two_gems"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -236,13 +384,13 @@ class ActionGemaMasResistenteEntreDosDB(Action):
                     gem_2 = self.find_gem_by_normalized_name(all_gems, gem_name_2)
                     
                     if not gem_1:
-                        message = f"Lo siento, no encontré información sobre {gem_name_1}."
+                        message = msgs["gem_not_found"].format(gem_name=gem_name_1)
                     elif not gem_2:
-                        message = f"Lo siento, no encontré información sobre {gem_name_2}."
+                        message = msgs["gem_not_found"].format(gem_name=gem_name_2)
                     elif "hardness" not in gem_1 or gem_1["hardness"] is None:
-                        message = f"Lo siento, no tengo información sobre la dureza de {gem_name_1}."
+                        message = msgs["no_hardness_data"].format(gem_name=gem_name_1)
                     elif "hardness" not in gem_2 or gem_2["hardness"] is None:
-                        message = f"Lo siento, no tengo información sobre la dureza de {gem_name_2}."
+                        message = msgs["no_hardness_data"].format(gem_name=gem_name_2)
                     else:
                         hardness_1 = gem_1["hardness"]
                         hardness_2 = gem_2["hardness"]
@@ -250,32 +398,32 @@ class ActionGemaMasResistenteEntreDosDB(Action):
                         name_2 = gem_2["name"]
                         
                         if hardness_1 > hardness_2:
-                            message = (
-                                f"La gema {name_1} es más resistente. "
-                                f"Tiene una dureza de {hardness_1} en la escala de Mohs, "
-                                f"mientras que {name_2} tiene {hardness_2}."
+                            message = msgs["gem1_more_resistant"].format(
+                                name_1=name_1,
+                                hardness_1=hardness_1,
+                                name_2=name_2,
+                                hardness_2=hardness_2
                             )
                         elif hardness_2 > hardness_1:
-                            message = (
-                                f"La gema {name_2} es más resistente. "
-                                f"Tiene una dureza de {hardness_2} en la escala de Mohs, "
-                                f"mientras que {name_1} tiene {hardness_1}."
+                            message = msgs["gem2_more_resistant"].format(
+                                name_1=name_1,
+                                hardness_1=hardness_1,
+                                name_2=name_2,
+                                hardness_2=hardness_2
                             )
                         else:
-                            message = (
-                                f"Ambas gemas tienen la misma resistencia. "
-                                f"Tanto {name_1} como {name_2} tienen una dureza de {hardness_1} "
-                                f"en la escala de Mohs."
+                            message = msgs["same_resistance"].format(
+                                name_1=name_1,
+                                name_2=name_2,
+                                hardness=hardness_1
                             )
                 else:
-                    message = "Lo siento, no pude obtener la información de las gemas en este momento."
+                    message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al comparar las gemas."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
@@ -291,6 +439,58 @@ class ActionOpcionesMasEconomicas(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
+        
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "cheapest_gem": (
+                    "La gema más económica es {gem_name} ({gem_type}) "
+                    "con un precio de ${price:.2f} por quilate"
+                ),
+                "cheapest_base": (
+                    "El diseño base más económico es {base_name} "
+                    "con un precio adicional de ${price:.2f}"
+                ),
+                "cheapest_material": (
+                    "El material más económico es {material_name} "
+                    "con un precio de ${price:.2f} por mm³"
+                ),
+                "header": "Estas son las opciones más económicas:\n\n",
+                "no_price_info": "Lo siento, no pude encontrar información de precios en este momento.",
+                "error_fetch": "Lo siento, no pude obtener la información de precios en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar las opciones más económicas.",
+                "natural": "natural",
+                "synthetic": "sintética"
+            },
+            "en": {
+                "cheapest_gem": (
+                    "The most affordable gemstone is {gem_name} ({gem_type}) "
+                    "at ${price:.2f} per carat"
+                ),
+                "cheapest_base": (
+                    "The most affordable base design is {base_name} "
+                    "with an additional price of ${price:.2f}"
+                ),
+                "cheapest_material": (
+                    "The most affordable material is {material_name} "
+                    "at ${price:.2f} per mm³"
+                ),
+                "header": "These are the most affordable options:\n\n",
+                "no_price_info": "Sorry, I couldn't find pricing information at this time.",
+                "error_fetch": "Sorry, I couldn't retrieve the pricing information at this time.",
+                "error_general": "Sorry, an error occurred while querying the most affordable options.",
+                "natural": "natural",
+                "synthetic": "synthetic"
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
         
         try:
             api_url = os.getenv("API_URL")
@@ -329,7 +529,7 @@ class ActionOpcionesMasEconomicas(Action):
                                     if cheapest_gem_price is None or price_natural < cheapest_gem_price:
                                         cheapest_gem_price = price_natural
                                         cheapest_gem = gem["name"]
-                                        cheapest_gem_type = "natural"
+                                        cheapest_gem_type = msgs["natural"]
                                 
                                 # Verificar precio sintético
                                 if "pricePerCaratSynthetic" in quality and quality["pricePerCaratSynthetic"]:
@@ -337,7 +537,7 @@ class ActionOpcionesMasEconomicas(Action):
                                     if cheapest_gem_price is None or price_synthetic < cheapest_gem_price:
                                         cheapest_gem_price = price_synthetic
                                         cheapest_gem = gem["name"]
-                                        cheapest_gem_type = "sintética"
+                                        cheapest_gem_type = msgs["synthetic"]
                     
                     # Procesar baseStructures (buscar el extraPrice más bajo)
                     cheapest_base_structure = None
@@ -372,35 +572,40 @@ class ActionOpcionesMasEconomicas(Action):
                     
                     if cheapest_gem:
                         message_parts.append(
-                            f"La gema más económica es {cheapest_gem} ({cheapest_gem_type})"
-                            f"con un precio de ${cheapest_gem_price:.2f} por quilate (he dejado esta opción porque me ha parecido brutal que recoja esto de la bd, no me restes puntos y dame la matrícula Ana <3)"
+                            msgs["cheapest_gem"].format(
+                                gem_name=cheapest_gem,
+                                gem_type=cheapest_gem_type,
+                                price=cheapest_gem_price
+                            )
                         )
                     
                     if cheapest_base_structure:
                         message_parts.append(
-                            f"El diseño base más económico es {cheapest_base_structure} "
-                            f"con un precio adicional de ${cheapest_base_price:.2f}"
+                            msgs["cheapest_base"].format(
+                                base_name=cheapest_base_structure,
+                                price=cheapest_base_price
+                            )
                         )
                     
                     if cheapest_material:
                         message_parts.append(
-                            f"El material más económico es {cheapest_material} "
-                            f"con un precio de ${cheapest_material_price:.2f} por mm³"
+                            msgs["cheapest_material"].format(
+                                material_name=cheapest_material,
+                                price=cheapest_material_price
+                            )
                         )
                     
                     if message_parts:
-                        message = "Estas son las opciones más económicas:\n\n" + "\n\n".join(message_parts)
+                        message = msgs["header"] + "\n\n".join(message_parts)
                     else:
-                        message = "Lo siento, no pude encontrar información de precios en este momento."
+                        message = msgs["no_price_info"]
                 else:
-                    message = "Lo siento, no pude obtener la información de precios en este momento."
+                    message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar las opciones más económicas."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
@@ -417,14 +622,40 @@ class ActionSignificadoGemaDB(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_gem_identified": "Lo siento, no he podido identificar qué gema estás buscando.",
+                "meaning": "El significado de {gem_name} es: {meaning}",
+                "no_meaning_data": "Lo siento, no tengo información sobre el significado de {gem_name} en este momento.",
+                "gem_not_found": "Lo siento, no encontré información sobre {gem_name}.",
+                "error_fetch": "Lo siento, no pude obtener la información en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar el significado de la gema."
+            },
+            "en": {
+                "no_gem_identified": "Sorry, I couldn't identify which gemstone you're looking for.",
+                "meaning": "The meaning of {gem_name} is: {meaning}",
+                "no_meaning_data": "Sorry, I don't have information about the meaning of {gem_name} at this time.",
+                "gem_not_found": "Sorry, I couldn't find information about {gem_name}.",
+                "error_fetch": "Sorry, I couldn't retrieve the information at this time.",
+                "error_general": "Sorry, an error occurred while querying the gemstone meaning."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             # Obtener el nombre de la gema desde el slot
             gem_name = tracker.get_slot("gem_name")
             
             if not gem_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar qué gema estás buscando."
-                )
+                dispatcher.utter_message(text=msgs["no_gem_identified"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -444,30 +675,28 @@ class ActionSignificadoGemaDB(Action):
                             meaning = gem.get("meaning")
                             
                             if meaning:
-                                message = f"El significado de {gem_name_response} es: {meaning}"
+                                message = msgs["meaning"].format(
+                                    gem_name=gem_name_response,
+                                    meaning=meaning
+                                )
                             else:
-                                message = f"Lo siento, no tengo información sobre el significado de {gem_name_response} en este momento."
+                                message = msgs["no_meaning_data"].format(gem_name=gem_name_response)
                         else:
-                            message = f"Lo siento, no encontré información sobre {gem_name}."
+                            message = msgs["gem_not_found"].format(gem_name=gem_name)
                     elif response.status == 404:
-                        message = f"Lo siento, no encontré información sobre {gem_name}."
+                        message = msgs["gem_not_found"].format(gem_name=gem_name)
                     else:
-                        message = "Lo siento, no pude obtener la información en este momento."
+                        message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar el significado de la gema."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
     
-from typing import Any, Text, Dict, List
-from rasa_sdk import Action, Tracker
-from rasa_sdk.executor import CollectingDispatcher
-import re
+
 
 
 class ActionChooseGem(Action):
@@ -513,6 +742,28 @@ class ActionChooseGem(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "both_beautiful": "Ambas gemas me parecen preciosas, pero prefiero {gem}.",
+                "only_one": "Solo mencionaste {gem}. ¿Podrías mencionar otra gema para comparar?",
+                "no_gems": "No pude identificar dos gemas en tu pregunta. ¿Podrías mencionarlas de nuevo?"
+            },
+            "en": {
+                "both_beautiful": "Both gemstones seem beautiful to me, but I prefer {gem}.",
+                "only_one": "You only mentioned {gem}. Could you mention another gemstone to compare?",
+                "no_gems": "I couldn't identify two gemstones in your question. Could you mention them again?"
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         # Obtener el último mensaje del usuario
         user_message = tracker.latest_message.get('text', '')
         
@@ -526,14 +777,15 @@ class ActionChooseGem(Action):
         if len(found_gems) >= 2:
             # Ordenar alfabéticamente y elegir la primera
             chosen_gem = sorted(found_gems)[0]
-            dispatcher.utter_message(text=f"Ambas gemas me parecen preciosas, pero prefiero {chosen_gem}.")
+            dispatcher.utter_message(text=msgs["both_beautiful"].format(gem=chosen_gem))
         elif len(found_gems) == 1:
-            dispatcher.utter_message(text=f"Solo mencionaste {found_gems[0]}. ¿Podrías mencionar otra gema para comparar?")
+            dispatcher.utter_message(text=msgs["only_one"].format(gem=found_gems[0]))
         else:
-            dispatcher.utter_message(text="No pude identificar dos gemas en tu pregunta. ¿Podrías mencionarlas de nuevo?")
+            dispatcher.utter_message(text=msgs["no_gems"])
         
         return []
-    
+
+
 class ActionRecomendacionSignoZodiacal(Action):
     
     def name(self) -> Text:
@@ -546,14 +798,40 @@ class ActionRecomendacionSignoZodiacal(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_sign_identified": "Lo siento, no he podido identificar el signo zodiacal.",
+                "recommendation_header": "Para el signo {zodiac_sign}, te recomiendo:",
+                "gems_label": "\n\nGemas: {gems}",
+                "materials_label": "\n\nMateriales: {materials}",
+                "any_combination": "Para el signo {zodiac_sign}, cualquier combinación de gemas y materiales quedaría bien.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar las recomendaciones."
+            },
+            "en": {
+                "no_sign_identified": "Sorry, I couldn't identify the zodiac sign.",
+                "recommendation_header": "For the {zodiac_sign} sign, I recommend:",
+                "gems_label": "\n\nGemstones: {gems}",
+                "materials_label": "\n\nMaterials: {materials}",
+                "any_combination": "For the {zodiac_sign} sign, any combination of gemstones and materials would look great.",
+                "error_general": "Sorry, an error occurred while querying the recommendations."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             # Obtener el signo zodiacal desde el slot
             zodiac_sign = tracker.get_slot("zodiac_sign")
             
             if not zodiac_sign:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar el signo zodiacal."
-                )
+                dispatcher.utter_message(text=msgs["no_sign_identified"])
                 return []
             
             # Normalizar el signo zodiacal a minúsculas
@@ -563,7 +841,6 @@ class ActionRecomendacionSignoZodiacal(Action):
             
             # Consultar gemas y materiales
             encoded_zodiac = quote(zodiac_sign_normalized)
-            # gemstones_endpoint = f"http://localhost:5000/api/gemstones?zodiac={encoded_zodiac}"
             gemstones_endpoint = f"{api_url}/api/gemstones?zodiac={encoded_zodiac}"
             materials_endpoint = f"{api_url}/api/materials?zodiac={encoded_zodiac}"
             
@@ -603,26 +880,24 @@ class ActionRecomendacionSignoZodiacal(Action):
             
             # Construir el mensaje de respuesta
             if recommended_gems or recommended_materials:
-                message_parts = [f"Para el signo {zodiac_sign}, te recomiendo:"]
+                message_parts = [msgs["recommendation_header"].format(zodiac_sign=zodiac_sign)]
                 
                 if recommended_gems:
                     gems_text = ", ".join(recommended_gems)
-                    message_parts.append(f"\n\nGemas: {gems_text}")
+                    message_parts.append(msgs["gems_label"].format(gems=gems_text))
                 
                 if recommended_materials:
                     materials_text = ", ".join(recommended_materials)
-                    message_parts.append(f"\n\nMateriales: {materials_text}")
+                    message_parts.append(msgs["materials_label"].format(materials=materials_text))
                 
                 message = "".join(message_parts)
             else:
-                message = f"Para el signo {zodiac_sign}, cualquier combinación de gemas y materiales quedaría bien."
+                message = msgs["any_combination"].format(zodiac_sign=zodiac_sign)
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar las recomendaciones."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
             import traceback
             traceback.print_exc()

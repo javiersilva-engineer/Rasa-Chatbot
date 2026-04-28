@@ -22,6 +22,30 @@ class ActionMaterialesDB(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "available": "Los materiales con los que trabajamos son: {materials}",
+                "no_materials": "Lo siento, actualmente no tenemos materiales disponibles.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar los materiales disponibles."
+            },
+            "en": {
+                "available": "The materials we work with are: {materials}",
+                "no_materials": "Sorry, we currently have no materials available.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "error_general": "Sorry, an error occurred while querying the available materials."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             api_url = os.getenv("API_URL")
             endpoint = f"{api_url}/api/materials"
@@ -35,22 +59,21 @@ class ActionMaterialesDB(Action):
                         
                         if material_names:
                             material_list = ", ".join(material_names)
-                            message = f"Los materiales con los que trabajamos son: {material_list}"
+                            message = msgs["available"].format(materials=material_list)
                         else:
-                            message = "Lo siento, actualmente no tenemos materiales disponibles."
+                            message = msgs["no_materials"]
                     else:
-                        message = "Lo siento, no pude obtener la información de los materiales en este momento."
+                        message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar los materiales disponibles."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
-    
+
+
 class ActionCheckMaterialVariants(Action):
     
     def name(self) -> Text:
@@ -105,13 +128,37 @@ class ActionCheckMaterialVariants(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres saber sobre alergias.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "not_found": "Lo siento, no encontré información sobre {material_name} en nuestra base de datos.",
+                "multiple_variants": "Encontré varios tipos de {base_material}.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar los materiales."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know about regarding allergies.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "not_found": "Sorry, I couldn't find information about {material_name} in our database.",
+                "multiple_variants": "I found several types of {base_material}.",
+                "error_general": "Sorry, an error occurred while querying the materials."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             material_name = tracker.get_slot("material_name")
             
             if not material_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres saber sobre alergias."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return [SlotSet("needs_clarification", False)]
             
             api_url = os.getenv("API_URL")
@@ -120,9 +167,7 @@ class ActionCheckMaterialVariants(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="Lo siento, no pude obtener la información de los materiales en este momento."
-                        )
+                        dispatcher.utter_message(text=msgs["error_fetch"])
                         return [SlotSet("needs_clarification", False)]
                     
                     response_data = await response.json()
@@ -141,7 +186,7 @@ class ActionCheckMaterialVariants(Action):
                     
                     if not variants:
                         dispatcher.utter_message(
-                            text=f"Lo siento, no encontré información sobre {material_name} en nuestra base de datos."
+                            text=msgs["not_found"].format(material_name=material_name)
                         )
                         return [SlotSet("needs_clarification", False)]
                     
@@ -164,20 +209,18 @@ class ActionCheckMaterialVariants(Action):
                         })
                     
                     dispatcher.utter_message(
-                        text=f"Encontré varios tipos de {base_material}.",
+                        text=msgs["multiple_variants"].format(base_material=base_material),
                         buttons=buttons
                     )
                     return [SlotSet("needs_clarification", True)]
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar los materiales."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
             return [SlotSet("needs_clarification", False)]
         
+
 class ActionShowAllergies(Action):
-    
     def name(self) -> Text:
         return "action_show_allergies"
     
@@ -189,16 +232,16 @@ class ActionShowAllergies(Action):
         )
         return text.lower().strip()
     
-    def translate_allergen(self, allergen: str) -> str:
-        """Traduce los alérgenos del inglés al español."""
+    def translate_allergen(self, allergen: str, language: str = "es") -> str:
+        """Traduce los alérgenos según el idioma."""
         translations = {
-            'nickel': 'níquel',
-            'zinc': 'zinc',
-            'copper': 'cobre'
+            'nickel': {'es': 'níquel', 'en': 'nickel'},
+            'zinc': {'es': 'zinc', 'en': 'zinc'},
+            'copper': {'es': 'cobre', 'en': 'copper'}
         }
-        # Normalizar y buscar traducción
         allergen_lower = allergen.lower().strip()
-        return translations.get(allergen_lower, allergen)
+        allergen_translations = translations.get(allergen_lower, {})
+        return allergen_translations.get(language, allergen)
     
     def get_unique_allergens(self, material: dict) -> tuple:
         """Obtiene alérgenos únicos de todas las purezas de un material."""
@@ -223,13 +266,39 @@ class ActionShowAllergies(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres saber sobre alergias.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "not_found": "Lo siento, no encontré información sobre {material_name} en nuestra base de datos.",
+                "has_allergies": "Sí, {material_name} puede causar alergias.\nContiene los siguientes alérgenos: {allergens}",
+                "no_allergies": "El {material_name} no causa alergias según nuestra información. Es hipoalergénico.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar las alergias del material."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know about regarding allergies.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "not_found": "Sorry, I couldn't find information about {material_name} in our database.",
+                "has_allergies": "Yes, {material_name} can cause allergies.\nIt contains the following allergens: {allergens}",
+                "no_allergies": "{material_name} does not cause allergies according to our information. It is hypoallergenic.",
+                "error_general": "Sorry, an error occurred while querying the material allergies."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             material_name = tracker.get_slot("material_name")
             
             if not material_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres saber sobre alergias."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -238,9 +307,7 @@ class ActionShowAllergies(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="Lo siento, no pude obtener la información de los materiales en este momento."
-                        )
+                        dispatcher.utter_message(text=msgs["error_fetch"])
                         return []
                     
                     response_data = await response.json()
@@ -258,7 +325,7 @@ class ActionShowAllergies(Action):
                     
                     if not material_found:
                         dispatcher.utter_message(
-                            text=f"Lo siento, no encontré información sobre {material_name} en nuestra base de datos."
+                            text=msgs["not_found"].format(material_name=material_name)
                         )
                         return []
                     
@@ -267,55 +334,47 @@ class ActionShowAllergies(Action):
                     has_allergies, allergens = self.get_unique_allergens(material_found)
                     
                     if has_allergies:
-                        # Traducir cada alérgeno al español
-                        allergens_translated = [self.translate_allergen(allergen) for allergen in allergens]
+                        # Traducir cada alérgeno según el idioma
+                        allergens_translated = [
+                            self.translate_allergen(allergen, user_language) 
+                            for allergen in allergens
+                        ]
                         allergens_list = ", ".join(allergens_translated)
-                        message = (
-                            f"Sí, {material_name_response} puede causar alergias.\n"
-                            f"Contiene los siguientes alérgenos: {allergens_list}"
+                        message = msgs["has_allergies"].format(
+                            material_name=material_name_response,
+                            allergens=allergens_list
                         )
                     else:
-                        message = f"El {material_name_response} no causa alergias según nuestra información. Es hipoalergénico."
+                        message = msgs["no_allergies"].format(material_name=material_name_response)
                     
                     dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar las alergias del material."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
-    
- 
+
+
 class ActionTiposMaterialBD(Action):
-    
     def name(self) -> Text:
         return "action_tipos_material_bd"
     
     def normalize_text(self, text: str) -> str:
-        """
-        Normaliza el texto eliminando tildes y convirtiendo a minúsculas.
-        """
+        """Normaliza el texto eliminando tildes y convirtiendo a minúsculas."""
         import unicodedata
-        # Eliminar tildes
         text = ''.join(
             c for c in unicodedata.normalize('NFD', text)
             if unicodedata.category(c) != 'Mn'
         )
-        # Convertir a minúsculas
         return text.lower().strip()
     
     def remove_plural(self, text: str) -> str:
-        """
-        Intenta convertir plurales a singular (reglas básicas del español).
-        """
+        """Intenta convertir plurales a singular (reglas básicas del español)."""
         text = text.lower().strip()
         
-        # Plurales terminados en -es
         if text.endswith('es') and len(text) > 3:
             return text[:-2]
-        # Plurales terminados en -s
         elif text.endswith('s') and len(text) > 2:
             return text[:-1]
         
@@ -351,14 +410,22 @@ class ActionTiposMaterialBD(Action):
         normalized = self.normalize_text(material)
         normalized_singular = self.remove_plural(normalized)
         
-        # Buscar traducción
         if normalized in translations:
             return translations[normalized]
         elif normalized_singular in translations:
             return translations[normalized_singular]
         
-        # Si no hay traducción, devolver el original normalizado para ambos
         return (normalized_singular, normalized_singular)
+    
+    def get_material_display_name(self, material: str, language: str) -> str:
+        """Obtiene el nombre del material en el idioma apropiado."""
+        material_english, material_spanish = self.translate_material_to_english(material)
+        
+        # Si el idioma es inglés, usar el término en inglés
+        if language == "en":
+            return material_english
+        # Por defecto, usar el término en español
+        return material_spanish
     
     async def run(
         self,
@@ -367,14 +434,37 @@ class ActionTiposMaterialBD(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres conocer los tipos.",
+                "available_types": "Los tipos de {material} que trabajamos son: {types}",
+                "not_found": "Lo siento, no encontré tipos de {material} en nuestra base de datos.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar los tipos de material."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know the types of.",
+                "available_types": "The types of {material} we work with are: {types}",
+                "not_found": "Sorry, I couldn't find types of {material} in our database.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "error_general": "Sorry, an error occurred while querying the material types."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
-            # Obtener el tipo de material desde el slot
             material_type = tracker.get_slot("material_type")
             
             if not material_type:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres conocer los tipos."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -386,8 +476,11 @@ class ActionTiposMaterialBD(Action):
                         response_data = await response.json()
                         materials_array = response_data.get("materials", [])
                         
-                        # Traducir el material buscado al inglés y obtener el término en español
-                        material_english, material_spanish = self.translate_material_to_english(material_type)
+                        # Traducir el material buscado al inglés (para la búsqueda en la BD)
+                        material_english, _ = self.translate_material_to_english(material_type)
+                        
+                        # Obtener el nombre del material en el idioma del usuario (para el mensaje)
+                        material_display = self.get_material_display_name(material_type, user_language)
                         
                         # Buscar todos los materiales que coincidan con el tipo
                         matching_materials = []
@@ -400,25 +493,25 @@ class ActionTiposMaterialBD(Action):
                         
                         if matching_materials:
                             material_list = ", ".join(matching_materials)
-                            # Usar el término en español para el mensaje
-                            message = f"Los tipos de {material_spanish} que trabajamos son: {material_list}"
+                            message = msgs["available_types"].format(
+                                material=material_display,
+                                types=material_list
+                            )
                         else:
-                            message = f"Lo siento, no encontré tipos de {material_spanish} en nuestra base de datos."
+                            message = msgs["not_found"].format(material=material_display)
                     else:
-                        message = "Lo siento, no pude obtener la información de los materiales en este momento."
+                        message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar los tipos de material."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
     
-class ActionCheckCompositionVariants(Action):
     
+class ActionCheckCompositionVariants(Action):
     def name(self) -> Text:
         return "action_check_composition_variants"
     
@@ -472,13 +565,37 @@ class ActionCheckCompositionVariants(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres conocer la composición.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "not_found": "Lo siento, no encontré información sobre {material_name} en nuestra base de datos.",
+                "multiple_variants": "Encontré varios tipos de {base_material}.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar los materiales."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know the composition of.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "not_found": "Sorry, I couldn't find information about {material_name} in our database.",
+                "multiple_variants": "I found several types of {base_material}.",
+                "error_general": "Sorry, an error occurred while querying the materials."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             material_name = tracker.get_slot("material_name_composition")
             
             if not material_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres conocer la composición."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return [SlotSet("needs_clarification", False)]
             
             api_url = os.getenv("API_URL")
@@ -487,9 +604,7 @@ class ActionCheckCompositionVariants(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="Lo siento, no pude obtener la información de los materiales en este momento."
-                        )
+                        dispatcher.utter_message(text=msgs["error_fetch"])
                         return [SlotSet("needs_clarification", False)]
                     
                     response_data = await response.json()
@@ -508,7 +623,7 @@ class ActionCheckCompositionVariants(Action):
                     
                     if not variants:
                         dispatcher.utter_message(
-                            text=f"Lo siento, no encontré información sobre {material_name} en nuestra base de datos."
+                            text=msgs["not_found"].format(material_name=material_name)
                         )
                         return [SlotSet("needs_clarification", False)]
                     
@@ -531,18 +646,17 @@ class ActionCheckCompositionVariants(Action):
                         })
                     
                     dispatcher.utter_message(
-                        text=f"Encontré varios tipos de {base_material}.",
+                        text=msgs["multiple_variants"].format(base_material=base_material),
                         buttons=buttons
                     )
                     return [SlotSet("needs_clarification", True)]
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar los materiales."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
             return [SlotSet("needs_clarification", False)]
-        
+
+
 class ActionShowComposition(Action):
     
     def name(self) -> Text:
@@ -561,10 +675,8 @@ class ActionShowComposition(Action):
         """Intenta convertir plurales a singular (reglas básicas del español)."""
         text = text.lower().strip()
         
-        # Plurales terminados en -es
         if text.endswith('es') and len(text) > 3:
             return text[:-2]
-        # Plurales terminados en -s
         elif text.endswith('s') and len(text) > 2:
             return text[:-1]
         
@@ -577,13 +689,43 @@ class ActionShowComposition(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres conocer la composición.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "composition_single": "La composición de {material_name} es: {composition}",
+                "composition_with_purity": "La composición de {material_name} ({purity_class}) es: {composition}",
+                "no_composition_data": "Lo siento, no tengo información sobre la composición de {material_name} en este momento.",
+                "compositions_multiple": "Las composiciones de {material_name} son:\n• {compositions}",
+                "not_found": "Lo siento, no encontré información sobre {material_name} en nuestra base de datos.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar la composición del material."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know the composition of.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "composition_single": "The composition of {material_name} is: {composition}",
+                "composition_with_purity": "The composition of {material_name} ({purity_class}) is: {composition}",
+                "no_composition_data": "Sorry, I don't have information about the composition of {material_name} at this time.",
+                "compositions_multiple": "The compositions of {material_name} are:\n• {compositions}",
+                "not_found": "Sorry, I couldn't find information about {material_name} in our database.",
+                "error_general": "Sorry, an error occurred while querying the material composition."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             material_name = tracker.get_slot("material_name_composition")
             
             if not material_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres conocer la composición."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -592,9 +734,7 @@ class ActionShowComposition(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="Lo siento, no pude obtener la información de los materiales en este momento."
-                        )
+                        dispatcher.utter_message(text=msgs["error_fetch"])
                         return []
                     
                     response_data = await response.json()
@@ -647,11 +787,18 @@ class ActionShowComposition(Action):
                         
                         if composition:
                             if purity_class:
-                                message = f"La composición de {material_name_response} es: {composition}"
+                                message = msgs["composition_with_purity"].format(
+                                    material_name=material_name_response,
+                                    purity_class=purity_class,
+                                    composition=composition
+                                )
                             else:
-                                message = f"La composición de {material_name_response} es: {composition}"
+                                message = msgs["composition_single"].format(
+                                    material_name=material_name_response,
+                                    composition=composition
+                                )
                         else:
-                            message = f"Lo siento, no tengo información sobre la composición de {material_name_response} en este momento."
+                            message = msgs["no_composition_data"].format(material_name=material_name_response)
                     elif found_material:
                         # Si encontramos el material pero no una pureza específica
                         material_name_response = found_material.get("name")
@@ -668,23 +815,25 @@ class ActionShowComposition(Action):
                             
                             if compositions_list:
                                 compositions_text = "\n• ".join(compositions_list)
-                                message = f"Las composiciones de {material_name_response} son:\n• {compositions_text}"
+                                message = msgs["compositions_multiple"].format(
+                                    material_name=material_name_response,
+                                    compositions=compositions_text
+                                )
                             else:
-                                message = f"Lo siento, no tengo información sobre la composición de {material_name_response}."
+                                message = msgs["no_composition_data"].format(material_name=material_name_response)
                         else:
-                            message = f"Lo siento, no tengo información sobre la composición de {material_name_response}."
+                            message = msgs["no_composition_data"].format(material_name=material_name_response)
                     else:
-                        message = f"Lo siento, no encontré información sobre {material_name} en nuestra base de datos."
+                        message = msgs["not_found"].format(material_name=material_name)
                     
                     dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar la composición del material."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
+    
     
 class ActionCheckMeaningVariants(Action):
     
@@ -741,13 +890,37 @@ class ActionCheckMeaningVariants(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres conocer el significado.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "not_found": "Lo siento, no encontré información sobre {material_name} en nuestra base de datos.",
+                "multiple_variants": "Encontré varios tipos de {base_material}.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar los materiales."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know the meaning of.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "not_found": "Sorry, I couldn't find information about {material_name} in our database.",
+                "multiple_variants": "I found several types of {base_material}.",
+                "error_general": "Sorry, an error occurred while querying the materials."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             material_name = tracker.get_slot("material_name_meaning")
             
             if not material_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres conocer el significado."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return [SlotSet("needs_clarification", False)]
             
             api_url = os.getenv("API_URL")
@@ -756,9 +929,7 @@ class ActionCheckMeaningVariants(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="Lo siento, no pude obtener la información de los materiales en este momento."
-                        )
+                        dispatcher.utter_message(text=msgs["error_fetch"])
                         return [SlotSet("needs_clarification", False)]
                     
                     response_data = await response.json()
@@ -777,7 +948,7 @@ class ActionCheckMeaningVariants(Action):
                     
                     if not variants:
                         dispatcher.utter_message(
-                            text=f"Lo siento, no encontré información sobre {material_name} en nuestra base de datos."
+                            text=msgs["not_found"].format(material_name=material_name)
                         )
                         return [SlotSet("needs_clarification", False)]
                     
@@ -800,18 +971,17 @@ class ActionCheckMeaningVariants(Action):
                         })
                     
                     dispatcher.utter_message(
-                        text=f"Encontré varios tipos de {base_material}.",
+                        text=msgs["multiple_variants"].format(base_material=base_material),
                         buttons=buttons
                     )
                     return [SlotSet("needs_clarification", True)]
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar los materiales."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
             return [SlotSet("needs_clarification", False)]
-        
+
+
 class ActionShowMeaning(Action):
     
     def name(self) -> Text:
@@ -830,10 +1000,8 @@ class ActionShowMeaning(Action):
         """Intenta convertir plurales a singular (reglas básicas del español)."""
         text = text.lower().strip()
         
-        # Plurales terminados en -es
         if text.endswith('es') and len(text) > 3:
             return text[:-2]
-        # Plurales terminados en -s
         elif text.endswith('s') and len(text) > 2:
             return text[:-1]
         
@@ -846,13 +1014,39 @@ class ActionShowMeaning(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres conocer el significado.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "meaning": "El significado de {material_name} es: {meaning}",
+                "no_meaning_data": "Lo siento, no tengo información sobre el significado de {material_name} en este momento.",
+                "not_found": "Lo siento, no encontré información sobre {material_name} en nuestra base de datos.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar el significado del material."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know the meaning of.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "meaning": "The meaning of {material_name} is: {meaning}",
+                "no_meaning_data": "Sorry, I don't have information about the meaning of {material_name} at this time.",
+                "not_found": "Sorry, I couldn't find information about {material_name} in our database.",
+                "error_general": "Sorry, an error occurred while querying the material meaning."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             material_name = tracker.get_slot("material_name_meaning")
             
             if not material_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres conocer el significado."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -861,9 +1055,7 @@ class ActionShowMeaning(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="Lo siento, no pude obtener la información de los materiales en este momento."
-                        )
+                        dispatcher.utter_message(text=msgs["error_fetch"])
                         return []
                     
                     response_data = await response.json()
@@ -894,18 +1086,19 @@ class ActionShowMeaning(Action):
                         meaning = found_material.get("meaning")
                         
                         if meaning:
-                            message = f"El significado de {material_name_response} es: {meaning}"
+                            message = msgs["meaning"].format(
+                                material_name=material_name_response,
+                                meaning=meaning
+                            )
                         else:
-                            message = f"Lo siento, no tengo información sobre el significado de {material_name_response} en este momento."
+                            message = msgs["no_meaning_data"].format(material_name=material_name_response)
                     else:
-                        message = f"Lo siento, no encontré información sobre {material_name} en nuestra base de datos."
+                        message = msgs["not_found"].format(material_name=material_name)
                     
                     dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar el significado del material."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
@@ -1018,28 +1211,20 @@ class ActionMaterialesPorZodiacoBD(Action):
         return "action_materiales_por_zodiaco_bd"
     
     def normalize_text(self, text: str) -> str:
-        """
-        Normaliza el texto eliminando tildes y convirtiendo a minúsculas.
-        """
+        """Normaliza el texto eliminando tildes y convirtiendo a minúsculas."""
         import unicodedata
-        # Eliminar tildes
         text = ''.join(
             c for c in unicodedata.normalize('NFD', text)
             if unicodedata.category(c) != 'Mn'
         )
-        # Convertir a minúsculas
         return text.lower().strip()
     
     def remove_plural(self, text: str) -> str:
-        """
-        Intenta convertir plurales a singular (reglas básicas del español).
-        """
+        """Intenta convertir plurales a singular (reglas básicas del español)."""
         text = text.lower().strip()
         
-        # Plurales terminados en -es
         if text.endswith('es') and len(text) > 3:
             return text[:-2]
-        # Plurales terminados en -s
         elif text.endswith('s') and len(text) > 2:
             return text[:-1]
         
@@ -1069,14 +1254,20 @@ class ActionMaterialesPorZodiacoBD(Action):
         normalized = self.normalize_text(zodiac)
         normalized_singular = self.remove_plural(normalized)
         
-        # Buscar traducción
         if normalized in translations:
             return translations[normalized]
         elif normalized_singular in translations:
             return translations[normalized_singular]
         
-        # Si no hay traducción, devolver el original normalizado para ambos
         return (normalized_singular, normalized_singular.capitalize())
+    
+    def get_zodiac_display_name(self, zodiac: str, language: str) -> str:
+        """Obtiene el nombre del signo zodiacal en el idioma apropiado."""
+        zodiac_english, zodiac_spanish = self.translate_zodiac_to_english(zodiac)
+        
+        if language == "en":
+            return zodiac_english.capitalize()
+        return zodiac_spanish
     
     async def run(
         self,
@@ -1085,14 +1276,37 @@ class ActionMaterialesPorZodiacoBD(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_zodiac_identified": "Lo siento, no he podido identificar para qué signo zodiacal quieres conocer los materiales recomendados.",
+                "recommended_materials": "Para {zodiac_sign}, los materiales recomendados son: {materials}",
+                "not_found": "Lo siento, no encontré materiales recomendados para {zodiac_sign} en nuestra base de datos.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar los materiales por signo zodiacal."
+            },
+            "en": {
+                "no_zodiac_identified": "Sorry, I couldn't identify which zodiac sign you want to know the recommended materials for.",
+                "recommended_materials": "For {zodiac_sign}, the recommended materials are: {materials}",
+                "not_found": "Sorry, I couldn't find recommended materials for {zodiac_sign} in our database.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "error_general": "Sorry, an error occurred while querying materials by zodiac sign."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
-            # Obtener el signo zodiacal desde el slot
             zodiac_sign = tracker.get_slot("zodiac_sign")
             
             if not zodiac_sign:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar para qué signo zodiacal quieres conocer los materiales recomendados."
-                )
+                dispatcher.utter_message(text=msgs["no_zodiac_identified"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -1104,40 +1318,44 @@ class ActionMaterialesPorZodiacoBD(Action):
                         response_data = await response.json()
                         materials_array = response_data.get("materials", [])
                         
-                        # Traducir el signo zodiacal al inglés y obtener el término en español
-                        zodiac_english, zodiac_spanish = self.translate_zodiac_to_english(zodiac_sign)
+                        # Traducir el signo zodiacal al inglés (para búsqueda en BD)
+                        zodiac_english, _ = self.translate_zodiac_to_english(zodiac_sign)
+                        
+                        # Obtener el nombre del signo en el idioma del usuario (para el mensaje)
+                        zodiac_display = self.get_zodiac_display_name(zodiac_sign, user_language)
                         
                         # Buscar todos los materiales que tengan este signo zodiacal
                         matching_materials = []
                         for material in materials_array:
                             zodiac_list = material.get("zodiac", [])
                             
-                            # Normalizar cada signo en la lista y comparar
                             for zodiac_item in zodiac_list:
                                 zodiac_item_normalized = self.normalize_text(zodiac_item)
                                 
                                 if zodiac_item_normalized == zodiac_english:
                                     matching_materials.append(material.get("name"))
-                                    break  # Evitar duplicados si el signo aparece múltiples veces
+                                    break
                         
                         if matching_materials:
                             material_list = ", ".join(matching_materials)
-                            message = f"Para {zodiac_spanish}, los materiales recomendados son: {material_list}"
+                            message = msgs["recommended_materials"].format(
+                                zodiac_sign=zodiac_display,
+                                materials=material_list
+                            )
                         else:
-                            message = f"Lo siento, no encontré materiales recomendados para {zodiac_spanish} en nuestra base de datos."
+                            message = msgs["not_found"].format(zodiac_sign=zodiac_display)
                     else:
-                        message = "Lo siento, no pude obtener la información de los materiales en este momento."
+                        message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar los materiales por signo zodiacal."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
-    
+
+
 class ActionCheckPriceVariants(Action):
     
     def name(self) -> Text:
@@ -1193,13 +1411,37 @@ class ActionCheckPriceVariants(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres conocer el precio.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "not_found": "Lo siento, no encontré información sobre {material_name} en nuestra base de datos.",
+                "multiple_variants": "Encontré varios tipos de {base_material}.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar los materiales."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know the price of.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "not_found": "Sorry, I couldn't find information about {material_name} in our database.",
+                "multiple_variants": "I found several types of {base_material}.",
+                "error_general": "Sorry, an error occurred while querying the materials."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             material_name = tracker.get_slot("material_name_price")
             
             if not material_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres conocer el precio."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return [SlotSet("needs_clarification", False)]
             
             api_url = os.getenv("API_URL")
@@ -1208,9 +1450,7 @@ class ActionCheckPriceVariants(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="Lo siento, no pude obtener la información de los materiales en este momento."
-                        )
+                        dispatcher.utter_message(text=msgs["error_fetch"])
                         return [SlotSet("needs_clarification", False)]
                     
                     response_data = await response.json()
@@ -1220,7 +1460,6 @@ class ActionCheckPriceVariants(Action):
                     exact_match = self.find_exact_match(materials_array, material_name)
                     
                     if exact_match:
-                        # Si hay coincidencia exacta, no necesita clarificación
                         return [SlotSet("needs_clarification", False)]
                     
                     # SEGUNDO: Si no hay coincidencia exacta, buscar por material base
@@ -1229,13 +1468,12 @@ class ActionCheckPriceVariants(Action):
                     
                     if not variants:
                         dispatcher.utter_message(
-                            text=f"Lo siento, no encontré información sobre {material_name} en nuestra base de datos."
+                            text=msgs["not_found"].format(material_name=material_name)
                         )
                         return [SlotSet("needs_clarification", False)]
                     
                     # Si solo hay una variante, no necesita clarificación
                     if len(variants) == 1:
-                        # Actualizar el slot con el nombre exacto de la base de datos
                         exact_name = variants[0].get("name")
                         return [
                             SlotSet("material_name_price", exact_name),
@@ -1252,15 +1490,13 @@ class ActionCheckPriceVariants(Action):
                         })
                     
                     dispatcher.utter_message(
-                        text=f"Encontré varios tipos de {base_material}.",
+                        text=msgs["multiple_variants"].format(base_material=base_material),
                         buttons=buttons
                     )
                     return [SlotSet("needs_clarification", True)]
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar los materiales."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
             return [SlotSet("needs_clarification", False)]
         
@@ -1282,10 +1518,8 @@ class ActionShowPrice(Action):
         """Intenta convertir plurales a singular (reglas básicas del español)."""
         text = text.lower().strip()
         
-        # Plurales terminados en -es
         if text.endswith('es') and len(text) > 3:
             return text[:-2]
-        # Plurales terminados en -s
         elif text.endswith('s') and len(text) > 2:
             return text[:-1]
         
@@ -1296,18 +1530,15 @@ class ActionShowPrice(Action):
         if price_data is None:
             return None
         
-        # Si es un diccionario con $numberDecimal
         if isinstance(price_data, dict) and '$numberDecimal' in price_data:
             try:
                 return float(price_data['$numberDecimal'])
             except (ValueError, TypeError):
                 return None
         
-        # Si ya es un número
         if isinstance(price_data, (int, float)):
             return float(price_data)
         
-        # Si es un string, intentar convertirlo
         if isinstance(price_data, str):
             try:
                 return float(price_data)
@@ -1323,13 +1554,45 @@ class ActionShowPrice(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_material_identified": "Lo siento, no he podido identificar de qué material quieres conocer el precio.",
+                "error_fetch": "Lo siento, no pude obtener la información de los materiales en este momento.",
+                "price_single": "El precio de {material_name} es: {price}€/mm³",
+                "price_with_purity": "El precio de {material_name} {purity} es: {price}€/mm³",
+                "prices_multiple": "Los precios de {material_name} según pureza son:\n\n• {prices}",
+                "no_price_data": "Lo siento, no tengo información sobre el precio de {material_name}.",
+                "no_prices_data": "Lo siento, no tengo información sobre los precios de {material_name}.",
+                "not_found": "Lo siento, no encontré información sobre {material_name} en nuestra base de datos.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar el precio del material."
+            },
+            "en": {
+                "no_material_identified": "Sorry, I couldn't identify which material you want to know the price of.",
+                "error_fetch": "Sorry, I couldn't retrieve the materials information at this time.",
+                "price_single": "The price of {material_name} is: €{price}/mm³",
+                "price_with_purity": "The price of {material_name} {purity} is: €{price}/mm³",
+                "prices_multiple": "The prices of {material_name} by purity are:\n\n• {prices}",
+                "no_price_data": "Sorry, I don't have price information for {material_name}.",
+                "no_prices_data": "Sorry, I don't have price information for {material_name}.",
+                "not_found": "Sorry, I couldn't find information about {material_name} in our database.",
+                "error_general": "Sorry, an error occurred while querying the material price."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             material_name = tracker.get_slot("material_name_price")
             
             if not material_name:
-                dispatcher.utter_message(
-                    text="Lo siento, no he podido identificar de qué material quieres conocer el precio."
-                )
+                dispatcher.utter_message(text=msgs["no_material_identified"])
                 return []
             
             api_url = os.getenv("API_URL")
@@ -1338,9 +1601,7 @@ class ActionShowPrice(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status != 200:
-                        dispatcher.utter_message(
-                            text="Lo siento, no pude obtener la información de los materiales en este momento."
-                        )
+                        dispatcher.utter_message(text=msgs["error_fetch"])
                         return []
                     
                     response_data = await response.json()
@@ -1358,7 +1619,6 @@ class ActionShowPrice(Action):
                         normalized_db_name = self.normalize_text(material_db_name)
                         normalized_db_name_singular = self.remove_plural(normalized_db_name)
                         
-                        # Comparar en singular y plural
                         if (normalized_search == normalized_db_name or 
                             normalized_search_singular == normalized_db_name or
                             normalized_search == normalized_db_name_singular or
@@ -1380,13 +1640,19 @@ class ActionShowPrice(Action):
                                     price = self.extract_price_value(price_data)
                                     
                                     if price is not None:
-                                        prices_list.append(f"{purity_name}: {price}€/mm³")
+                                        if user_language == "en":
+                                            prices_list.append(f"{purity_name}: €{price}/mm³")
+                                        else:
+                                            prices_list.append(f"{purity_name}: {price}€/mm³")
                                 
                                 if prices_list:
                                     prices_text = "\n\n• ".join(prices_list)
-                                    message = f"Los precios de {material_name_response} según pureza son:\n\n• {prices_text}"
+                                    message = msgs["prices_multiple"].format(
+                                        material_name=material_name_response,
+                                        prices=prices_text
+                                    )
                                 else:
-                                    message = f"Lo siento, no tengo información sobre los precios de {material_name_response}."
+                                    message = msgs["no_prices_data"].format(material_name=material_name_response)
                             else:
                                 # Si solo hay una pureza, mostrar ese precio
                                 purity = purities[0]
@@ -1396,22 +1662,27 @@ class ActionShowPrice(Action):
                                 
                                 if price is not None:
                                     if purity_name:
-                                        message = f"El precio de {material_name_response} {purity_name} es: {price}€/mm³"
+                                        message = msgs["price_with_purity"].format(
+                                            material_name=material_name_response,
+                                            purity=purity_name,
+                                            price=price
+                                        )
                                     else:
-                                        message = f"El precio de {material_name_response} es: {price}€/mm³"
+                                        message = msgs["price_single"].format(
+                                            material_name=material_name_response,
+                                            price=price
+                                        )
                                 else:
-                                    message = f"Lo siento, no tengo información sobre el precio de {material_name_response}."
+                                    message = msgs["no_price_data"].format(material_name=material_name_response)
                         else:
-                            message = f"Lo siento, no tengo información sobre el precio de {material_name_response}."
+                            message = msgs["no_price_data"].format(material_name=material_name_response)
                     else:
-                        message = f"Lo siento, no encontré información sobre {material_name} en nuestra base de datos."
+                        message = msgs["not_found"].format(material_name=material_name)
                     
                     dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar el precio del material."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []

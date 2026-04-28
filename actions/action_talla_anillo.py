@@ -12,6 +12,32 @@ class ActionDarTallaSegunMedida(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "no_measurement": "No encontré ninguna medida en tu mensaje. Por favor, proporciona un número seguido de la unidad (mm o cm).",
+                "processing_error": "No pude procesar la medida. Por favor, proporciona la circunferencia de tu dedo en mm o cm. Error: {error}",
+                "provide_measurement": "Por favor, proporciona la medida de tu dedo en mm o cm.",
+                "out_of_range": "Lo siento, no existe una talla española para una circunferencia de {measurement} mm. Las tallas españolas van desde la 1 (40 mm) hasta la 36 (75 mm).",
+                "size_result": "Para una circunferencia de {measurement} mm, la talla de anillo española es la {size}."
+            },
+            "en": {
+                "no_measurement": "I couldn't find any measurement in your message. Please provide a number followed by the unit (mm or cm).",
+                "processing_error": "I couldn't process the measurement. Please provide your finger circumference in mm or cm. Error: {error}",
+                "provide_measurement": "Please provide your finger measurement in mm or cm.",
+                "out_of_range": "Sorry, there is no Spanish ring size for a circumference of {measurement} mm. Spanish sizes range from 1 (40 mm) to 36 (75 mm).",
+                "size_result": "For a circumference of {measurement} mm, the Spanish ring size is {size}."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         # Tabla de conversión
         tallas_espanolas = {
             1: 40.0, 2: 41.0, 3: 42.0, 4: 43.0, 5: 44.0,
@@ -35,7 +61,7 @@ class ActionDarTallaSegunMedida(Action):
             numeros = re.findall(r'\d+[,.]?\d*', user_message_lower)
             
             if not numeros:
-                dispatcher.utter_message(text="No encontré ninguna medida en tu mensaje. Por favor, proporciona un número seguido de la unidad (mm o cm).")
+                dispatcher.utter_message(text=msgs["no_measurement"])
                 return []
             
             # Reemplazar coma por punto para convertir a float
@@ -49,9 +75,9 @@ class ActionDarTallaSegunMedida(Action):
                 if unicodedata.category(c) != 'Mn'
             )
             
-            # Determinar si está en cm o mm (con variaciones)
-            palabras_cm = ['cm', 'centimetro', 'centimetros']
-            palabras_mm = ['mm', 'milimetro', 'milimetros']
+            # Determinar si está en cm o mm (con variaciones en ambos idiomas)
+            palabras_cm = ['cm', 'centimetro', 'centimetros', 'centimeter', 'centimeters']
+            palabras_mm = ['mm', 'milimetro', 'milimetros', 'millimeter', 'millimeters']
             
             es_cm = any(palabra in texto_normalizado for palabra in palabras_cm)
             es_mm = any(palabra in texto_normalizado for palabra in palabras_mm)
@@ -65,11 +91,11 @@ class ActionDarTallaSegunMedida(Action):
                 medida_mm = medida
                     
         except Exception as e:
-            dispatcher.utter_message(text=f"No pude procesar la medida. Por favor, proporciona la circunferencia de tu dedo en mm o cm. Error: {str(e)}")
+            dispatcher.utter_message(text=msgs["processing_error"].format(error=str(e)))
             return []
         
         if medida_mm is None:
-            dispatcher.utter_message(text="Por favor, proporciona la medida de tu dedo en mm o cm.")
+            dispatcher.utter_message(text=msgs["provide_measurement"])
             return []
         
         # Buscar la talla más cercana
@@ -85,14 +111,13 @@ class ActionDarTallaSegunMedida(Action):
         # Verificar si la medida está dentro del rango
         if medida_mm < 40.0 or medida_mm > 75.0:
             dispatcher.utter_message(
-                text=f"Lo siento, no existe una talla española para una circunferencia de {medida_mm} mm. "
-                     f"Las tallas españolas van desde la 1 (40 mm) hasta la 36 (75 mm)."
+                text=msgs["out_of_range"].format(measurement=medida_mm)
             )
             return [SlotSet("talla_anillo", None)]
         
         # Responder con la talla encontrada
         dispatcher.utter_message(
-            text=f"Para una circunferencia de {medida_mm} mm, la talla de anillo española es la {talla_encontrada}."
+            text=msgs["size_result"].format(measurement=medida_mm, size=talla_encontrada)
         )
         
         return [SlotSet("talla_anillo", talla_encontrada)]
