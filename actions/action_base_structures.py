@@ -1,12 +1,3 @@
-import os
-from typing import Any, Text, Dict, List
-from rasa_sdk import Action, Tracker
-from rasa_sdk.executor import CollectingDispatcher
-import aiohttp
-from dotenv import load_dotenv
-
-load_dotenv()
-
 class ActionEstructurasBD(Action):
     
     def name(self) -> Text:
@@ -19,6 +10,30 @@ class ActionEstructurasBD(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         
+        # Obtener el idioma del usuario desde el slot
+        user_language = tracker.get_slot("language")
+        if not user_language:
+            user_language = "es"  # Idioma por defecto
+        
+        # Definir mensajes en ambos idiomas
+        messages = {
+            "es": {
+                "available": "Las formas disponibles son: {structures}",
+                "no_structures": "Lo siento, actualmente no tenemos formas disponibles.",
+                "error_fetch": "Lo siento, no pude obtener la información de las formas en este momento.",
+                "error_general": "Lo siento, ha ocurrido un error al consultar las formas disponibles."
+            },
+            "en": {
+                "available": "The available shapes are: {structures}",
+                "no_structures": "Sorry, we currently have no available shapes.",
+                "error_fetch": "Sorry, I couldn't retrieve the shapes information at this time.",
+                "error_general": "Sorry, an error occurred while querying the available shapes."
+            }
+        }
+        
+        # Seleccionar el conjunto de mensajes según el idioma
+        msgs = messages.get(user_language, messages["es"])
+        
         try:
             api_url = os.getenv("API_URL")
             endpoint = f"{api_url}/api/baseStructures"
@@ -26,30 +41,22 @@ class ActionEstructurasBD(Action):
             async with aiohttp.ClientSession() as session:
                 async with session.get(endpoint) as response:
                     if response.status == 200:
-                        # Obtener la respuesta completa
                         response_data = await response.json()
-                        
-                        # Extraer el array de estructuras desde la clave correspondiente
                         structures_array = response_data.get("baseStructures", [])
-                        
-                        # Extraer los nombres de las estructuras
                         structure_names = [structure["name"] for structure in structures_array if "name" in structure]
                         
-                        # Construir mensaje
                         if structure_names:
                             structure_list = ", ".join(structure_names)
-                            message = f"Las formas disponibles son: {structure_list}"
+                            message = msgs["available"].format(structures=structure_list)
                         else:
-                            message = "Lo siento, actualmente no tenemos formas disponibles."
+                            message = msgs["no_structures"]
                     else:
-                        message = "Lo siento, no pude obtener la información de las formas en este momento."
+                        message = msgs["error_fetch"]
             
             dispatcher.utter_message(text=message)
             
         except Exception as e:
-            dispatcher.utter_message(
-                text="Lo siento, ha ocurrido un error al consultar las formas disponibles."
-            )
+            dispatcher.utter_message(text=msgs["error_general"])
             print(f"Error al consultar la API: {str(e)}")
         
         return []
