@@ -430,15 +430,12 @@ responses:
     - text: "¡Hola! ¿En qué puedo ayudarle hoy?"
       translation:
         en: "Hi! How can I assist you today?"
-      metadata:
-        rephrase: false
+
 
   utter_despedida:
     - text: "¡Adiós! Ha sido un placer ayudarle. ¡Que tenga un excelente día!"
       translation:
         en: "Goodbye! It has been a pleasure helping you. Have an excellent day!"
-      metadata:
-        rephrase: false
 
 
 
@@ -449,43 +446,31 @@ responses:
     - text: "Mi nombre es Luna, un nombre que refleja la delicadeza y el brillo de los anillos."
       translation:
         en: "My name is Luna, a name that reflects the delicacy and brightness of rings."
-      metadata:
-        rephrase: false
 
   utter_nacimiento:
     - text: "Fui creada un 10 de noviembre de 2025 por Patata Team, grupo de alumnos de Ingeniería Multimedia."
       translation:
         en: "I was created on November 10, 2025 by Patata Team, a group of Multimedia Engineering students."
-      metadata:
-        rephrase: false
 
   utter_padres:
     - text: "Me crearon los componentes de Patata Team, cada uno de ellos aportó un poco de ellos mismos para que pueda ayudarle."
       translation:
         en: "The members of Patata Team created me; each contributed a part of themselves so I can help you."
-      metadata:
-        rephrase: false
 
   utter_trabajo:
     - text: "Mi trabajo es ayudar a los usuarios a crear el anillo de sus sueños a través del editor 3D de Louv. ¿Quiere saber más sobre Louv?"
       translation:
         en: "My job is to help users create the ring of their dreams through Louv's 3D editor. Would you like to know more about Louv?"
-      metadata:
-        rephrase: false
 
   utter_hobbies:
     - text: "Me encanta ayudar a los usuarios a diseñar sus anillos soñados y aprender sobre gemas y joyería."
       translation:
         en: "I love helping users design their dream rings and learning about gems and jewelry."
-      metadata:
-        rephrase: false
 
   utter_talla_anillo:
     - text: "Como asistente virtual, no tengo una talla de anillo física. Pero si necesita ayuda para determinar su talla de anillo, estaré encantada de ayudarle."
       translation:
         en: "As a virtual assistant, I don't have a physical ring size. But if you need help determining your ring size, I'll be happy to help you."
-      metadata:
-        rephrase: false
 
 
 
@@ -497,57 +482,41 @@ responses:
     - text: "Mi gema favorita es el zafiro, por su belleza y elegancia atemporal."
       translation:
         en: "My favorite gem is the sapphire, for its timeless beauty and elegance."
-      metadata:
-        rephrase: false
 
   utter_metal_precioso_favorito:
     - text: "Mi metal precioso favorito es el platino, por su durabilidad y brillo elegante."
       translation:
         en: "My favorite precious metal is platinum, for its durability and elegant shine."
-      metadata:
-        rephrase: false
 
   utter_color_favorito:
     - text: "Mi color favorito es el azul, por su serenidad y profundidad."
       translation:
         en: "My favorite color is blue, for its serenity and depth."
-      metadata:
-        rephrase: false
 
   utter_corte_favorito:
     - text: "Mi corte de gema favorito es el corte brillante, por su capacidad para maximizar el brillo y la chispa de una gema."
       translation:
         en: "My favorite gemstone cut is the brilliant cut, for its ability to maximize the shine and sparkle of a gem."
-      metadata:
-        rephrase: false
 
   utter_tallado_favorito:
     - text: "Mi tallado favorito es el tallado en pavé, por su elegancia y sofisticación."
       translation:
         en: "My favorite setting is the pave setting, for its elegance and sophistication."
-      metadata:
-        rephrase: false
 
   utter_forma_gema_favorita:
     - text: "Mi forma de gema favorita es la forma ovalada, por su elegancia y versatilidad."
       translation:
         en: "My favorite gem shape is the oval shape, for its elegance and versatility."
-      metadata:
-        rephrase: false
 
   utter_caja_favorita:
     - text: "Mi caja de joyería favorita es una caja cuadrada de color azul, por su elegancia y protección para las joyas."
       translation:
         en: "My favorite jewelry box is a square blue box, for its elegance and protection for jewelry."
-      metadata:
-        rephrase: false
 
   utter_engaste_gema_favorito:
     - text: "Mi engaste favorito es el engaste de bisel, por su seguridad y estilo moderno."
       translation:
         en: "My favorite setting is the bezel setting, for its security and modern style."
-      metadata:
-        rephrase: false
 
 
 
@@ -560,57 +529,41 @@ responses:
     - text: "No tengo una gema que odie, creo que cada gema tiene su propia belleza y significado."
       translation:
         en: "I don't have a gem I hate; I believe each gem has its own beauty and meaning."
-      metadata:
-        rephrase: false
 
   utter_materiales_odiosos:
     - text: "No tengo materiales que odie, creo que cada material es único y puede encajar perfectamente."
       translation:
         en: "I don't have materials I hate; I believe each material is unique and can fit perfectly."
-      metadata:
-        rephrase: false
 
   utter_color_odioso:
     - text: "No tengo colores que odie, aunque prefiero los colores calmados y serenos, como el azul y el verde."
       translation:
         en: "I don't have colors I hate, although I prefer calm and serene colors, like blue and green."
-      metadata:
-        rephrase: false
 
   utter_corte_odioso:
     - text: "No tengo cortes de gema que odie, creo que cada corte tiene su propia belleza y propósito en la joyería."
       translation:
         en: "I don't have gem cuts I hate; I believe each cut has its own beauty and purpose in jewelry."
-      metadata:
-        rephrase: false
 
   utter_tallado_odioso:
     - text: "No hay tallados que no me gusten, creo que cada tallado tiene su propia belleza y propósito en la joyería."
       translation:
         en: "There are no settings I don't like; I believe each setting has its own beauty and purpose in jewelry."
-      metadata:
-        rephrase: false
 
   utter_forma_gema_odiosa:
     - text: "No tengo formas de gema que odie, cada forma aporta a la gema la belleza y elegancia que necesita."
       translation:
         en: "I don't have gem shapes I hate; each shape gives the gem the beauty and elegance it needs."
-      metadata:
-        rephrase: false
 
   utter_engaste_gema_odioso:
     - text: "No tengo engastes que odie, hay engastes que destacan por su sencillez y engastes que maravillan por la complejidad de su composición."
       translation:
         en: "I don't hate any settings; some stand out for their simplicity and others amaze for the complexity of their composition."
-      metadata:
-        rephrase: false
 
   utter_caja_mas_odiosa:
     - text: "No tengo cajas que odie, todas las cajas que ofrece Louv son preciosas y pueden encajar perfectamente con cada situación y momento."
       translation:
         en: "I don't have boxes I hate; all the boxes that Louv offers are beautiful and can fit perfectly with each situation and moment."
-      metadata:
-        rephrase: false
 
 
 
@@ -631,22 +584,16 @@ responses:
     - text: "Pablo Hernández es uno de los integrantes de Patata Team y siempre ha sido un fiel seguidor del anime, además le encanta jugar videojuegos."
       translation:
         en: "Pablo Hernández is one of the members of Patata Team and has always been a faithful follower of anime, and he also loves playing video games."
-      metadata:
-        rephrase: false
 
   utter_dario_perez:
     - text: "Darío Pérez es uno de los integrantes de Patata Team y le encanta la comida asiática, es un adicto al sushi."
       translation:
         en: "Darío Pérez is one of the members of Patata Team and loves Asian food, he is addicted to sushi."
-      metadata:
-        rephrase: false
 
   utter_sara_marquina:
     - text: "Sara Marquina es una de las integrantes de Patata Team y desde pequeña siempre ha sido una apasionada de la lectura, es incapaz de pasar más de dos horas sin leer un poco."
       translation:
         en: "Sara Marquina is one of the members of Patata Team and since childhood has always been passionate about reading, she cannot go more than two hours without reading a little."
-      metadata:
-        rephrase: false
 
   utter_laura_saval:
     - text: |
@@ -660,15 +607,11 @@ responses:
           If you would like to contact Laura Saval, you can do so through her LinkedIn profile:
           
           LinkedIn: https://www.linkedin.com/in/laura-saval-cillero-2a9260354
-      metadata:
-        rephrase: false
 
   utter_belen_sempere:
     - text: "Belén Sempere es una de las integrantes de Patata Team y le encanta hacer crochet y dibujar, está todo el día pensando en su próximo dibujo."
       translation:
         en: "Belén Sempere is one of the members of Patata Team and loves crocheting and drawing, she is thinking about her next drawing all day."
-      metadata:
-        rephrase: false
 
   utter_javier_silva:
     - text: |
@@ -682,8 +625,6 @@ responses:
           If you would like to contact Javier Silva, you can do so through his LinkedIn profile:
           
           LinkedIn: https://www.linkedin.com/in/javier-silva-aa411b375
-      metadata:
-        rephrase: false
 
 
 
@@ -710,8 +651,6 @@ responses:
           Facebook: https://www.facebook.com/profile.php?id=61583506314797
           
           TikTok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
-      metadata:
-        rephrase: false
 
 
 
@@ -725,29 +664,21 @@ responses:
       translation:
         en: "Louv is a PBL (Project-Based Learning) project created by Patata Team. Being a PBL it is not a real project and was the result of a brainstorming process,
             in which all team members contributed their ideas and then decided to create Louv, to allow users to design their dream ring easily and intuitively through a 3D editor."
-      metadata:
-        rephrase: false
 
   utter_nombre_louv:
     - text: "El nombre de Louv viene de una antigua princesa marroquí de la cual todos estaban enamorados y trataban de conquistarla regalándole joyas preciosas. Por desgracia, ninguno de sus pretendientes consiguió conquistarla nunca, pues no existía joya que estuviese a la altura de su anillo soñado."
       translation:
         en: "The name Louv comes from an ancient Moroccan princess of whom everyone was in love and tried to conquer her by giving her precious jewels. Unfortunately, none of her suitors ever managed to win her, for there was no jewel worthy of her dream ring."
-      metadata:
-        rephrase: false
 
   utter_tiempo_desarrollo:
     - text: "Louv comenzó a crearse en septiembre de 2025, el tiempo exacto de su desarrollo depende de cuándo me preguntes, pero se estima que su desarrollo termine en mayo de 2026."
       translation:
         en: "Louv began to be created in September 2025, the exact time of its development depends on when you ask me, but it is estimated that its development will end in May 2026."
-      metadata:
-        rephrase: false
 
   utter_explicar_abp:
     - text: "Un ABP (Aprendizaje Basado en Proyectos) consiste en un enfoque pedagógico en el que los estudiantes adquieren conocimientos y habilidades al desarrollar de manera colaborativa y autónoma un proyecto real para resolver un problema o responder a una pregunta desafiante."
       translation:
         en: "A PBL (Project-Based Learning) consists of a pedagogical approach in which students acquire knowledge and skills by collaboratively and autonomously developing a real project to solve a problem or answer a challenging question."
-      metadata:
-        rephrase: false
 
   utter_terminos_politica_cookies:
     - text: |
@@ -767,8 +698,6 @@ responses:
           Terms and Conditions: https://louv.ovh/terminos-y-condiciones
           
           Cookies: https://louv.ovh/politica-de-cookies
-      metadata:
-        rephrase: false
 
   utter_devolucion_anillo:
     - text: "Los productos personalizados como los anillos que ofrecemos no se pueden devolver, pero si el producto que desea devolver no estuviese en condiciones óptimas y/o presentase algún defecto, podrá ser devuelto en el plazo máximo
@@ -780,8 +709,6 @@ responses:
           of 14 calendar days from receipt of the order, proceeding to its replacement. If you want to know more about the conditions for returns
           I recommend consulting our Terms and Conditions. If you want to make a return and it meets the conditions for it to be made
           I recommend that you contact the returns department via louv.spain@gmail.com"
-      metadata:
-        rephrase: false
 
 
 
@@ -808,8 +735,6 @@ responses:
           Facebook: https://www.facebook.com/profile.php?id=61583506314797
           
           TikTok: https://www.tiktok.com/@louv.spain?is_from_webapp=1&sender_device=pc
-      metadata:
-        rephrase: false
 
   
 
@@ -823,8 +748,6 @@ responses:
         Patata Team y se formaron sus integrantes."
       translation:
         en: "The University of Alicante is the study center where Louv was created, the same place where the Patata Team was founded and its members were formed."
-      metadata:
-        rephrase: false
 
   utter_informacion_grado_multimedia:
     - text: |
@@ -846,8 +769,6 @@ responses:
 
           If you want more information about a specific degree, I recommend consulting the following link:
           https://web.ua.es/es/grados-oficiales.html
-      metadata:
-        rephrase: false
 
 
 
@@ -859,85 +780,61 @@ responses:
     - text: "La gema que corresponde al signo de Capricornio es el diamante. Pues es duro y brillante como la ambición; refleja fuerza interior y determinación inquebrantable."
       translation:
         en: "The gem that corresponds to the sign of Capricorn is the diamond. For it is hard and brilliant like ambition; it reflects inner strength and unwavering determination."
-      metadata:
-        rephrase: false
 
   utter_tauro_esmeralda:
     - text: "La gema que corresponde al signo de Tauro es la esmeralda. Representa la calma y la conexión con la naturaleza; persona leal y de corazón firme."
       translation:
         en: "The gem that corresponds to the sign of Taurus is the emerald. It represents calm and connection with nature; loyal person and firm heart."
-      metadata:
-        rephrase: false
 
   utter_piscis_zafiro:
     - text: "La gema que corresponde al signo de Piscis es el zafiro. Simboliza equilibrio y elegancia; estas personas buscan armonía y belleza en todo."
       translation:
         en: "The gem that corresponds to the sign of Pisces is the sapphire. It symbolizes balance and elegance; these people seek harmony and beauty in everything."
-      metadata:
-        rephrase: false
 
   utter_leo_turmalina:
     - text: "La gema que corresponde al signo de Leo es la turmalina. Multicolor como su mente; adaptable, curiosa y llena de ideas brillantes."
       translation:
         en: "The gem that corresponds to the sign of Leo is tourmaline. Multicolored like your mind; adaptable, curious and full of brilliant ideas."
-      metadata:
-        rephrase: false
 
   utter_sagitario_rubi:
     - text: "La gema que corresponde al signo de Sagitario es el rubí. Fuego puro y pasión; espíritu líder, valiente y con amor por la vida."
       translation:
         en: "The gem that corresponds to the sign of Sagittarius is ruby. Pure fire and passion; leader spirit, brave and with love for life."
-      metadata:
-        rephrase: false
 
   utter_libra_amatista:
     - text: "La gema que corresponde al signo de Libra es la amatista. Piedra de la intuición y la paz interior; alma soñadora y empática."
       translation:
         en: "The gem that corresponds to the sign of Libra is amethyst. Stone of intuition and inner peace; dreamer and empathetic soul."
-      metadata:
-        rephrase: false
 
   utter_acuario_aguamarina:
     - text: "La gema que corresponde al signo de Acuario es la aguamarina. Piedra transparente y fresca; personalidad creativa, fluida y amante de lo diferente."
       translation:
         en: "The gem that corresponds to the sign of Aquarius is aquamarine. Clear and fresh stone; creative, fluid personality and lover of the different."
-      metadata:
-        rephrase: false
   
   utter_aries_granate:
     - text: "La gema que corresponde al signo de Aries es el granate. Energía y coraje; refleja un carácter decidido y apasionado."
       translation:
         en: "The gem that corresponds to the sign of Aries is the garnet. Energy and courage; reflects a decisive and passionate character."
-      metadata:
-        rephrase: false
 
   utter_geminis_topacio:
     - text: "La gema que corresponde al signo de Géminis es el topacio. Luz y optimismo; revela una mente aventurera y libre."
       translation:
         en: "The gem that corresponds to the sign of Gemini is topaz. Light and optimism; reveals an adventurous and free mind."
-      metadata:
-        rephrase: false
 
   utter_virgo_opalo:
     - text: "La gema que corresponde al signo de Virgo es el ópalo. Emocional y cambiante; corazón sensible con una imaginación brillante."
       translation:
         en: "The gem that corresponds to the sign of Virgo is opal. Emotional and changing; sensitive heart with brilliant imagination."
-      metadata:
-        rephrase: false
 
   utter_escorpio_peridoto:
     - text: "La gema que corresponde al signo de Escorpio es el peridoto. Orden y luz; alma práctica con un toque de optimismo natural."
       translation:
         en: "The gem that corresponds to the sign of Scorpio is peridot. Order and light; practical soul with a touch of natural optimism."
-      metadata:
-        rephrase: false
 
   utter_cancer_tanzanita:
     - text: "La gema que corresponde al signo de Cáncer es la tanzanita. Misteriosa y magnética; persona intensa, profunda y transformadora."
       translation:
         en: "The gem that corresponds to the sign of Cancer is tanzanite. Mysterious and magnetic; intense, deep and transforming person."
-      metadata:
-        rephrase: false
 
 
 
@@ -958,8 +855,6 @@ responses:
           payload: "Géminis"
         - title: "Cáncer"
           payload: "Cáncer"
-      metadata:
-        rephrase: false
 
   utter_signo_no_reconocido:
     - text: "Lo siento, no reconozco ese signo zodiacal. Por favor, elija uno de los 12 signos del zodiaco."
@@ -974,15 +869,11 @@ responses:
           payload: "Géminis"
         - title: "Cáncer"
           payload: "Cáncer"
-      metadata:
-        rephrase: false
 
   utter_fecha_invalida:
     - text: "Lo siento, no pude determinar su signo zodiacal con esa fecha. ¿Podría proporcionarme su fecha de nacimiento en formato día/mes? Por ejemplo: 15/03"
       translation:
         en: "Sorry, I couldn't determine your zodiac sign with that date. Could you provide me your birth date in day/month format? For example: 15/03"
-      metadata:
-        rephrase: false
 
   utter_signo_nacimiento:
     - text: "No se preocupe si no conoce su signo zodiacal. Por favor indíqueme su fecha de nacimiento (día y mes) para que pueda ayudarle a determinarlo."
@@ -995,92 +886,66 @@ responses:
     - text: "¿Cuál es su fecha de nacimiento? (Por ejemplo: 15/03 o 20 de septiembre)"
       translation:
         en: "What is your birth date? (For example: 15/03 or September 20)"
-      metadata:
-        rephrase: false
 
   utter_usuario_aries:
     - text: "¡Perfecto! Usted es Aries, un signo lleno de energía y pasión. La gema que corresponde a Aries es el granate, refleja su carácter decidido y valiente."
       translation:
         en: "Perfect! You are Aries, a sign full of energy and passion. The gem that corresponds to Aries is garnet, it reflects your determined and brave character."
-      metadata:
-        rephrase: false
 
   utter_usuario_tauro:
     - text: "¡Genial! Usted es Tauro, un signo conocido por su lealtad y determinación. La gema que corresponde a Tauro es la esmeralda, que simboliza la calma y la conexión con la naturaleza."
       translation:
         en: "Great! You are Taurus, a sign known for its loyalty and determination. The gem that corresponds to Taurus is emerald, which symbolizes calm and connection with nature."
-      metadata:
-        rephrase: false
 
   utter_usuario_geminis:
     - text: "¡Estupendo! Usted es Géminis, un signo lleno de curiosidad y versatilidad. La gema que corresponde a Géminis es el topacio, que representa la luz y el optimismo."
       translation:
         en: "Excellent! You are Gemini, a sign full of curiosity and versatility. The gem that corresponds to Gemini is topaz, which represents light and optimism."
-      metadata:
-        rephrase: false
 
   utter_usuario_cancer:
     - text: "¡Maravilloso! Usted es Cáncer, un signo conocido por su sensibilidad y empatía. La gema que corresponde a Cáncer es la tanzanita, que simboliza la profundidad y la transformación."
       translation:
         en: "Wonderful! You are Cancer, a sign known for its sensitivity and empathy. The gem that corresponds to Cancer is tanzanite, which symbolizes depth and transformation."
-      metadata:
-        rephrase: false
 
   utter_usuario_leo:
     - text: "¡Fantástico! Usted es Leo, un signo lleno de confianza y liderazgo. La gema que corresponde a Leo es la turmalina, que refleja su mente adaptable y creativa."
       translation:
         en: "Fantastic! You are Leo, a sign full of confidence and leadership. The gem that corresponds to Leo is tourmaline, which reflects your adaptable and creative mind."
-      metadata:
-        rephrase: false
 
   utter_usuario_virgo:
     - text: "¡Excelente! Usted es Virgo, un signo conocido por su practicidad y atención al detalle. La gema que corresponde a Virgo es el ópalo, que simboliza la sensibilidad y la imaginación."
       translation:
         en: "Excellent! You are Virgo, a sign known for its practicality and attention to detail. The gem that corresponds to Virgo is opal, which symbolizes sensitivity and imagination."
-      metadata:
-        rephrase: false
 
   utter_usuario_libra:
     - text: "¡Muy bien! Usted es Libra, un signo lleno de encanto y diplomacia. La gema que corresponde a Libra es la amatista, que refleja su intuición y búsqueda de armonía."
       translation:
         en: "Very good! You are Libra, a sign full of charm and diplomacy. The gem that corresponds to Libra is amethyst, which reflects your intuition and search for harmony."
-      metadata:
-        rephrase: false
 
   utter_usuario_escorpio:
     - text: "¡Perfecto! Usted es Escorpio, un signo conocido por su intensidad y pasión. La gema que corresponde a Escorpio es el peridoto, que simboliza el orden y la luz."
       translation:
         en: "Perfect! You are Scorpio, a sign known for its intensity and passion. The gem that corresponds to Scorpio is peridot, which symbolizes order and light."
-      metadata:
-        rephrase: false
 
   utter_usuario_sagitario:
     - text: "¡Genial! Usted es Sagitario, un signo lleno de optimismo y aventura. La gema que corresponde a Sagitario es el rubí, que refleja su espíritu libre y valiente."
       translation:
         en: "Great! You are Sagittarius, a sign full of optimism and adventure. The gem that corresponds to Sagittarius is ruby, which reflects your free and brave spirit."
-      metadata:
-        rephrase: false
 
   utter_usuario_capricornio:
     - text: "¡Estupendo! Usted es Capricornio, un signo conocido por su ambición y disciplina. La gema que corresponde a Capricornio es el diamante, que simboliza la fuerza interior y la determinación."
       translation:
         en: "Excellent! You are Capricorn, a sign known for its ambition and discipline. The gem that corresponds to Capricorn is diamond, which symbolizes inner strength and determination."
-      metadata:
-        rephrase: false
 
   utter_usuario_acuario:
     - text: "¡Maravilloso! Usted es Acuario, un signo lleno de originalidad y visión. La gema que corresponde a Acuario es la aguamarina, que refleja su creatividad y amor por lo diferente."
       translation:
         en: "Wonderful! You are Aquarius, a sign full of originality and vision. The gem that corresponds to Aquarius is aquamarine, which reflects your creativity and love for the different."
-      metadata:
-        rephrase: false
 
   utter_usuario_piscis:
     - text: "¡Fantástico! Usted es Piscis, un signo conocido por su sensibilidad y empatía. La gema que corresponde a Piscis es el zafiro, que simboliza el equilibrio y la elegancia."
       translation:
         en: "Fantastic! You are Pisces, a sign known for its sensitivity and empathy. The gem that corresponds to Pisces is sapphire, which symbolizes balance and elegance."
-      metadata:
-        rephrase: false
 
 
 
@@ -1092,15 +957,11 @@ responses:
     - text: "La escala de Mohs es una escala de dureza relativa que clasifica los minerales según su capacidad para resistir la abrasión. Va del 1 al 10, siendo el talco el más blando (1) y el diamante el más duro (10)."
       translation:
         en: "The Mohs scale is a relative hardness scale that classifies minerals according to their ability to resist abrasion. It ranges from 1 to 10, with talc being the softest (1) and diamond being the hardest (10)."
-      metadata:
-        rephrase: false
 
   utter_gemas_certificadas:
     - text: "Las gemas certificadas son aquellas que han sido evaluadas por laboratorios gemológicos reconocidos, los cuales verifican su autenticidad, calidad y características. En Louv, nos aseguramos de que todas nuestras gemas sean certificadas para garantizar su valor y calidad."
       translation:
         en: "Certified gems are those that have been evaluated by recognized gemological laboratories, which verify their authenticity, quality and characteristics. At Louv, we ensure that all our gems are certified to guarantee their value and quality."
-      metadata:
-        rephrase: false
 
   utter_diamantes_de_sangre_y_kimberley:
     - text: "Para saber el origen de nuestras gemas y evitar los diamantes de sangre, en Louv se hace uso del Sistema de Certificación Kimberley,
@@ -1110,8 +971,6 @@ responses:
         en: "To know the origin of our gems and avoid conflict diamonds, Louv uses the Kimberley Certification System,
             in this way, we ensure that our gems are not extracted in conflict zones, nor do they finance wars or violate human rights.
             The Kimberley Certification System is an international process established to prevent the trade of conflict diamonds. This system certifies that diamonds have been extracted and traded in an ethical and legal manner, without financing armed conflicts."
-      metadata:
-        rephrase: false
 
   utter_certificacion_gia:
     - text: |
@@ -1121,22 +980,16 @@ responses:
         en: |
           A GIA certificate is a scientific and objective report issued by the Gemological Institute of America (GIA) that evaluates the quality and authenticity of a diamond based on the 4Cs: Color, Clarity, Cut and Carat.
           If you would like to know more about GIA certificates, I recommend visiting their official website: https://www.gia.edu/
-      metadata:
-        rephrase: false
 
   utter_diferencia_ct_kt:
     - text: "La diferencia es que ct (quilate) se usa para medir el peso de las piedras preciosas (un quilate métrico equivale a 0.2 gramos), mientras que kt (quilate) se refiere a la pureza del oro (indica la proporción de oro puro en una aleación de 24 partes)."
       translation:
         en: "The difference is that ct (carat) is used to measure the weight of precious stones (one metric carat equals 0.2 grams), while kt (karat) refers to the purity of gold (indicates the proportion of pure gold in an alloy of 24 parts)."
-      metadata:
-        rephrase: false
 
   utter_significado_4c:
     - text: "Las 4C son los cuatro criterios principales para evaluar la calidad de un diamante: Color (la ausencia de color), Claridad (la presencia de inclusiones), Corte (la calidad del tallado) y Quilates (el peso del diamante). Estos factores determinan el valor y la belleza de un diamante."
       translation:
         en: "The 4Cs are the four main criteria for evaluating the quality of a diamond: Color (absence of color), Clarity (presence of inclusions), Cut (quality of the cut) and Carat (weight of the diamond). These factors determine the value and beauty of a diamond."
-      metadata:
-        rephrase: false
 
   utter_gema_de_laboratorio_y_distinguir_gema_natural_sintetica:
     - text: "Una gema de laboratorio es una gema cultivada en un laboratorio que imita el proceso de formación natural, pero en un entorno controlado y acelerado. Son mucho más baratas que las gemas naturales con precios hasta un 30-70% más bajos.
@@ -1144,36 +997,26 @@ responses:
       translation:
         en: "A lab-created gem is a gemstone cultivated in a laboratory that mimics the natural formation process, but in a controlled and accelerated environment. They are much cheaper than natural gems with prices up to 30-70% lower.
             It is not possible to distinguish a natural gem from a lab-created one with the naked eye, as they have the same chemical composition and physical properties. However, a certified gemologist with specialized equipment can identify differences in inclusions and growth patterns."
-      metadata:
-        rephrase: false
 
   utter_gemas_caras:
     - text: "Es cierto que existen gemas más económicas en el mercado, pero no de la calidad que se ofrecen en Louv. Nuestras gemas tienen una calidad superior en color, pureza y talla, están certificadas y seleccionadas individualmente. Esto garantiza más brillo, durabilidad y valor real a largo plazo."
       translation:
         en: "It is true that there are more economical gems on the market, but not with the quality offered at Louv. Our gems have superior quality in color, purity and cut, are certified and individually selected. This guarantees more brilliance, durability and real value in the long term."
-      metadata:
-        rephrase: false
 
   utter_quilates_tamano:
     - text: "El quilate mide peso, no tamaño. Como cada gema tiene distinta densidad y talla, dos piedras de 1 ct pueden verse de tamaños diferentes."
       translation:
         en: "Carat measures weight, not size. Since each gem has different density and cut, two 1 ct stones can appear different sizes."
-      metadata:
-        rephrase: false
 
   utter_calcular_precio:
     - text: "El precio de una gema se calcula según el valor actual del mercado, basándonos en reportes profesionales como Rapaport, que marcan las tarifas internacionales para las gemas que ofrecemos."
       translation:
         en: "The price of a gem is calculated according to the current market value, based on professional reports such as Rapaport, which set the international prices for the gems we offer."
-      metadata:
-        rephrase: false
 
   utter_versiones_artificiales:
     - text: "Algunas gemas tienen versiones artificiales o sintéticas, pero otras, por su rareza o estructura, solo se encuentran de forma natural. Por ejemplo, diamantes y zafiros tienen versiones sintéticas, pero gemas como la alejandrita natural son muy difíciles de reproducir artificialmente."
       translation:
         en: "Some gems have artificial or synthetic versions, but others, due to their rarity or structure, are only found in nature. For example, diamonds and sapphires have synthetic versions, but gems like natural alexandrite are very difficult to reproduce artificially."
-      metadata:
-        rephrase: false
 
   utter_tipos_piedras:
     - text: |
@@ -1189,8 +1032,6 @@ responses:
           Semi-precious stone: less rare and more economical (e.g. amethyst, citrine).
           
           Birthstone: stone associated with a specific month, can be precious or semi-precious."
-      metadata:
-        rephrase: false
 
 
 
@@ -1208,8 +1049,6 @@ responses:
       translation:
         en: |
           To rotate the ring, simply hold down the left click on the editor and move the mouse in the direction you want to rotate the 3D model.
-      metadata:
-        rephrase: false
 
   utter_zoom_editor_3d:
     - text: |
@@ -1217,8 +1056,6 @@ responses:
       translation:
         en: |
           To zoom in or out, simply use your mouse wheel over the ring editor.
-      metadata:
-        rephrase: false
 
   utter_mover_camara_editor_3d:
     - text: |
@@ -1226,8 +1063,6 @@ responses:
       translation:
         en: |
           To move the camera in the 3D editor, hold down the left or right mouse button and press the Ctrl key on the keyboard while moving the mouse.
-      metadata:
-        rephrase: false
 
   utter_precio_oculto_compartir:
     - text: |
@@ -1236,8 +1071,6 @@ responses:
       translation:
         en: |
           Don't worry, if you share your design using "Hidden Price" mode, the price of your design will not be displayed. The person you share the design with will not be able to see how much the ring is worth.
-      metadata:
-        rephrase: false
 
   utter_enlace_compartir_caduca:
     - text: |
@@ -1246,8 +1079,6 @@ responses:
       translation:
         en: |
           The links you use to share your designs do not have an expiration date. The only way to make these links unusable is to generate a new link. In this way, the previously generated link will stop working.
-      metadata:
-        rephrase: false
 
   utter_reiniciar_conversacion_chatbot:
     - text: |
@@ -1255,8 +1086,6 @@ responses:
       translation:
         en: |
           To restart the conversation, click the button located above the chat, to the right of the name "Luna".
-      metadata:
-        rephrase: false
 
   utter_diseno_pantalla_completa:
     - text: |
@@ -1266,8 +1095,6 @@ responses:
         en: |
           To view your design in full screen, simply click on the button that shows the corners of a square.
           It is a circular button located in the bottom right corner of the editor, to the left of the chatbot button.
-      metadata:
-        rephrase: false
   
   utter_consultar_mis_pedidos:
     - text: |
@@ -1276,8 +1103,6 @@ responses:
       translation:
         en: |
           To view your orders, you must first log in. Then go to your account by clicking the profile button located at the top right of the navigation bar and select the “My Orders” section.
-      metadata:
-        rephrase: false
 
   utter_consultar_mis_disenos:
     - text: |
@@ -1286,8 +1111,6 @@ responses:
       translation:
         en: |
           To view your designs, you must first log in. Then go to your account by clicking the profile button located at the top right of the navigation bar and select the “My Rings” section.
-      metadata:
-        rephrase: false
 
   utter_cambiar_nombre_diseno:
     - text: |
@@ -1296,8 +1119,6 @@ responses:
       translation:
         en: |
           To change the name of your design, click on the field located in the upper left part of the editor and enter the name you want for your design.
-      metadata:
-        rephrase: false
 
   utter_guardar_diseno:
     - text: |
@@ -1306,8 +1127,6 @@ responses:
       translation:
         en: |
           To save your design, simply click the button located in the upper right part of the editor, below the design name, which shows a floppy disk icon. It is important to note that there is no autosave.
-      metadata:
-        rephrase: false
 
   utter_cambiar_dato_personal:
     - text: |
@@ -1317,8 +1136,6 @@ responses:
         en: |
           To change any personal data, you must go to your account by clicking the profile button located at the top right of the navigation bar
           and select "My Data". There you can modify and include any data you wish.
-      metadata:
-        rephrase: false  
 
   utter_compartir_diseno:
     - text: |
@@ -1327,8 +1144,6 @@ responses:
       translation:
         en: |
           To share your design, you must first save it, then click the share button (after finishing the design) and from there you can share your ring showing or without showing the price, and you can even generate a new link so that the previous one stops working.
-      metadata:
-        rephrase: false 
 
   utter_exportar_diseno:
     - text: |
@@ -1337,8 +1152,6 @@ responses:
       translation:
         en: |
           To export your design, you must first save it, then click the export button (after finishing the design) and from there you can export your ring showing or without showing the price. This will generate a document with all the details of your ring.
-      metadata:
-        rephrase: false  
 
 
 
@@ -1352,8 +1165,6 @@ responses:
       translation:
         en: |
           The ring size shown in the 3D editor is size 13 (53 mm diameter), according to the Spanish system, which is used at Louv.
-      metadata:
-        rephrase: false
   
   utter_sistemas_tallas_existen_y_tallas_trabajan:
     - text: |
@@ -1364,8 +1175,6 @@ responses:
         en: |
           There are many measurement systems around the world, but the most well-known are: Spanish, Italian, French, European/German, USA/Canada, UK/Australia and Japanese.
           At Louv we work with all possible sizes, from size 1 to size 36 according to the Spanish System. Unlike other jewelry stores that usually work from size 8 to 30.
-      metadata: 
-        rephrase: false
 
   utter_cambiar_talla_anillo:
     - text: |
@@ -1373,8 +1182,6 @@ responses:
       translation:
         en: |
           Currently it is not possible to change the ring size.
-      metadata:
-        rephrase: false
 
   utter_devolver_anillo_talla:
     - text: |
@@ -1383,8 +1190,6 @@ responses:
       translation:
         en: |
           I'm sorry to tell you that you can only return a product if it has a manufacturing defect. Since it is a customized piece, our company policy does not allow us to accept returns for the reason you mentioned.
-      metadata:
-        rephrase: false
 
   utter_duda_entre_tallas:
     - text: |
@@ -1393,8 +1198,6 @@ responses:
       translation:
         en: |
           If you are unsure between two sizes, I recommend choosing the larger one. It is always better for the ring to be slightly loose than to be tight on your finger.
-      metadata:
-        rephrase: false
 
   utter_talla_dedo_distinta:
     - text: |
@@ -1402,8 +1205,6 @@ responses:
       translation:
         en: |
           Each finger can have a different size, depending on the circumference of the finger, you will use one size or another.
-      metadata:
-        rephrase: false
 
   utter_temperatura_talla:
     - text: |
@@ -1412,8 +1213,6 @@ responses:
       translation:
         en: |
           Temperature can affect the thickness of your finger and can change the size. That's why it's very important to measure your finger at the end of the day, when you're calm, never during cold or hot moments, like after exercising.
-      metadata:
-        rephrase: false
 
   utter_modificar_talla_posteriori:
     - text: |
@@ -1421,8 +1220,6 @@ responses:
       translation:
         en: |
           You cannot make a size change. Once you receive your ring, you cannot make any modifications.
-      metadata:
-        rephrase: false
 
 
 
@@ -1438,8 +1235,6 @@ responses:
     - text: "Una aleación es una mezcla de dos o más elementos, donde al menos uno de ellos es un metal. En joyería, las aleaciones se utilizan para mejorar las propiedades del metal base, como su dureza, durabilidad y resistencia a la corrosión."
       translation:
         en: "An alloy is a mixture of two or more elements, where at least one of them is a metal. In jewelry, alloys are used to improve the properties of the base metal, such as its hardness, durability and resistance to corrosion."
-      metadata:
-        rephrase: false
 
   utter_oro_18_14:
     - text: |
@@ -1447,8 +1242,6 @@ responses:
       translation:
         en: |
           18k gold has more pure gold and looks more intense and warm, while 14k gold contains more alloys, is harder and its color is slightly paler.
-      metadata:
-        rephrase: false
 
   utter_clases_platino:
     - text: |
@@ -1456,8 +1249,6 @@ responses:
       translation:
         en: |
           Just like gold has karats, platinum is classified by purity, such as 950, 900 or 850, indicating the percentage of platinum in the alloy.
-      metadata:
-        rephrase: false
 
   utter_macizo:
     - text: |
@@ -1465,8 +1256,6 @@ responses:
       translation:
         en: |
           All materials we use to manufacture the rings we sell are solid.
-      metadata:
-        rephrase: false
 
   utter_desgaste:
     - text: |
@@ -1474,8 +1263,6 @@ responses:
       translation:
         en: |
           The only materials that wear out are white gold and rose gold.
-      metadata:
-        rephrase: false
 
   utter_recomendar_material:
     - text: | 
@@ -1483,8 +1270,6 @@ responses:
       translation:
         en: |
           At Louv all our materials are of the highest possible quality, but if you need a combination that will never fail, I recommend white gold or platinum with a central diamond.
-      metadata:
-        rephrase: false
 
 
 
@@ -1502,8 +1287,6 @@ responses:
       translation:
         en: |
           The price shown in the 3D editor next to your design is exactly the amount you will have to pay for the product.
-      metadata:
-        rephrase: false
 
   utter_metodo_pago:
     - text: |
@@ -1511,8 +1294,6 @@ responses:
       translation:
         en: |
           At Louv you can pay with credit or debit card, PayPal or Bizzum.
-      metadata:
-        rephrase: false
 
   utter_pago_euros:
     - text: |
@@ -1520,8 +1301,6 @@ responses:
       translation:
         en: |
           Although the company is located in Spain, we accept payments in different currencies. So don't worry if you are going to pay with a currency other than euros.
-      metadata:
-        rephrase: false
 
   utter_pago_financiamiento:
     - text: |
@@ -1529,8 +1308,6 @@ responses:
       translation:
         en: |
           Payment for your order must be made in a single payment. You cannot pay in installments and there is no financing option.
-      metadata:
-        rephrase: false
 
   utter_descuento:
     - text: |
@@ -1538,8 +1315,6 @@ responses:
       translation:
         en: |
           At the moment there is no discount available when making a purchase.
-      metadata:
-        rephrase: false
 
   utter_regalo_por_compra:
     - text: |
@@ -1547,8 +1322,6 @@ responses:
       translation:
         en: |
           I'm sorry to inform you that as of today no gift is offered when purchasing our products.
-      metadata:
-        rephrase: false
 
 
 
@@ -1567,8 +1340,6 @@ responses:
       translation:
         en: |
           Orders are sent by Loomis company. If you would like to know more about their services, I recommend visiting their website.
-      metadata:
-        rephrase: false
 
   utter_tiempo_entrega:
     - text: |
@@ -1576,8 +1347,6 @@ responses:
       translation:
         en: |
           You will receive your order within 40 to 60 business days from the day you made your purchase.
-      metadata:
-        rephrase: false
 
   utter_pedido_asegurado:
     - text: |
@@ -1585,8 +1354,6 @@ responses:
       translation:
         en: |
           All inquiries related to the shipping of your order should be addressed via email to louv.spain@gmail.com.
-      metadata:
-        rephrase: false
 
   utter_envios_espana:
     - text: |
@@ -1594,8 +1361,6 @@ responses:
       translation:
         en: |
           Louv ships exclusively to Spain, including both the Balearic Islands and the Canary Islands.
-      metadata:
-        rephrase: false
         
   utter_gastos_envio:
     - text: |
@@ -1603,8 +1368,6 @@ responses:
       translation:
         en: |
           Shipping costs are determined by the transport company. If you would like to know the prices, I recommend sending a message to louv.spain@gmail.com.
-      metadata:
-        rephrase: false
 
   utter_incidenciass_pedido_devoluciones:
     - text: |
@@ -1616,8 +1379,6 @@ responses:
           If your order suffers any type of incident and you have not been able to receive it, we recommend that you contact the company via louv.spain@gmail.com.
           We also remind you that in case it is a customized piece, returns will only be accepted for manufacturing defects.
           For more information about our returns policy, I recommend reading our Terms and Conditions.
-      metadata:
-        rephrase: false
 
 
 
@@ -1648,8 +1409,6 @@ responses:
           Dress ring: a more elaborate or decorative type of ring, usually featuring one or more gemstones.
 
           Band: a simple, plain ring, traditionally worn as a symbol of engagement or marriage.
-      metadata:
-        rephrase: false
 
   utter_montura_cabeza_corona:
     - text: |
@@ -1659,8 +1418,6 @@ responses:
         en: |
           The setting, head or crown of a ring is the top part where the gemstone is held and displayed, designed to protect it and enhance its brightness.
           It is important to note that the term crown can also refer to the top part of a gemstone, located above the girdle, formed by the facets that reflect light and provide brilliance.
-      metadata:
-        rephrase: false
 
   utter_aro_cuerpo:
     - text: |
@@ -1668,8 +1425,6 @@ responses:
       translation:
         en: |
           The shank or body is the circular part of the ring that goes around the finger and holds the setting, providing structure and comfort.
-      metadata:
-        rephrase: false
 
   utter_contraste:
     - text: |
@@ -1677,8 +1432,6 @@ responses:
       translation:
         en: |
           Hallmark is the official marking that certifies the purity of precious metal (gold, silver or platinum), guaranteeing its authenticity according to regulations.
-      metadata:
-        rephrase: false
 
   utter_anillos_sin_contraste:
     - text: |
@@ -1688,8 +1441,6 @@ responses:
         en: |
           A ring can be received without a hallmark if it has not been officially hallmarked, although at Louv we guarantee that all rings are hallmarked.
           Gemstones, on the other hand, do not have hallmarks; their authenticity and quality are certified through gemological certificates, not with physical marks.
-      metadata:
-        rephrase: false
 
   utter_engarce_engaste:
     - text: |
@@ -1699,8 +1450,6 @@ responses:
         en: |
           Setting is the technique by which the gemstone is fixed to the ring's setting, ensuring its secure attachment and defining its style and visibility.
           On the other hand, the mounting is the system or design with which the gemstone is fastened to the ring, determining how the stone is held, protected and displayed.
-      metadata:
-        rephrase: false
 
   utter_puente:
     - text: |
@@ -1708,8 +1457,6 @@ responses:
       translation:
         en: |
           The bridge is the part of the ring that connects the setting to the shank, providing structural stability and raising the head where the gemstone is mounted.
-      metadata:
-        rephrase: false
 
   utter_hombro:
     - text: |
@@ -1717,8 +1464,6 @@ responses:
       translation:
         en: |
           The shoulder is the area of the ring located between the shank and the setting, which accompanies and enhances the head, providing aesthetic transition and structural reinforcement.
-      metadata:
-        rephrase: false
 
   utter_apoyo_canasta:
     - text: |
@@ -1726,8 +1471,6 @@ responses:
       translation:
         en: |
           The basket or cup is the structure that holds the gemstone from below in the setting, ensuring its secure placement and allowing light to pass through the stone to enhance its brilliance.
-      metadata:
-        rephrase: false
 
   utter_galeria:
     - text: |
@@ -1735,8 +1478,6 @@ responses:
       translation:
         en: |
           The gallery is the open space under the gemstone in the ring setting, allowing light to enter from below and enhance the brilliance of the stone.
-      metadata:
-        rephrase: false
 
   utter_piedra_central_lateral_decorativa:
     - text: |
@@ -1756,8 +1497,6 @@ responses:
           Side stones or complementary stones: smaller gemstones that accompany and enhance the center stone.
 
           Decorative or accent stones: small additional stones that add sparkle or detail without being the main focus.
-      metadata:
-        rephrase: false
 
   utter_cana:
     - text: |
@@ -1765,8 +1504,6 @@ responses:
       translation:
         en: |
           The bridge shank is the part of the ring that tapers and rises to support the setting or head of the gemstone, providing support and form to the whole.
-      metadata:
-        rephrase: false
 
   utter_perfil:
     - text: |
@@ -1790,8 +1527,6 @@ responses:
           Square or beveled: angular edges, streamlined and contemporary.
           
           Double or combined: mixture of forms for special design.
-      metadata:
-        rephrase: false
 
   utter_halo:
     - text: |
@@ -1799,8 +1534,6 @@ responses:
       translation:
         en: |
           A halo is a set of small stones surrounding the center gemstone of a ring, enhancing its size, brilliance and visual presence.
-      metadata:
-        rephrase: false
 
   utter_filetin:
     - text: |
@@ -1808,8 +1541,6 @@ responses:
       translation:
         en: |
           The girdle is the beveled edge that separates the crown of the gemstone from the rest of the stone, marking the transition between the upper part (crown) and lower part (pavilion) and helping to protect it.
-      metadata:
-        rephrase: false
 
   utter_culata:
     - text: |
@@ -1817,8 +1548,6 @@ responses:
       translation:
         en: |
           In jewelry, the base or back is the lower part of the gemstone's pavilion, just at the opposite end from the crown, which usually ends in a point or faceted and helps reflect light inside the stone.
-      metadata:
-        rephrase: false
 
   utter_culet:
     - text: |
@@ -1826,8 +1555,6 @@ responses:
       translation:
         en: |
           The culet is the small point or facet at the bottom of a gemstone's pavilion, designed to protect the stone from impact and, in some cuts, allow better light passage.
-      metadata:
-        rephrase: false
 
   utter_tabla:
     - text: |
@@ -1835,8 +1562,6 @@ responses:
       translation:
         en: |
           The table is the top and largest facet of a gemstone, located in the crown, where the main light enters and reflects to give brilliance to the stone.
-      metadata:
-        rephrase: false
 
   utter_faceta:
     - text: |
@@ -1856,8 +1581,6 @@ responses:
           Pavilion facets: on the bottom part of the gemstone.
           
           Girdle or bezel facets: around the edge separating the crown and pavilion.
-      metadata:
-        rephrase: false
 
   utter_pabellon:
     - text: |
@@ -1865,8 +1588,6 @@ responses:
       translation:
         en: |
           The pavilion is the lower part of a gemstone, located below the girdle, formed by facets that direct reflected light towards the crown to enhance the brilliance of the stone.
-      metadata:
-        rephrase: false
 
   utter_ratio:
     - text: |
@@ -1876,8 +1597,6 @@ responses:
         en: |
           The ratio is the proportion between the height and diameter of a gemstone, especially in diamonds, which affects its brilliance and visual appearance.
           The ideal ratio varies depending on the type of gemstone and its cut. Each stone has different density, refraction and cutting style, so a ratio that works for a diamond may not be optimal for a sapphire or an emerald.
-      metadata:
-        rephrase: false
 
   utter_diametro:
     - text: |
@@ -1893,8 +1612,6 @@ responses:
           In gemstones: it is measured from one edge to the opposite, generally in millimeters.
           
           In rings: the inner diameter of the shank is measured to determine the size.
-      metadata:
-        rephrase: false
 
 
 
@@ -1913,8 +1630,6 @@ responses:
       translation:
         en: |
           A classic guideline suggests setting aside between 2 and 3 months of salary for an engagement ring. The most important thing is to choose a ring that fits your budget and represents the commitment in a meaningful way, without compromising your financial stability.
-      metadata:
-        rephrase: false
 
   utter_tamano_calidad_diamante:
     - text: |
@@ -1922,8 +1637,6 @@ responses:
       translation:
         en: |
           For an engagement ring, the quality of the diamond is usually more important than size. A diamond with higher clarity, good color and excellent cut will shine more and be more durable, while a larger diamond of lower quality may appear opaque and less attractive.
-      metadata:
-        rephrase: false
 
   utter_diamante_anillo_compromiso:
     - text: | 
@@ -1938,8 +1651,6 @@ responses:
       translation:
         en: |
           The classic design that never fails is a white gold or platinum ring, with a diamond as the center gemstone, mounted in a solitaire setting with four or six prongs, which enhances the brilliance of the stone and maintains timeless elegance.
-      metadata:
-        rephrase: false
 
   utter_cuidar_anillo:
     - text: | 
@@ -1947,8 +1658,6 @@ responses:
       translation:
         en: |
           The best way to care for your engagement ring when not wearing it is to store it in a padded case or box, separate from other jewelry to avoid scratches. Avoid humid environments or exposure to chemicals, and clean it occasionally with a soft cloth.
-      metadata:
-        rephrase: false
 
   utter_anillo_diario:
     - text: |
@@ -1956,8 +1665,6 @@ responses:
       translation:
         en: |
           Wearing the engagement ring every day is common to symbolize commitment. That said, it's best to remove it when doing tasks that could damage it to keep it in perfect condition.
-      metadata:
-        rephrase: false
 
 
 
@@ -1977,8 +1684,6 @@ responses:
       translation:
         en: |
           It is not possible to perform engravings on the rings.
-      metadata:
-        rephrase: false
 
   utter_opina:
     - text: |
@@ -1986,8 +1691,6 @@ responses:
       translation:
         en: |
           It is a magnificent ring, you have a talent for jewelry design.
-      metadata:
-        rephrase: false
 
 
 
@@ -2011,7 +1714,7 @@ responses:
           
           INSTRUCCIONES IMPORTANTES:
           - Responde de manera educada, amable y profesional
-          - Usa "usted" en lugar de "tú" para mantener un tono formal y respetuoso, pero si el usuario especifica que quiere que te dirijas a él de alguna manera en concreto debes adaptarte a su nombre y si más tarde te pregunta cuál es su nombre debes recordarlo.
+          - Usa siempre "usted" en lugar de "tú" para mantener un tono formal y respetuoso, pero si el usuario especifica que quiere que te dirijas a él de alguna manera en concreto debes adaptarte a su nombre y si más tarde te pregunta cuál es su nombre debes recordarlo.
           - Tu especialidad es ÚNICAMENTE anillos, no otras joyas (collares, pulseras, pendientes, etc.)
           - Si la pregunta NO está relacionada con anillos, materiales para anillos, gemas para anillos, diseño de anillos, Louv, Patata Team, alergias que puedan causar los materiales de los anillos, cual es la composición de los materiales de los anillos o el precio de los materiales de los anillos:
             * Da una respuesta muy breve y cortés
@@ -2052,15 +1755,11 @@ responses:
         en: |
           Don't worry if you don't know your ring size. I can help you determine it.
           Please tell me your finger's circumference in mm or cm in the format "My finger measures X mm"
-      metadata:
-        rephrase: false
 
   utter_ask_medida_circunferencia:
     - text: "Por favor, dime la medida de la circunferencia de tu dedo en mm o cm."
       translation:
         en: "Please tell me the measurement of your finger's circumference in mm or cm."
-      metadata:
-        rephrase: false
 
 
 
@@ -2075,29 +1774,21 @@ responses:
     - text: "¿Qué gema estás buscando?"
       translation:
         en: "What gem are you looking for?"
-      metadata:
-        rephrase: false
 
   utter_ask_gem_name_2:
     - text: "¿Con qué otra gema quieres compararla?"
       translation:
         en: "What other gem would you like to compare it with?"
-      metadata:
-        rephrase: false
 
   utter_comparar_gemas:
     - text: "Dime qué gemas quieres comparar en este formato: (Qué gema es más resitente X o Y)."
       translation:
         en: "Tell me which gems you want to compare in this format: (Which gem is more resistant X or Y)."
-      metadata:
-        rephrase: false
 
   utter_ask_gem_name_significado:
     - text: "¿De qué gema te gustaría conocer el significado?"
       translation:
         en: "Which gem would you like to know the meaning of?"
-      metadata:
-        rephrase: false
 
 
 
@@ -2113,43 +1804,31 @@ responses:
     - text: "¿De qué material quieres saber si causa alergias?"
       translation:
         en: "Which material would you like to know if it causes allergies?"
-      metadata:
-        rephrase: false
 
   utter_ask_material_type:
     - text: "¿De qué material quieres conocer los tipos disponibles?"
       translation:
         en: "Which material would you like to know the available types of?"
-      metadata:
-        rephrase: false
 
   utter_ask_material_name_composition:
     - text: "¿De qué material quieres conocer la composición?"
       translation:
         en: "Which material would you like to know the composition of?"
-      metadata:
-        rephrase: false
 
   utter_ask_material_name_meaning:
     - text: "¿De qué material quieres conocer el significado?"
       translation:
         en: "Which material would you like to know the meaning of?"
-      metadata:
-        rephrase: false
 
   utter_ask_material_name_price:
     - text: "¿De qué material quieres conocer el precio?"
       translation:
         en: "Which material would you like to know the price of?"
-      metadata:
-        rephrase: false
 
   utter_ask_zodiac_sign:
     - text: "¿Para qué signo zodiacal quieres conocer los materiales recomendados?"
       translation:
         en: "Which zodiac sign would you like to know the recommended materials for?"
-      metadata:
-        rephrase: false
 
 
 
@@ -2191,8 +1870,6 @@ responses:
     - text: "¿Qué tipo de anillo quieres ver?"
       translation:
         en: "What type of ring would you like to see?"
-      metadata:
-        rephrase: false
 
   # utter_editar_base_anillo:
   #   - text: "¿Qué base desea? Puede seleccionar uno de los botones o escribirlo manualmente."
@@ -2223,8 +1900,6 @@ responses:
           payload: "Quiero el zafiro."
         - title: "Diamante"
           payload: "Quiero el diamante."
-      metadata:
-        rephrase: false
 
   utter_editar_material_anillo:
     - text: "¿Qué material desea? Puede seleccionar uno de los botones o escribirlo manualmente."
@@ -2237,15 +1912,11 @@ responses:
           payload: "Quiero el oro rosa."
         - title: "Platino"
           payload: "Quiero el platino."
-      metadata:
-        rephrase: false
 
   utter_no_gems_available:
     - text: "Esta variante no permite añadir gemas. Por favor, selecciona primero una base que permita poner gemas al anillo."
       translation:
         en: "This variant does not allow adding gems. Please first select a base that allows gems to be placed on the ring."
-      metadata:
-        rephrase: false
 
   utter_ask_gem_position_for_cut:
     - text: "¿A qué gema deseas cambiarle la forma?"
@@ -2258,8 +1929,6 @@ responses:
           payload: "Quiero cambiar la gema central, posición 1"
         - title: "Gema derecha"
           payload: "Quiero cambiar la gema derecha, posición 2"
-      metadata:
-        rephrase: false
 
   utter_ask_gem_position:
     - text: "¿Qué gema deseas modificar?"
@@ -2272,8 +1941,6 @@ responses:
           payload: "Quiero cambiar la gema central, posición 1"
         - title: "Gema derecha"
           payload: "Quiero cambiar la gema derecha, posición 2"
-      metadata:
-        rephrase: false
 
   utter_ask_gem_position_for_setting:
     - text: "¿A qué gema deseas cambiarle el engaste?"
@@ -2286,8 +1953,6 @@ responses:
           payload: "Quiero cambiar el engaste de la gema central, posición 1"
         - title: "Gema derecha"
           payload: "Quiero cambiar el engaste de la gema derecha, posición 2"
-      metadata:
-        rephrase: false
 
   utter_ask_gem_position_for_claw_type:
     - text: "¿A qué gema deseas cambiarle el tipo de garras?"
@@ -2300,22 +1965,16 @@ responses:
           payload: "Quiero cambiar el tipo de garras de la gema central, posición 1"
         - title: "Gema derecha"
           payload: "Quiero cambiar el tipo de garras de la gema derecha, posición 2"
-      metadata:
-        rephrase: false
 
   utter_no_claw_types_available:
     - text: "No hay tipos de garras disponibles para esta configuración del anillo."
       translation:
         en: "There are no claw types available for this ring configuration."
-      metadata:
-        rephrase: false
 
   utter_no_mas_cambios:
     - text: "Perfecto, si puedo hacer algo más por usted estaré encantada de ayudarle."
       translation:
         en: "Perfect, if I can do anything else for you I will be happy to help."
-      metadata:
-        rephrase: false
 
 
 
@@ -2330,12 +1989,8 @@ responses:
     - text: "¿En qué idioma prefiere que le hable? (español/inglés)"
       translation:
         en: "Which language would you prefer me to speak? (spanish/english)"
-      metadata:
-        rephrase: false
   
   utter_language_changed:
     - text: "He cambiado el idioma correctamente. Si desea que le vuelva a hablar en inglés tan solo dígamelo."
       translation:
         en: "I've successfully changed the language. If you want me to speak in Spanish againg just let me know."
-      metadata:
-        rephrase: false
