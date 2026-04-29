@@ -40,6 +40,7 @@ lock_store:
 nlg:
   type: rephrase
   rephrase_all: true
+  prompt: prompts/response-rephraser-template.j2
   llm:
     model_group: groq_llama
   summarize_history: False

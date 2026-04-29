@@ -11,7 +11,8 @@ class ActionChangeLanguage(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        requested_language = tracker.get_slot("requested_language")
+        # Obtener el idioma solicitado del último mensaje del usuario
+        latest_message = tracker.latest_message.get('text', '').lower()
         
         # Mapear el idioma solicitado al código correcto
         language_mapping = {
@@ -25,10 +26,17 @@ class ActionChangeLanguage(Action):
             "es": "es"
         }
         
-        # Normalizar el idioma solicitado
-        if requested_language:
-            language_code = language_mapping.get(requested_language.lower(), "es")
-        else:
-            language_code = "es"
+        # Detectar el idioma en el mensaje
+        language_code = "es"  # Default
+        for keyword, code in language_mapping.items():
+            if keyword in latest_message:
+                language_code = code
+                break
+        
+        # Confirmar el cambio en el idioma apropiado
+        # if language_code == "en":
+        #     dispatcher.utter_message(text="Language changed to English.")
+        # else:
+        #     dispatcher.utter_message(text="Idioma cambiado a español.")
         
         return [SlotSet("language", language_code)]
